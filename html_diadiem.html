@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khu vực phục vụ | Gắn Kết Bốn Phương – Cứu hộ xe tại TP.HCM</title>
+    <meta name="description" content="Khu vực Gắn Kết Bốn Phương đang phục vụ: Quận 1, Quận 3, Quận 10 thí điểm; mở rộng Bình Thạnh, Phú Nhuận, Gò Vấp; sắp ra mắt Tân Bình, TP. Thủ Đức, Hà Nội, Đà Nẵng.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css_trangchu.css">
+    <!-- Font Awesome 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* ══════════════════════════════════════════════════════════
+           BIẾN MÀU — đồng bộ css_trangchu.css
+        ══════════════════════════════════════════════════════════ */
+        :root {
+            --primary-blue:   #0D4076;
+            --dark-blue:      #0A2B54;
+            --accent-red:     #ff4d4d;
+            --teal-light:     #FA7806;
+            --gradient-brand: linear-gradient(135deg, #0A2B54 0%, #0D4076 55%, #1E5C9E 100%);
+            --bg-light:       #f0f4f8;
+            --text-dark:      #0A2B54;
+            --text-muted:     #6c757d;
+        }
+
+
+        /* ══════════════════════════════════════════════════════════
+           HERO SECTION
+        ══════════════════════════════════════════════════════════ */
+        .dest-hero {
+            background: var(--gradient-brand);
+            padding: 80px 0 64px;
+            position: relative; overflow: hidden;
+        }
+        /* Lớp ảnh nền mờ */
+        .dest-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: url('img/kv/quan-1.jpg') center/cover;
+            opacity: .12;
+        }
+        /* Dot pattern trang trí */
+        .dest-hero-dots {
+            position: absolute; inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,.07) 1.5px, transparent 1.5px);
+            background-size: 26px 26px; pointer-events: none;
+        }
+        /* Sóng cắt phía dưới hero */
+        .dest-hero::after {
+            content: '';
+            position: absolute; bottom: -1px; left: 0; right: 0; height: 52px;
+            background: var(--bg-light);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+        .dest-hero-inner { position: relative; z-index: 1; }
+        .dest-hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 10px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase;
+            color: rgba(255,255,255,.8);
+            background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+            padding: 6px 18px; border-radius: 30px; margin-bottom: 16px;
+        }
+        .dest-hero-title {
+            font-size: clamp(28px, 4.5vw, 56px); font-weight: 900; color: #fff;
+            line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 12px;
+        }
+        .dest-hero-title span { color: #FFB066; }
+        .dest-hero-sub { font-size: 14px; color: rgba(255,255,255,.78); line-height: 1.75; max-width: 460px; }
+        /* Thống kê nhanh */
+        .dest-hero-stats { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+        .dhs-num { font-size: 28px; font-weight: 900; color: #fff; line-height: 1; }
+        .dhs-lbl { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 2px; }
+
+        /* ══════════════════════════════════════════════════════════
+           FILTER BAR — sticky, chọn địa điểm nhanh
+        ══════════════════════════════════════════════════════════ */
+        .dest-filter-bar {
+            background: #fff; border-bottom: 1px solid #eee;
+            padding: 10px 0 10px;
+            position: sticky; top: 68px; z-index: 200;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+            overflow: visible; /* không clip chips & emoji */
+        }
+        .dest-filter-inner {
+            display: flex; align-items: center; gap: 8px;
+            overflow-x: auto; scrollbar-width: none;
+            padding: 4px 16px; /* padding ngang mặc định, override bằng inline style */
+            -webkit-overflow-scrolling: touch;
+            width: 100%; box-sizing: border-box;
+        }
+        .dest-filter-inner::-webkit-scrollbar { display: none; }
+        .dest-filter-bar .container {
+            overflow: visible;
+        }
+        /* Chip địa điểm */
+        .dest-chip {
+            padding: 8px 18px; border-radius: 100px;
+            border: 1.5px solid #dde4ef;
+            font-size: 12px; font-weight: 700;
+            color: var(--text-muted); white-space: nowrap;
+            background: #fff; transition: all .25s;
+            flex-shrink: 0;
+        }
+        .dest-chip:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+        .dest-chip.active {
+            background: var(--dark-blue); border-color: var(--dark-blue);
+            color: #fff; box-shadow: 0 4px 14px rgba(10,43,84,.22);
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           LAYOUT NỘI DUNG CHÍNH
+        ══════════════════════════════════════════════════════════ */
+        .dest-main { background: var(--bg-light); padding: 56px 0 80px; }
+
+        /* ── Mỗi địa điểm = 1 section ── */
+        .dest-section {
+            margin-bottom: 72px;
+            scroll-margin-top: 120px; /* bù trừ sticky bar khi scroll đến anchor */
+        }
+
+        /* Tiêu đề section địa điểm */
+        .dest-section-header {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
+        }
+        .dest-section-name {
+            font-size: 26px; font-weight: 900;
+            color: var(--dark-blue); margin: 0;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .dest-section-name span { font-size: 28px; }
+        .dest-section-tag {
+            display: inline-block;
+            background: rgba(13,64,118,.1); color: var(--primary-blue);
+            font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px;
+            padding: 3px 10px; border-radius: 20px; margin-left: 6px;
+        }
+        .dest-section-tagline {
+            font-size: 13px; color: var(--text-muted); margin: 4px 0 0;
+            max-width: 520px; line-height: 1.6;
+        }
+        .dest-see-all-btn {
+            font-size: 13px; font-weight: 700; color: var(--primary-blue);
+            text-decoration: none !important;
+            display: flex; align-items: center; gap: 5px;
+            transition: gap .2s;
+        }
+        .dest-see-all-btn:hover { gap: 8px; }
+
+        /* ── Bố cục 2 cột trong mỗi section: Hero ảnh | Thông tin ── */
+        .dest-section-body {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 992px) { .dest-section-body { grid-template-columns: 1fr; } }
+
+        /* ── Card hero ảnh địa điểm (cột trái) ── */
+        .dest-hero-card {
+            border-radius: 22px; overflow: hidden;
+            position: relative; height: 340px;
+            box-shadow: 0 10px 40px rgba(0,0,0,.12);
+            flex-shrink: 0;
+        }
+        .dest-hero-img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .7s ease;
+        }
+        .dest-hero-card:hover .dest-hero-img { transform: scale(1.06); }
+        /* Overlay gradient phía dưới ảnh */
+        .dest-hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(10,43,84,.75) 0%, transparent 50%);
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 22px;
+        }
+        .dest-hero-label {
+            color: #fff; font-size: 20px; font-weight: 900; margin: 0;
+        }
+        .dest-hero-sub-label {
+            color: rgba(255,255,255,.8); font-size: 12px; margin: 4px 0 12px;
+        }
+        /* Nút CTA trong hero card */
+        .dest-hero-cta {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: rgba(255,255,255,.18); border: 1.5px solid rgba(255,255,255,.35);
+            color: #fff !important; text-decoration: none !important;
+            font-size: 12px; font-weight: 800;
+            padding: 8px 16px; border-radius: 100px;
+            transition: background .22s, gap .2s;
+        }
+        .dest-hero-cta:hover { background: rgba(255,255,255,.3); gap: 10px; }
+
+        /* ── Cột phải: grid blog + dịch vụ ── */
+        .dest-right-col { display: flex; flex-direction: column; gap: 16px; }
+
+        /* ── Sub-section label ── */
+        .dest-sub-label {
+            font-size: 12px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--primary-blue);
+            display: flex; align-items: center; gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           BLOG MINI CARDS — Hiển thị 3 bài liên quan
+        ══════════════════════════════════════════════════════════ */
+        .blog-mini-row {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+        }
+        @media (max-width: 768px) { .blog-mini-row { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 480px) { .blog-mini-row { grid-template-columns: 1fr; } }
+
+        .blog-mini-card {
+            border-radius: 14px; overflow: hidden; background: #fff;
+            box-shadow: 0 3px 14px rgba(13,64,118,.07);
+            border: 1px solid rgba(13,64,118,.08);
+            transition: all .35s cubic-bezier(.34,1.2,.64,1);
+            cursor: pointer;
+        }
+        .blog-mini-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(13,64,118,.15);
+        }
+        .bmc-img {
+            height: 100px; overflow: hidden; position: relative;
+            background: linear-gradient(135deg, #0A2B54, #0D4076);
+        }
+        .bmc-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .5s ease;
+        }
+        .blog-mini-card:hover .bmc-img img { transform: scale(1.08); }
+        .bmc-cat {
+            position: absolute; top: 7px; left: 8px;
+            background: var(--gradient-brand); color: #fff;
+            font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px;
+            padding: 2px 8px; border-radius: 20px; z-index: 2;
+        }
+        .bmc-body { padding: 10px 11px 11px; }
+        .bmc-title {
+            font-size: 12.5px; font-weight: 800; color: var(--dark-blue);
+            line-height: 1.4; margin: 0 0 5px;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+            transition: color .2s;
+        }
+        .blog-mini-card:hover .bmc-title { color: var(--primary-blue); }
+        .bmc-meta {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 10px; color: #9baab8; font-weight: 500;
+        }
+        .bmc-meta i { color: var(--teal-light); }
+        .bmc-read-more {
+            display: inline-flex; align-items: center; gap: 4px;
+            color: var(--primary-blue); font-size: 10.5px; font-weight: 800;
+            margin-top: 5px; transition: gap .2s;
+        }
+        .blog-mini-card:hover .bmc-read-more { gap: 7px; }
+
+        /* ══════════════════════════════════════════════════════════
+           DỊCH VỤ MINI CARDS — Hiển thị 3 dịch vụ liên quan
+        ══════════════════════════════════════════════════════════ */
+        .svc-mini-row {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+        }
+        @media (max-width: 768px) { .svc-mini-row { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 480px) { .svc-mini-row { grid-template-columns: 1fr; } }
+
+        .svc-mini-card {
+            border-radius: 14px; overflow: hidden; background: #fff;
+            box-shadow: 0 3px 14px rgba(0,0,0,.06);
+            border: 1px solid rgba(0,0,0,.04);
+            transition: all .35s cubic-bezier(.34,1.1,.64,1);
+            cursor: pointer; display: flex; flex-direction: column;
+        }
+        .svc-mini-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 36px rgba(10,43,84,.12);
+        }
+        .tmc-img { height: 90px; overflow: hidden; position: relative; }
+        .tmc-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .5s ease;
+        }
+        .svc-mini-card:hover .tmc-img img { transform: scale(1.08); }
+        .tmc-body { padding: 10px 11px 11px; flex: 1; display: flex; flex-direction: column; }
+        .tmc-cat {
+            font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px;
+            color: var(--primary-blue); margin-bottom: 3px;
+        }
+        .tmc-name {
+            font-size: 12px; font-weight: 800; color: var(--dark-blue);
+            line-height: 1.35; margin: 0; flex: 1;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .tmc-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-top: 7px; padding-top: 7px; border-top: 1px solid #f0f4f8;
+        }
+        .tmc-price { font-size: 13px; font-weight: 900; color: var(--accent-red); }
+        .tmc-rating { font-size: 10.5px; color: #f59e0b; font-weight: 700; }
+
+        /* ══════════════════════════════════════════════════════════
+           DIVIDER giữa các section
+        ══════════════════════════════════════════════════════════ */
+        .dest-section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(13,64,118,.15), transparent);
+            margin-bottom: 72px;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           BACK TO TOP BUTTON
+        ══════════════════════════════════════════════════════════ */
+        #back-to-top {
+            position: fixed; bottom: 28px; right: 28px;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--gradient-brand);
+            color: #fff; border: none;
+            box-shadow: 0 4px 20px rgba(13,64,118,.4);
+            font-size: 16px;
+            opacity: 0; pointer-events: none;
+            transition: all .3s ease;
+            z-index: 9000;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #back-to-top.show { opacity: 1; pointer-events: all; }
+        #back-to-top:hover { transform: translateY(-3px); }
+
+        /* ══════════════════════════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            .dest-section-body { grid-template-columns: 1fr; }
+            .dest-hero-card { height: 240px; }
+            .blog-mini-row, .svc-mini-row { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .blog-mini-row, .svc-mini-row { grid-template-columns: 1fr; }
+        }
+    
+
+
+        /* Nút đăng nhập/đăng ký */
+        .btn-login {
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            color:#fff !important; border:none; border-radius:10px;
+            padding:7px 16px; font-size:13px; transition:all .2s;
+        }
+        .btn-login:hover { opacity:.88; transform:translateY(-1px); }
+        /* Avatar user */
+        .user-avatar-btn {
+            width:38px; height:38px; border-radius:50%;
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-weight:800; font-size:15px;
+            cursor:pointer; border:none; transition:all .2s;
+        }
+        .user-avatar-btn:hover { box-shadow:0 4px 14px rgba(13,64,118,.35); }
+        .user-profile-dropdown .dropdown-menu {
+            border-radius:14px; padding:8px 0;
+            box-shadow:0 8px 30px rgba(0,0,0,.12);
+        }
+
+        
+        /* ══ Bổ sung: Gắn Kết Bốn Phương ══ */
+        .dest-section-name .dest-section-tag { font-size: 10.5px; padding: 4px 11px; }
+        .dest-tag-live { background: #ecfdf5 !important; color: #047857 !important; }
+        .dest-tag-grow { background: #FFF1E6 !important; color: #C2410C !important; }
+        .dest-tag-soon { background: #f1f5f9 !important; color: #475569 !important; }
+        .dest-hot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; font-size: 12px; }
+        .dest-hot b { color: #0A2B54; margin-right: 4px; } .dest-hot b i { color: #FA7806; }
+        .dest-hot span { background: #fff; border: 1px solid #e2e8f0; color: #334155; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+        .dest-hot span.st { background: #EAF1F9; border-color: #d6e3f2; color: #0D4076; } .dest-hot span.st i { margin-right: 4px; }
+        .dest-hero-img { object-fit: cover; background: #EAF1F9; }
+        button.dest-hero-cta, button.dest-see-all-btn { border: 0; cursor: pointer; font-family: inherit; }
+        .dest-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .dest-kpis span { background: #fff; border: 1px solid #eef2f7; border-radius: 14px; padding: 10px 8px; text-align: center; font-size: 11.5px; color: #64748b; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .dest-kpis span i { color: #FA7806; font-size: 15px; } .dest-kpis span b { color: #0A2B54; font-size: 17px; font-weight: 900; }
+        .dest-kpis.soon { grid-template-columns: 1fr 1fr; } .dest-kpis.soon span { flex-direction: row; justify-content: center; gap: 8px; font-size: 12.5px; color: #0A2B54; }
+        .dest-tip { margin: 2px 0; padding: 10px 14px; border-radius: 14px; background: #FFF8F1; border: 1px dashed #FFC285; color: #7c2d12; font-size: 13px; font-weight: 600; }
+        .dest-tip i { color: #FA7806; margin-right: 6px; }
+        @media (max-width: 575.98px) { .dest-kpis { grid-template-columns: repeat(2, 1fr); } .dest-kpis.soon { grid-template-columns: 1fr; } }
+
+    </style>
+</head>
+<body>
+
+    
+    <header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================================================================
+         SUB-NAV — Thanh danh mục phụ (đồng bộ toàn site)
+         ================================================================ -->
+    <nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================================================================
+         HERO SECTION
+         ================================================================ -->
+    <section class="dest-hero">
+        <div class="dest-hero-dots"></div>
+        <div class="container dest-hero-inner">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <div class="dest-hero-eyebrow">
+                        <i class="fas fa-map-marker-alt"></i> Khu vực phục vụ
+                    </div>
+                    <h1 class="dest-hero-title">
+                        3 quận thí điểm, <span>mở rộng</span><br>khắp TP.HCM
+                    </h1>
+                    <p class="dest-hero-sub">
+                        Thợ đối tác trực sẵn theo từng cụm quận để có mặt trong khoảng 15 phút. Năm 1 phục vụ 3 quận trung tâm, Năm 2 đủ 6 quận, Năm 3 phủ toàn thành phố và từ Năm 4 ra mắt Hà Nội, Đà Nẵng.
+                    </p>
+                    <div class="dest-hero-stats">
+                        <div>
+                            <div class="dhs-num">150</div>
+                            <div class="dhs-lbl">Thợ đã xác minh</div>
+                        </div>
+                        <div>
+                            <div class="dhs-num">~13'</div>
+                            <div class="dhs-lbl">Thời gian đến TB</div>
+                        </div>
+                        <div>
+                            <div class="dhs-num">3+3</div>
+                            <div class="dhs-lbl">Quận phục vụ &amp; mở rộng</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><img src="img/kv/quan-1.jpg" alt="Quận 1" style="border-radius:16px;height:130px;object-fit:cover;width:100%;"><img src="img/kv/quan-3.jpg" alt="Quận 3" style="border-radius:16px;height:130px;object-fit:cover;width:100%;margin-top:18px;"><img src="img/kv/quan-10.jpg" alt="Quận 10" style="border-radius:16px;height:130px;object-fit:cover;width:100%;margin-top:-18px;"><img src="img/kv/binh-thanh.jpg" alt="Bình Thạnh" style="border-radius:16px;height:130px;object-fit:cover;width:100%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+<div class="dest-filter-bar">
+        <div class="dest-filter-inner" id="filterBar" style="padding-left:max(16px,calc((100vw - 1140px)/2 + 16px)); padding-right:max(16px,calc((100vw - 1140px)/2 + 16px));">
+            <button class="dest-chip active" data-target="all" onclick="filterDest(this,'all')">🗺️ Tất cả</button>
+            <button class="dest-chip" data-target="dest-quan-1" onclick="filterDest(this,'dest-quan-1')">🟢 Quận 1</button>
+            <button class="dest-chip" data-target="dest-quan-3" onclick="filterDest(this,'dest-quan-3')">🟢 Quận 3</button>
+            <button class="dest-chip" data-target="dest-quan-10" onclick="filterDest(this,'dest-quan-10')">🟢 Quận 10</button>
+            <button class="dest-chip" data-target="dest-binh-thanh" onclick="filterDest(this,'dest-binh-thanh')">🟠 Bình Thạnh</button>
+            <button class="dest-chip" data-target="dest-phu-nhuan" onclick="filterDest(this,'dest-phu-nhuan')">🟠 Phú Nhuận</button>
+            <button class="dest-chip" data-target="dest-go-vap" onclick="filterDest(this,'dest-go-vap')">🟠 Gò Vấp</button>
+            <button class="dest-chip" data-target="dest-tan-binh" onclick="filterDest(this,'dest-tan-binh')">⏳ Tân Bình</button>
+            <button class="dest-chip" data-target="dest-thu-duc" onclick="filterDest(this,'dest-thu-duc')">⏳ TP. Thủ Đức</button>
+            <button class="dest-chip" data-target="dest-ha-noi" onclick="filterDest(this,'dest-ha-noi')">⏳ Hà Nội</button>
+            <button class="dest-chip" data-target="dest-da-nang" onclick="filterDest(this,'dest-da-nang')">⏳ Đà Nẵng</button>
+        </div>
+    </div>
+<main class="dest-main" id="dest-main">
+        <div class="container">
+            <section class="dest-section" id="dest-quan-1" data-name="Quận 1">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🏙️</span> Quận 1
+                            <span class="dest-section-tag dest-tag-live">Đang phục vụ</span>
+                        </h2>
+                        <p class="dest-section-tagline">Trung tâm thí điểm đầu tiên, mật độ thợ cao nhất. Thợ SOS trực ca đêm 22h–5h phủ toàn quận.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Lê Lợi – Nguyễn Huệ</span><span>Cầu Ông Lãnh</span><span>Trần Hưng Đạo</span><span>Võ Văn Kiệt</span><span class="st"><i class="fas fa-store"></i>Tiệm sửa xe đối tác Bến Thành</span><span class="st"><i class="fas fa-store"></i>Trạm cứu hộ cơ động Tân Định</span></div>
+                    </div>
+                    <a href="html_dichvu.html" class="dest-see-all-btn">Xem bảng giá dịch vụ <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/quan-1.jpg" alt="Khu vực Quận 1" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">Quận 1</h3>
+                            <p class="dest-hero-sub-label">58 thợ đối tác · ~12 phút · 2.480 lượt cứu hộ</p>
+                            <button type="button" class="dest-hero-cta" data-sos-open><i class="fas fa-life-ring"></i> Gọi cứu hộ tại Quận 1</button>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis"><span><i class="fas fa-user-check"></i><b>58</b> thợ</span><span><i class="fas fa-stopwatch"></i><b>~12'</b> thợ đến</span><span><i class="fas fa-star"></i><b>4,8</b> đánh giá</span><span><i class="fas fa-flag-checkered"></i><b>2.480</b> lượt</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Giờ cao điểm 17h–19h nên ghim vị trí chính xác ở làn sát lề để thợ tiếp cận nhanh.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(20)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b20.jpg" alt="Đi xe một mình ban đêm: bật chế độ an toàn trước khi gọi cứu hộ" loading="lazy">
+                                    <span class="bmc-cat">An toàn</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Đi xe một mình ban đêm: bật chế độ an toàn trước khi gọi cứu hộ</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 6 phút · 27/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(27)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b27.jpg" alt="Gắn Kết Bốn Phương ra mắt thí điểm tại 3 quận trung tâm TP.HCM" loading="lazy">
+                                    <span class="bmc-cat">Bốn Phương</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Gắn Kết Bốn Phương ra mắt thí điểm tại 3 quận trung tâm TP.HCM</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 01/09/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(24)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b24.jpg" alt="Một đêm trực SOS cùng anh Hùng – thợ Tinh hoa Quận 1" loading="lazy">
+                                    <span class="bmc-cat">Câu chuyện thợ</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Một đêm trực SOS cùng anh Hùng – thợ Tinh hoa Quận 1</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 7 phút · 23/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('ch01')">
+                                <div class="tmc-img"><img src="img/dv/ch01-1.jpg" alt="Vá lốp xe máy tận nơi" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Vá lốp xe máy tận nơi</p>
+                                    <div class="tmc-footer"><span class="tmc-price">120.000đ</span><span class="tmc-rating">★ 4,8</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('ch12')">
+                                <div class="tmc-img"><img src="img/dv/ch12-1.jpg" alt="Xe cứu hộ sàn trượt kéo ô tô" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Xe cứu hộ sàn trượt kéo ô tô</p>
+                                    <div class="tmc-footer"><span class="tmc-price">800.000đ</span><span class="tmc-rating">★ 4,7</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('ch10')">
+                                <div class="tmc-img"><img src="img/dv/ch10-1.jpg" alt="Mở cửa ô tô bị khóa trong xe" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Mở cửa ô tô bị khóa trong xe</p>
+                                    <div class="tmc-footer"><span class="tmc-price">400.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="dest-section-divider"></div>
+            <section class="dest-section" id="dest-quan-3" data-name="Quận 3">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🌳</span> Quận 3
+                            <span class="dest-section-tag dest-tag-live">Đang phục vụ</span>
+                        </h2>
+                        <p class="dest-section-tagline">Nhiều tuyến đường một chiều, hệ thống tự tính lộ trình cho thợ theo chiều lưu thông thực tế.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Cách Mạng Tháng 8</span><span>Nam Kỳ Khởi Nghĩa</span><span>Võ Thị Sáu</span><span>Hồ Con Rùa</span><span class="st"><i class="fas fa-store"></i>Garage đối tác Võ Văn Tần</span><span class="st"><i class="fas fa-store"></i>Điểm vá lốp đối tác Kỳ Đồng</span></div>
+                    </div>
+                    <a href="html_dichvu.html" class="dest-see-all-btn">Xem bảng giá dịch vụ <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/quan-3.jpg" alt="Khu vực Quận 3" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">Quận 3</h3>
+                            <p class="dest-hero-sub-label">47 thợ đối tác · ~13 phút · 2.050 lượt cứu hộ</p>
+                            <button type="button" class="dest-hero-cta" data-sos-open><i class="fas fa-life-ring"></i> Gọi cứu hộ tại Quận 3</button>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis"><span><i class="fas fa-user-check"></i><b>47</b> thợ</span><span><i class="fas fa-stopwatch"></i><b>~13'</b> thợ đến</span><span><i class="fas fa-star"></i><b>4,7</b> đánh giá</span><span><i class="fas fa-flag-checkered"></i><b>2.050</b> lượt</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Đường một chiều: ghi chú số nhà hoặc mốc nhận diện giúp thợ tìm bạn nhanh hơn.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(21)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b21.jpg" alt="Mã gặp mặt 4 số: vì sao thợ phải đọc đúng mã mới được nhận xe?" loading="lazy">
+                                    <span class="bmc-cat">An toàn</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Mã gặp mặt 4 số: vì sao thợ phải đọc đúng mã mới được nhận xe?</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 4 phút · 19/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(7)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b07.jpg" alt="Giá trần là gì? Vì sao bạn không bao giờ phải trả quá mức này" loading="lazy">
+                                    <span class="bmc-cat">Cẩm nang</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Giá trần là gì? Vì sao bạn không bao giờ phải trả quá mức này</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 18/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(25)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b25.jpg" alt="Từ tiệm sửa xe vắng khách đến 30 cuốc mỗi tuần" loading="lazy">
+                                    <span class="bmc-cat">Câu chuyện thợ</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Từ tiệm sửa xe vắng khách đến 30 cuốc mỗi tuần</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 6 phút · 13/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('ch03')">
+                                <div class="tmc-img"><img src="img/dv/ch03-1.jpg" alt="Kích bình ắc quy xe máy" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Kích bình ắc quy xe máy</p>
+                                    <div class="tmc-footer"><span class="tmc-price">150.000đ</span><span class="tmc-rating">★ 4,7</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('sc02')">
+                                <div class="tmc-img"><img src="img/dv/sc02-1.jpg" alt="Sửa phanh, thay má phanh xe máy" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Sửa chữa tại chỗ</p>
+                                    <p class="tmc-name">Sửa phanh, thay má phanh xe máy</p>
+                                    <div class="tmc-footer"><span class="tmc-price">160.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('ch09')">
+                                <div class="tmc-img"><img src="img/dv/ch09-1.jpg" alt="Mở khóa &amp; làm chìa xe máy" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Mở khóa &amp; làm chìa xe máy</p>
+                                    <div class="tmc-footer"><span class="tmc-price">200.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="dest-section-divider"></div>
+            <section class="dest-section" id="dest-quan-10" data-name="Quận 10">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🎓</span> Quận 10
+                            <span class="dest-section-tag dest-tag-live">Đang phục vụ</span>
+                        </h2>
+                        <p class="dest-section-tagline">Khu vực đông sinh viên và tài xế công nghệ – nhu cầu vá lốp, kích bình buổi sáng rất cao.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Ba Tháng Hai</span><span>Lý Thường Kiệt</span><span>Sư Vạn Hạnh</span><span>Vòng xoay Dân Chủ</span><span class="st"><i class="fas fa-store"></i>Tiệm đối tác Thành Thái</span><span class="st"><i class="fas fa-store"></i>Trạm cứu hộ cơ động Lý Thái Tổ</span></div>
+                    </div>
+                    <a href="html_dichvu.html" class="dest-see-all-btn">Xem bảng giá dịch vụ <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/quan-10.jpg" alt="Khu vực Quận 10" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">Quận 10</h3>
+                            <p class="dest-hero-sub-label">45 thợ đối tác · ~14 phút · 1.970 lượt cứu hộ</p>
+                            <button type="button" class="dest-hero-cta" data-sos-open><i class="fas fa-life-ring"></i> Gọi cứu hộ tại Quận 10</button>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis"><span><i class="fas fa-user-check"></i><b>45</b> thợ</span><span><i class="fas fa-stopwatch"></i><b>~14'</b> thợ đến</span><span><i class="fas fa-star"></i><b>4,7</b> đánh giá</span><span><i class="fas fa-flag-checkered"></i><b>1.970</b> lượt</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Sinh viên dùng Gói Sinh viên để miễn phí di chuyển 2 lượt/năm.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(8)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b08.jpg" alt="7 dấu hiệu ắc quy xe máy sắp “hết đát”" loading="lazy">
+                                    <span class="bmc-cat">Cẩm nang</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">7 dấu hiệu ắc quy xe máy sắp “hết đát”</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 4 phút · 12/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(9)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b09.jpg" alt="Lốp có săm và không săm: chọn loại nào cho xe đi phố?" loading="lazy">
+                                    <span class="bmc-cat">Cẩm nang</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Lốp có săm và không săm: chọn loại nào cho xe đi phố?</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 6 phút · 05/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(28)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b28.jpg" alt="Lá Chắn Số – gói thành viên bảo vệ bạn cả năm" loading="lazy">
+                                    <span class="bmc-cat">Bốn Phương</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Lá Chắn Số – gói thành viên bảo vệ bạn cả năm</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 15/09/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('ch01')">
+                                <div class="tmc-img"><img src="img/dv/ch01-1.jpg" alt="Vá lốp xe máy tận nơi" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Vá lốp xe máy tận nơi</p>
+                                    <div class="tmc-footer"><span class="tmc-price">120.000đ</span><span class="tmc-rating">★ 4,8</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('gt02')">
+                                <div class="tmc-img"><img src="img/dv/gt02-1.jpg" alt="Lá Chắn Số – Gói Sinh viên" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Gói thành viên</p>
+                                    <p class="tmc-name">Lá Chắn Số – Gói Sinh viên</p>
+                                    <div class="tmc-footer"><span class="tmc-price">99.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('bd03')">
+                                <div class="tmc-img"><img src="img/dv/bd03-1.jpg" alt="Bảo dưỡng định kỳ xe số" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Bảo dưỡng tại nhà</p>
+                                    <p class="tmc-name">Bảo dưỡng định kỳ xe số</p>
+                                    <div class="tmc-footer"><span class="tmc-price">280.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="dest-section-divider"></div>
+            <section class="dest-section" id="dest-binh-thanh" data-name="Bình Thạnh">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🌉</span> Bình Thạnh
+                            <span class="dest-section-tag dest-tag-grow">Mở rộng</span>
+                        </h2>
+                        <p class="dest-section-tagline">Đang mở rộng mạng lưới, ưu tiên các điểm hay ngập khi mưa lớn như Nguyễn Hữu Cảnh.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Xô Viết Nghệ Tĩnh</span><span>Điện Biên Phủ</span><span>Nguyễn Hữu Cảnh</span><span>Hàng Xanh</span><span class="st"><i class="fas fa-store"></i>Garage đối tác Đinh Bộ Lĩnh</span></div>
+                    </div>
+                    <a href="html_dichvu.html" class="dest-see-all-btn">Xem bảng giá dịch vụ <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/binh-thanh.jpg" alt="Khu vực Bình Thạnh" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">Bình Thạnh</h3>
+                            <p class="dest-hero-sub-label">26 thợ đối tác · ~17 phút · 640 lượt cứu hộ</p>
+                            <button type="button" class="dest-hero-cta" data-sos-open><i class="fas fa-life-ring"></i> Gọi cứu hộ tại Bình Thạnh</button>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis"><span><i class="fas fa-user-check"></i><b>26</b> thợ</span><span><i class="fas fa-stopwatch"></i><b>~17'</b> thợ đến</span><span><i class="fas fa-star"></i><b>4,6</b> đánh giá</span><span><i class="fas fa-flag-checkered"></i><b>640</b> lượt</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Bật chế độ thời tiết/ngập để nhận cảnh báo tuyến đường ngập trước khi đi.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(3)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b03.jpg" alt="Mưa ngập Sài Gòn: vì sao tuyệt đối không đề nổ khi xe chết máy trong nước?" loading="lazy">
+                                    <span class="bmc-cat">Cứu hộ</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Mưa ngập Sài Gòn: vì sao tuyệt đối không đề nổ khi xe chết máy trong nước?</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 7 phút · 20/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(18)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b18.jpg" alt="Xe điện đi mưa ngập: bảo vệ pin và bộ điều khiển" loading="lazy">
+                                    <span class="bmc-cat">Xe điện</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Xe điện đi mưa ngập: bảo vệ pin và bộ điều khiển</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 02/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(5)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b05.jpg" alt="Kéo xe máy đúng cách: dây kéo, tốc độ và những điều cấm" loading="lazy">
+                                    <span class="bmc-cat">Cứu hộ</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Kéo xe máy đúng cách: dây kéo, tốc độ và những điều cấm</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 10/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('ch11')">
+                                <div class="tmc-img"><img src="img/dv/ch11-1.jpg" alt="Kéo xe máy về tiệm" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Kéo xe máy về tiệm</p>
+                                    <div class="tmc-footer"><span class="tmc-price">200.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('ch12')">
+                                <div class="tmc-img"><img src="img/dv/ch12-1.jpg" alt="Xe cứu hộ sàn trượt kéo ô tô" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Xe cứu hộ sàn trượt kéo ô tô</p>
+                                    <div class="tmc-footer"><span class="tmc-price">800.000đ</span><span class="tmc-rating">★ 4,7</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('xd04')">
+                                <div class="tmc-img"><img src="img/dv/xd04-1.jpg" alt="Kéo xe điện về trạm sạc / xưởng" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Xe điện</p>
+                                    <p class="tmc-name">Kéo xe điện về trạm sạc / xưởng</p>
+                                    <div class="tmc-footer"><span class="tmc-price">220.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="dest-section-divider"></div>
+            <section class="dest-section" id="dest-phu-nhuan" data-name="Phú Nhuận">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🏘️</span> Phú Nhuận
+                            <span class="dest-section-tag dest-tag-grow">Mở rộng</span>
+                        </h2>
+                        <p class="dest-section-tagline">Giáp sân bay, nhiều xe công nghệ hoạt động; đang tuyển thêm thợ cơ động ca tối.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Phan Đăng Lưu</span><span>Hoàng Văn Thụ</span><span>Phan Xích Long</span><span>Nguyễn Kiệm</span><span class="st"><i class="fas fa-store"></i>Điểm vá lốp đối tác Phan Xích Long</span></div>
+                    </div>
+                    <a href="html_dichvu.html" class="dest-see-all-btn">Xem bảng giá dịch vụ <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/phu-nhuan.jpg" alt="Khu vực Phú Nhuận" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">Phú Nhuận</h3>
+                            <p class="dest-hero-sub-label">18 thợ đối tác · ~18 phút · 410 lượt cứu hộ</p>
+                            <button type="button" class="dest-hero-cta" data-sos-open><i class="fas fa-life-ring"></i> Gọi cứu hộ tại Phú Nhuận</button>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis"><span><i class="fas fa-user-check"></i><b>18</b> thợ</span><span><i class="fas fa-stopwatch"></i><b>~18'</b> thợ đến</span><span><i class="fas fa-star"></i><b>4,6</b> đánh giá</span><span><i class="fas fa-flag-checkered"></i><b>410</b> lượt</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Khu vực gần sân bay hay kẹt xe – thời gian đến có thể dài hơn 3–5 phút.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(2)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b02.jpg" alt="Xe chết máy giữa ngã tư: làm gì trong 60 giây đầu tiên?" loading="lazy">
+                                    <span class="bmc-cat">Cứu hộ</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Xe chết máy giữa ngã tư: làm gì trong 60 giây đầu tiên?</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 24/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(10)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b10.jpg" alt="Đèn check engine sáng: khi nào cần dừng xe ngay?" loading="lazy">
+                                    <span class="bmc-cat">Cẩm nang</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Đèn check engine sáng: khi nào cần dừng xe ngay?</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 28/09/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(22)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b22.jpg" alt="Bộ đồ nghề tối thiểu nên có trong cốp xe máy" loading="lazy">
+                                    <span class="bmc-cat">An toàn</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Bộ đồ nghề tối thiểu nên có trong cốp xe máy</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 4 phút · 11/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('ch05')">
+                                <div class="tmc-img"><img src="img/dv/ch05-1.jpg" alt="Xe máy chết máy, không khởi động" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Xe máy chết máy, không khởi động</p>
+                                    <div class="tmc-footer"><span class="tmc-price">150.000đ</span><span class="tmc-rating">★ 4,7</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('ch06')">
+                                <div class="tmc-img"><img src="img/dv/ch06-1.jpg" alt="Ô tô không nổ máy – chẩn đoán OBD tại chỗ" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Ô tô không nổ máy – chẩn đoán OBD tại chỗ</p>
+                                    <div class="tmc-footer"><span class="tmc-price">350.000đ</span><span class="tmc-rating">★ 4,7</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('sc03')">
+                                <div class="tmc-img"><img src="img/dv/sc03-1.jpg" alt="Sửa điện: đèn, còi, xi-nhan, sạc" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Sửa chữa tại chỗ</p>
+                                    <p class="tmc-name">Sửa điện: đèn, còi, xi-nhan, sạc</p>
+                                    <div class="tmc-footer"><span class="tmc-price">150.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="dest-section-divider"></div>
+            <section class="dest-section" id="dest-go-vap" data-name="Gò Vấp">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🏫</span> Gò Vấp
+                            <span class="dest-section-tag dest-tag-grow">Mở rộng</span>
+                        </h2>
+                        <p class="dest-section-tagline">Khu vực đông sinh viên, gần trụ sở nhóm dự án – đang thử nghiệm điểm bảo dưỡng tại ký túc xá.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Nguyễn Văn Bảo</span><span>Quang Trung</span><span>Phạm Văn Đồng</span><span>Lê Đức Thọ</span><span class="st"><i class="fas fa-store"></i>Trạm đối tác gần ĐH Công nghiệp TP.HCM</span></div>
+                    </div>
+                    <a href="html_dichvu.html" class="dest-see-all-btn">Xem bảng giá dịch vụ <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/go-vap.jpg" alt="Khu vực Gò Vấp" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">Gò Vấp</h3>
+                            <p class="dest-hero-sub-label">22 thợ đối tác · ~18 phút · 520 lượt cứu hộ</p>
+                            <button type="button" class="dest-hero-cta" data-sos-open><i class="fas fa-life-ring"></i> Gọi cứu hộ tại Gò Vấp</button>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis"><span><i class="fas fa-user-check"></i><b>22</b> thợ</span><span><i class="fas fa-stopwatch"></i><b>~18'</b> thợ đến</span><span><i class="fas fa-star"></i><b>4,7</b> đánh giá</span><span><i class="fas fa-flag-checkered"></i><b>520</b> lượt</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Sinh viên khu Nguyễn Văn Bảo có ưu đãi bảo dưỡng tại ký túc xá vào cuối tuần.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(11)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b11.jpg" alt="Lịch bảo dưỡng xe tay ga theo số km: bảng tra nhanh" loading="lazy">
+                                    <span class="bmc-cat">Bảo dưỡng</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Lịch bảo dưỡng xe tay ga theo số km: bảng tra nhanh</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 7 phút · 22/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(12)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b12.jpg" alt="Thay nhớt bao lâu một lần? Câu trả lời cho người đi phố đông" loading="lazy">
+                                    <span class="bmc-cat">Bảo dưỡng</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Thay nhớt bao lâu một lần? Câu trả lời cho người đi phố đông</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 4 phút · 14/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(15)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b15.jpg" alt="Xích kêu, nhông mòn: tự kiểm tra trong 2 phút" loading="lazy">
+                                    <span class="bmc-cat">Bảo dưỡng</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Xích kêu, nhông mòn: tự kiểm tra trong 2 phút</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 4 phút · 20/09/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('bd01')">
+                                <div class="tmc-img"><img src="img/dv/bd01-1.jpg" alt="Thay nhớt tận nhà cho xe máy" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Bảo dưỡng tại nhà</p>
+                                    <p class="tmc-name">Thay nhớt tận nhà cho xe máy</p>
+                                    <div class="tmc-footer"><span class="tmc-price">150.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('bd02')">
+                                <div class="tmc-img"><img src="img/dv/bd02-1.jpg" alt="Bảo dưỡng định kỳ xe tay ga" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Bảo dưỡng tại nhà</p>
+                                    <p class="tmc-name">Bảo dưỡng định kỳ xe tay ga</p>
+                                    <div class="tmc-footer"><span class="tmc-price">350.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('sc05')">
+                                <div class="tmc-img"><img src="img/dv/sc05-1.jpg" alt="Thay nhông – xích – đĩa (bộ NSD)" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Sửa chữa tại chỗ</p>
+                                    <p class="tmc-name">Thay nhông – xích – đĩa (bộ NSD)</p>
+                                    <div class="tmc-footer"><span class="tmc-price">420.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="dest-section-divider"></div>
+            <section class="dest-section" id="dest-tan-binh" data-name="Tân Bình">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🏬</span> Tân Bình
+                            <span class="dest-section-tag dest-tag-soon">Sắp ra mắt</span>
+                        </h2>
+                        <p class="dest-section-tagline">Thuộc kế hoạch mở rộng toàn TP.HCM ở Năm 3. Đăng ký sớm để nhận thông báo khi ra mắt.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Cộng Hòa</span><span>Trường Chinh</span><span>Hoàng Văn Thụ</span></div>
+                    </div>
+                    <button type="button" class="dest-see-all-btn dest-notify" data-area="Tân Bình">Nhận thông báo khi ra mắt <i class="fas fa-bell"></i></button>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/tan-binh.jpg" alt="Khu vực Tân Bình" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">Tân Bình</h3>
+                            <p class="dest-hero-sub-label">Dự kiến: Năm 3 – Toàn thành phố · đang tuyển thợ đối tác</p>
+                            <a href="html_lienhe_chinhsach.html#doi-tac" class="dest-hero-cta"><i class="fas fa-hard-hat"></i> Đăng ký thợ đối tác sớm</a>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis soon"><span><i class="fas fa-calendar-alt"></i>Năm 3 – Toàn thành phố</span><span><i class="fas fa-gift"></i>Ưu đãi khai trương cho người đăng ký sớm</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Thợ tại Tân Bình có thể đăng ký đối tác trước để được miễn phí hoa hồng 3 tháng đầu.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(23)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b23.jpg" alt="Dừng xe khẩn cấp trên cầu và đường cao tốc: quy tắc vàng" loading="lazy">
+                                    <span class="bmc-cat">An toàn</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Dừng xe khẩn cấp trên cầu và đường cao tốc: quy tắc vàng</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 03/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(30)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b30.jpg" alt="Hành trình 5 năm: từ 150 thợ đến 1.900 đối tác trên toàn quốc" loading="lazy">
+                                    <span class="bmc-cat">Bốn Phương</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Hành trình 5 năm: từ 150 thợ đến 1.900 đối tác trên toàn quốc</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 6 phút · 07/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(26)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b26.jpg" alt="Thu nhập một cuốc cứu hộ được tính như thế nào?" loading="lazy">
+                                    <span class="bmc-cat">Câu chuyện thợ</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Thu nhập một cuốc cứu hộ được tính như thế nào?</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 06/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('gt03')">
+                                <div class="tmc-img"><img src="img/dv/gt03-1.jpg" alt="Lá Chắn Số – Gói Cá nhân" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Gói thành viên</p>
+                                    <p class="tmc-name">Lá Chắn Số – Gói Cá nhân</p>
+                                    <div class="tmc-footer"><span class="tmc-price">199.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('pt05')">
+                                <div class="tmc-img"><img src="img/dv/pt05-1.jpg" alt="Tem QR cứu hộ dán xe" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Phụ tùng &amp; Phụ kiện</p>
+                                    <p class="tmc-name">Tem QR cứu hộ dán xe</p>
+                                    <div class="tmc-footer"><span class="tmc-price">29.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('pt01')">
+                                <div class="tmc-img"><img src="img/dv/pt01-1.jpg" alt="Bộ vá lốp khẩn cấp mini + bơm điện" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Phụ tùng &amp; Phụ kiện</p>
+                                    <p class="tmc-name">Bộ vá lốp khẩn cấp mini + bơm điện</p>
+                                    <div class="tmc-footer"><span class="tmc-price">390.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="dest-section-divider"></div>
+            <section class="dest-section" id="dest-thu-duc" data-name="TP. Thủ Đức">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🏗️</span> TP. Thủ Đức
+                            <span class="dest-section-tag dest-tag-soon">Sắp ra mắt</span>
+                        </h2>
+                        <p class="dest-section-tagline">Khu vực rộng, nhiều trường đại học và khu công nghệ cao – dự kiến bố trí trạm cứu hộ cơ động theo cụm.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Xa lộ Hà Nội</span><span>Võ Văn Ngân</span><span>Mai Chí Thọ</span></div>
+                    </div>
+                    <button type="button" class="dest-see-all-btn dest-notify" data-area="TP. Thủ Đức">Nhận thông báo khi ra mắt <i class="fas fa-bell"></i></button>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/thu-duc.jpg" alt="Khu vực TP. Thủ Đức" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">TP. Thủ Đức</h3>
+                            <p class="dest-hero-sub-label">Dự kiến: Năm 3 – Toàn thành phố · đang tuyển thợ đối tác</p>
+                            <a href="html_lienhe_chinhsach.html#doi-tac" class="dest-hero-cta"><i class="fas fa-hard-hat"></i> Đăng ký thợ đối tác sớm</a>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis soon"><span><i class="fas fa-calendar-alt"></i>Năm 3 – Toàn thành phố</span><span><i class="fas fa-gift"></i>Ưu đãi khai trương cho người đăng ký sớm</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Đăng ký nhận tin để được ưu đãi khai trương.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(16)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b16.jpg" alt="Xe máy điện hết pin giữa đường: các phương án cứu hộ" loading="lazy">
+                                    <span class="bmc-cat">Xe điện</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Xe máy điện hết pin giữa đường: các phương án cứu hộ</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 6 phút · 25/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(17)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b17.jpg" alt="Sạc xe điện qua đêm: thói quen cần bỏ ngay" loading="lazy">
+                                    <span class="bmc-cat">Xe điện</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Sạc xe điện qua đêm: thói quen cần bỏ ngay</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 16/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(19)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b19.jpg" alt="Đọc báo cáo sức khỏe pin: con số % nói lên điều gì?" loading="lazy">
+                                    <span class="bmc-cat">Xe điện</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Đọc báo cáo sức khỏe pin: con số % nói lên điều gì?</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 22/09/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('xd01')">
+                                <div class="tmc-img"><img src="img/dv/xd01-1.jpg" alt="Cứu hộ xe máy điện hết pin – sạc lưu động" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Xe điện</p>
+                                    <p class="tmc-name">Cứu hộ xe máy điện hết pin – sạc lưu động</p>
+                                    <div class="tmc-footer"><span class="tmc-price">180.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('xd02')">
+                                <div class="tmc-img"><img src="img/dv/xd02-1.jpg" alt="Kiểm tra pin &amp; bộ điều khiển xe điện" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Xe điện</p>
+                                    <p class="tmc-name">Kiểm tra pin &amp; bộ điều khiển xe điện</p>
+                                    <div class="tmc-footer"><span class="tmc-price">200.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('xd03')">
+                                <div class="tmc-img"><img src="img/dv/xd03-1.jpg" alt="Vá / thay lốp xe điện tận nơi" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Xe điện</p>
+                                    <p class="tmc-name">Vá / thay lốp xe điện tận nơi</p>
+                                    <div class="tmc-footer"><span class="tmc-price">140.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="dest-section-divider"></div>
+            <section class="dest-section" id="dest-ha-noi" data-name="Hà Nội">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🏛️</span> Hà Nội
+                            <span class="dest-section-tag dest-tag-soon">Sắp ra mắt</span>
+                        </h2>
+                        <p class="dest-section-tagline">Thành phố thứ hai trong lộ trình phát triển, ra mắt cùng chuỗi cung ứng phụ tùng cho thợ đối tác.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Hoàn Kiếm</span><span>Đống Đa</span><span>Cầu Giấy</span></div>
+                    </div>
+                    <button type="button" class="dest-see-all-btn dest-notify" data-area="Hà Nội">Nhận thông báo khi ra mắt <i class="fas fa-bell"></i></button>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/ha-noi.jpg" alt="Khu vực Hà Nội" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">Hà Nội</h3>
+                            <p class="dest-hero-sub-label">Dự kiến: Năm 4 – Quý 2 · đang tuyển thợ đối tác</p>
+                            <a href="html_lienhe_chinhsach.html#doi-tac" class="dest-hero-cta"><i class="fas fa-hard-hat"></i> Đăng ký thợ đối tác sớm</a>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis soon"><span><i class="fas fa-calendar-alt"></i>Năm 4 – Quý 2</span><span><i class="fas fa-gift"></i>Ưu đãi khai trương cho người đăng ký sớm</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Thợ tại Hà Nội có thể đăng ký trước để được đào tạo theo chuẩn dịch vụ.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(30)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b30.jpg" alt="Hành trình 5 năm: từ 150 thợ đến 1.900 đối tác trên toàn quốc" loading="lazy">
+                                    <span class="bmc-cat">Bốn Phương</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Hành trình 5 năm: từ 150 thợ đến 1.900 đối tác trên toàn quốc</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 6 phút · 07/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(13)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b13.jpg" alt="Checklist 25 hạng mục trước chuyến về quê dịp Tết" loading="lazy">
+                                    <span class="bmc-cat">Bảo dưỡng</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Checklist 25 hạng mục trước chuyến về quê dịp Tết</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 8 phút · 08/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(29)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b29.jpg" alt="Quy trình khiếu nại 4 bước: cam kết phản hồi trong 24 giờ" loading="lazy">
+                                    <span class="bmc-cat">Bốn Phương</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Quy trình khiếu nại 4 bước: cam kết phản hồi trong 24 giờ</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 29/09/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('gt04')">
+                                <div class="tmc-img"><img src="img/dv/gt04-1.jpg" alt="Lá Chắn Số – Gói Gia đình (3 xe)" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Gói thành viên</p>
+                                    <p class="tmc-name">Lá Chắn Số – Gói Gia đình (3 xe)</p>
+                                    <div class="tmc-footer"><span class="tmc-price">449.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('gt05')">
+                                <div class="tmc-img"><img src="img/dv/gt05-1.jpg" alt="Lá Chắn Số – Gói Doanh nghiệp / đội xe" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Gói thành viên</p>
+                                    <p class="tmc-name">Lá Chắn Số – Gói Doanh nghiệp / đội xe</p>
+                                    <div class="tmc-footer"><span class="tmc-price">2.900.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('bd05')">
+                                <div class="tmc-img"><img src="img/dv/bd05-1.jpg" alt="Kiểm tra 25 hạng mục trước chuyến về quê" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Bảo dưỡng tại nhà</p>
+                                    <p class="tmc-name">Kiểm tra 25 hạng mục trước chuyến về quê</p>
+                                    <div class="tmc-footer"><span class="tmc-price">199.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="dest-section-divider"></div>
+            <section class="dest-section" id="dest-da-nang" data-name="Đà Nẵng">
+                <div class="dest-section-header">
+                    <div>
+                        <h2 class="dest-section-name">
+                            <span>🌊</span> Đà Nẵng
+                            <span class="dest-section-tag dest-tag-soon">Sắp ra mắt</span>
+                        </h2>
+                        <p class="dest-section-tagline">Ra mắt cùng gói thành viên/bảo hiểm cứu hộ theo năm và các hợp đồng doanh nghiệp B2B đầu tiên.</p>
+                        <div class="dest-hot"><b><i class="fas fa-fire-alt"></i> Điểm nóng sự cố:</b><span>Hải Châu</span><span>Thanh Khê</span><span>Sơn Trà</span></div>
+                    </div>
+                    <button type="button" class="dest-see-all-btn dest-notify" data-area="Đà Nẵng">Nhận thông báo khi ra mắt <i class="fas fa-bell"></i></button>
+                </div>
+                <div class="dest-section-body">
+                    <div class="dest-hero-card">
+                        <img src="img/kv/da-nang.jpg" alt="Khu vực Đà Nẵng" class="dest-hero-img" loading="lazy">
+                        <div class="dest-hero-overlay">
+                            <h3 class="dest-hero-label">Đà Nẵng</h3>
+                            <p class="dest-hero-sub-label">Dự kiến: Năm 4 – Quý 3 · đang tuyển thợ đối tác</p>
+                            <a href="html_lienhe_chinhsach.html#doi-tac" class="dest-hero-cta"><i class="fas fa-hard-hat"></i> Đăng ký thợ đối tác sớm</a>
+                        </div>
+                    </div>
+                    <div class="dest-right-col">
+                        <div class="dest-kpis soon"><span><i class="fas fa-calendar-alt"></i>Năm 4 – Quý 3</span><span><i class="fas fa-gift"></i>Ưu đãi khai trương cho người đăng ký sớm</span></div>
+                        <div class="dest-tip"><i class="fas fa-lightbulb"></i> Doanh nghiệp vận tải tại Đà Nẵng có thể liên hệ trước để khảo sát.</div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-book-open"></i> Bài viết liên quan</div>
+                            <div class="blog-mini-row">
+                            <div class="blog-mini-card" onclick="goToBlog(28)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b28.jpg" alt="Lá Chắn Số – gói thành viên bảo vệ bạn cả năm" loading="lazy">
+                                    <span class="bmc-cat">Bốn Phương</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Lá Chắn Số – gói thành viên bảo vệ bạn cả năm</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 5 phút · 15/09/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(14)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b14.jpg" alt="Bảo dưỡng ô tô tại tầng hầm chung cư: có an toàn không?" loading="lazy">
+                                    <span class="bmc-cat">Bảo dưỡng</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Bảo dưỡng ô tô tại tầng hầm chung cư: có an toàn không?</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 6 phút · 30/09/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="blog-mini-card" onclick="goToBlog(6)">
+                                <div class="bmc-img">
+                                    <img src="img/blog/b06.jpg" alt="Đọc hiểu báo giá sửa xe: phí di chuyển, phí công và phụ tùng" loading="lazy">
+                                    <span class="bmc-cat">Cẩm nang</span>
+                                </div>
+                                <div class="bmc-body">
+                                    <p class="bmc-title">Đọc hiểu báo giá sửa xe: phí di chuyển, phí công và phụ tùng</p>
+                                    <div class="bmc-meta"><i class="far fa-clock"></i> 6 phút · 26/10/2026</div>
+                                    <span class="bmc-read-more">Đọc ngay <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dest-sub-label"><i class="fas fa-tools"></i> Dịch vụ được đặt nhiều</div>
+                            <div class="svc-mini-row">
+                            <div class="svc-mini-card" onclick="goToService('gt05')">
+                                <div class="tmc-img"><img src="img/dv/gt05-1.jpg" alt="Lá Chắn Số – Gói Doanh nghiệp / đội xe" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Gói thành viên</p>
+                                    <p class="tmc-name">Lá Chắn Số – Gói Doanh nghiệp / đội xe</p>
+                                    <div class="tmc-footer"><span class="tmc-price">2.900.000đ</span><span class="tmc-rating">★ 5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('bd04')">
+                                <div class="tmc-img"><img src="img/dv/bd04-1.jpg" alt="Bảo dưỡng ô tô cấp nhỏ 5.000 km" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Bảo dưỡng tại nhà</p>
+                                    <p class="tmc-name">Bảo dưỡng ô tô cấp nhỏ 5.000 km</p>
+                                    <div class="tmc-footer"><span class="tmc-price">900.000đ</span><span class="tmc-rating">★ 4,5</span></div>
+                                </div>
+                            </div>
+                            <div class="svc-mini-card" onclick="goToService('ch02')">
+                                <div class="tmc-img"><img src="img/dv/ch02-1.jpg" alt="Thay lốp dự phòng ô tô" loading="lazy"></div>
+                                <div class="tmc-body">
+                                    <p class="tmc-cat">Cứu hộ khẩn cấp</p>
+                                    <p class="tmc-name">Thay lốp dự phòng ô tô</p>
+                                    <div class="tmc-footer"><span class="tmc-price">250.000đ</span><span class="tmc-rating">★ 4,7</span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    
+    <div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Nút quay về đầu trang -->
+
+
+    <!-- jQuery + Bootstrap -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+<script>
+    /* ================================================================
+       JAVASCRIPT — html_diadiem.html
+       Module:
+         2. Điều hướng Blog — sessionStorage + redirect
+         3. Điều hướng Dịch vụ/Dịch vụ — redirect có query param
+         4. Filter bar — scroll đến section hoặc ẩn/hiện
+         5. Tự động scroll nếu URL có #anchor (từ trang chủ)
+         6. Active chip khi scroll đến section (Intersection Observer)
+         7. Back-to-top button
+       ================================================================ */
+
+
+    /* ────────────────────────────────────────────────────
+       2. ĐIỀU HƯỚNG BLOG — dùng sessionStorage giống trang chủ
+       html_blog.html đọc sessionStorage('openPost') để mở đúng bài
+    ──────────────────────────────────────────────────── */
+    function goToBlog(postId) {
+        /* Lưu id bài cần mở vào sessionStorage rồi chuyển trang */
+        sessionStorage.setItem('openPost', String(postId));
+        window.location.href = 'html_blog.html';
+    }
+
+    /* ────────────────────────────────────────────────────
+       3. ĐIỀU HƯỚNG DỊCH VỤ CHI TIẾT — ?id= mở đúng trang chi tiết
+       html_dichvu.html đọc URLSearchParams('id') để mở showDetail()
+    ──────────────────────────────────────────────────── */
+    function goToService(serviceId) {
+        window.location.href = 'html_dichvu.html?id=' + encodeURIComponent(serviceId);
+    }
+
+    /* ────────────────────────────────────────────────────
+       4. ĐIỀU HƯỚNG DỊCH VỤ THEO ĐỊA ĐIỂM — ?loc= lọc địa điểm
+       Dùng cho nút "Xem tất cả dịch vụ" và filter theo location
+    ──────────────────────────────────────────────────── */
+    function goToArea(locationName) {
+        var encoded = encodeURIComponent(locationName);
+        window.location.href = 'html_dichvu.html?loc=' + encoded;
+    }
+
+    /* ────────────────────────────────────────────────────
+       4. FILTER BAR — "Tất cả" hiện hết, chip địa điểm scroll đến section
+    ──────────────────────────────────────────────────── */
+    function filterDest(btn, target) {
+        /* Update active chip */
+        document.querySelectorAll('.dest-chip').forEach(function (c) {
+            c.classList.remove('active');
+        });
+        btn.classList.add('active');
+
+        if (target === 'all') {
+            /* Hiện tất cả section */
+            document.querySelectorAll('.dest-section').forEach(function (s) {
+                s.style.display = '';
+            });
+            document.querySelectorAll('.dest-section-divider').forEach(function (d) {
+                d.style.display = '';
+            });
+            window.scrollTo({ top: document.querySelector('.dest-main').offsetTop - 80, behavior: 'smooth' });
+        } else {
+            /* Ẩn tất cả rồi chỉ hiện section target, scroll đến nó */
+            document.querySelectorAll('.dest-section').forEach(function (s) {
+                s.style.display = (s.id === target) ? '' : 'none';
+            });
+            document.querySelectorAll('.dest-section-divider').forEach(function (d) {
+                d.style.display = 'none';
+            });
+            var el = document.getElementById(target);
+            if (el) {
+                setTimeout(function () {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+            }
+        }
+    }
+
+    /* ────────────────────────────────────────────────────
+       5. AUTO-SCROLL ĐẾN ANCHOR — khi vào từ trang chủ
+       Trang chủ link dạng: html_diadiem.html#dest-hanoi
+       Cơ chế:
+         a) Đọc hash từ URL
+         b) Kích hoạt chip tương ứng trên filter bar
+         c) Gọi filterDest → chỉ hiện section được chọn
+         d) Delay 350ms rồi scroll chính xác (trừ offset header+filterbar)
+    ──────────────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', function () {
+        var hash = window.location.hash;
+        if (!hash || hash.length <= 1) return;
+
+        var targetId = hash.replace('#', '');
+        var el       = document.getElementById(targetId);
+        if (!el) return;
+
+        var chip = document.querySelector('[data-target="' + targetId + '"]');
+
+        /* Kích hoạt chip + ẩn/hiện section */
+        if (chip) filterDest(chip, targetId);
+
+        /* Cuộn chip vào giữa filter bar */
+        if (chip) {
+            setTimeout(function () {
+                chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }, 100);
+        }
+
+        /* Scroll đến đúng section sau khi DOM ổn định
+           OFFSET = header navbar (~68px) + filter bar (~52px) + buffer (10px) */
+        setTimeout(function () {
+            var OFFSET = 130;
+            var top    = el.getBoundingClientRect().top + window.pageYOffset - OFFSET;
+            window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        }, 350);
+    });
+
+    /* ────────────────────────────────────────────────────
+       6. INTERSECTION OBSERVER — tự cập nhật chip active khi scroll
+       Chỉ hoạt động khi đang ở chế độ "Tất cả" (all)
+    ──────────────────────────────────────────────────── */
+    (function () {
+        var isFiltered = false; /* true khi đang lọc 1 địa điểm */
+
+        /* Theo dõi trạng thái filter */
+        document.querySelectorAll('.dest-chip').forEach(function (chip) {
+            chip.addEventListener('click', function () {
+                isFiltered = (chip.getAttribute('data-target') !== 'all');
+            });
+        });
+
+        if (!window.IntersectionObserver) return;
+
+        var options = {
+            rootMargin: '-30% 0px -65% 0px', /* Kích hoạt khi section vào vùng giữa viewport */
+            threshold: 0
+        };
+
+        var observer = new IntersectionObserver(function (entries) {
+            if (isFiltered) return; /* Không cập nhật khi đang filter */
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    var id = entry.target.id;
+                    document.querySelectorAll('.dest-chip').forEach(function (c) {
+                        c.classList.remove('active');
+                    });
+                    var activeChip = document.querySelector('[data-target="' + id + '"]');
+                    if (activeChip) activeChip.classList.add('active');
+                }
+            });
+        }, options);
+
+        document.querySelectorAll('.dest-section').forEach(function (section) {
+            observer.observe(section);
+        });
+    })();
+
+    /* ────────────────────────────────────────────────────
+       7. BACK TO TOP — hiện khi scroll xuống > 400px
+    ──────────────────────────────────────────────────── */
+    (function () {
+        var btn = document.getElementById('back-to-top');
+        if (!btn) return;
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 400) {
+                btn.classList.add('show');
+            } else {
+                btn.classList.remove('show');
+            }
+        });
+    })();
+
+    </script>
+
+
+<span id="cart-badge" style="display:none;">0</span>
+<script>
+    /* ── Liên kết sâu ?loc=<khu-vực> (từ trang chủ, tìm kiếm) + nhận thông báo khu vực sắp mở ── */
+    document.addEventListener('DOMContentLoaded', function () {
+        var loc = new URLSearchParams(location.search).get('loc');
+        if (loc && !location.hash) {
+            var id = 'dest-' + loc, el = document.getElementById(id), chip = document.querySelector('[data-target="' + id + '"]');
+            if (el && chip) { filterDest(chip, id); setTimeout(function () { chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }, 100); }
+        }
+        document.querySelectorAll('.dest-notify').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var a = b.getAttribute('data-area');
+                try { var l = JSON.parse(localStorage.getItem('gkbp_area_notify') || '[]'); if (l.indexOf(a) < 0) l.push(a); localStorage.setItem('gkbp_area_notify', JSON.stringify(l)); } catch (e) {}
+                b.innerHTML = 'Đã đăng ký nhận tin <i class="fas fa-check"></i>'; b.disabled = true;
+                if (window.GKBP) GKBP.showToast('success', 'Bạn sẽ nhận thông báo ngay khi Gắn Kết Bốn Phương ra mắt tại ' + a + '.');
+            });
+        });
+    });
+</script>
+</body>
+</html>

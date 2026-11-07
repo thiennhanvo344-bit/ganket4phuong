@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voucher &amp; Ưu đãi | Gắn Kết Bốn Phương – Cứu hộ, sửa xe tận nơi</title>
+    <meta name="description" content="26 voucher Gắn Kết Bốn Phương: giảm tới 50% cứu hộ khẩn cấp, sửa chữa tại chỗ, bảo dưỡng tại nhà, gói thành viên Lá Chắn Số và phụ tùng. Lưu mã vào kho, tự gợi ý mã tốt nhất khi thanh toán.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 4 — grid, utilities -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css_trangchu.css">
+    <!-- Font Awesome 5 — icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* ═══════════════════════════════════════════════════════════
+           CSS RIÊNG TRANG KHUYẾN MÃI
+           Biến màu đồng bộ css_trangchu.css:
+             --km-blue:  #0D4076   --km-dark:  #0A2B54
+             --km-red:   #ff4d4d   --km-teal:  #FA7806
+             --km-gold:  #f59e0b   --km-green: #10b981
+           Tất cả class dùng prefix "km-" tránh xung đột
+           ═══════════════════════════════════════════════════════════ */
+
+        :root {
+            --km-blue:  #0D4076;
+            --km-dark:  #0A2B54;
+            --km-red:   #ff4d4d;
+            --km-teal:  #FA7806;
+            --km-gold:  #f59e0b;
+            --km-green: #10b981;
+            --km-orange:#f97316;
+            --km-font:  'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Khớp body css_trangchu.css */
+            --km-head:  var(--km-font); /* Heading dùng chung 1 font như css_trangchu.css */
+        }
+
+        /* Áp dụng font chính cho toàn trang */
+        /* Font đồng bộ css_trangchu.css — dùng chung 1 biến --km-font */
+        body { font-family: var(--km-font); }
+
+
+        /* ══════════════════════════════════════════════
+           MODAL THÔNG BÁO — popup khi vào trang
+           ══════════════════════════════════════════════ */
+        /* Lớp nền mờ phủ toàn màn hình */
+        .km-notify-overlay {
+            position: fixed; inset: 0; z-index: 99999;
+            background: rgba(6, 29, 56, 0.82);
+            backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 16px;
+            animation: kmFadeIn .4s ease;
+        }
+        /* Hộp modal chính */
+        .km-notify-box {
+            background: #fff;
+            border-radius: 24px;
+            max-width: 560px; width: 100%;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,.35);
+            position: relative;
+            animation: kmSlideUp .45s cubic-bezier(.34,1.2,.64,1);
+        }
+        /* ── Banner quảng cáo trong modal ──
+           TODO: Thêm hình banner thật vào đây khi có
+           Hiện tại dùng placeholder gradient */
+        .km-notify-banner {
+            /* Banner ảnh thật */
+            background: linear-gradient(140deg, #061D38, #1E5C9E);
+            height: 220px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+        /* Vòng trang trí — tắt khi đã dùng ảnh banner thật */
+        .km-notify-banner::before,
+        .km-notify-banner::after {
+            content: none;
+        }
+        /* Text placeholder banner */
+        .km-notify-banner-text {
+            position: relative; z-index: 1;
+            text-align: center; color: #fff; padding: 0 24px;
+        }
+        .km-notify-banner-text .km-banner-tag {
+            display: inline-block;
+            background: rgba(255,255,255,.18); border-radius: 30px;
+            padding: 4px 16px; font-size: 11px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
+        }
+        .km-notify-banner-text h2 {
+            font-family: var(--km-head);
+            font-size: 2rem; margin: 0 0 6px;
+            text-shadow: 0 2px 12px rgba(0,0,0,.3);
+        }
+        .km-notify-banner-text p {
+            font-size: 13px; opacity: .88; margin: 0;
+        }
+        /* Nội dung dưới banner modal */
+        .km-notify-body {
+            padding: 28px 32px 32px;
+            text-align: center;
+        }
+        .km-notify-body h3 {
+            font-size: 1.35rem; font-weight: 800;
+            color: var(--km-dark); margin-bottom: 8px;
+        }
+        .km-notify-body p {
+            font-size: 13.5px; color: #6c757d;
+            margin-bottom: 20px; line-height: 1.7;
+        }
+        /* Nút hành động trong modal */
+        .km-notify-cta {
+            width: 100%; padding: 13px;
+            background: linear-gradient(135deg, var(--km-dark), var(--km-blue));
+            color: #fff; border: none; border-radius: 14px;
+            font-size: 14px; font-weight: 800;
+            letter-spacing: .5px; cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+        }
+        .km-notify-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(13,64,118,.4);
+        }
+        /* Dòng bỏ qua nhỏ bên dưới */
+        .km-notify-skip {
+            margin-top: 12px; font-size: 12px; color: #adb5bd;
+            cursor: pointer; display: block;
+            transition: color .2s;
+        }
+        .km-notify-skip:hover { color: var(--km-dark); }
+        /* Nút đóng "×" góc phải */
+        .km-notify-close {
+            position: absolute; top: 12px; right: 12px; z-index: 2;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255,255,255,.2); border: none;
+            color: #fff; font-size: 16px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background .2s;
+        }
+        .km-notify-close:hover { background: rgba(255,255,255,.4); }
+
+        /* ══════════════════════════════════════════════
+           HERO SECTION — Ưu đãi mùa mưa
+           ══════════════════════════════════════════════ */
+        .km-hero {
+            position: relative;
+            padding: 80px 0 60px;
+            overflow: hidden;
+            /* Nền gradient navy thương hiệu */
+            background: linear-gradient(140deg, #04152A 0%, #0C3C70 45%, #1961AD 75%, #1D70C8 100%);
+        }
+        /* Mặt đường cong SVG ở đáy hero */
+        .km-hero-wave {
+            position: absolute; bottom: -2px; left: 0; right: 0;
+            height: 80px; pointer-events: none;
+        }
+        /* Các vòng tròn trang trí nền hero */
+        .km-hero-bg-circles span {
+            position: absolute; border-radius: 50%;
+            background: rgba(255,255,255,.06);
+            pointer-events: none;
+        }
+        /* Badge "ƯU ĐÃI MÙA MƯA 2026" */
+        .km-hero-tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 30px; padding: 6px 18px;
+            font-size: 11px; font-weight: 800;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: #fff; margin-bottom: 20px;
+        }
+        /* Tiêu đề chính hero */
+        .km-hero-title {
+            font-family: var(--km-head);
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            color: #fff; line-height: 1.2;
+            margin-bottom: 16px;
+            text-shadow: 0 4px 20px rgba(0,0,0,.2);
+        }
+        .km-hero-title .km-highlight {
+            color: #FFB066;
+            text-shadow: 0 0 30px rgba(250,120,6,.6);
+        }
+        /* Mô tả hero */
+        .km-hero-desc {
+            font-size: 15px; color: rgba(255,255,255,.85);
+            max-width: 520px; margin-bottom: 32px; line-height: 1.75;
+        }
+        /* Stats "26 voucher · 5 nhóm ưu đãi..." */
+        .km-hero-stats {
+            display: flex; flex-wrap: wrap; gap: 24px; margin-top: 32px;
+        }
+        .km-stat-item {
+            text-align: center; color: #fff;
+        }
+        .km-stat-num {
+            font-family: var(--km-head);
+            font-size: 2rem; display: block;
+            text-shadow: 0 2px 10px rgba(0,0,0,.2);
+        }
+        .km-stat-label {
+            font-size: 11px; opacity: .75;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        /* Đồng hồ đếm ngược kết thúc deal */
+        .km-hero-countdown {
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 18px; padding: 20px 28px;
+            max-width: 320px; text-align: center;
+        }
+        .km-hero-countdown p {
+            font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            color: rgba(255,255,255,.7); margin-bottom: 14px;
+        }
+        .km-countdown-wrap {
+            display: flex; gap: 10px; justify-content: center;
+        }
+        .km-cd-unit {
+            background: rgba(255,255,255,.18);
+            border-radius: 10px; padding: 10px 14px;
+            min-width: 54px; text-align: center;
+        }
+        .km-cd-num {
+            font-family: var(--km-head);
+            font-size: 1.6rem; color: #fff; display: block; line-height: 1;
+        }
+        .km-cd-label {
+            font-size: 9px; color: rgba(255,255,255,.6);
+            text-transform: uppercase; letter-spacing: 1px; margin-top: 2px;
+        }
+        .km-cd-sep {
+            font-size: 1.6rem; color: #FFB066;
+            font-weight: 900; align-self: center; margin-top: -6px;
+        }
+
+        /* ══════════════════════════════════════════════
+           SECTION TIÊU ĐỀ CHUNG
+           ══════════════════════════════════════════════ */
+        .km-section { padding: 64px 0; }
+        .km-section-alt { background: #f7f9ff; }
+        .km-section-title {
+            font-family: var(--km-head);
+            font-size: 1.8rem; color: var(--km-dark);
+            margin-bottom: 6px;
+        }
+        .km-section-sub {
+            font-size: 14px; color: #6c757d;
+            margin-bottom: 0;
+        }
+        /* Đường kẻ trang trí dưới tiêu đề */
+        .km-title-bar {
+            width: 48px; height: 4px; border-radius: 4px;
+            background: linear-gradient(90deg, var(--km-blue), var(--km-teal));
+            margin: 10px 0 28px;
+        }
+
+        /* ══════════════════════════════════════════════
+           BỘ LỌC VOUCHER — Tabs lọc theo nhóm dịch vụ
+           ══════════════════════════════════════════════ */
+        .km-filter-bar {
+            display: flex; flex-wrap: wrap; gap: 10px;
+            margin-bottom: 36px;
+        }
+        .km-filter-btn {
+            padding: 9px 22px; border-radius: 30px;
+            border: 2px solid #e2e8f0;
+            background: #fff; color: #64748b;
+            font-size: 13px; font-weight: 700;
+            cursor: pointer; transition: all .22s;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .km-filter-btn:hover {
+            border-color: var(--km-blue); color: var(--km-blue);
+        }
+        .km-filter-btn.active {
+            background: var(--km-dark); color: #fff;
+            border-color: var(--km-dark);
+            box-shadow: 0 6px 18px rgba(10,43,84,.3);
+        }
+
+        /* ══════════════════════════════════════════════
+           THẺ VOUCHER
+           ══════════════════════════════════════════════ */
+        #km-voucher-grid { transition: opacity .25s; }
+
+        .km-voucher-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,.07);
+            transition: transform .26s, box-shadow .26s;
+            margin-bottom: 28px;
+            display: flex; flex-direction: column;
+            height: 100%;
+        }
+        .km-voucher-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 44px rgba(0,0,0,.14);
+        }
+        /* Đầu card — màu theo loại hình, hỗ trợ ảnh nền */
+        .km-vc-head {
+            padding: 20px 22px 16px;
+            position: relative; overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+        /* Lớp overlay tối để text luôn đọc được khi có ảnh */
+        .km-vc-head-img-overlay {
+            position: absolute; inset: 0;
+            background: rgba(6,29,56,.52);
+            z-index: 0;
+        }
+        /* Đảm bảo nội dung text nổi trên overlay */
+        .km-vc-head .km-vc-badge,
+        .km-vc-head .km-vc-code,
+        .km-vc-head .km-vc-discount {
+            position: relative; z-index: 1;
+        }
+        .km-vc-head::after {
+            content: ''; position: absolute;
+            width: 120px; height: 120px;
+            border-radius: 50%; right: -30px; top: -30px;
+            background: rgba(255,255,255,.12);
+            z-index: 0;
+        }
+        /* Màu đầu card theo nhóm: .km-vc-cuuho/suachua/baoduong/thanhvien/phutung (css_trangchu.css) */
+
+        /* Badge "HOT" / "CA ĐÊM" / "MÙA MƯA" */
+        .km-vc-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: rgba(255,255,255,.2); border-radius: 20px;
+            padding: 3px 12px; font-size: 10px; font-weight: 800;
+            letter-spacing: 1px; text-transform: uppercase;
+            color: #fff; margin-bottom: 10px;
+        }
+        /* Mã giảm giá lớn */
+        .km-vc-code {
+            font-family: var(--km-head);
+            font-size: 1.8rem; color: #fff;
+            letter-spacing: 2px; margin: 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,.2);
+        }
+        /* % giảm */
+        .km-vc-discount {
+            font-size: 12px; color: rgba(255,255,255,.75);
+            font-weight: 700; margin-top: 2px;
+        }
+        /* Phần thân card */
+        .km-vc-body {
+            padding: 18px 22px;
+            flex: 1; display: flex; flex-direction: column;
+        }
+        .km-vc-title {
+            font-size: 14.5px; font-weight: 800;
+            color: var(--km-dark); margin-bottom: 6px;
+            line-height: 1.45;
+        }
+        .km-vc-desc {
+            font-size: 12.5px; color: #64748b;
+            line-height: 1.65; margin-bottom: 14px;
+            flex: 1;
+        }
+        /* Meta info: áp dụng cho, hạn sử dụng */
+        .km-vc-meta {
+            display: flex; flex-direction: column; gap: 5px;
+            margin-bottom: 16px;
+        }
+        .km-vc-meta-item {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 11.5px; color: #94a3b8;
+            font-weight: 600;
+        }
+        .km-vc-meta-item i { font-size: 10px; color: var(--km-blue); }
+        /* Đường kẻ gạch ngang phân tách (giống cắt voucher) */
+        .km-vc-divider {
+            border: none; margin: 0 0 16px;
+            border-top: 2px dashed #e2e8f0;
+        }
+        /* Footer card — mã + nút sao chép / lưu */
+        .km-vc-footer {
+            display: flex; align-items: center;
+            justify-content: space-between; gap: 12px;
+        }
+        .km-vc-price-block small {
+            font-size: 10px; color: #94a3b8; display: block;
+            text-transform: uppercase; letter-spacing: .5px;
+        }
+        .km-vc-price-block strong {
+            font-size: 15px; color: var(--km-dark);
+            font-weight: 900;
+        }
+        /* Nút sao chép mã */
+        .km-vc-copy-btn {
+            padding: 9px 16px; border-radius: 12px;
+            background: var(--km-dark); color: #fff;
+            font-size: 12px; font-weight: 800;
+            border: none; cursor: pointer;
+            transition: background .2s, transform .2s;
+            white-space: nowrap;
+        }
+        .km-vc-copy-btn:hover {
+            background: var(--km-blue);
+            transform: scale(1.04);
+        }
+        .km-vc-copy-btn.copied {
+            background: var(--km-green);
+        }
+
+        /* ══════════════════════════════════════════════
+           DEAL FLASH — Ưu đãi đặc biệt trong ngày
+           ══════════════════════════════════════════════ */
+        .km-flash-section {
+            background: linear-gradient(135deg, #04152A 0%, #0D4076 100%);
+            padding: 60px 0;
+            position: relative; overflow: hidden;
+        }
+        .km-flash-section::before {
+            content: '⚡';
+            position: absolute; right: -30px; top: -40px;
+            font-size: 220px; opacity: .04;
+            line-height: 1; pointer-events: none;
+        }
+        .km-flash-title {
+            font-family: var(--km-head);
+            font-size: 2rem; color: #fff;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .km-flash-badge {
+            background: var(--km-red); color: #fff;
+            border-radius: 8px; padding: 4px 12px;
+            font-size: 12px; font-weight: 900;
+            animation: kmPulse 1.2s infinite;
+        }
+        @keyframes kmPulse {
+            0%,100% { transform: scale(1); }
+            50%      { transform: scale(1.05); }
+        }
+        /* Card deal flash ngang */
+        .km-flash-card {
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 18px; padding: 22px 24px;
+            display: flex; align-items: center; gap: 20px;
+            transition: background .2s;
+            height: 100%;
+        }
+        .km-flash-card:hover { background: rgba(255,255,255,.18); }
+        .km-flash-icon {
+            font-size: 2.4rem; flex-shrink: 0;
+            width: 60px; height: 60px;
+            background: rgba(255,255,255,.15);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .km-flash-card-title {
+            font-size: 14px; font-weight: 800; color: #fff;
+            margin-bottom: 4px;
+        }
+        .km-flash-card-code {
+            font-family: var(--km-head);
+            font-size: 1.2rem; color: #FFB066;
+            letter-spacing: 1.5px;
+        }
+        .km-flash-card-desc {
+            font-size: 11.5px; color: rgba(255,255,255,.65);
+            margin-top: 4px;
+        }
+
+        /* ══════════════════════════════════════════════
+           THÔNG TIN VOUCHER — Hướng dẫn sử dụng
+           ══════════════════════════════════════════════ */
+        .km-howto-card {
+            background: #fff; border-radius: 20px;
+            padding: 28px 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.06);
+            text-align: center;
+            transition: transform .22s, box-shadow .22s;
+        }
+        .km-howto-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 36px rgba(0,0,0,.12);
+        }
+        .km-howto-icon {
+            width: 64px; height: 64px; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; margin: 0 auto 16px;
+        }
+        .km-howto-num {
+            font-family: var(--km-head);
+            font-size: 3rem; color: #e2e8f0;
+            line-height: 1; margin-bottom: 10px;
+        }
+        .km-howto-title {
+            font-size: 14px; font-weight: 800;
+            color: var(--km-dark); margin-bottom: 6px;
+        }
+        .km-howto-desc {
+            font-size: 12.5px; color: #64748b; line-height: 1.65;
+        }
+
+        /* ══════════════════════════════════════════════
+           ANIMATIONS
+           ══════════════════════════════════════════════ */
+        @keyframes kmFadeIn  { from{opacity:0} to{opacity:1} }
+        @keyframes kmSlideUp { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes kmFloat   {
+            0%,100%{ transform:translateY(0) rotate(0deg); }
+            50%    { transform:translateY(-16px) rotate(3deg); }
+        }
+
+        /* Hiệu ứng xuất hiện khi scroll */
+        .km-reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .55s ease, transform .55s ease;
+        }
+        .km-reveal.visible {
+            opacity: 1; transform: translateY(0);
+        }
+
+        /* ── Responsive nhỏ ── */
+        @media(max-width:575px){
+            .km-hero { padding: 60px 0 50px; }
+            .km-hero-title { font-size: 1.8rem; }
+            .km-filter-btn { padding: 7px 14px; font-size: 12px; }
+            .km-notify-body { padding: 20px 20px 24px; }
+            .km-notify-banner { height: 180px; }
+            .km-notify-banner-text h2 { font-size: 1.5rem; }
+        }
+    
+        /* ══════════════════════════════════════════════
+           SECTION TIẾP THỊ — "Mùa Mưa An Tâm Cùng Bốn Phương"
+           ══════════════════════════════════════════════ */
+        .km-mkt-section {
+            padding: 72px 0;
+            background: #f7f9ff;
+            overflow: hidden;
+        }
+        /* Grid 3 banner tiếp thị */
+        .km-mkt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+        @media(max-width:767px){ .km-mkt-grid { grid-template-columns: 1fr; } }
+        @media(min-width:768px) and (max-width:991px){ .km-mkt-grid { grid-template-columns: 1fr 1fr; } }
+
+        /* Card banner tiếp thị */
+        .km-mkt-card {
+            border-radius: 22px;
+            overflow: hidden;
+            position: relative;
+            min-height: 280px;
+            display: flex; align-items: flex-end;
+            cursor: pointer;
+            transition: transform .3s, box-shadow .3s;
+            box-shadow: 0 8px 30px rgba(0,0,0,.1);
+        }
+        .km-mkt-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,.18);
+        }
+        .km-mkt-card:hover .km-mkt-overlay { opacity: .82; }
+        .km-mkt-card:hover .km-mkt-cta { transform: translateY(0); opacity: 1; }
+
+        /* Lớp ảnh nền (placeholder gradient — thay bằng url ảnh thật) */
+        .km-mkt-bg {
+            position: absolute; inset: 0;
+            background-size: cover; background-position: center;
+            transition: transform .5s;
+        }
+        .km-mkt-card:hover .km-mkt-bg { transform: scale(1.06); }
+
+        /* Lớp overlay màu gradient */
+        .km-mkt-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(0deg, rgba(6,29,56,.85) 0%, rgba(6,29,56,.2) 60%, transparent 100%);
+            opacity: .7; transition: opacity .3s;
+        }
+
+        /* Nội dung bên dưới card */
+        .km-mkt-content {
+            position: relative; z-index: 2;
+            padding: 22px 24px;
+            width: 100%;
+        }
+        .km-mkt-tag {
+            display: inline-block;
+            background: rgba(255,255,255,.2); backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 20px; padding: 3px 12px;
+            font-size: 10px; font-weight: 800;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: #fff; margin-bottom: 8px;
+        }
+        .km-mkt-card-title {
+            font-family: var(--km-head);
+            font-size: 1.25rem; color: #fff;
+            font-weight: 900; line-height: 1.3;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 8px rgba(0,0,0,.3);
+        }
+        .km-mkt-card-sub {
+            font-size: 12px; color: rgba(255,255,255,.75);
+            margin-bottom: 0;
+        }
+        /* Nút CTA ẩn — hiện khi hover */
+        .km-mkt-cta {
+            display: inline-block; margin-top: 12px;
+            background: #FFB066; color: #04152A;
+            padding: 8px 18px; border-radius: 20px;
+            font-size: 12px; font-weight: 900;
+            text-decoration: none;
+            transform: translateY(10px); opacity: 0;
+            transition: transform .3s, opacity .3s;
+        }
+        .km-mkt-cta:hover { text-decoration: none; color: #04152A; }
+
+        /* Card đặc biệt — wide (2 cột) */
+        .km-mkt-wide { grid-column: span 2; min-height: 300px; }
+        @media(max-width:767px){ .km-mkt-wide { grid-column: span 1; } }
+
+
+
+
+        /* Nút đăng nhập/đăng ký */
+        .btn-login {
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            color:#fff !important; border:none; border-radius:10px;
+            padding:7px 16px; font-size:13px; transition:all .2s;
+        }
+        .btn-login:hover { opacity:.88; transform:translateY(-1px); }
+        /* Avatar user */
+        .user-avatar-btn {
+            width:38px; height:38px; border-radius:50%;
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-weight:800; font-size:15px;
+            cursor:pointer; border:none; transition:all .2s;
+        }
+        .user-avatar-btn:hover { box-shadow:0 4px 14px rgba(13,64,118,.35); }
+        .user-profile-dropdown .dropdown-menu {
+            border-radius:14px; padding:8px 0;
+            box-shadow:0 8px 30px rgba(0,0,0,.12);
+        }
+
+        
+        /* ══════════════════════════════════════════════
+           BỔ SUNG — Gắn Kết Bốn Phương (xanh navy + cam)
+           ══════════════════════════════════════════════ */
+        .km-title-bar { background: linear-gradient(90deg, #F26B00, #FF9F43); }
+        .km-filter-btn:hover { border-color: #FA7806; color: #E06400; }
+        .km-filter-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: #FFF1E6; color: #E06400; font-size: 10.5px; font-weight: 900; }
+        .km-filter-btn.active .km-filter-count { background: #FA7806; color: #fff; }
+
+        /* Banner modal: đường + xe chạy */
+        .km-notify-banner { background: linear-gradient(140deg, #061D38 0%, #0D4076 58%, #1E5C9E 100%); }
+        .gk-nb-gear { position: absolute; right: -26px; top: -30px; font-size: 150px; color: rgba(255,255,255,.07); animation: gkSpin 18s linear infinite; }
+        .km-notify-banner-text { padding-bottom: 36px; }
+        .km-notify-banner-text .km-banner-tag { background: rgba(250,120,6,.9); }
+        .km-notify-banner-text h2 { font-weight: 900; color: #fff; }
+        .km-notify-banner-text h2::after { content: ''; display: block; width: 56px; height: 4px; border-radius: 4px; margin: 10px auto 0; background: linear-gradient(90deg, #F26B00, #FF9F43); }
+        .gk-nb-road { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; background: #1f2937; border-top: 3px solid #FA7806; overflow: hidden; }
+        .gk-nb-lane { position: absolute; left: 0; top: 50%; width: 200%; height: 3px; margin-top: -1px; background: repeating-linear-gradient(90deg, #fff 0 26px, transparent 26px 50px); opacity: .75; animation: gkLaneMove 1.1s linear infinite; }
+        .gk-nb-truck, .gk-nb-moto { position: absolute; bottom: 7px; font-size: 22px; color: #FF9F43; filter: drop-shadow(0 2px 4px rgba(0,0,0,.4)); }
+        .gk-nb-truck { animation: gkDrive 6s linear infinite; }
+        .gk-nb-moto { font-size: 18px; color: #fff; animation: gkDrive 6s linear infinite 3s; }
+        @keyframes gkLaneMove { to { transform: translateX(-50px); } }
+        @keyframes gkDrive { 0% { left: -12%; } 100% { left: 108%; } }
+        @keyframes gkSpin { to { transform: rotate(360deg); } }
+        .km-notify-cta { background: linear-gradient(135deg, #F26B00, #FF9F43); box-shadow: 0 8px 22px rgba(250,120,6,.32); }
+        .km-notify-cta:hover { box-shadow: 0 12px 30px rgba(250,120,6,.45); }
+
+        /* Hero */
+        .km-hero { background: linear-gradient(140deg, #04152A 0%, #0A2B54 40%, #0D4076 72%, #1E5C9E 100%); padding-bottom: 96px; }
+        .km-hero-tag i { color: #FF9F43; }
+        .gk-km-gears i { position: absolute; color: rgba(255,255,255,.05); pointer-events: none; }
+        .gk-km-gears .g1 { font-size: 260px; right: 6%; top: -70px; animation: gkSpin 30s linear infinite; }
+        .gk-km-gears .g2 { font-size: 140px; right: 24%; top: 120px; animation: gkSpin 22s linear infinite reverse; color: rgba(250,120,6,.08); }
+        .gk-km-gears .g3 { font-size: 110px; left: 46%; bottom: 70px; transform: rotate(-30deg); }
+        .gk-km-btn-main { background: linear-gradient(135deg, #F26B00, #FF9F43); color: #fff !important; font-weight: 900; border-radius: 14px; padding: 13px 28px; font-size: 14px; border: none; box-shadow: 0 8px 24px rgba(250,120,6,.42); transition: transform .2s, box-shadow .2s; }
+        .gk-km-btn-main:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(250,120,6,.55); }
+        .gk-km-btn-ghost { background: rgba(255,255,255,.12); color: #fff !important; border: 1.5px solid rgba(255,255,255,.35); font-weight: 700; border-radius: 14px; padding: 13px 24px; font-size: 14px; transition: background .2s; }
+        .gk-km-btn-ghost:hover { background: rgba(255,255,255,.22); }
+        .km-hero-countdown { position: relative; overflow: hidden; backdrop-filter: blur(4px); }
+        .gk-cd-wheel { position: absolute; right: -14px; bottom: -18px; font-size: 92px; color: rgba(255,255,255,.06); transform: rotate(-12deg); }
+        .km-cd-unit { position: relative; z-index: 1; }
+        .gk-cd-area { position: relative; z-index: 1; margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,.22); font-size: 11px; color: rgba(255,255,255,.78); font-weight: 600; line-height: 1.5; }
+        .gk-cd-area i { color: #FF9F43; margin-right: 4px; }
+        .km-hero-wave { height: 84px; }
+        .gk-km-lane { animation: gkLaneDash 1.4s linear infinite; }
+        @keyframes gkLaneDash { to { stroke-dashoffset: -44; } }
+
+        /* Deal flash */
+        .km-flash-section { background: linear-gradient(180deg, #061D38 0%, #0A2B54 60%, #0D4076 100%); padding-top: 34px; }
+        .km-flash-card { align-items: flex-start; }
+        .km-flash-card:hover { border-color: rgba(250,120,6,.55); }
+        .gk-flash-main { flex: 1; min-width: 0; }
+        .gk-flash-meter { height: 6px; border-radius: 6px; background: rgba(255,255,255,.14); margin-top: 12px; overflow: hidden; }
+        .gk-flash-fill { display: block; height: 100%; width: 0; border-radius: 6px; background: linear-gradient(90deg, #F26B00, #FFB066); transition: width 1.2s cubic-bezier(.2,.8,.2,1); }
+        .gk-flash-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
+        .gk-flash-used { font-size: 11px; color: rgba(255,255,255,.7); font-weight: 700; white-space: nowrap; }
+        .gk-flash-used.hot { color: #FFB066; }
+        .km-flash-card-code { letter-spacing: 1px; overflow-wrap: anywhere; }
+        @media (min-width: 992px) {
+            .km-flash-card { flex-direction: column; gap: 12px; padding: 20px; }
+            .km-flash-icon { width: 50px; height: 50px; font-size: 1.9rem; }
+        }
+        .gk-flash-save { border: 1px solid rgba(255,255,255,.35); background: transparent; color: #fff; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 8px; cursor: pointer; transition: .2s; white-space: nowrap; }
+        .gk-flash-save:hover { background: #FA7806; border-color: #FA7806; }
+        .gk-flash-save.saved { background: #10b981; border-color: #10b981; }
+
+        /* Kho voucher */
+        .km-wallet-bar { display: flex; align-items: center; gap: 14px; background: linear-gradient(135deg, #FFF7F0, #FFF1E6); border: 1.5px dashed #FDBA74; border-radius: 16px; padding: 14px 18px; margin-bottom: 22px; }
+        .km-wallet-bar .kw-ico { font-size: 1.8rem; flex-shrink: 0; }
+        .km-wallet-bar .kw-txt { flex: 1; min-width: 0; }
+        .km-wallet-bar .kw-txt b { display: block; color: #0A2B54; font-size: 14px; }
+        .km-wallet-bar .kw-txt small { color: #64748b; font-size: 12px; }
+        .km-wallet-bar .kw-btn { flex-shrink: 0; background: #0A2B54; color: #fff; font-weight: 800; font-size: 12.5px; border-radius: 12px; padding: 9px 16px; text-decoration: none; white-space: nowrap; transition: background .2s; }
+        .km-wallet-bar .kw-btn:hover { background: #FA7806; color: #fff; }
+
+        /* Thẻ voucher */
+        .km-vc-head { min-height: 132px; }
+        .km-vc-head-img-overlay { background: linear-gradient(135deg, rgba(6,29,56,.82) 0%, rgba(13,64,118,.55) 100%); }
+        .km-vc-cuuho .km-vc-head-img-overlay { background: linear-gradient(135deg, rgba(124,45,18,.82) 0%, rgba(224,100,0,.55) 100%); }
+        .km-vc-phutung .km-vc-head-img-overlay { background: linear-gradient(135deg, rgba(120,53,15,.82) 0%, rgba(180,83,9,.5) 100%); }
+        .km-vc-soon { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 4px; margin-left: 6px; background: #FA7806; color: #fff; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 800; vertical-align: top; }
+        .km-vc-expired { background: #64748b; }
+        .km-vc-meta-item i { color: #FA7806; width: 12px; text-align: center; }
+        .km-vc-access { color: #0D4076; }
+        .km-vc-access.is-public { color: #047857; }
+        .km-vc-access.is-public i { color: #10b981; }
+        .km-vc-footer { flex-wrap: wrap; }
+        .km-vc-actions { display: flex; gap: 6px; }
+        .km-vc-copy-btn:hover { background: #E06400; }
+        .km-vc-save-btn { background: #FA7806; }
+        .km-vc-save-btn:hover { background: #0D4076; }
+        .km-vc-save-btn.saved { background: #10b981; }
+        .km-voucher-card { border: 1px solid #eef2f7; }
+        .km-voucher-card:hover { border-color: #FDBA74; }
+
+        /* Cách dùng voucher */
+        .km-howto-card { height: 100%; border: 1px solid #eef2f7; }
+        .km-howto-card:hover { border-color: #FDBA74; }
+        .km-howto-num { color: #FFE2C7; font-weight: 900; }
+
+        /* Tiếp thị */
+        .km-mkt-section { background: #fff; }
+        .km-mkt-overlay { background: linear-gradient(0deg, rgba(6,29,56,.94) 0%, rgba(6,29,56,.6) 48%, rgba(6,29,56,.08) 100%); }
+        .km-mkt-card-title { text-shadow: 0 2px 10px rgba(0,0,0,.45); }
+        .km-mkt-bg { background-position: center top; }
+        .km-mkt-tag { background: rgba(250,120,6,.92); color: #fff; }
+        .km-mkt-cta { background: #FA7806; color: #fff; }
+        .km-mkt-cta:hover { color: #fff; background: #E06400; }
+
+        /* ── Điện thoại ── */
+        @media (max-width: 767px) {
+            .km-filter-bar { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; margin-left: -15px; margin-right: -15px; padding-left: 15px; padding-right: 15px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+            .km-filter-bar::-webkit-scrollbar { display: none; }
+            .km-filter-btn { flex-shrink: 0; }
+            .gk-flash-row { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+            .gk-flash-row::-webkit-scrollbar { display: none; }
+            .gk-flash-row > div { flex: 0 0 86%; max-width: 86%; scroll-snap-align: start; }
+            .km-flash-title { font-size: 1.45rem; flex-wrap: wrap; gap: 8px; }
+            .km-mkt-card { min-height: 210px; }
+            .km-mkt-wide { min-height: 250px; }
+            .km-mkt-cta { transform: none !important; opacity: 1 !important; }
+            .km-wallet-bar { flex-wrap: wrap; padding: 12px 14px; }
+            .km-wallet-bar .kw-btn { width: 100%; text-align: center; }
+            .gk-km-gears .g1 { font-size: 180px; right: -40px; }
+            .gk-km-gears .g3 { display: none; }
+        }
+        @media (max-width: 575px) {
+            .km-hero { padding: 44px 0 86px; }
+            .km-hero-title { font-size: 2rem; }
+            .km-hero-desc { font-size: 14px; margin-bottom: 22px; }
+            .gk-km-cta-row .btn { flex: 1 1 0; padding: 12px 10px; font-size: 13px; }
+            .km-hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 24px; }
+            .km-stat-num { font-size: 1.45rem; }
+            .km-stat-label { font-size: 9px; letter-spacing: .3px; }
+            .km-hero-countdown { max-width: 100%; width: 100%; padding: 16px 14px; }
+            .km-countdown-wrap { gap: 4px; }
+            .km-cd-unit { flex: 1; min-width: 0; padding: 9px 4px; }
+            .km-cd-num { font-size: 1.4rem; }
+            .km-cd-sep { font-size: 1.2rem; }
+            .km-section { padding: 46px 0; }
+            .km-section-title { font-size: 1.5rem; }
+            .km-howto-card { padding: 18px 12px; border-radius: 16px; }
+            .km-howto-num { font-size: 2rem; margin-bottom: 6px; }
+            .km-howto-icon { width: 48px; height: 48px; font-size: 1.4rem; margin-bottom: 10px; border-radius: 14px; }
+            .km-howto-title { font-size: 13px; }
+            .km-howto-desc { font-size: 11.5px; }
+            .km-vc-code { font-size: 1.5rem; }
+            .km-vc-footer { gap: 10px; }
+            .km-vc-actions { width: 100%; }
+            .km-vc-actions .km-vc-copy-btn { flex: 1; }
+            .km-notify-banner { height: 190px; }
+            .km-notify-banner-text { padding: 0 46px 36px; }
+            .km-notify-banner-text .km-banner-tag { letter-spacing: 1px; font-size: 10px; }
+            .km-notify-body h3 { font-size: 1.15rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     HEADER — Giữ nguyên hoàn toàn từ css_trangchu.css
+     ══════════════════════════════════════════════════════════════ -->
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+<!-- SUB-NAV — Thanh danh mục phụ -->
+<nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MODAL THÔNG BÁO — Popup khi vào trang (1 lần / phiên)
+     Tự đóng sau 8 giây hoặc khi nhấn nút
+     ══════════════════════════════════════════════════════════════ -->
+<div class="km-notify-overlay" id="km-notify-overlay" role="dialog" aria-modal="true" aria-labelledby="km-notify-title">
+    <div class="km-notify-box">
+
+        <!-- Nút đóng góc phải -->
+        <button class="km-notify-close" id="km-notify-close-btn" onclick="kmCloseNotify()" title="Đóng" aria-label="Đóng">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Banner: con đường + xe cứu hộ chạy ngang -->
+        <div class="km-notify-banner">
+            <div class="gk-nb-gear" aria-hidden="true"><i class="fas fa-cog"></i></div>
+            <div class="km-notify-banner-text">
+                <span class="km-banner-tag">Thí điểm Q.1 · Q.3 · Q.10</span>
+                <h2>Mừng ra mắt Bốn Phương</h2>
+                <p>Cứu hộ – sửa xe tận nơi · Voucher giảm tới 50%</p>
+            </div>
+            <div class="gk-nb-road" aria-hidden="true">
+                <span class="gk-nb-lane"></span>
+                <i class="fas fa-truck-pickup gk-nb-truck"></i>
+                <i class="fas fa-motorcycle gk-nb-moto"></i>
+            </div>
+        </div>
+
+        <!-- Nội dung thông báo -->
+        <div class="km-notify-body">
+            <h3 id="km-notify-title">🎉 Ưu Đãi Ra Mắt Chính Thức Mở!</h3>
+            <p>
+                Săn ngay <strong>26 voucher</strong> cho Cứu hộ khẩn cấp, Sửa chữa tại chỗ, Bảo dưỡng tại nhà, Gói thành viên Lá Chắn Số và Phụ tùng.<br>
+                Mã <strong style="color:#E06400;">BONPHUONG50</strong> giảm tới <strong style="color:#E06400;">50%</strong> — chỉ đến hết 30/11/2026!
+            </p>
+            <button class="km-notify-cta" onclick="kmCloseNotify(); kmGoVouchers();">
+                <i class="fas fa-ticket-alt mr-2"></i>Xem Ngay Tất Cả Voucher
+            </button>
+            <span class="km-notify-skip" onclick="kmCloseNotify()">Bỏ qua, xem sau →</span>
+        </div>
+
+    </div>
+</div>
+<script>
+/* Chỉ hiện modal 1 lần mỗi phiên truy cập */
+(function () {
+    try {
+        if (sessionStorage.getItem('gkbp_km_notify_seen')) {
+            document.getElementById('km-notify-overlay').style.display = 'none';
+        } else {
+            sessionStorage.setItem('gkbp_km_notify_seen', '1');
+        }
+    } catch (e) {}
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 1: HERO ƯU ĐÃI MÙA MƯA + ĐẾM NGƯỢC
+     ══════════════════════════════════════════════════════════════ -->
+<section class="km-hero">
+    <!-- Vòng tròn + bánh răng trang trí nền -->
+    <div class="km-hero-bg-circles" aria-hidden="true">
+        <span style="width:400px;height:400px;top:-120px;right:-80px;"></span>
+        <span style="width:200px;height:200px;bottom:60px;left:40px;"></span>
+        <span style="width:120px;height:120px;top:40%;right:30%;"></span>
+    </div>
+    <div class="gk-km-gears" aria-hidden="true">
+        <i class="fas fa-cog g1"></i><i class="fas fa-cog g2"></i><i class="fas fa-wrench g3"></i>
+    </div>
+
+    <div class="container position-relative" style="z-index:2;">
+        <div class="row align-items-center">
+
+            <!-- Cột trái: tiêu đề + mô tả + CTA + số liệu -->
+            <div class="col-lg-7 mb-5 mb-lg-0">
+                <span class="km-hero-tag">
+                    <i class="fas fa-cloud-showers-heavy"></i> Ưu đãi mùa mưa 2026
+                </span>
+                <h1 class="km-hero-title">
+                    Mùa Mưa An Tâm<br>
+                    Cùng <span class="km-highlight">Bốn Phương</span>
+                </h1>
+                <p class="km-hero-desc">
+                    26 voucher cho Cứu hộ khẩn cấp, Sửa chữa tại chỗ, Bảo dưỡng tại nhà, Xe điện,
+                    Gói thành viên Lá Chắn Số và Phụ tùng. Lưu mã vào kho — đến bước thanh toán,
+                    hệ thống tự gợi ý mã giảm nhiều nhất cho đơn của bạn.
+                </p>
+                <div class="d-flex flex-wrap gk-km-cta-row" style="gap:12px;">
+                    <a href="#km-vouchers" class="btn gk-km-btn-main">
+                        <i class="fas fa-ticket-alt mr-2"></i>Lấy Voucher Ngay
+                    </a>
+                    <a href="html_dichvu.html" class="btn gk-km-btn-ghost">
+                        <i class="fas fa-tools mr-2"></i>Xem Dịch Vụ
+                    </a>
+                </div>
+                <div class="km-hero-stats">
+                    <div class="km-stat-item">
+                        <span class="km-stat-num">26</span>
+                        <span class="km-stat-label">Voucher</span>
+                    </div>
+                    <div class="km-stat-item">
+                        <span class="km-stat-num">5</span>
+                        <span class="km-stat-label">Nhóm ưu đãi</span>
+                    </div>
+                    <div class="km-stat-item">
+                        <span class="km-stat-num">3</span>
+                        <span class="km-stat-label">Quận thí điểm</span>
+                    </div>
+                    <div class="km-stat-item">
+                        <span class="km-stat-num">50%</span>
+                        <span class="km-stat-label">Giảm tối đa</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột phải: đồng hồ đếm ngược -->
+            <div class="col-lg-5 d-flex justify-content-center justify-content-lg-end">
+                <div class="km-hero-countdown">
+                    <div class="gk-cd-wheel" aria-hidden="true"><i class="fas fa-tachometer-alt"></i></div>
+                    <p>⏰ Ưu đãi mùa mưa kết thúc sau</p>
+                    <div class="km-countdown-wrap">
+                        <div class="km-cd-unit">
+                            <span class="km-cd-num" id="cd-days">00</span>
+                            <span class="km-cd-label">Ngày</span>
+                        </div>
+                        <span class="km-cd-sep">:</span>
+                        <div class="km-cd-unit">
+                            <span class="km-cd-num" id="cd-hours">00</span>
+                            <span class="km-cd-label">Giờ</span>
+                        </div>
+                        <span class="km-cd-sep">:</span>
+                        <div class="km-cd-unit">
+                            <span class="km-cd-num" id="cd-mins">00</span>
+                            <span class="km-cd-label">Phút</span>
+                        </div>
+                        <span class="km-cd-sep">:</span>
+                        <div class="km-cd-unit">
+                            <span class="km-cd-num" id="cd-secs">00</span>
+                            <span class="km-cd-label">Giây</span>
+                        </div>
+                    </div>
+                    <p style="margin-top:14px;margin-bottom:0;font-size:10px;opacity:.6;">
+                        Kết thúc: 31/12/2026 — 23:59:59
+                    </p>
+                    <div class="gk-cd-area"><i class="fas fa-map-marker-alt"></i> Áp dụng tại Quận 1 · Quận 3 · Quận 10 và các quận mở rộng</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mặt đường cong + vạch kẻ đường chạy ở đáy hero -->
+    <div class="km-hero-wave">
+        <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:100%;">
+            <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#061D38"/>
+            <path class="gk-km-lane" d="M0,60 C360,100 1080,20 1440,60" fill="none" stroke="#FA7806" stroke-width="3" stroke-dasharray="26 18" vector-effect="non-scaling-stroke"/>
+        </svg>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 2: DEAL FLASH — Ưu đãi đặc biệt trong ngày
+     ══════════════════════════════════════════════════════════════ -->
+<section class="km-flash-section">
+    <div class="container">
+        <div class="row align-items-center mb-4">
+            <div class="col">
+                <div class="km-flash-title">
+                    <span>⚡ Deal Chớp Nhoáng Hôm Nay</span>
+                    <span class="km-flash-badge">GIỚI HẠN</span>
+                </div>
+                <p style="color:rgba(255,255,255,.65);font-size:13px;margin-top:6px;margin-bottom:0;">
+                    Chạm vào mã để sao chép, bấm “Lưu” để thêm vào kho voucher — số lượt dùng mỗi ngày có hạn!
+                </p>
+            </div>
+        </div>
+        <div class="row gk-flash-row">
+            <div class="col-md-6 col-lg-3 mb-4 km-reveal">
+                <div class="km-flash-card">
+                    <div class="km-flash-icon">🚨</div>
+                    <div class="gk-flash-main">
+                        <div class="km-flash-card-title">Cứu Hộ Khẩn Cấp</div>
+                        <div class="km-flash-card-code" onclick="kmCopyCode('CUUHO15', this)" style="cursor:pointer;" title="Nhấn để sao chép">CUUHO15</div>
+                        <div class="km-flash-card-desc">Giảm 15% mọi cuốc cứu hộ, tối đa 50.000đ</div>
+                        <div class="gk-flash-meter"><span class="gk-flash-fill" data-base="58"></span></div>
+                        <div class="gk-flash-foot">
+                            <span class="gk-flash-used">Đã dùng 58%</span>
+                            <button type="button" class="gk-flash-save" data-voucher-code="CUUHO15" onclick="GK_VOUCHER.saveVoucher('CUUHO15')"><i class="fas fa-download mr-1"></i>Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4 km-reveal" style="transition-delay:0.08s">
+                <div class="km-flash-card">
+                    <div class="km-flash-icon">🌙</div>
+                    <div class="gk-flash-main">
+                        <div class="km-flash-card-title">Ca Đêm An Toàn</div>
+                        <div class="km-flash-card-code" onclick="kmCopyCode('DEMANTOAN', this)" style="cursor:pointer;" title="Nhấn để sao chép">DEMANTOAN</div>
+                        <div class="km-flash-card-desc">Giảm 30.000đ cuốc cứu hộ từ 22h đến 5h</div>
+                        <div class="gk-flash-meter"><span class="gk-flash-fill" data-base="41"></span></div>
+                        <div class="gk-flash-foot">
+                            <span class="gk-flash-used">Đã dùng 41%</span>
+                            <button type="button" class="gk-flash-save" data-voucher-code="DEMANTOAN" onclick="GK_VOUCHER.saveVoucher('DEMANTOAN')"><i class="fas fa-download mr-1"></i>Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4 km-reveal" style="transition-delay:0.16s">
+                <div class="km-flash-card">
+                    <div class="km-flash-icon">🌧️</div>
+                    <div class="gk-flash-main">
+                        <div class="km-flash-card-title">Mùa Mưa Ngập</div>
+                        <div class="km-flash-card-code" onclick="kmCopyCode('MUANGAP25', this)" style="cursor:pointer;" title="Nhấn để sao chép">MUANGAP25</div>
+                        <div class="km-flash-card-desc">Giảm 25% phí kéo xe chết máy do ngập nước</div>
+                        <div class="gk-flash-meter"><span class="gk-flash-fill" data-base="63"></span></div>
+                        <div class="gk-flash-foot">
+                            <span class="gk-flash-used">Đã dùng 63%</span>
+                            <button type="button" class="gk-flash-save" data-voucher-code="MUANGAP25" onclick="GK_VOUCHER.saveVoucher('MUANGAP25')"><i class="fas fa-download mr-1"></i>Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4 km-reveal" style="transition-delay:0.24s">
+                <div class="km-flash-card">
+                    <div class="km-flash-icon">🎉</div>
+                    <div class="gk-flash-main">
+                        <div class="km-flash-card-title">Mừng Ra Mắt</div>
+                        <div class="km-flash-card-code" onclick="kmCopyCode('BONPHUONG50', this)" style="cursor:pointer;" title="Nhấn để sao chép">BONPHUONG50</div>
+                        <div class="km-flash-card-desc">Giảm 50% tối đa 100.000đ cho đơn từ 300.000đ</div>
+                        <div class="gk-flash-meter"><span class="gk-flash-fill" data-base="70"></span></div>
+                        <div class="gk-flash-foot">
+                            <span class="gk-flash-used">Đã dùng 70%</span>
+                            <button type="button" class="gk-flash-save" data-voucher-code="BONPHUONG50" onclick="GK_VOUCHER.saveVoucher('BONPHUONG50')"><i class="fas fa-download mr-1"></i>Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 3: LƯỚI VOUCHER CHÍNH
+     ══════════════════════════════════════════════════════════════ -->
+<section class="km-section" id="km-vouchers">
+    <div class="container">
+
+        <div class="km-reveal">
+            <p class="km-section-sub">🌧️ Ưu đãi mùa mưa 2026</p>
+            <h2 class="km-section-title">Tất Cả Voucher Hiện Có</h2>
+            <div class="km-title-bar"></div>
+        </div>
+
+        <!-- Kho voucher của tài khoản (gkbp-voucher.js) -->
+        <div class="km-wallet-bar km-reveal" id="km-wallet-bar"></div>
+
+        <!-- Bộ lọc theo nhóm dịch vụ -->
+        <div class="km-filter-bar km-reveal" id="km-filters">
+            <button class="km-filter-btn active" data-cat="all" onclick="kmFilter('all',this)">
+                <i class="fas fa-th"></i> Tất cả
+            </button>
+            <button class="km-filter-btn" data-cat="cuuho" onclick="kmFilter('cuuho',this)">
+                🚨 Cứu hộ
+            </button>
+            <button class="km-filter-btn" data-cat="suachua" onclick="kmFilter('suachua',this)">
+                🔧 Sửa chữa
+            </button>
+            <button class="km-filter-btn" data-cat="baoduong" onclick="kmFilter('baoduong',this)">
+                🛢️ Bảo dưỡng &amp; Xe điện
+            </button>
+            <button class="km-filter-btn" data-cat="thanhvien" onclick="kmFilter('thanhvien',this)">
+                🛡️ Thành viên
+            </button>
+            <button class="km-filter-btn" data-cat="phutung" onclick="kmFilter('phutung',this)">
+                📦 Phụ tùng
+            </button>
+        </div>
+
+        <!-- Lưới voucher — render bằng JS -->
+        <div class="row" id="km-voucher-grid"></div>
+
+        <div class="text-center mt-4 km-reveal" id="km-load-more-wrap">
+            <button class="btn" id="km-load-more"
+                    onclick="kmLoadMore()"
+                    style="background:var(--km-dark);color:#fff;border-radius:14px;
+                           padding:12px 32px;font-weight:800;font-size:14px;">
+                <i class="fas fa-plus-circle mr-2"></i>Xem Thêm Voucher
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 3B: CÁCH DÙNG VOUCHER — 4 bước
+     ══════════════════════════════════════════════════════════════ -->
+<section class="km-section km-section-alt" id="km-howto">
+    <div class="container">
+        <div class="text-center km-reveal">
+            <p class="km-section-sub">🧭 4 bước đơn giản</p>
+            <h2 class="km-section-title">Cách Dùng Voucher Bốn Phương</h2>
+            <div class="km-title-bar mx-auto"></div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-lg-3 mb-4 km-reveal">
+                <div class="km-howto-card">
+                    <div class="km-howto-num">01</div>
+                    <div class="km-howto-icon" style="background:#FFF1E6;">🎟️</div>
+                    <div class="km-howto-title">Lưu mã vào kho</div>
+                    <div class="km-howto-desc">Bấm “Lưu mã” trên thẻ voucher. Mã công khai CUUHO15, SUAXE10, PHUTUNG10 dùng ngay, không cần lưu.</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 mb-4 km-reveal" style="transition-delay:0.08s">
+                <div class="km-howto-card">
+                    <div class="km-howto-num">02</div>
+                    <div class="km-howto-icon" style="background:#EAF1F9;">🛠️</div>
+                    <div class="km-howto-title">Đặt dịch vụ hoặc bấm SOS</div>
+                    <div class="km-howto-desc">Chọn cứu hộ, sửa chữa, bảo dưỡng hay phụ tùng. Mỗi mã có phạm vi áp dụng và đơn tối thiểu riêng.</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 mb-4 km-reveal" style="transition-delay:0.16s">
+                <div class="km-howto-card">
+                    <div class="km-howto-num">03</div>
+                    <div class="km-howto-icon" style="background:#FFF1E6;">🤖</div>
+                    <div class="km-howto-title">Nhận gợi ý mã tốt nhất</div>
+                    <div class="km-howto-desc">Ở giỏ hàng và trang thanh toán, mã giảm nhiều nhất cho đơn được gợi ý sẵn — chạm một lần để áp dụng.</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 mb-4 km-reveal" style="transition-delay:0.24s">
+                <div class="km-howto-card">
+                    <div class="km-howto-num">04</div>
+                    <div class="km-howto-icon" style="background:#EAF1F9;">⭐</div>
+                    <div class="km-howto-title">Thanh toán &amp; tích điểm</div>
+                    <div class="km-howto-desc">Trả bằng ví điện tử, thẻ, chuyển khoản QR hoặc tiền mặt; tích 1 điểm Bốn Phương cho mỗi 1.000đ.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="km-mkt-section">
+    <div class="container">
+
+        <!-- Tiêu đề section -->
+        <div class="text-center mb-5 km-reveal">
+            <p class="km-section-sub">🌧️ Mùa mưa 2026</p>
+            <h2 class="km-section-title">Mùa Mưa An Tâm Cùng Bốn Phương</h2>
+            <div class="km-title-bar mx-auto"></div>
+            <p style="font-size:14.5px;color:#64748b;max-width:560px;margin:0 auto;">
+                Mưa ngập, xe chết máy, lốp thủng giữa đường — một chạm là thợ đối tác đã xác minh đến tận nơi,
+                báo giá trần trước khi làm và theo dõi được vị trí thợ theo thời gian thực.
+            </p>
+        </div>
+
+        <div class="km-mkt-grid km-reveal">
+            <div class="km-mkt-card km-mkt-wide"
+                 onclick="location.href='html_dichvu.html'">
+                <div class="km-mkt-bg" style="background-image:url('img/hero/hero-1.jpg');"></div>
+                <div class="km-mkt-overlay"></div>
+                <div class="km-mkt-content">
+                    <span class="km-mkt-tag">🌧️ Mùa mưa 2026</span>
+                    <div class="km-mkt-card-title">Gắn Kết Bốn Phương —<br>Đồng Hành Mọi Nẻo Đường</div>
+                    <p class="km-mkt-card-sub">Cứu hộ · Sửa chữa · Bảo dưỡng · Xe điện · Gói thành viên · Phụ tùng — tất cả trong 1 nền tảng</p>
+                    <a href="html_dichvu.html" class="km-mkt-cta">Đặt dịch vụ ngay →</a>
+                </div>
+            </div>
+            <div class="km-mkt-card"
+                 onclick="location.href='html_dichvu.html?cate=cuuho'">
+                <div class="km-mkt-bg" style="background-image:url('img/dv/ch12-2.jpg');"></div>
+                <div class="km-mkt-overlay"></div>
+                <div class="km-mkt-content">
+                    <span class="km-mkt-tag">🚨 Cứu hộ 24/7</span>
+                    <div class="km-mkt-card-title">Cứu Hộ Khẩn Cấp<br>Giảm 15%</div>
+                    <p class="km-mkt-card-sub">Vá lốp · Kích bình · Chết máy · Kéo xe</p>
+                    <a href="html_dichvu.html?cate=cuuho" class="km-mkt-cta">Gọi cứu hộ →</a>
+                </div>
+            </div>
+            <div class="km-mkt-card"
+                 onclick="location.href='html_dichvu.html?cate=suachua'">
+                <div class="km-mkt-bg" style="background-image:url('img/dv/sc02-2.jpg');"></div>
+                <div class="km-mkt-overlay"></div>
+                <div class="km-mkt-content">
+                    <span class="km-mkt-tag">🔧 Sửa tại chỗ</span>
+                    <div class="km-mkt-card-title">Sửa Xe Tận Nơi<br>Bảo Hành 30 Ngày</div>
+                    <p class="km-mkt-card-sub">Phanh · Điện · Dây curoa · Bugi</p>
+                    <a href="html_dichvu.html?cate=suachua" class="km-mkt-cta">Đặt thợ →</a>
+                </div>
+            </div>
+            <div class="km-mkt-card"
+                 onclick="location.href='html_dichvu.html?cate=goi'">
+                <div class="km-mkt-bg" style="background-image:url('img/dv/gt03-2.jpg');"></div>
+                <div class="km-mkt-overlay"></div>
+                <div class="km-mkt-content">
+                    <span class="km-mkt-tag">🛡️ Lá Chắn Số</span>
+                    <div class="km-mkt-card-title">Gói Thành Viên<br>Từ 99.000đ</div>
+                    <p class="km-mkt-card-sub">Ưu tiên điều phối giờ cao điểm · Lượt miễn phí di chuyển</p>
+                    <a href="html_dichvu.html?cate=goi" class="km-mkt-cta">Xem các gói →</a>
+                </div>
+            </div>
+            <div class="km-mkt-card"
+                 onclick="location.href='html_dichvu.html?cate=phutung'">
+                <div class="km-mkt-bg" style="background-image:url('img/dv/pt01-2.jpg');"></div>
+                <div class="km-mkt-overlay"></div>
+                <div class="km-mkt-content">
+                    <span class="km-mkt-tag">📦 Phụ tùng</span>
+                    <div class="km-mkt-card-title">Phụ Tùng Rõ Nguồn Gốc<br>Giao Trong 2 Giờ</div>
+                    <p class="km-mkt-card-sub">Lốp · Ắc quy · Nhớt · Bộ vá lốp mini</p>
+                    <a href="html_dichvu.html?cate=phutung" class="km-mkt-cta">Mua ngay →</a>
+                </div>
+            </div>
+        </div><!-- /km-mkt-grid -->
+
+    </div><!-- /container -->
+</section><!-- /km-mkt-section -->
+
+<!-- ══════════════════════════════════════════════════════════════
+     FOOTER — Giữ nguyên hoàn toàn từ css_trangchu.css
+     ══════════════════════════════════════════════════════════════ -->
+<div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+<!-- jQuery + Bootstrap Bundle -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+    <!-- Khuyến mãi: core → search → voucher → khuyenmai -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   JAVASCRIPT TRANG KHUYẾN MÃI
+   Chú thích từng khối chức năng rõ ràng
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────
+   1. DỮ LIỆU VOUCHER
+   Lấy từ js/gkbp-voucher.js (GK_VOUCHER.LIST — 26 mã: cứu hộ, sửa chữa,
+   bảo dưỡng & xe điện, thành viên, phụ tùng). File này nạp ở cuối trang
+   nên dữ liệu được đọc “lười” khi render (sau DOMContentLoaded).
+   ─────────────────────────────────────────────── */
+function kmList() {
+    return (window.GK_VOUCHER && GK_VOUCHER.LIST) ? GK_VOUCHER.LIST : [];
+}
+
+/* Số voucher hiển thị lần đầu: 12 trên máy tính, 6 trên điện thoại */
+var KM_SHOW_COUNT = (window.innerWidth < 768) ? 6 : 12;
+var km_current_cat = 'all';
+var km_show_count  = KM_SHOW_COUNT;
+
+/* ───────────────────────────────────────────────
+   2. RENDER VOUCHER CARDS
+   Tạo HTML cho từng thẻ voucher và đổ vào #km-voucher-grid
+   ─────────────────────────────────────────────── */
+/* Số ngày còn lại tới hạn dùng (dd/mm/yyyy) */
+function kmDaysLeft(exp) {
+    var p = String(exp || '').split('/');
+    var end = new Date(+p[2], +p[1] - 1, +p[0], 23, 59, 59);
+    return Math.ceil((end - new Date()) / 86400000);
+}
+
+function kmRenderVouchers() {
+    var grid = document.getElementById('km-voucher-grid');
+    if (!grid) return;
+
+    /* Lọc theo nhóm */
+    var all = kmList();
+    var filtered = km_current_cat === 'all'
+        ? all
+        : all.filter(function(v){ return v.cat === km_current_cat; });
+
+    /* Slice theo số lượng đang hiển thị */
+    var toShow = filtered.slice(0, km_show_count);
+
+    /* Ẩn/hiện nút "Xem thêm" */
+    var loadMoreWrap = document.getElementById('km-load-more-wrap');
+    if (loadMoreWrap) {
+        loadMoreWrap.style.display = toShow.length < filtered.length ? 'block' : 'none';
+    }
+
+    if (!toShow.length) {
+        grid.innerHTML = '<div class="col-12 text-center py-5" style="color:#94a3b8;font-weight:700;">Không có voucher nào trong nhóm này.</div>';
+        return;
+    }
+
+    var fmt = (window.GK_VOUCHER && GK_VOUCHER._fmtVND) ? GK_VOUCHER._fmtVND : function (n) { return n + 'đ'; };
+
+    /* Build HTML cho từng card */
+    grid.innerHTML = toShow.map(function(v) {
+        /* Ảnh minh họa dịch vụ làm nền đầu thẻ, phủ lớp tối để chữ luôn đọc được */
+        var headStyle = v.img
+            ? ' style="background-image:url(\'' + v.img + '\');"'
+            : '';
+        var left = kmDaysLeft(v.expires);
+        var soon = left <= 0
+            ? '<span class="km-vc-soon km-vc-expired">Hết hạn</span>'
+            : (left <= 30 ? '<span class="km-vc-soon"><i class="fas fa-hourglass-half"></i> Còn ' + left + ' ngày</span>' : '');
+        var access = v.public
+            ? '<i class="fas fa-bolt"></i>Mã công khai – áp dụng ngay'
+            : '<i class="fas fa-wallet"></i>Lưu vào kho để sử dụng';
+        return [
+            '<div class="col-md-6 col-lg-4 mb-0 km-reveal">',
+            '  <div class="km-voucher-card">',
+            /* Đầu card — ảnh nền + overlay */
+            '    <div class="km-vc-head ' + v.headClass + '"' + headStyle + '>',
+            '      <div class="km-vc-head-img-overlay"></div>',
+            '      <div class="km-vc-badge">' + v.badge + '</div>' + soon,
+            '      <p class="km-vc-code">' + v.code + '</p>',
+            '      <p class="km-vc-discount">' + v.discount + '</p>',
+            '    </div>',
+            /* Thân card */
+            '    <div class="km-vc-body">',
+            '      <div class="d-flex align-items-start gap-2" style="gap:10px;margin-bottom:8px;">',
+            '        <span style="font-size:1.4rem;flex-shrink:0;">' + v.icon + '</span>',
+            '        <div class="km-vc-title">' + v.title + '</div>',
+            '      </div>',
+            '      <p class="km-vc-desc">' + v.desc + '</p>',
+            '      <div class="km-vc-meta">',
+            '        <div class="km-vc-meta-item"><i class="fas fa-tag"></i>' + v.applies + '</div>',
+            '        <div class="km-vc-meta-item"><i class="fas fa-receipt"></i>Đơn tối thiểu ' + fmt(v.min || 0) + '</div>',
+            '        <div class="km-vc-meta-item"><i class="fas fa-calendar-alt"></i>HSD: ' + v.expires + '</div>',
+            '        <div class="km-vc-meta-item km-vc-access' + (v.public ? ' is-public' : '') + '">' + access + '</div>',
+            '      </div>',
+            '      <hr class="km-vc-divider">',
+            '      <div class="km-vc-footer">',
+            '        <div class="km-vc-price-block">',
+            '          <small>Mã voucher</small>',
+            '          <strong>' + v.code + '</strong>',
+            '        </div>',
+            '        <div class="km-vc-actions">',
+            '          <button class="km-vc-copy-btn" id="btn-' + v.id + '"',
+            '                  onclick="kmCopyCode(\'' + v.code + '\', document.getElementById(\'btn-' + v.id + '\'))">',
+            '            <i class="fas fa-copy mr-1"></i>Sao chép',
+            '          </button>',
+            '          <button class="km-vc-copy-btn km-vc-save-btn" data-voucher-code="' + v.code + '"',
+            '                  onclick="GK_VOUCHER.saveVoucher(\'' + v.code + '\')">',
+            '            <i class="fas fa-download mr-1"></i>Lưu mã',
+            '          </button>',
+            '        </div>',
+            '      </div>',
+            '    </div>',
+            '  </div>',
+            '</div>'
+        ].join('');
+    }).join('');
+
+    /* Đánh dấu các mã đã có trong kho */
+    if (window.GK_VOUCHER && GK_VOUCHER.markButtons) GK_VOUCHER.markButtons();
+
+    /* Kích hoạt reveal animation cho các card mới render */
+    setTimeout(kmActivateReveal, 50);
+}
+
+/* ───────────────────────────────────────────────
+   3. LỌC THEO NHÓM DỊCH VỤ
+   ─────────────────────────────────────────────── */
+function kmFilter(cat, btn) {
+    km_current_cat = cat;
+    km_show_count  = KM_SHOW_COUNT; /* Reset về trang đầu khi đổi filter */
+
+    /* Cập nhật trạng thái active nút lọc */
+    document.querySelectorAll('.km-filter-btn').forEach(function(b) {
+        b.classList.remove('active');
+    });
+    if (btn) btn.classList.add('active');
+
+    /* Re-render vouchers */
+    var grid = document.getElementById('km-voucher-grid');
+    grid.style.opacity = '0';
+    setTimeout(function() {
+        kmRenderVouchers();
+        grid.style.opacity = '1';
+    }, 200);
+}
+
+/* ───────────────────────────────────────────────
+   4. XEM THÊM VOUCHER
+   ─────────────────────────────────────────────── */
+function kmLoadMore() {
+    km_show_count += 6; /* Hiện thêm 6 voucher mỗi lần */
+    kmRenderVouchers();
+}
+
+/* ───────────────────────────────────────────────
+   5. SAO CHÉP MÃ VOUCHER
+   Sao chép vào clipboard và phản hồi UI cho user
+   ─────────────────────────────────────────────── */
+function kmCopyCode(code, btn) {
+    /* Thử dùng Clipboard API hiện đại */
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(function() {
+            kmShowCopied(btn);
+        }).catch(function() {
+            kmCopyFallback(code, btn);
+        });
+    } else {
+        kmCopyFallback(code, btn);
+    }
+}
+
+/* Fallback cho trình duyệt cũ */
+function kmCopyFallback(code, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = code; ta.style.cssText = 'position:fixed;opacity:0;';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    kmShowCopied(btn);
+}
+
+/* Hiện feedback "Đã sao chép!" trên nút */
+function kmShowCopied(btn) {
+    if (!btn) return;
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check mr-1"></i>Đã chép!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+        btn.innerHTML = orig;
+        btn.classList.remove('copied');
+    }, 2000);
+}
+
+/* ───────────────────────────────────────────────
+   6. MODAL THÔNG BÁO
+   Tự động đóng sau 8 giây hoặc khi nhấn nút
+   ─────────────────────────────────────────────── */
+function kmCloseNotify() {
+    var overlay = document.getElementById('km-notify-overlay');
+    if (overlay) {
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity .35s';
+        setTimeout(function() {
+            overlay.style.display = 'none';
+        }, 350);
+    }
+}
+
+/* Tự đóng modal sau 8 giây */
+setTimeout(kmCloseNotify, 8000);
+
+/* ───────────────────────────────────────────────
+   7. ĐẾM NGƯỢC KẾT THÚC KHUYẾN MÃI
+   Đến 31/12/2026 23:59:59 giờ Việt Nam (UTC+7)
+   ─────────────────────────────────────────────── */
+(function() {
+    /* Dùng Date.UTC để tránh lỗi parse múi giờ giữa các trình duyệt
+       31/12/2026 23:59:59 UTC+7  =  31/12/2026 16:59:59 UTC */
+    var END_MS = Date.UTC(2026, 11, 31, 16, 59, 59);
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function kmUpdateCountdown() {
+        var diff = END_MS - Date.now();
+
+        var daysEl  = document.getElementById('cd-days');
+        var hoursEl = document.getElementById('cd-hours');
+        var minsEl  = document.getElementById('cd-mins');
+        var secsEl  = document.getElementById('cd-secs');
+
+        if (diff <= 0) {
+            if (daysEl)  daysEl.textContent  = '00';
+            if (hoursEl) hoursEl.textContent = '00';
+            if (minsEl)  minsEl.textContent  = '00';
+            if (secsEl)  secsEl.textContent  = '00';
+            clearInterval(kmCountdownTimer);
+            return;
+        }
+
+        var days  = Math.floor(diff / 86400000);
+        var hours = Math.floor((diff % 86400000) / 3600000);
+        var mins  = Math.floor((diff % 3600000)  / 60000);
+        var secs  = Math.floor((diff % 60000)    / 1000);
+
+        if (daysEl)  daysEl.textContent  = pad(days);
+        if (hoursEl) hoursEl.textContent = pad(hours);
+        if (minsEl)  minsEl.textContent  = pad(mins);
+        if (secsEl)  secsEl.textContent  = pad(secs);
+    }
+
+    /* Chạy ngay + lặp mỗi giây */
+    kmUpdateCountdown();
+    var kmCountdownTimer = setInterval(kmUpdateCountdown, 1000);
+})();
+
+/* ───────────────────────────────────────────────
+   8. REVEAL ANIMATION KHI SCROLL
+   Quan sát IntersectionObserver để trigger .visible
+   ─────────────────────────────────────────────── */
+function kmActivateReveal() {
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.km-reveal').forEach(function(el) {
+        if (!el.classList.contains('visible')) {
+            observer.observe(el);
+        }
+    });
+}
+
+
+/* ───────────────────────────────────────────────
+   10. SMOOTH SCROLL CHO NÚT CTA
+   ─────────────────────────────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+/* ───────────────────────────────────────────────
+   11. KHỞI TẠO KHI TRANG SẴN SÀNG
+   ─────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function() {
+    kmRenderVouchers();  /* Render lưới voucher ban đầu */
+    kmActivateReveal();  /* Kích hoạt scroll reveal */
+});
+
+/* ───────────────────────────────────────────────
+   12. BỔ SUNG: SỐ LƯỢNG MÃ TRÊN BỘ LỌC · KHO VOUCHER · THANH ĐÃ DÙNG DEAL FLASH
+   ─────────────────────────────────────────────── */
+function kmFilterCounts() {
+    var all = kmList();
+    document.querySelectorAll('.km-filter-btn').forEach(function (b) {
+        var c = b.getAttribute('data-cat');
+        var n = c === 'all' ? all.length : all.filter(function (v) { return v.cat === c; }).length;
+        var s = b.querySelector('.km-filter-count');
+        if (!s) { s = document.createElement('span'); s.className = 'km-filter-count'; b.appendChild(s); }
+        s.textContent = n;
+    });
+}
+
+function kmLoginToSave() {
+    if (window.GKBP) { GKBP.requireLogin('html_khuyenmaivatiepthi.html', 'Đăng nhập để lưu voucher vào kho của bạn.'); return false; }
+    return true;
+}
+
+function kmRenderWallet() {
+    var box = document.getElementById('km-wallet-bar');
+    if (!box) return;
+    if (!window.GKBP || !window.GK_VOUCHER) { box.style.display = 'none'; return; }
+    if (!GKBP.isLoggedIn()) {
+        box.innerHTML = '<span class="kw-ico">🎟️</span>' +
+            '<div class="kw-txt"><b>Kho voucher của bạn</b><small>Đăng nhập để lưu mã và được gợi ý mã giảm nhiều nhất khi thanh toán.</small></div>' +
+            '<a class="kw-btn" href="html_dangnhap_dangky.html?mode=login" onclick="return kmLoginToSave()"><i class="fas fa-sign-in-alt mr-1"></i>Đăng nhập</a>';
+        return;
+    }
+    var mine = GK_VOUCHER.mine();
+    var usable = mine.filter(function (x) { return !x.used; }).length;
+    box.innerHTML = '<span class="kw-ico">🎟️</span>' +
+        '<div class="kw-txt"><b>Kho voucher: ' + mine.length + ' mã đã lưu</b><small>' + usable + ' mã còn dùng được · mã tốt nhất sẽ được gợi ý ở giỏ hàng và thanh toán.</small></div>' +
+        '<a class="kw-btn" href="html_thongtin.html#tab-voucher"><i class="fas fa-wallet mr-1"></i>Xem kho voucher</a>';
+}
+
+function kmFlashMeters() {
+    var d = new Date(), m = d.getHours() * 60 + d.getMinutes();
+    document.querySelectorAll('.gk-flash-fill').forEach(function (el) {
+        var base = +el.getAttribute('data-base') || 50;
+        var used = Math.min(97, base + Math.floor(m / 1440 * 30));
+        var main = el.closest('.gk-flash-main');
+        var lab = main ? main.querySelector('.gk-flash-used') : null;
+        if (lab) { lab.textContent = (used >= 85 ? '🔥 ' : '') + 'Đã dùng ' + used + '%'; lab.classList.toggle('hot', used >= 85); }
+        setTimeout(function () { el.style.width = used + '%'; }, 350);
+    });
+}
+
+function kmGoVouchers() {
+    var t = document.getElementById('km-vouchers');
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* Lưu mã xong → cập nhật khối kho voucher */
+document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('[data-voucher-code]')) setTimeout(kmRenderWallet, 80);
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    kmFilterCounts();
+    kmRenderWallet();
+    kmFlashMeters();
+    /* Liên kết sâu: html_khuyenmaivatiepthi.html?cat=cuuho|suachua|baoduong|thanhvien|phutung */
+    try {
+        var cat = new URLSearchParams(location.search).get('cat');
+        var btn = cat ? document.querySelector('.km-filter-btn[data-cat="' + cat + '"]') : null;
+        if (btn) { kmFilter(cat, btn); setTimeout(kmGoVouchers, 400); }
+    } catch (e) {}
+});
+</script>
+    
+
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+</body>
+</html>

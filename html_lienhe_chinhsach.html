@@ -1,0 +1,2318 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ &amp; Chính sách | Gắn Kết Bốn Phương</title>
+    <meta name="description" content="Liên hệ Gắn Kết Bốn Phương: tổng đài cứu hộ 24/7, gửi và tra cứu khiếu nại, đăng ký thợ đối tác; chính sách giá trần, bảo hành, hủy cuốc, khiếu nại 4 bước và bảo mật dữ liệu.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css_trangchu.css">
+    <!-- Font Awesome 5 — icon toàn trang -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* ================================================================
+           BIẾN MÀU — kế thừa từ css_trangchu.css, khai báo lại để chắc chắn
+           ================================================================ */
+        :root {
+            --primary-blue:   #0D4076;
+            --dark-blue:      #0A2B54;
+            --teal-light:     #FA7806;
+            --accent-red:     #ff4d4d;
+            --gradient-brand: linear-gradient(135deg, #0A2B54 0%, #0D4076 55%, #1E5C9E 100%);
+            --bg-light:       #f0f4f8;
+            --text-dark:      #0A2B54;
+            --text-muted:     #6c757d;
+            --white:          #ffffff;
+        }
+
+
+        /* ================================================================
+           PAGE HERO — nền gradient brand, chứa tab điều hướng
+           ================================================================ */
+        .page-hero {
+            background: var(--gradient-brand);
+            padding: 60px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Họa tiết nền dạng SVG mờ */
+        .page-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        /* Icon trang trí góc phải */
+        .page-hero::after {
+            content: attr(data-icon);
+            position: absolute; right: 7%; top: 15%;
+            font-size: 150px; opacity: 0.07;
+            animation: hero-icon-float 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes hero-icon-float {
+            0%,100% { transform: translateY(0) rotate(-8deg); }
+            50%      { transform: translateY(-20px) rotate(8deg); }
+        }
+
+        /* Breadcrumb điều hướng phía trên hero */
+        .hero-breadcrumb {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 13px; color: rgba(255,255,255,0.6);
+            margin-bottom: 18px;
+        }
+        .hero-breadcrumb a  { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+        .hero-breadcrumb a:hover { color: #fff; }
+        .hero-breadcrumb .sep     { opacity: 0.4; }
+        .hero-breadcrumb .current { color: #fff; font-weight: 600; }
+
+        /* Badge nhỏ trên tiêu đề */
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+            color: #fff; font-size: 11px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 7px 18px; border-radius: 30px; margin-bottom: 18px;
+        }
+        /* Tiêu đề hero */
+        .page-hero h1 {
+            font-size: clamp(26px, 3.8vw, 50px); font-weight: 900;
+            color: #fff; line-height: 1.15; margin-bottom: 12px;
+        }
+        .page-hero .hero-desc {
+            color: rgba(255,255,255,0.8); font-size: 15px;
+            line-height: 1.7; max-width: 540px; margin-bottom: 28px;
+        }
+
+        /* Thống kê nhanh trong hero */
+        .hero-stats { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 28px; }
+        .hero-stat-num { font-size: 26px; font-weight: 900; color: #fff; line-height: 1; display: block; }
+        .hero-stat-lbl { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+
+        /* Chỉ báo đang trực tuyến */
+        .online-indicator {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,159,67,0.15);
+            border: 1px solid rgba(255,159,67,0.35);
+            border-radius: 20px; padding: 6px 14px;
+            font-size: 12px; font-weight: 600; color: #FFB066;
+        }
+        .pulse-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #FFB066;
+            animation: pulse-glow 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%,100% { transform: scale(1); opacity: 1; }
+            50%      { transform: scale(1.6); opacity: 0.5; }
+        }
+
+        /* ================================================================
+           TAB ĐIỀU HƯỚNG — chuyển giữa Liên hệ và Chính sách
+           ================================================================ */
+        .page-tabs {
+            display: flex; gap: 0;
+            margin-top: 40px; position: relative; z-index: 2;
+        }
+        .page-tab-btn {
+            flex: 1; max-width: 260px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.1);
+            border: none; border-radius: 20px 20px 0 0;
+            color: rgba(255,255,255,0.7); font-size: 15px; font-weight: 700;
+            cursor: pointer !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .page-tab-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
+        /* Tab đang active — nền trắng để hoà vào nội dung bên dưới */
+        .page-tab-btn.active {
+            background: #fff;
+            color: var(--dark-blue);
+            box-shadow: 0 -8px 24px rgba(0,0,0,0.1);
+        }
+        .page-tab-btn .tab-icon { font-size: 20px; }
+
+        /* ================================================================
+           NỘI DUNG CHÍNH — nền xám xanh nhạt
+           ================================================================ */
+        .page-main { background: var(--bg-light); }
+
+        /* Panel nội dung tab — ẩn/hiện theo tab đang chọn */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ================================================================
+           PHẦN LIÊN HỆ — bố cục 2 cột: Form | Thông tin
+           ================================================================ */
+        .contact-section { padding: 0 0 80px; }
+
+        /* Card wrapper nổi lên từ hero */
+        .contact-card {
+            background: #fff;
+            border-radius: 0 28px 28px 28px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        /* Lưới 2 cột: form bên trái, info bên phải */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+        }
+        @media(max-width:992px) { .contact-grid { grid-template-columns: 1fr; } }
+
+        /* --- Route cards chọn loại hỗ trợ (nằm trong hero khi tab Liên hệ active) --- */
+        .route-cards-wrap {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            padding: 28px 0 0;
+        }
+        .route-card {
+            flex: 1; min-width: 200px;
+            background: rgba(255,255,255,0.1);
+            border: 1.5px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 16px; padding: 20px 22px;
+            color: #fff; cursor: pointer !important;
+            transition: all 0.35s cubic-bezier(0.34,1.2,0.64,1);
+            position: relative; overflow: hidden;
+        }
+        .route-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .route-card:hover,
+        .route-card.active {
+            background: rgba(255,255,255,0.22);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 36px rgba(0,0,0,0.2);
+        }
+        .route-card:hover::before,
+        .route-card.active::before  { opacity: 1; }
+        .route-card.active { background: rgba(255,255,255,0.26); border-color: #fff; }
+        /* Chấm xanh góc card đang active */
+        .route-card .active-dot {
+            position: absolute; top: 14px; right: 14px;
+            width: 9px; height: 9px; border-radius: 50%;
+            background: #FFB066; display: none;
+            box-shadow: 0 0 0 3px rgba(255,159,67,0.3);
+        }
+        .route-card.active .active-dot { display: block; }
+        .route-card-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+        .route-card h4   { font-size: 14px; font-weight: 800; margin-bottom: 5px; color: #fff; }
+        .route-card p    { font-size: 12px; color: rgba(255,255,255,0.75); margin: 0; line-height: 1.5; }
+
+        /* ================================================================
+           PANEL FORM LIÊN HỆ
+           ================================================================ */
+        .form-panel {
+            padding: 48px 48px 48px;
+            border-right: 1px solid rgba(13,64,118,0.08);
+        }
+        @media(max-width:992px) {
+            .form-panel { padding: 32px 22px; border-right: none; border-bottom: 1px solid rgba(13,64,118,0.08); }
+        }
+
+        /* Nhãn phụ + tiêu đề form */
+        .form-eyebrow {
+            font-size: 11px; font-weight: 800; letter-spacing: 3px;
+            color: var(--primary-blue); text-transform: uppercase;
+            margin-bottom: 6px; display: block;
+        }
+        .form-title { font-size: 24px; font-weight: 900; color: var(--dark-blue); margin: 0 0 28px; }
+
+        /* Tab nhỏ bên trong form (Kỹ thuật / Hợp tác / Góp ý) */
+        .form-inner-tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+        .form-inner-tab {
+            padding: 8px 18px; border-radius: 30px; font-size: 13px; font-weight: 700;
+            border: 1.5px solid rgba(13,64,118,0.2); background: #f8faff;
+            color: var(--text-muted); cursor: pointer !important; transition: all 0.25s;
+        }
+        .form-inner-tab.active {
+            background: var(--gradient-brand); color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(13,64,118,0.28);
+        }
+
+        /* --- Floating label inputs --- */
+        .input-float { position: relative; margin-bottom: 22px; }
+        .input-float input,
+        .input-float textarea {
+            width: 100%; padding: 20px 16px 8px;
+            border: 2px solid #e4eaf0; border-radius: 14px;
+            font-size: 14px; color: var(--dark-blue);
+            background: #f8faff;
+            transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+            outline: none; resize: none;
+            font-family: inherit;
+        }
+        .input-float input:focus,
+        .input-float textarea:focus {
+            border-color: var(--primary-blue);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(13,64,118,0.1);
+        }
+        /* Label nổi lên khi focus hoặc có giá trị */
+        .input-float label {
+            position: absolute; left: 16px; top: 14px;
+            font-size: 14px; color: #9baab8; font-weight: 500;
+            transition: all 0.22s cubic-bezier(0.34,1.2,0.64,1);
+            pointer-events: none;
+        }
+        .input-float input:focus ~ label,
+        .input-float input:not(:placeholder-shown) ~ label,
+        .input-float textarea:focus ~ label,
+        .input-float textarea:not(:placeholder-shown) ~ label {
+            top: 6px; font-size: 11px; font-weight: 700;
+            color: var(--primary-blue); letter-spacing: 0.5px;
+        }
+        /* Placeholder ẩn để floating label hoạt động đúng */
+        .input-float input::placeholder,
+        .input-float textarea::placeholder { color: transparent; }
+
+        /* 2 ô cùng hàng */
+        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media(max-width:576px) { .form-row-2 { grid-template-columns: 1fr; } }
+
+        /* Nhóm prefix điện thoại */
+        .phone-row { display: flex; gap: 10px; margin-bottom: 22px; }
+        .phone-prefix {
+            display: flex; align-items: center; gap: 6px;
+            background: #f8faff; border: 2px solid #e4eaf0;
+            border-radius: 14px; padding: 0 14px;
+            font-size: 14px; font-weight: 600; color: var(--dark-blue);
+            white-space: nowrap; flex-shrink: 0;
+        }
+        .phone-row .input-float { flex: 1; margin: 0; }
+
+        /* Dropdown chọn chủ đề */
+        .select-wrap { position: relative; margin-bottom: 22px; }
+        .select-wrap .select-label {
+            display: block; font-size: 11px; font-weight: 700; color: #9baab8;
+            letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;
+        }
+        .select-wrap select {
+            width: 100%; padding: 14px 40px 14px 16px;
+            border: 2px solid #e4eaf0; border-radius: 14px;
+            font-size: 14px; color: var(--dark-blue);
+            background: #f8faff; appearance: none; outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            font-family: inherit;
+        }
+        .select-wrap select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(13,64,118,0.1);
+        }
+        /* Mũi tên dropdown */
+        .select-wrap::after {
+            content: '\f078'; font-family: 'Font Awesome 5 Free'; font-weight: 900;
+            position: absolute; right: 16px; bottom: 16px;
+            color: var(--primary-blue); font-size: 11px; pointer-events: none;
+        }
+
+        /* Chọn mức độ ưu tiên */
+        .priority-label {
+            font-size: 11px; font-weight: 700; color: #9baab8;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 10px; display: block;
+        }
+        .priority-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+        .priority-opt {
+            display: flex; align-items: center; gap: 7px;
+            padding: 8px 16px; border-radius: 30px;
+            border: 1.5px solid rgba(13,64,118,0.18); background: #f8faff;
+            font-size: 13px; font-weight: 600; color: var(--dark-blue);
+            cursor: pointer !important; transition: all 0.2s; user-select: none;
+        }
+        .priority-opt.checked {
+            background: linear-gradient(135deg,#EAF1F9,#D9E5F3);
+            border-color: var(--primary-blue); color: var(--primary-blue);
+        }
+        .ck-dot {
+            width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
+            border: 2px solid #d0d8e4;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 9px; transition: all 0.2s;
+        }
+        .priority-opt.checked .ck-dot {
+            background: var(--primary-blue); border-color: var(--primary-blue); color: #fff;
+        }
+
+        /* Đếm ký tự textarea */
+        .char-counter {
+            font-size: 11px; color: #9baab8;
+            text-align: right; margin-top: -16px; margin-bottom: 18px;
+        }
+        .char-counter.warn { color: var(--accent-red); }
+
+        /* Nút gửi form */
+        .btn-submit {
+            width: 100%;
+            background: var(--gradient-brand);
+            color: #fff; border: none; border-radius: 16px;
+            padding: 16px 28px; font-size: 15px; font-weight: 800;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: all 0.3s cubic-bezier(0.34,1.2,0.64,1);
+            cursor: pointer !important; font-family: inherit;
+        }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 36px rgba(13,64,118,0.4);
+        }
+        .btn-submit i { transition: transform 0.3s; }
+        .btn-submit:hover i { transform: translateX(5px); }
+        /* Trạng thái đang gửi */
+        .btn-submit.sending { opacity: 0.75; pointer-events: none; }
+
+        /* Thông báo gửi thành công */
+        .success-msg {
+            display: none; text-align: center; padding: 44px 20px;
+            animation: fade-slide-up 0.5s ease;
+        }
+        @keyframes fade-slide-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .success-msg .s-icon { font-size: 54px; margin-bottom: 14px; }
+        .success-msg h3 { color: var(--dark-blue); font-weight: 900; margin-bottom: 8px; }
+        .success-msg p  { color: var(--text-muted); font-size: 14px; line-height: 1.65; }
+        .btn-reset {
+            margin-top: 18px; padding: 11px 28px; border-radius: 30px;
+            border: none; background: var(--gradient-brand);
+            color: #fff; font-weight: 800; font-size: 14px;
+            cursor: pointer !important; font-family: inherit;
+        }
+
+        /* ================================================================
+           PANEL THÔNG TIN LIÊN HỆ (cột phải)
+           ================================================================ */
+        .info-panel {
+            padding: 48px 32px;
+            background: linear-gradient(180deg, #f8faff 0%, #fff 100%);
+        }
+        @media(max-width:992px) { .info-panel { padding: 32px 22px; } }
+
+        .info-panel-label {
+            font-size: 10px; font-weight: 800; letter-spacing: 3px;
+            color: var(--primary-blue); text-transform: uppercase;
+            margin-bottom: 20px; display: block;
+        }
+        /* Card thông tin (email, điện thoại, địa chỉ, giờ làm) */
+        .cinfo-card {
+            display: flex; align-items: flex-start; gap: 14px;
+            background: #fff; border: 1.5px solid rgba(13,64,118,0.1);
+            border-radius: 16px; padding: 18px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+        .cinfo-card:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 6px 20px rgba(13,64,118,0.1);
+            transform: translateX(4px);
+        }
+        /* Icon vuông bo góc */
+        .cinfo-icon {
+            width: 44px; height: 44px; border-radius: 13px; flex-shrink: 0;
+            background: linear-gradient(135deg,#EAF1F9,#D9E5F3);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s;
+        }
+        .cinfo-card:hover .cinfo-icon {
+            background: var(--gradient-brand);
+        }
+        .cinfo-icon i { color: var(--primary-blue); font-size: 15px; transition: color 0.3s; }
+        .cinfo-card:hover .cinfo-icon i { color: #fff; }
+        .cinfo-lbl   { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+        .cinfo-val   { font-size: 14px; font-weight: 800; color: var(--dark-blue); margin-bottom: 2px; }
+        .cinfo-sub   { font-size: 12px; color: var(--text-muted); }
+        .cinfo-link  { color: var(--primary-blue) !important; text-decoration: none !important; font-weight: 800; font-size: 14px; }
+        .cinfo-link:hover { color: var(--dark-blue) !important; }
+
+        /* Bản đồ nhúng Google Maps */
+        .map-box { border-radius: 16px; overflow: hidden; border: 1.5px solid rgba(13,64,118,0.12); margin-top: 18px; }
+        .map-header {
+            padding: 12px 16px;
+            background: var(--gradient-brand); color: #fff;
+        }
+        .map-header h6 { font-size: 13px; font-weight: 800; margin: 0; color: #fff; }
+        .map-header small { font-size: 11px; opacity: 0.75; }
+        .map-box iframe { display: block; width: 100%; height: 190px; border: 0; }
+
+        /* Nút mạng xã hội nhanh */
+        .social-quick { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+        .sq-btn {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 8px 15px; border-radius: 30px; font-size: 12px; font-weight: 700;
+            text-decoration: none !important; transition: all 0.25s;
+            border: 1.5px solid transparent;
+        }
+        .sq-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 16px rgba(0,0,0,0.12); }
+        .sq-zalo { background: #e5f3ff; color: #197CE6; border-color: #BBD8F7; }
+        .sq-fb   { background: #e8f0fe; color: #1877F2; border-color: #C3DDF8; }
+        .sq-ig   { background: #fce8f0; color: #e84393; border-color: #f7b8d6; }
+
+        /* ================================================================
+           SECTION FAQ
+           ================================================================ */
+        .faq-section { background: #fff; padding: 70px 0; }
+
+        /* Tiêu đề section chung */
+        .section-eyebrow {
+            font-size: 11px; font-weight: 800; letter-spacing: 3px;
+            color: var(--primary-blue); text-transform: uppercase;
+            margin-bottom: 8px; display: block;
+        }
+        .section-title { font-size: clamp(22px,3vw,34px); font-weight: 900; color: var(--dark-blue); margin-bottom: 10px; }
+        .section-sub   { font-size: 14px; color: var(--text-muted); line-height: 1.7; max-width: 480px; }
+
+        /* Lưới FAQ 2 cột */
+        .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 40px; }
+        @media(max-width:768px) { .faq-grid { grid-template-columns: 1fr; } }
+
+        /* Card FAQ */
+        .faq-item {
+            background: #f8faff; border: 1.5px solid rgba(13,64,118,0.1);
+            border-radius: 16px; overflow: hidden;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .faq-item.open {
+            border-color: var(--primary-blue);
+            box-shadow: 0 6px 22px rgba(13,64,118,0.1);
+        }
+        .faq-trigger {
+            width: 100%; padding: 18px 20px;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            background: none; border: none; text-align: left;
+            font-size: 14px; font-weight: 700; color: var(--dark-blue);
+            cursor: pointer !important; transition: color 0.2s; font-family: inherit;
+        }
+        .faq-item.open .faq-trigger { color: var(--primary-blue); }
+        .faq-icon-btn {
+            width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+            background: linear-gradient(135deg,#EAF1F9,#D9E5F3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 900; color: var(--primary-blue);
+            transition: all 0.3s cubic-bezier(0.34,1.2,0.64,1);
+            line-height: 1;
+        }
+        .faq-item.open .faq-icon-btn {
+            background: var(--gradient-brand); color: #fff; transform: rotate(45deg);
+        }
+        /* Panel câu trả lời — smooth accordion */
+        .faq-panel {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.42s cubic-bezier(0.22,1,0.36,1), padding 0.28s ease;
+            padding: 0 20px;
+        }
+        .faq-item.open .faq-panel { max-height: 280px; padding: 0 20px 18px; }
+        .faq-panel .ans-tag {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: #EAF1F9; color: var(--primary-blue);
+            font-size: 11px; font-weight: 700; padding: 3px 10px;
+            border-radius: 20px; margin-bottom: 8px;
+        }
+        .faq-panel p { font-size: 13px; color: #5a6880; line-height: 1.72; margin: 0; }
+
+        /* ================================================================
+           BANNER CỘNG ĐỒNG
+           ================================================================ */
+        .community-banner {
+            background: var(--gradient-brand);
+            padding: 56px 0; position: relative; overflow: hidden;
+        }
+        .community-banner::before {
+            content: ''; position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        /* Icon trang trí góc phải */
+        .community-banner .deco {
+            position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
+            font-size: 100px; opacity: 0.1;
+            animation: hero-icon-float 5s ease-in-out infinite;
+        }
+        .community-banner h2 { font-size: clamp(22px,3vw,32px); font-weight: 900; color: #fff; margin-bottom: 10px; }
+        .community-banner p  { color: rgba(255,255,255,0.8); font-size: 14px; max-width: 450px; line-height: 1.7; }
+        .cb-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+        .cb-btn-main {
+            background: #fff; color: var(--dark-blue); font-weight: 800; font-size: 14px;
+            padding: 12px 26px; border-radius: 30px; text-decoration: none !important;
+            transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .cb-btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.2); color: var(--dark-blue) !important; }
+        .cb-btn-outline {
+            background: rgba(255,255,255,0.14); color: #fff; font-weight: 700; font-size: 14px;
+            padding: 12px 26px; border-radius: 30px; text-decoration: none !important;
+            border: 1.5px solid rgba(255,255,255,0.4); transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .cb-btn-outline:hover { background: rgba(255,255,255,0.24); color: #fff !important; }
+
+        /* ================================================================
+           PHẦN CHÍNH SÁCH — bố cục sidebar TOC + nội dung bài
+           ================================================================ */
+        .policy-section { padding: 0 0 80px; }
+
+        /* Card chứa toàn bộ nội dung chính sách */
+        .policy-card {
+            background: #fff;
+            border-radius: 0 28px 28px 28px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        /* Lưới 2 cột: sidebar bên trái, nội dung bên phải */
+        .policy-grid {
+            display: grid;
+            grid-template-columns: 272px 1fr;
+        }
+        @media(max-width:992px) { .policy-grid { grid-template-columns: 1fr; } }
+
+        /* Ô tìm kiếm trong hero (tab chính sách) */
+        .policy-search-box { position: relative; max-width: 500px; }
+        .policy-search-input {
+            width: 100%; padding: 15px 52px 15px 20px;
+            border-radius: 50px; border: none; outline: none;
+            font-size: 14px; color: var(--dark-blue);
+            background: rgba(255,255,255,0.94);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+            transition: box-shadow 0.3s; font-family: inherit;
+        }
+        .policy-search-input:focus { box-shadow: 0 8px 40px rgba(0,0,0,0.28); }
+        .policy-search-btn {
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            background: var(--gradient-brand); color: #fff; border: none; border-radius: 50%;
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer !important; transition: transform 0.2s; font-size: 13px;
+        }
+        .policy-search-btn:hover { transform: translateY(-50%) scale(1.1); }
+
+        /* Metadata chính sách (ngày cập nhật, phiên bản) */
+        .policy-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+        .pmeta-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.26);
+            color: #fff; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px;
+        }
+        .pmeta-version {
+            background: rgba(255,159,67,0.2); border: 1px solid rgba(255,159,67,0.4);
+            color: #FFB066; font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 20px;
+        }
+
+        /* --- Sidebar mục lục chính sách --- */
+        .policy-sidebar {
+            border-right: 1px solid rgba(13,64,118,0.08);
+            padding: 38px 26px;
+            background: linear-gradient(180deg, #f8faff 0%, #fff 100%);
+        }
+        @media(max-width:992px) {
+            .policy-sidebar { border-right: none; border-bottom: 1px solid rgba(13,64,118,0.08); padding: 24px 22px; }
+        }
+
+        .sidebar-lbl {
+            font-size: 10px; font-weight: 800; letter-spacing: 3px;
+            color: var(--primary-blue); text-transform: uppercase;
+            margin-bottom: 14px; display: block;
+        }
+        /* Danh sách mục lục */
+        .toc-list { list-style: none; padding: 0; margin: 0; }
+        .toc-list li { margin-bottom: 4px; }
+        .toc-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 13px; border-radius: 12px;
+            text-decoration: none !important; font-size: 13px; font-weight: 600; color: #5a6880;
+            transition: all 0.22s; border: 1.5px solid transparent; position: relative;
+        }
+        .toc-link:hover { background: #f0f7ff; color: var(--primary-blue); border-color: rgba(13,64,118,0.14); }
+        .toc-link.toc-active {
+            background: linear-gradient(135deg,#EAF1F9,#D9E5F3);
+            color: var(--dark-blue); font-weight: 800; border-color: rgba(13,64,118,0.2);
+        }
+        /* Số thứ tự mục */
+        .toc-num {
+            width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+            background: rgba(13,64,118,0.1); color: var(--primary-blue);
+            font-size: 10px; font-weight: 900;
+            display: flex; align-items: center; justify-content: center; transition: all 0.22s;
+        }
+        .toc-link.toc-active .toc-num { background: var(--gradient-brand); color: #fff; }
+        /* Thanh màu bên trái khi active */
+        .toc-bar {
+            position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--gradient-brand); border-radius: 0 3px 3px 0;
+            opacity: 0; transition: opacity 0.2s;
+        }
+        .toc-link.toc-active .toc-bar { opacity: 1; }
+
+        /* Thông tin đọc + nút tải PDF */
+        .sidebar-meta {
+            margin-top: 22px; padding: 13px 16px;
+            background: #f8faff; border-radius: 13px;
+            border: 1px solid rgba(13,64,118,0.1);
+        }
+        .sidebar-meta-row { font-size: 12px; color: var(--text-muted); }
+        .sidebar-meta-row strong { color: var(--dark-blue); font-size: 13px; }
+
+        /* Card tải PDF trong sidebar */
+        .sidebar-dl-card {
+            margin-top: 16px; padding: 16px; border-radius: 16px;
+            background: var(--gradient-brand); color: #fff;
+        }
+        .sidebar-dl-card h6 { font-size: 13px; font-weight: 800; margin-bottom: 5px; color: #fff; }
+        .sidebar-dl-card p  { font-size: 11px; color: rgba(255,255,255,0.75); margin-bottom: 12px; line-height: 1.5; }
+        .btn-dl {
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+            background: rgba(255,255,255,0.16); border: 1.5px solid rgba(255,255,255,0.32);
+            color: #fff; font-size: 12px; font-weight: 700; padding: 9px 14px;
+            border-radius: 20px; text-decoration: none !important; transition: background 0.2s;
+        }
+        .btn-dl:hover { background: rgba(255,255,255,0.28); color: #fff !important; }
+
+        /* --- Nội dung chính sách --- */
+        .policy-body { padding: 46px 52px; }
+        @media(max-width:992px) { .policy-body { padding: 32px 22px; } }
+        @media(max-width:576px) { .policy-body { padding: 22px 14px; } }
+
+        /* Kết quả tìm kiếm highlight */
+        mark.search-hl { background: #fff3cd; border-radius: 3px; padding: 0 2px; }
+
+        /* Không tìm thấy kết quả */
+        .no-results {
+            display: none; text-align: center; padding: 56px 20px; color: var(--text-muted);
+        }
+        .no-results i { font-size: 42px; color: #d0d8e4; display: block; margin-bottom: 12px; }
+
+        /* Block từng mục chính sách */
+        .policy-block {
+            margin-bottom: 56px; padding-bottom: 56px;
+            border-bottom: 1px solid rgba(13,64,118,0.07);
+        }
+        .policy-block:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        /* Header của mỗi mục */
+        .block-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
+        .block-ico {
+            width: 50px; height: 50px; border-radius: 15px; flex-shrink: 0;
+            background: linear-gradient(135deg,#EAF1F9,#D9E5F3);
+            display: flex; align-items: center; justify-content: center; font-size: 22px;
+        }
+        .block-ico.dark { background: var(--gradient-brand); }
+        .block-head h2 { font-size: 21px; font-weight: 900; color: var(--dark-blue); margin: 0 0 4px; }
+        .block-head .bsub { font-size: 13px; color: var(--text-muted); margin: 0; }
+
+        /* Card tóm tắt nhanh */
+        .quick-sum {
+            background: linear-gradient(135deg,rgba(13,64,118,0.05),rgba(27,105,189,0.05));
+            border: 1.5px solid rgba(13,64,118,0.14); border-radius: 16px;
+            padding: 18px 22px; margin-bottom: 24px; position: relative; overflow: hidden;
+        }
+        /* Thanh màu bên trái */
+        .quick-sum::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--gradient-brand); border-radius: 4px 0 0 4px;
+        }
+        .qs-lbl {
+            font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--primary-blue); margin-bottom: 7px;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .quick-sum p { font-size: 14px; color: #3a4460; line-height: 1.72; margin: 0; }
+
+        /* Văn bản pháp lý */
+        .legal { font-size: 14px; color: #4a5568; line-height: 1.85; }
+        .legal p        { margin-bottom: 14px; }
+        .legal strong   { color: var(--dark-blue); font-weight: 700; }
+        .legal a        { color: var(--primary-blue); }
+        .legal a:hover  { color: var(--dark-blue); }
+        .legal ul { margin: 8px 0 14px 20px; display: flex; flex-direction: column; gap: 6px; }
+        .legal ul li { line-height: 1.7; }
+
+        /* Danh sách dữ liệu thu thập */
+        .data-list { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-direction: column; gap: 10px; }
+        .data-list li {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 13px 16px; border-radius: 13px;
+            background: #f8faff; border: 1.5px solid rgba(13,64,118,0.08);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .data-list li:hover { border-color: rgba(13,64,118,0.2); box-shadow: 0 4px 14px rgba(13,64,118,0.07); }
+        .dl-ico {
+            width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+            background: linear-gradient(135deg,#EAF1F9,#D9E5F3);
+            display: flex; align-items: center; justify-content: center; font-size: 15px;
+        }
+        .dl-title { font-size: 13px; font-weight: 700; color: var(--dark-blue); margin-bottom: 3px; }
+        .dl-desc  { font-size: 12px; color: var(--text-muted); line-height: 1.55; margin: 0; }
+
+        /* Bảng cookie */
+        .cookie-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid rgba(13,64,118,0.12); margin-bottom: 18px; }
+        .cookie-tbl { width: 100%; border-collapse: collapse; min-width: 520px; }
+        .cookie-tbl th {
+            background: var(--gradient-brand); color: #fff;
+            font-size: 11px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; padding: 11px 16px; text-align: left;
+        }
+        .cookie-tbl td { padding: 12px 16px; font-size: 13px; color: #4a5568; border-bottom: 1px solid rgba(13,64,118,0.06); }
+        .cookie-tbl tr:last-child td { border-bottom: none; }
+        .cookie-tbl tr:hover td { background: rgba(13,64,118,0.025); }
+        .cbadge {
+            display: inline-block; font-size: 10px; font-weight: 800;
+            padding: 3px 9px; border-radius: 20px;
+        }
+        .cbadge-req { background: #EAF1F9; color: #0D4076; }
+        .cbadge-ana { background: #fff3cd; color: #856404; }
+        .cbadge-mkt { background: #fce8f0; color: #e84393; }
+
+        /* Lưới quyền lợi người dùng */
+        .rights-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 18px; }
+        @media(max-width:768px) { .rights-grid { grid-template-columns: 1fr 1fr; } }
+        @media(max-width:480px) { .rights-grid { grid-template-columns: 1fr; } }
+        .right-card {
+            padding: 18px 16px; border-radius: 15px; text-align: center;
+            background: #f8faff; border: 1.5px solid rgba(13,64,118,0.1);
+            transition: all 0.3s;
+        }
+        .right-card:hover {
+            border-color: var(--primary-blue); transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(13,64,118,0.12);
+        }
+        .right-card .rc-ico { font-size: 28px; margin-bottom: 9px; display: block; }
+        .right-card h5 { font-size: 13px; font-weight: 800; color: var(--dark-blue); margin-bottom: 5px; }
+        .right-card p  { font-size: 12px; color: var(--text-muted); margin: 0; line-height: 1.5; }
+
+        /* Lưới tính năng bảo mật */
+        .sec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+        @media(max-width:576px) { .sec-grid { grid-template-columns: 1fr; } }
+        .sec-feat {
+            display: flex; align-items: center; gap: 12px;
+            padding: 13px 16px; border-radius: 13px;
+            background: #f8faff; border: 1.5px solid rgba(13,64,118,0.08);
+        }
+        .sec-ico {
+            width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0;
+            background: var(--gradient-brand);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 15px;
+        }
+        .sec-feat h6 { font-size: 12px; font-weight: 700; color: var(--dark-blue); margin-bottom: 2px; }
+        .sec-feat p  { font-size: 11px; color: var(--text-muted); margin: 0; line-height: 1.4; }
+
+        /* Danh sách đối tác */
+        .partners { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 18px; }
+        .ptag {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: #f0f4f8; border: 1px solid rgba(13,64,118,0.12);
+            border-radius: 20px; padding: 6px 13px;
+            font-size: 12px; font-weight: 600; color: var(--dark-blue);
+        }
+
+        /* CTA footer của phần chính sách */
+        .policy-cta {
+            background: var(--gradient-brand);
+            padding: 56px 0; text-align: center; position: relative; overflow: hidden;
+        }
+        .policy-cta::before {
+            content: ''; position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .policy-cta h3 { font-size: clamp(20px,3vw,28px); font-weight: 900; color: #fff; margin-bottom: 10px; }
+        .policy-cta p  { color: rgba(255,255,255,0.8); font-size: 14px; max-width: 460px; margin: 0 auto 24px; line-height: 1.7; }
+        .pcta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .pcta-main {
+            background: #fff; color: var(--dark-blue); font-weight: 800; font-size: 14px;
+            padding: 12px 26px; border-radius: 30px; text-decoration: none !important;
+            transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .pcta-main:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.2); color: var(--dark-blue) !important; }
+        .pcta-outline {
+            background: rgba(255,255,255,0.13); color: #fff; font-weight: 700; font-size: 14px;
+            padding: 12px 26px; border-radius: 30px; text-decoration: none !important;
+            border: 1.5px solid rgba(255,255,255,0.36); transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .pcta-outline:hover { background: rgba(255,255,255,0.24); color: #fff !important; }
+
+        /* ================================================================
+           HIỆU ỨNG REVEAL KHI CUỘN TRANG
+           ================================================================ */
+        .reveal {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ================================================================
+           RESPONSIVE — điều chỉnh thêm cho mobile
+           ================================================================ */
+        @media(max-width:576px) {
+            .page-tabs { flex-wrap: wrap; }
+            .page-tab-btn { flex: 1 1 140px; border-radius: 14px 14px 0 0; font-size: 13px; }
+            .route-cards-wrap { gap: 10px; }
+        }
+    
+
+
+        /* Nút đăng nhập/đăng ký */
+        .btn-login {
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            color:#fff !important; border:none; border-radius:10px;
+            padding:7px 16px; font-size:13px; transition:all .2s;
+        }
+        .btn-login:hover { opacity:.88; transform:translateY(-1px); }
+        /* Avatar user */
+        .user-avatar-btn {
+            width:38px; height:38px; border-radius:50%;
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-weight:800; font-size:15px;
+            cursor:pointer; border:none; transition:all .2s;
+        }
+        .user-avatar-btn:hover { box-shadow:0 4px 14px rgba(13,64,118,.35); }
+        .user-profile-dropdown .dropdown-menu {
+            border-radius:14px; padding:8px 0;
+            box-shadow:0 8px 30px rgba(0,0,0,.12);
+        }
+
+        
+        /* ══════════════════════════════════════════════════════════
+           BỔ SUNG — Liên hệ, thợ đối tác & chính sách (Gắn Kết Bốn Phương)
+           ══════════════════════════════════════════════════════════ */
+        .gk-sos-strip { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22); border-radius: 16px; padding: 12px 14px; margin: 18px 0 6px; max-width: 760px; }
+        .gk-sos-strip-ico { width: 40px; height: 40px; border-radius: 12px; background: #FA7806; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; animation: gkSosBlink 1.6s infinite; flex-shrink: 0; }
+        @keyframes gkSosBlink { 0%, 100% { box-shadow: 0 0 0 0 rgba(250,120,6,.55); } 50% { box-shadow: 0 0 0 9px rgba(250,120,6,0); } }
+        .gk-sos-strip-txt { flex: 1; min-width: 200px; color: rgba(255,255,255,.88); font-size: 13px; }
+        .gk-sos-strip-txt b { color: #fff; }
+        .gk-sos-strip button, .gk-sos-strip a { border: 0; border-radius: 12px; padding: 9px 14px; font-weight: 800; font-size: 13px; text-decoration: none; white-space: nowrap; }
+        .gk-sos-strip button { background: linear-gradient(135deg, #F26B00, #FF9F43); color: #fff; box-shadow: 0 6px 16px rgba(250,120,6,.4); }
+        .gk-sos-strip a { background: #fff; color: #0A2B54; }
+        .route-card.active { border-color: #FA7806 !important; }
+        .form-inner-tab.active { background: linear-gradient(135deg, #F26B00, #FF9F43) !important; color: #fff !important; border-color: transparent !important; }
+        .btn-submit { background: linear-gradient(135deg, #F26B00, #FF9F43) !important; }
+        .gk-ticket-code { display: inline-block; font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 900; font-size: 22px; letter-spacing: 2px; color: #E06400; background: #FFF1E6; border: 2px dashed #FDBA74; border-radius: 12px; padding: 6px 18px; margin-bottom: 14px; }
+        .gk-sla-list { list-style: none; padding: 0; margin: 0 auto 18px; max-width: 320px; text-align: left; font-size: 13px; color: #475569; }
+        .gk-sla-list li { padding: 5px 0; } .gk-sla-list i { color: #FA7806; width: 22px; }
+        .gk-btn-reset2 { background: #fff !important; color: #0A2B54 !important; border: 1.5px solid #cbd5e1 !important; }
+
+        .gk-track-card { background: #fff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 14px; }
+        .gk-track-row { display: flex; gap: 8px; }
+        .gk-track-row input { flex: 1; min-width: 0; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 10px 12px; font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700; text-transform: uppercase; outline: none; }
+        .gk-track-row input:focus { border-color: #FA7806; box-shadow: 0 0 0 3px rgba(250,120,6,.12); }
+        .gk-track-row button { width: 46px; border: 0; border-radius: 12px; background: #0A2B54; color: #fff; }
+        .gk-track-row button:hover { background: #FA7806; }
+        .gk-track-hint, .gk-track-err { font-size: 12px; margin: 10px 0 0; color: #64748b; }
+        .gk-track-err { color: #dc2626; font-weight: 600; }
+        .gk-track-head { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+        .gk-track-head b { font-family: ui-monospace, Menlo, Consolas, monospace; color: #E06400; } .gk-track-head span { font-size: 12.5px; color: #334155; font-weight: 700; } .gk-track-head small { width: 100%; color: #64748b; }
+        .gk-track-steps { list-style: none; margin: 10px 0 0; padding: 0; }
+        .gk-track-steps li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0 7px 2px; position: relative; }
+        .gk-track-steps li:not(:last-child)::after { content: ''; position: absolute; left: 15px; top: 34px; bottom: -4px; width: 2px; background: #e2e8f0; }
+        .gk-track-steps li.done:not(:last-child)::after { background: #10b981; }
+        .gk-track-steps i { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; background: #f1f5f9; color: #94a3b8; flex-shrink: 0; position: relative; z-index: 1; }
+        .gk-track-steps li.done i { background: #10b981; color: #fff; }
+        .gk-track-steps li.now i { background: #FA7806; color: #fff; box-shadow: 0 0 0 5px rgba(250,120,6,.18); }
+        .gk-track-steps b { display: block; font-size: 13px; color: #0A2B54; } .gk-track-steps span { font-size: 11.5px; color: #64748b; }
+
+        .gk-partner-sec { padding: 64px 0 40px; background: linear-gradient(180deg, #fff 0%, #FFF7F0 100%); }
+        .gk-pben-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .gk-pben { background: #fff; border: 1px solid #fde2c8; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 4px 14px rgba(250,120,6,.06); }
+        .gk-pben i { width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, #F26B00, #FF9F43); color: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+        .gk-pben b { color: #0A2B54; font-size: 13.5px; } .gk-pben span { font-size: 12px; color: #64748b; line-height: 1.5; }
+        .gk-ptier { margin-top: 16px; background: #fff; border-radius: 16px; padding: 14px; border: 1px solid #e2e8f0; }
+        .gk-ptier-title { font-weight: 900; color: #0A2B54; font-size: 14px; margin-bottom: 8px; } .gk-ptier-title i { color: #FA7806; }
+        .gk-tier-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+        .gk-psteps { list-style: none; counter-reset: s; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .gk-psteps li { counter-increment: s; background: #0A2B54; color: #fff; border-radius: 14px; padding: 12px 10px 12px 12px; position: relative; }
+        .gk-psteps li::before { content: counter(s); position: absolute; top: -10px; left: 12px; width: 24px; height: 24px; border-radius: 50%; background: #FA7806; color: #fff; font-weight: 900; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+        .gk-psteps b { display: block; font-size: 12.5px; margin-top: 6px; } .gk-psteps span { font-size: 11px; color: rgba(255,255,255,.75); }
+        .gk-pform { background: #fff; border-radius: 22px; padding: 22px; box-shadow: 0 16px 40px rgba(10,43,84,.1); border: 1px solid #eef2f8; }
+        .gk-pform-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .gk-pform-head > i { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, #0A2B54, #1E5C9E); color: #fff; font-size: 20px; display: flex; align-items: center; justify-content: center; }
+        .gk-pform-head b { display: block; color: #0A2B54; font-size: 16px; } .gk-pform-head span { font-size: 12.5px; color: #64748b; }
+        .gk-skill-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 14px; border-radius: 12px; }
+        .gk-skill-chips.bad { outline: 2px solid #ff4d4d; outline-offset: 4px; }
+        .gk-skill-chips label { margin: 0; cursor: pointer; }
+        .gk-skill-chips input { display: none; }
+        .gk-skill-chips span { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; font-size: 12.5px; font-weight: 700; color: #475569; transition: .2s; }
+        .gk-skill-chips input:checked + span { background: #FFF1E6; border-color: #FA7806; color: #C2410C; }
+        .gk-pcheck { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #334155; margin: 0 0 10px; cursor: pointer; }
+        .gk-pcheck input { display: none; }
+        .gk-pcheck span { width: 20px; height: 20px; border-radius: 6px; border: 2px solid #cbd5e1; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; transition: .2s; }
+        .gk-pcheck input:checked + span { background: #FA7806; border-color: #FA7806; }
+        .gk-pcheck input:checked + span::after { content: '\f00c'; font-family: 'Font Awesome 5 Free'; font-weight: 900; color: #fff; font-size: 10px; }
+        .gk-pcheck.bad span { border-color: #ff4d4d; }
+        .gk-pcheck a { color: #E06400; font-weight: 700; }
+        #p-success { text-align: center; }
+
+        @media (min-width: 993px) { .gk-toc-sticky { position: sticky; top: 84px; } }
+        .policy-card { overflow: clip; } /* clip giữ bo góc nhưng không chặn mục lục dính */
+        .policy-grid > *, .contact-grid > * { min-width: 0; }
+        .cookie-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .cookie-tbl { min-width: 520px; }
+        .gk-pform > form > .select-label { display: block; font-size: 11px; font-weight: 700; color: #9baab8; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 6px; }
+        .gk-pol-track { margin-top: 14px; background: #FFF7F0; border: 1.5px dashed #FDBA74; border-radius: 12px; padding: 10px 14px; font-size: 13px; color: #9A3412; }
+        .gk-pol-track a { font-weight: 800; color: #E06400; }
+        .toc-link.toc-active .toc-num { background: #FA7806 !important; color: #fff !important; }
+        .toc-link.toc-active .toc-bar { background: #FA7806 !important; }
+        mark.search-hl { background: #FFE2C7; color: #7c2d12; padding: 0 2px; border-radius: 3px; }
+        .community-banner .deco { animation: gkSpinSlow 18s linear infinite; }
+        @keyframes gkSpinSlow { to { transform: rotate(360deg); } }
+        @media (max-width: 991px) {
+            .gk-psteps { grid-template-columns: 1fr 1fr; row-gap: 18px; }
+        }
+        @media (max-width: 576px) {
+            .gk-pben-grid { grid-template-columns: 1fr; }
+            .gk-sos-strip { padding: 12px; }
+            .gk-sos-strip button, .gk-sos-strip a { flex: 1; text-align: center; }
+            .gk-pform { padding: 16px; border-radius: 18px; }
+            .gk-partner-sec { padding: 46px 0 24px; }
+            .page-hero h1 { font-size: 1.75rem; }
+            .hero-badge { letter-spacing: 1px; font-size: 10px; }
+            .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .hero-stat-num { font-size: 1.5rem; }
+            .hero-stat-lbl { font-size: 9.5px; letter-spacing: .3px; }
+            .route-cards-wrap { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 6px; scrollbar-width: none; }
+            .route-cards-wrap::-webkit-scrollbar { display: none; }
+            .route-card { flex: 0 0 78%; scroll-snap-align: start; }
+            .page-tab-btn { font-size: 12.5px; padding: 12px 10px; }
+        }
+        @media print {
+            header, .sub-nav, footer, .gk-footer-road, .page-tabs, .policy-sidebar, .policy-cta, #gk-bottom-nav, #gk-sos-fab, #gk-btt { display: none !important; }
+            #panel-policy { display: block !important; }
+        }
+
+        </style>
+</head>
+<body>
+
+<!-- ================================================================
+     HEADER — sticky, giống hệt trang chủ
+     ================================================================ -->
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text active" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+<!-- ================================================================
+     SUB-NAV — thanh danh mục phụ (chỉ desktop)
+     ================================================================ -->
+<nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+<!-- ================================================================
+     NỘI DUNG CHÍNH
+     ================================================================ -->
+<main>
+
+    <section class="page-hero" id="page-hero" data-icon="🔧">
+        <div class="container position-relative" style="z-index:2;">
+
+            <div class="hero-breadcrumb">
+                <a href="html_trangchu.html"><i class="fas fa-home mr-1"></i>Trang chủ</a>
+                <span class="sep">/</span>
+                <span class="current" id="breadcrumb-current">Liên hệ &amp; Hỗ trợ</span>
+            </div>
+
+            <!-- Nội dung hero — tab Liên hệ -->
+            <div id="hero-content-contact">
+                <span class="hero-badge"><i class="fas fa-headset"></i> Trung tâm hỗ trợ Gắn Kết Bốn Phương</span>
+                <h1>Chúng tôi luôn sẵn sàng hỗ trợ bạn</h1>
+                <p class="hero-desc">Cần tra cứu một cuốc cứu hộ, khiếu nại chất lượng sửa chữa hay muốn trở thành thợ đối tác — đội ngũ Bốn Phương tiếp nhận trong 2 giờ và phản hồi đầu tiên trong 24 giờ.</p>
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-num">24/7</span>
+                        <span class="hero-stat-lbl">Tổng đài cứu hộ</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-num">&lt;2h</span>
+                        <span class="hero-stat-lbl">Tiếp nhận khiếu nại</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-num">150</span>
+                        <span class="hero-stat-lbl">Thợ đối tác thí điểm</span>
+                    </div>
+                </div>
+                <div class="online-indicator">
+                    <div class="pulse-dot"></div>
+                    Tổng đài đang trực — sẵn sàng hỗ trợ
+                </div>
+                <div class="gk-sos-strip">
+                    <span class="gk-sos-strip-ico"><i class="fas fa-car-crash"></i></span>
+                    <span class="gk-sos-strip-txt"><b>Đang gặp sự cố trên đường?</b> Đừng gửi form — gọi thợ ngay, không cần đăng nhập.</span>
+                    <button type="button" data-sos-open="lop"><i class="fas fa-life-ring mr-1"></i>Cứu hộ ngay</button>
+                    <a href="tel:0345264103"><i class="fas fa-phone-alt mr-1"></i>0345 264 103</a>
+                </div>
+                <div class="route-cards-wrap">
+                    <div class="route-card active" onclick="selectRoute('support', this)">
+                        <div class="active-dot"></div>
+                        <span class="route-card-icon">🛠️</span>
+                        <h4>Hỗ trợ đơn &amp; khiếu nại</h4>
+                        <p>Tra cứu cuốc cứu hộ, hoàn chênh lệch giá trần, bảo hành sau sửa chữa.</p>
+                    </div>
+                    <div class="route-card" onclick="selectRoute('sales', this)">
+                        <div class="active-dot"></div>
+                        <span class="route-card-icon">🧑‍🔧</span>
+                        <h4>Thợ đối tác &amp; doanh nghiệp</h4>
+                        <p>Đăng ký làm thợ, hợp tác tiệm sửa xe hoặc gói Lá Chắn Số cho đội xe.</p>
+                    </div>
+                    <div class="route-card" onclick="selectRoute('feedback', this)">
+                        <div class="active-dot"></div>
+                        <span class="route-card-icon">💬</span>
+                        <h4>Góp ý &amp; đánh giá chất lượng</h4>
+                        <p>Chia sẻ trải nghiệm để Bốn Phương phục vụ mỗi cuốc xe tốt hơn.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nội dung hero — tab Chính sách (ẩn mặc định) -->
+            <div id="hero-content-policy" style="display:none;">
+                <span class="hero-badge"><i class="fas fa-shield-alt"></i> Chính sách &amp; Điều khoản Gắn Kết Bốn Phương</span>
+                <h1>Minh bạch từng cuốc xe</h1>
+                <div class="policy-meta">
+                    <span class="pmeta-badge"><i class="fas fa-calendar-alt"></i> Cập nhật: 01/11/2026</span>
+                    <span class="pmeta-version">Phiên bản 1.0 · giai đoạn thí điểm</span>
+                </div>
+                <p class="hero-desc">Điều khoản sử dụng, giá trần và hoàn chênh lệch, bảo hành, hủy cuốc, quy trình khiếu nại 4 bước, bảo mật dữ liệu và quy tắc ứng xử của thợ đối tác — viết ngắn gọn, dễ hiểu.</p>
+                <div class="policy-search-box">
+                    <input type="text" class="policy-search-input" id="policy-search"
+                           placeholder="Tìm điều khoản... (ví dụ: giá trần, bảo hành, hủy cuốc)"
+                           oninput="searchPolicy(this.value)">
+                    <button class="policy-search-btn" onclick="searchPolicy(document.getElementById('policy-search').value)" aria-label="Tìm điều khoản">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Liên hệ / Chính sách -->
+        <div class="container position-relative" style="z-index:2;">
+            <div class="page-tabs">
+                <button class="page-tab-btn active" id="tab-btn-contact" onclick="switchPage('contact')">
+                    <span class="tab-icon">📞</span> Liên hệ &amp; Hỗ trợ
+                </button>
+                <button class="page-tab-btn" id="tab-btn-policy" onclick="switchPage('policy')">
+                    <span class="tab-icon">📜</span> Chính sách &amp; Điều khoản
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         TAB PANEL: LIÊN HỆ
+         ============================================================ -->
+    <div class="tab-panel active page-main" id="panel-contact">
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-card">
+                    <div class="contact-grid">
+
+                        <!-- CỘT TRÁI: Form gửi yêu cầu -->
+                        <div class="form-panel">
+                            <span class="form-eyebrow">Gửi yêu cầu</span>
+                            <h2 class="form-title" id="form-title">Hỗ trợ đơn &amp; khiếu nại</h2>
+                            <div class="form-inner-tabs">
+                                <button class="form-inner-tab active" onclick="selectInnerTab('support', this)">🛠️ Hỗ trợ</button>
+                                <button class="form-inner-tab" onclick="selectInnerTab('sales', this)">🤝 Hợp tác</button>
+                                <button class="form-inner-tab" onclick="selectInnerTab('feedback', this)">💬 Góp ý</button>
+                            </div>
+
+                            <form id="contact-form" novalidate>
+                                <div class="form-row-2">
+                                    <div class="input-float">
+                                        <input type="text" id="fullname" placeholder=" " required data-km-name>
+                                        <label for="fullname">Họ và tên *</label>
+                                    </div>
+                                    <div class="input-float">
+                                        <input type="email" id="email" placeholder=" " required>
+                                        <label for="email">Địa chỉ email *</label>
+                                    </div>
+                                </div>
+                                <div class="phone-row">
+                                    <div class="phone-prefix">🇻🇳 +84</div>
+                                    <div class="input-float">
+                                        <input type="tel" id="phone" placeholder=" " inputmode="numeric" maxlength="10" data-km-phone>
+                                        <label for="phone">Số điện thoại</label>
+                                    </div>
+                                </div>
+                                <div class="select-wrap">
+                                    <span class="select-label">Chủ đề bạn cần hỗ trợ *</span>
+                                    <select id="topic" required>
+                                        <option value="" disabled selected>Chọn chủ đề...</option>
+                                        <option value="order">🔍 Tra cứu đơn / cuốc cứu hộ</option>
+                                        <option value="complaint">⚠️ Khiếu nại chất lượng sửa chữa</option>
+                                        <option value="refund">💰 Hoàn tiền &amp; chênh lệch giá trần</option>
+                                        <option value="warranty">🛡️ Bảo hành sau sửa chữa</option>
+                                        <option value="partner">🧑‍🔧 Đăng ký thợ đối tác / tiệm sửa xe</option>
+                                        <option value="b2b">🚚 Gói doanh nghiệp / đội xe</option>
+                                        <option value="technical">⚙️ Lỗi website / thanh toán</option>
+                                        <option value="feedback">💬 Góp ý chất lượng dịch vụ</option>
+                                        <option value="other">❓ Vấn đề khác</option>
+                                    </select>
+                                </div>
+                                <div class="input-float">
+                                    <input type="text" id="order-ref" placeholder=" " maxlength="20" autocomplete="off">
+                                    <label for="order-ref">Mã đơn (nếu có) — VD: GK-482913</label>
+                                </div>
+                                <span class="priority-label">Mức độ ưu tiên</span>
+                                <div class="priority-opts">
+                                    <label class="priority-opt" onclick="selectPriority(this)" data-p="urgent">
+                                        <span class="ck-dot"></span> 🔴 Khẩn cấp
+                                    </label>
+                                    <label class="priority-opt checked" onclick="selectPriority(this)" data-p="normal">
+                                        <span class="ck-dot" style="background:var(--primary-blue);border-color:var(--primary-blue);">
+                                            <i class="fas fa-check" style="color:#fff;font-size:8px;"></i>
+                                        </span> 🟡 Thông thường
+                                    </label>
+                                    <label class="priority-opt" onclick="selectPriority(this)" data-p="low">
+                                        <span class="ck-dot"></span> 🟢 Không gấp
+                                    </label>
+                                </div>
+                                <div class="input-float">
+                                    <textarea id="message" rows="5" placeholder=" " maxlength="500" oninput="updateCharCount(this)" required></textarea>
+                                    <label for="message">Mô tả chi tiết: tình trạng xe, thời điểm, thợ phục vụ...</label>
+                                </div>
+                                <div class="char-counter" id="char-counter">0 / 500 ký tự</div>
+                                <button type="submit" class="btn-submit" id="submit-btn">
+                                    <span id="btn-text">Gửi yêu cầu ngay</span>
+                                    <i class="fas fa-paper-plane" id="btn-icon"></i>
+                                </button>
+                            </form>
+
+                            <div class="success-msg" id="success-msg">
+                                <div class="s-icon">✅</div>
+                                <h3>Đã gửi thành công!</h3>
+                                <p>Cảm ơn bạn đã liên hệ Gắn Kết Bốn Phương. Mã yêu cầu của bạn:</p>
+                                <div class="gk-ticket-code" id="ticket-code">KN-000000</div>
+                                <ul class="gk-sla-list">
+                                    <li><i class="fas fa-inbox"></i> Tiếp nhận &amp; phân loại trong <b>2 giờ</b></li>
+                                    <li><i class="fas fa-reply"></i> Phản hồi đầu tiên trong <b>24 giờ</b></li>
+                                    <li><i class="fas fa-flag-checkered"></i> Ca phức tạp giải quyết trong <b>72 giờ</b></li>
+                                </ul>
+                                <div class="d-flex flex-wrap justify-content-center" style="gap:10px;">
+                                    <button class="btn-reset" onclick="trackTicket(document.getElementById('ticket-code').textContent)">
+                                        <i class="fas fa-search-location mr-2"></i>Tra cứu tiến độ
+                                    </button>
+                                    <button class="btn-reset gk-btn-reset2" onclick="resetForm()">
+                                        <i class="fas fa-redo mr-2"></i>Gửi yêu cầu khác
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CỘT PHẢI: Tra cứu + kênh liên hệ -->
+                        <div class="info-panel">
+                            <span class="info-panel-label">Tra cứu yêu cầu</span>
+                            <div class="gk-track-card" id="track-card">
+                                <div class="gk-track-row">
+                                    <input type="text" id="track-input" placeholder="Nhập mã KN-xxxxxx" maxlength="12" autocomplete="off"
+                                           onkeydown="if(event.key==='Enter')trackTicket(this.value)">
+                                    <button type="button" onclick="trackTicket(document.getElementById('track-input').value)" aria-label="Tra cứu"><i class="fas fa-search"></i></button>
+                                </div>
+                                <div class="gk-track-result" id="track-result">
+                                    <p class="gk-track-hint"><i class="fas fa-info-circle"></i> Mã yêu cầu được gửi qua SMS / email sau khi bạn gửi form.</p>
+                                </div>
+                            </div>
+
+                            <span class="info-panel-label" style="margin-top:18px;">Kênh liên hệ</span>
+                            <div class="cinfo-card">
+                                <div class="cinfo-icon"><i class="fas fa-phone-alt"></i></div>
+                                <div>
+                                    <div class="cinfo-lbl">Tổng đài cứu hộ 24/7</div>
+                                    <a href="tel:0345264103" class="cinfo-link">0345 264 103</a>
+                                    <div class="cinfo-sub">Cứu hộ khẩn cấp, cả đêm và ngày lễ</div>
+                                </div>
+                            </div>
+                            <div class="cinfo-card">
+                                <div class="cinfo-icon"><i class="fas fa-envelope"></i></div>
+                                <div>
+                                    <div class="cinfo-lbl">Hộp thư hỗ trợ</div>
+                                    <a href="mailto:vonam583@gmail.com" class="cinfo-link">vonam583@gmail.com</a>
+                                    <div class="cinfo-sub">Khiếu nại, hợp tác, góp ý — phản hồi trong 24 giờ</div>
+                                </div>
+                            </div>
+                            <div class="cinfo-card">
+                                <div class="cinfo-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div>
+                                    <div class="cinfo-lbl">Văn phòng dự án</div>
+                                    <div class="cinfo-val">IUH – Gò Vấp, TP.HCM</div>
+                                    <div class="cinfo-sub">12 Nguyễn Văn Bảo, Phường 4</div>
+                                </div>
+                            </div>
+                            <div class="cinfo-card">
+                                <div class="cinfo-icon"><i class="fas fa-clock"></i></div>
+                                <div>
+                                    <div class="cinfo-lbl">Giờ làm việc văn phòng</div>
+                                    <div class="cinfo-val">8:00 – 17:30</div>
+                                    <div class="cinfo-sub">Thứ Hai – Thứ Bảy · tổng đài cứu hộ trực 24/7</div>
+                                </div>
+                            </div>
+                            <div class="map-box" style="position:relative;">
+                                <div class="map-header">
+                                    <h6>📍 Văn phòng Gắn Kết Bốn Phương</h6>
+                                    <small>ĐH Công nghiệp TP.HCM (IUH) – Gò Vấp</small>
+                                </div>
+                                <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM"
+                                   target="_blank" rel="noopener" aria-label="Mở bản đồ"
+                                   style="position:absolute;top:48px;left:0;right:0;bottom:0;z-index:10;"></a>
+                                <iframe title="Bản đồ văn phòng"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                                    allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    style="pointer-events:none;">
+                                </iframe>
+                            </div>
+                            <span class="info-panel-label" style="margin-top:18px;">Kết nối mạng xã hội</span>
+                            <div class="social-quick">
+                                <a href="https://zalo.me/0345264103" class="sq-btn sq-zalo" target="_blank" rel="noopener">
+                                    <span style="font-weight:900;font-size:14px;">Z</span> Zalo
+                                </a>
+                                <a href="https://www.facebook.com/thienan.vo.35912672" class="sq-btn sq-fb" target="_blank" rel="noopener">
+                                    <i class="fab fa-facebook-f"></i> Facebook
+                                </a>
+                                <a href="https://www.instagram.com/thienan_2226/" class="sq-btn sq-ig" target="_blank" rel="noopener">
+                                    <i class="fab fa-instagram"></i> Instagram
+                                </a>
+                            </div>
+                        </div>
+
+                    </div><!-- /.contact-grid -->
+                </div><!-- /.contact-card -->
+            </div><!-- /.container -->
+        </section>
+
+        <section class="gk-partner-sec" id="doi-tac">
+            <div class="container">
+                <div class="text-center">
+                    <span class="section-eyebrow">Dành cho thợ sửa xe</span>
+                    <h2 class="section-title">Trở thành thợ đối tác Bốn Phương</h2>
+                    <p class="section-sub mx-auto">Nhận cuốc gần nơi bạn ở trong bán kính 3–5 km, thu nhập minh bạch theo từng cuốc, được đào tạo chuẩn dịch vụ và được nền tảng đứng ra giải quyết khi có tranh chấp.</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="gk-pben-grid">
+                            <div class="gk-pben"><i class="fas fa-gift"></i><b>0% hoa hồng 3 tháng đầu</b><span>Sau đó 15% phí công (Thợ Chuẩn), 12% với hạng Ưu tú và Tinh hoa.</span></div>
+                            <div class="gk-pben"><i class="fas fa-moon"></i><b>Ca SOS đêm 22h – 5h</b><span>30.000đ mỗi cuốc, bảo đảm tối thiểu 200.000đ mỗi đêm trực.</span></div>
+                            <div class="gk-pben"><i class="fas fa-wallet"></i><b>Ví dụ thu nhập ~320.000đ/ca</b><span>Tiền công về ví sau mỗi cuốc, đối soát minh bạch từng hạng mục.</span></div>
+                            <div class="gk-pben"><i class="fas fa-user-shield"></i><b>Được bảo vệ khi tranh chấp</b><span>Hộp đen chuyến cứu hộ lưu mốc thời gian, báo giá, ảnh trước – sau.</span></div>
+                        </div>
+                        <div class="gk-ptier">
+                            <div class="gk-ptier-title"><i class="fas fa-medal"></i> Hạng thợ &amp; phí công</div>
+                            <div class="cookie-wrap">
+                                <table class="cookie-tbl">
+                                    <thead><tr><th>Hạng</th><th>Điều kiện</th><th>Phí công</th><th>Quyền lợi</th></tr></thead>
+                                    <tbody>
+                                <tr>
+                                    <td><span class="gk-tier-dot" style="background:#94a3b8"></span><strong>Thợ Mới</strong></td>
+                                    <td>Dưới 20 cuốc đầu</td>
+                                    <td>0% (miễn phí 3 tháng đầu)</td>
+                                    <td>Đào tạo chuẩn dịch vụ, kèm cặp bởi thợ Tinh hoa</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="gk-tier-dot" style="background:#1E5C9E"></span><strong>Thợ Chuẩn</strong></td>
+                                    <td>4,0 – dưới 4,6 ★</td>
+                                    <td>15% phí công</td>
+                                    <td>Nhận đơn tiêu chuẩn trong bán kính 3–5 km</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="gk-tier-dot" style="background:#FA7806"></span><strong>Thợ Ưu tú</strong></td>
+                                    <td>4,6 – dưới 4,9 ★</td>
+                                    <td>12% phí công</td>
+                                    <td>Ưu tiên đơn giá trị cao, huy hiệu Ưu tú</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="gk-tier-dot" style="background:#0A2B54"></span><strong>Tinh hoa · Đội SOS</strong></td>
+                                    <td>4,9 – 5,0 ★</td>
+                                    <td>12% phí công</td>
+                                    <td>Trực ca SOS 22h–5h: 30.000đ/cuốc, bảo đảm 200.000đ/đêm</td>
+                                </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <ol class="gk-psteps">
+                            <li><b>Đăng ký online</b><span>2 phút, ngay bên cạnh</span></li>
+                            <li><b>Xác minh hồ sơ</b><span>CCCD, lý lịch, kiểm tra tay nghề</span></li>
+                            <li><b>Đào tạo chuẩn dịch vụ</b><span>Nhận đồng phục &amp; thẻ thợ</span></li>
+                            <li><b>Nhận cuốc đầu tiên</b><span>Kèm cặp bởi thợ Tinh hoa</span></li>
+                        </ol>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="gk-pform" id="partner-card">
+                            <div class="gk-pform-head"><i class="fas fa-hard-hat"></i><div><b>Đăng ký làm thợ đối tác</b><span>Đội tuyển chọn liên hệ trong 48 giờ làm việc</span></div></div>
+                            <form id="partner-form" novalidate>
+                                <div class="form-row-2">
+                                    <div class="input-float">
+                                        <input type="text" id="p-name" placeholder=" " data-km-name>
+                                        <label for="p-name">Họ và tên *</label>
+                                    </div>
+                                    <div class="input-float">
+                                        <input type="tel" id="p-phone" placeholder=" " inputmode="numeric" maxlength="10">
+                                        <label for="p-phone">Số điện thoại *</label>
+                                    </div>
+                                </div>
+                                <div class="form-row-2">
+                                    <div class="select-wrap">
+                                        <span class="select-label">Khu vực nhận cuốc *</span>
+                                        <select id="p-area">
+                                            <option value="" disabled selected>Chọn quận...</option>
+                                            <option>Quận 1</option><option>Quận 3</option><option>Quận 10</option>
+                                            <option>Bình Thạnh</option><option>Phú Nhuận</option><option>Gò Vấp</option><option>Quận khác</option>
+                                        </select>
+                                    </div>
+                                    <div class="select-wrap">
+                                        <span class="select-label">Kinh nghiệm *</span>
+                                        <select id="p-exp">
+                                            <option value="" disabled selected>Chọn...</option>
+                                            <option>Dưới 2 năm</option><option>2 – 5 năm</option><option>Trên 5 năm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <span class="select-label">Chuyên môn * (chọn nhiều)</span>
+                                <div class="gk-skill-chips" id="p-skills">
+                                    <label><input type="checkbox" value="Xe máy"><span><i class="fas fa-motorcycle"></i> Xe máy</span></label>
+                                    <label><input type="checkbox" value="Ô tô"><span><i class="fas fa-car"></i> Ô tô</span></label>
+                                    <label><input type="checkbox" value="Xe điện"><span><i class="fas fa-charging-station"></i> Xe điện</span></label>
+                                    <label><input type="checkbox" value="Kéo xe"><span><i class="fas fa-truck-pickup"></i> Kéo xe</span></label>
+                                </div>
+                                <label class="gk-pcheck"><input type="checkbox" id="p-sos"><span></span> Tôi muốn đăng ký ca SOS đêm (22h – 5h)</label>
+                                <label class="gk-pcheck"><input type="checkbox" id="p-agree"><span></span> Tôi đồng ý với <a href="#pol-quytac" onclick="return goPolicy('quytac')">Quy tắc ứng xử của thợ đối tác</a></label>
+                                <button type="submit" class="btn-submit" id="p-submit">
+                                    <span id="p-btn-text">Gửi đăng ký</span>
+                                    <i class="fas fa-paper-plane" id="p-btn-icon"></i>
+                                </button>
+                            </form>
+                            <div class="success-msg" id="p-success">
+                                <div class="s-icon">🧰</div>
+                                <h3>Đã nhận hồ sơ!</h3>
+                                <p>Mã hồ sơ: <b id="p-code">TD-00000</b>. Đội tuyển chọn sẽ gọi cho bạn trong 48 giờ làm việc để hẹn lịch kiểm tra tay nghề.</p>
+                                <button class="btn-reset" onclick="resetPartner()"><i class="fas fa-redo mr-2"></i>Đăng ký thêm người khác</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <div class="text-center">
+                    <span class="section-eyebrow">Câu hỏi thường gặp</span>
+                    <h2 class="section-title">Tìm câu trả lời nhanh hơn</h2>
+                    <p class="section-sub mx-auto">Xem qua các câu hỏi phổ biến trước khi gửi yêu cầu — có thể bạn sẽ tìm thấy ngay câu trả lời.</p>
+                </div>
+                <div class="faq-grid reveal">
+                    <div class="faq-item">
+                        <button class="faq-trigger" onclick="toggleFaq(this)">
+                            Đặt cứu hộ thì bao lâu thợ đến?
+                            <span class="faq-icon-btn">+</span>
+                        </button>
+                        <div class="faq-panel">
+                            <span class="ans-tag"><i class="fas fa-info-circle"></i> Thời gian đến</span>
+                            <p>Tại 3 quận thí điểm (Quận 1, Quận 3, Quận 10) thợ đối tác thường có mặt trong khoảng <strong>15 phút</strong>, nhận cuốc trong khoảng 3 phút. Giờ cao điểm mưa ngập có thể lâu hơn — màn hình theo dõi luôn hiển thị vị trí và thời gian dự kiến của thợ.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-trigger" onclick="toggleFaq(this)">
+                            Giá có bị phát sinh thêm khi thợ đến không?
+                            <span class="faq-icon-btn">+</span>
+                        </button>
+                        <div class="faq-panel">
+                            <span class="ans-tag"><i class="fas fa-info-circle"></i> Giá trần</span>
+                            <p>Không. Mỗi dịch vụ có <strong>giá trần</strong> hiển thị trước khi đặt. Hạng mục phát sinh chỉ được làm khi bạn bấm đồng ý trên ứng dụng; nếu chi phí thực tế thấp hơn, phần chênh lệch được hoàn lại.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-trigger" onclick="toggleFaq(this)">
+                            Làm sao biết đúng là thợ của Bốn Phương?
+                            <span class="faq-icon-btn">+</span>
+                        </button>
+                        <div class="faq-panel">
+                            <span class="ans-tag"><i class="fas fa-info-circle"></i> An toàn</span>
+                            <p>Ứng dụng hiển thị ảnh, tên, hạng thợ và biển số xe của thợ. Khi gặp mặt, thợ đọc đúng <strong>mã gặp mặt 4 số</strong> trên màn hình của bạn và mặc đồng phục navy – cam của Bốn Phương.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-trigger" onclick="toggleFaq(this)">
+                            Hủy cuốc có mất phí không?
+                            <span class="faq-icon-btn">+</span>
+                        </button>
+                        <div class="faq-panel">
+                            <span class="ans-tag"><i class="fas fa-info-circle"></i> Hủy cuốc</span>
+                            <p>Hủy <strong>miễn phí</strong> trước khi thợ nhận cuốc hoặc khi thợ chưa di chuyển. Nếu thợ đang trên đường, phí di chuyển (nếu có) được hiển thị rõ để bạn xác nhận trước khi hủy.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-trigger" onclick="toggleFaq(this)">
+                            Sửa xong bị lỗi lại thì bảo hành thế nào?
+                            <span class="faq-icon-btn">+</span>
+                        </button>
+                        <div class="faq-panel">
+                            <span class="ans-tag"><i class="fas fa-info-circle"></i> Bảo hành</span>
+                            <p>Dịch vụ sửa chữa – bảo dưỡng được bảo hành <strong>tối thiểu 30 ngày</strong>, có ảnh trước – sau lưu trong Lịch sử dịch vụ. Gửi yêu cầu bằng form bên trên (chủ đề “Bảo hành”) — thợ quay lại sửa miễn phí nếu lỗi thuộc phạm vi đã làm.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-trigger" onclick="toggleFaq(this)">
+                            Tôi có thể thanh toán bằng những cách nào?
+                            <span class="faq-icon-btn">+</span>
+                        </button>
+                        <div class="faq-panel">
+                            <span class="ans-tag"><i class="fas fa-info-circle"></i> Thanh toán</span>
+                            <p>Tiền mặt cho thợ khi hoàn tất, ví điện tử MoMo / ZaloPay / VNPAY, thẻ tín dụng – ghi nợ hoặc chuyển khoản. Mọi cuốc đều có <strong>hóa đơn điện tử</strong> gửi qua email và lưu trong tài khoản.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-trigger" onclick="toggleFaq(this)">
+                            Tôi là thợ sửa xe, muốn trở thành đối tác?
+                            <span class="faq-icon-btn">+</span>
+                        </button>
+                        <div class="faq-panel">
+                            <span class="ans-tag"><i class="fas fa-info-circle"></i> Thợ đối tác</span>
+                            <p>Đăng ký ở mục <a href="#doi-tac" onclick="return goPartner()">Trở thành thợ đối tác</a> ngay trên trang này. Bạn được <strong>miễn phí hoa hồng 3 tháng đầu</strong>, sau đó 15% (Thợ Chuẩn) hoặc 12% (Ưu tú, Tinh hoa); ca SOS đêm 30.000đ/cuốc, bảo đảm 200.000đ/đêm.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-trigger" onclick="toggleFaq(this)">
+                            Voucher không áp dụng được, phải làm sao?
+                            <span class="faq-icon-btn">+</span>
+                        </button>
+                        <div class="faq-panel">
+                            <span class="ans-tag"><i class="fas fa-info-circle"></i> Voucher</span>
+                            <p>Kiểm tra: <strong>(1)</strong> mã còn hạn, <strong>(2)</strong> đơn đủ giá trị tối thiểu và đúng nhóm dịch vụ, <strong>(3)</strong> mã đã được lưu vào kho (trừ mã công khai CUUHO15, SUAXE10, PHUTUNG10). Ở giỏ hàng, hệ thống tự gợi ý mã giảm nhiều nhất.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="community-banner">
+            <div class="deco">🛠️</div>
+            <div class="container position-relative" style="z-index:2;">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <span class="hero-badge"><i class="fas fa-users mr-1"></i> Cộng đồng Bốn Phương</span>
+                        <h2 style="margin-top:14px;">Cộng đồng người đi xe &amp; thợ đối tác</h2>
+                        <p>Mẹo giữ xe bền, cảnh báo tuyến đường ngập mùa mưa, chia sẻ kinh nghiệm xử lý sự cố và ưu đãi dành riêng cho thành viên.</p>
+                        <div class="cb-btns">
+                            <a href="https://www.facebook.com/thienan.vo.35912672" class="cb-btn-main" target="_blank" rel="noopener"><i class="fab fa-facebook"></i> Nhóm Facebook</a>
+                            <a href="https://zalo.me/0345264103" class="cb-btn-outline" target="_blank" rel="noopener"><i class="fas fa-comment-dots"></i> Zalo cộng đồng</a>
+                            <a href="https://www.tiktok.com/@bchau04206" class="cb-btn-outline" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i> TikTok</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /#panel-contact -->
+
+    <!-- ============================================================
+         TAB PANEL: CHÍNH SÁCH
+         ============================================================ -->
+    <div class="tab-panel page-main" id="panel-policy">
+
+        <section class="policy-section">
+            <div class="container">
+                <div class="policy-card">
+                    <div class="policy-grid">
+
+                        <aside class="policy-sidebar">
+                          <div class="gk-toc-sticky">
+                            <span class="sidebar-lbl">Mục lục</span>
+                            <ul class="toc-list">
+                            <li>
+                                <a href="#s-dieukhoan" class="toc-link toc-active" onclick="return tocClick(this,'#s-dieukhoan')">
+                                    <div class="toc-bar"></div>
+                                    <span class="toc-num">1</span>
+                                    Điều khoản sử dụng
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#s-giatran" class="toc-link" onclick="return tocClick(this,'#s-giatran')">
+                                    <div class="toc-bar"></div>
+                                    <span class="toc-num">2</span>
+                                    Giá trần &amp; hoàn chênh lệch
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#s-baohanh" class="toc-link" onclick="return tocClick(this,'#s-baohanh')">
+                                    <div class="toc-bar"></div>
+                                    <span class="toc-num">3</span>
+                                    Bảo hành sau sửa chữa
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#s-huycuoc" class="toc-link" onclick="return tocClick(this,'#s-huycuoc')">
+                                    <div class="toc-bar"></div>
+                                    <span class="toc-num">4</span>
+                                    Hủy cuốc &amp; hoàn tiền
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#s-khieunai" class="toc-link" onclick="return tocClick(this,'#s-khieunai')">
+                                    <div class="toc-bar"></div>
+                                    <span class="toc-num">5</span>
+                                    Khiếu nại 4 bước
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#s-baomat" class="toc-link" onclick="return tocClick(this,'#s-baomat')">
+                                    <div class="toc-bar"></div>
+                                    <span class="toc-num">6</span>
+                                    Bảo mật dữ liệu
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#s-quytac" class="toc-link" onclick="return tocClick(this,'#s-quytac')">
+                                    <div class="toc-bar"></div>
+                                    <span class="toc-num">7</span>
+                                    Quy tắc của thợ
+                                </a>
+                            </li>
+                            </ul>
+                            <div class="sidebar-meta">
+                                <div class="sidebar-meta-row"><strong>⏱ Thời gian đọc</strong></div>
+                                <div class="sidebar-meta-row">khoảng 6 phút</div>
+                            </div>
+                            <div class="sidebar-dl-card">
+                                <h6>🖨️ In / lưu PDF</h6>
+                                <p>Lưu chính sách để tham khảo hoặc gửi cho người thân, đồng nghiệp.</p>
+                                <a href="#" class="btn-dl" onclick="window.print(); return false;"><i class="fas fa-print"></i> In hoặc lưu PDF</a>
+                            </div>
+                          </div>
+                        </aside>
+
+                        <div class="policy-body" id="policy-body">
+                            <div class="no-results" id="no-results">
+                                <i class="fas fa-search"></i>
+                                <h5>Không tìm thấy kết quả</h5>
+                                <p>Thử từ khóa khác hoặc <a href="#" onclick="switchPage('contact'); return false;" style="color:var(--primary-blue);">liên hệ hỗ trợ</a></p>
+                            </div>
+                        <div class="policy-block reveal" id="s-dieukhoan">
+                            <div class="block-head">
+                                <div class="block-ico">📋</div>
+                                <div>
+                                    <h2>1. Điều khoản sử dụng dịch vụ</h2>
+                                    <p class="bsub">Vai trò của nền tảng, khách hàng và thợ đối tác</p>
+                                </div>
+                            </div>
+                            <div class="quick-sum">
+                                <div class="qs-lbl">⚡ Tóm tắt nhanh</div>
+                                <p>Gắn Kết Bốn Phương là nền tảng kết nối bạn với thợ sửa xe độc lập đã được xác minh. Bạn đặt dịch vụ, theo dõi và thanh toán qua nền tảng; thợ chịu trách nhiệm tay nghề; nền tảng giám sát chất lượng và giải quyết khiếu nại.</p>
+                            </div>
+                            <div class="legal"><p>Khi tạo tài khoản và sử dụng dịch vụ, bạn đồng ý với các điều khoản sau:</p><ul><li><strong>Tài khoản:</strong> cung cấp họ tên, số điện thoại chính xác; mỗi số điện thoại dùng cho một tài khoản; tự bảo mật mật khẩu.</li><li><strong>Đặt dịch vụ:</strong> mô tả đúng tình trạng xe và vị trí; có mặt hoặc ủy quyền người nhận khi thợ đến; xác nhận mã gặp mặt 4 số trước khi giao xe.</li><li><strong>Thợ đối tác:</strong> là cá nhân hoặc tiệm sửa xe độc lập đã qua xác minh CCCD, kiểm tra tay nghề và đào tạo chuẩn dịch vụ của Bốn Phương.</li><li><strong>Nền tảng:</strong> điều phối thợ gần nhất trong bán kính 3–5 km, công khai giá trần, lưu “hộp đen chuyến cứu hộ” (mốc thời gian, báo giá, ảnh) để đối chiếu khi có tranh chấp.</li><li><strong>Phạm vi thí điểm:</strong> đang phục vụ Quận 1, Quận 3, Quận 10; mở rộng Bình Thạnh, Phú Nhuận, Gò Vấp.</li><li><strong>Hành vi bị cấm:</strong> đặt cuốc ảo, quấy rối hoặc xúc phạm thợ, thỏa thuận thanh toán ngoài nền tảng để né quy trình bảo hành – khiếu nại.</li></ul></div>
+                        </div>
+                        <div class="policy-block reveal" id="s-giatran">
+                            <div class="block-head">
+                                <div class="block-ico">💰</div>
+                                <div>
+                                    <h2>2. Giá trần &amp; hoàn chênh lệch</h2>
+                                    <p class="bsub">Bạn luôn biết số tiền tối đa trước khi thợ bắt tay vào làm</p>
+                                </div>
+                            </div>
+                            <div class="quick-sum">
+                                <div class="qs-lbl">⚡ Tóm tắt nhanh</div>
+                                <p>Mọi dịch vụ đều có giá trần hiển thị trước khi đặt. Hạng mục phát sinh chỉ được làm khi bạn bấm đồng ý trên ứng dụng; nếu chi phí thực tế thấp hơn, phần chênh lệch được hoàn lại.</p>
+                            </div>
+                            <ul class="data-list">
+                                <li>
+                                    <div class="dl-ico">🧾</div>
+                                    <div>
+                                        <div class="dl-title">Giá trần đã gồm công thợ</div>
+                                        <p class="dl-desc">Gồm công và vật tư cơ bản ghi ở mục “Bao gồm” của từng dịch vụ — thợ không được thu thêm phí đi lại trong khu vực phục vụ.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">🌙</div>
+                                    <div>
+                                        <div class="dl-title">Phụ phí ca đêm 30.000đ/xe</div>
+                                        <p class="dl-desc">Áp dụng cho cuốc từ 22h đến 5h, hiển thị rõ trong tóm tắt đơn trước khi bạn xác nhận.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">🛣️</div>
+                                    <div>
+                                        <div class="dl-title">Kéo xe theo quãng đường</div>
+                                        <p class="dl-desc">Xe máy, xe điện: giá gồm 5 km đầu, từ km thứ 6 +15.000đ/km. Ô tô sàn trượt: gồm 10 km đầu, từ km thứ 11 +25.000đ/km.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">✋</div>
+                                    <div>
+                                        <div class="dl-title">Phát sinh phải được bạn đồng ý</div>
+                                        <p class="dl-desc">Thợ gửi báo giá bổ sung kèm ảnh; bạn chấp nhận hoặc từ chối trên ứng dụng. Từ chối thì không làm và không mất phí phần đó.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">↩️</div>
+                                    <div>
+                                        <div class="dl-title">Hoàn chênh lệch tự động</div>
+                                        <p class="dl-desc">Phần chênh lệch về ví hoặc tài khoản thanh toán trong 1–3 ngày làm việc, kèm hóa đơn điện tử điều chỉnh.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="policy-block reveal" id="s-baohanh">
+                            <div class="block-head">
+                                <div class="block-ico">🛡️</div>
+                                <div>
+                                    <h2>3. Bảo hành sau sửa chữa</h2>
+                                    <p class="bsub">Ảnh trước – sau là căn cứ bảo hành minh bạch</p>
+                                </div>
+                            </div>
+                            <div class="quick-sum">
+                                <div class="qs-lbl">⚡ Tóm tắt nhanh</div>
+                                <p>Dịch vụ sửa chữa và bảo dưỡng được bảo hành tối thiểu 30 ngày; phụ tùng thay mới theo bảo hành của nhà sản xuất. Ảnh trước – sau lưu trong Lịch sử dịch vụ là căn cứ bảo hành.</p>
+                            </div>
+                            <div class="rights-grid">
+                                <div class="right-card"><span class="rc-ico">⏱️</span><h5>Tối thiểu 30 ngày</h5><p>Áp dụng cho hạng mục thợ đã sửa – bảo dưỡng, tính từ lúc hoàn tất cuốc.</p></div>
+                                <div class="right-card"><span class="rc-ico">📸</span><h5>Ảnh trước – sau</h5><p>Thợ chụp tình trạng xe trước và sau khi làm, lưu vào đơn của bạn.</p></div>
+                                <div class="right-card"><span class="rc-ico">🔁</span><h5>Sửa lại miễn phí</h5><p>Lỗi lặp lại thuộc phạm vi đã làm được sửa lại miễn phí, ưu tiên đúng thợ cũ.</p></div>
+                                <div class="right-card"><span class="rc-ico">🧰</span><h5>Phụ tùng theo hãng</h5><p>Ắc quy, lốp, nhớt… bảo hành theo nhà sản xuất, có tem và hóa đơn.</p></div>
+                                <div class="right-card"><span class="rc-ico">🚫</span><h5>Không áp dụng</h5><p>Hư hỏng do va chạm, ngập nước sau sửa, hoặc đã tự ý sửa ở nơi khác.</p></div>
+                                <div class="right-card"><span class="rc-ico">📝</span><h5>Mở yêu cầu</h5><p>Gửi form liên hệ chủ đề “Bảo hành” kèm mã đơn, hoặc gọi tổng đài.</p></div>
+                            </div>
+                        </div>
+                        <div class="policy-block reveal" id="s-huycuoc">
+                            <div class="block-head">
+                                <div class="block-ico">🔄</div>
+                                <div>
+                                    <h2>4. Hủy cuốc &amp; hoàn tiền</h2>
+                                    <p class="bsub">Hủy càng sớm càng ít ảnh hưởng tới thợ đang trên đường</p>
+                                </div>
+                            </div>
+                            <div class="quick-sum">
+                                <div class="qs-lbl">⚡ Tóm tắt nhanh</div>
+                                <p>Hủy miễn phí khi thợ chưa nhận cuốc hoặc chưa di chuyển. Khi thợ đã trên đường, phí di chuyển (nếu có) được hiển thị để bạn xác nhận trước khi hủy.</p>
+                            </div>
+                            <div class="cookie-wrap">
+                                <table class="cookie-tbl">
+                                    <thead><tr><th>Thời điểm hủy</th><th>Phí</th><th>Hoàn tiền</th><th>Ghi chú</th></tr></thead>
+                                    <tbody><tr><td><strong>Trước khi thợ nhận cuốc</strong></td><td><span class="cbadge cbadge-ana">Miễn phí</span></td><td>100%</td><td>Hủy ngay trong mục Lịch sử dịch vụ</td></tr><tr><td><strong>Thợ đã nhận, chưa di chuyển</strong></td><td><span class="cbadge cbadge-ana">Miễn phí</span></td><td>100%</td><td>Hệ thống ghép thợ khác nếu bạn đặt lại</td></tr><tr><td><strong>Thợ đang trên đường</strong></td><td><span class="cbadge cbadge-mkt">Phí di chuyển</span></td><td>Phần còn lại</td><td>Theo quãng đường thợ đã đi, hiển thị trước khi xác nhận</td></tr><tr><td><strong>Thợ đã đến / đang làm</strong></td><td><span class="cbadge cbadge-req">Theo hạng mục</span></td><td>Phần chưa làm</td><td>Có ảnh xác nhận hạng mục đã hoàn thành</td></tr></tbody>
+                                </table>
+                            </div>
+                            <div class="legal"><p>Tiền hoàn về <strong>ví điện tử trong 1–2 ngày</strong>, thẻ hoặc chuyển khoản trong <strong>3–7 ngày làm việc</strong> tùy ngân hàng. Gói thành viên Lá Chắn Số hủy trong 7 ngày đầu và chưa dùng quyền lợi nào được hoàn 100%.</p></div>
+                        </div>
+                        <div class="policy-block reveal" id="s-khieunai">
+                            <div class="block-head">
+                                <div class="block-ico">📣</div>
+                                <div>
+                                    <h2>5. Quy trình khiếu nại 4 bước</h2>
+                                    <p class="bsub">Cam kết thời gian xử lý rõ ràng cho mọi khiếu nại</p>
+                                </div>
+                            </div>
+                            <div class="quick-sum">
+                                <div class="qs-lbl">⚡ Tóm tắt nhanh</div>
+                                <p>Khiếu nại được tiếp nhận trong 2 giờ, có phản hồi đầu tiên trong 24 giờ và ca phức tạp được giải quyết trong 72 giờ. Nhân viên chăm sóc khách hàng được quyền quyết định bồi hoàn đến 2.000.000đ ngay.</p>
+                            </div>
+                            <ul class="data-list">
+                                <li>
+                                    <div class="dl-ico">①</div>
+                                    <div>
+                                        <div class="dl-title">Gửi khiếu nại</div>
+                                        <p class="dl-desc">Qua form liên hệ (chủ đề “Khiếu nại chất lượng sửa chữa”), tổng đài hoặc ngay trên đơn trong Lịch sử dịch vụ — nhớ kèm mã đơn.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">②</div>
+                                    <div>
+                                        <div class="dl-title">Tiếp nhận trong 2 giờ</div>
+                                        <p class="dl-desc">Bạn nhận mã yêu cầu KN-xxxxxx qua SMS / email để tra cứu tiến độ bất cứ lúc nào.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">③</div>
+                                    <div>
+                                        <div class="dl-title">Phản hồi đầu tiên trong 24 giờ</div>
+                                        <p class="dl-desc">Đối chiếu hộp đen chuyến cứu hộ (mốc thời gian, báo giá, ảnh) và lời trình bày của hai bên.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">④</div>
+                                    <div>
+                                        <div class="dl-title">Giải quyết trong 72 giờ</div>
+                                        <p class="dl-desc">Sửa lại miễn phí, hoàn tiền hoặc bồi hoàn — quyết định đến 2.000.000đ được thực hiện ngay, không cần chờ cấp trên.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="gk-pol-track"><i class="fas fa-search-location"></i> Đã gửi khiếu nại? <a href="#tra-cuu" onclick="return goTrack()">Tra cứu tiến độ bằng mã KN-xxxxxx</a></div>
+                        </div>
+                        <div class="policy-block reveal" id="s-baomat">
+                            <div class="block-head">
+                                <div class="block-ico">🔐</div>
+                                <div>
+                                    <h2>6. Bảo mật dữ liệu &amp; vị trí</h2>
+                                    <p class="bsub">Tuân thủ Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân</p>
+                                </div>
+                            </div>
+                            <div class="quick-sum">
+                                <div class="qs-lbl">⚡ Tóm tắt nhanh</div>
+                                <p>Chúng tôi chỉ thu thập dữ liệu cần thiết để điều phối thợ và thanh toán. Vị trí chỉ được dùng khi bạn có cuốc đang hoạt động; số điện thoại được ẩn khi thợ gọi qua tổng đài.</p>
+                            </div>
+                            <ul class="data-list">
+                                <li>
+                                    <div class="dl-ico">👤</div>
+                                    <div>
+                                        <div class="dl-title">Dữ liệu định danh</div>
+                                        <p class="dl-desc">Họ tên, số điện thoại, email, địa chỉ thường gọi thợ — dùng để xác nhận đơn và liên hệ.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">🏍️</div>
+                                    <div>
+                                        <div class="dl-title">Dữ liệu xe (Garage số)</div>
+                                        <p class="dl-desc">Dòng xe, biển số, ODO, lịch bảo dưỡng — chỉ gửi cho thợ đang nhận cuốc của bạn.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">📍</div>
+                                    <div>
+                                        <div class="dl-title">Vị trí khi có cuốc</div>
+                                        <p class="dl-desc">Chia sẻ trong thời gian cuốc hoạt động để thợ tìm đến; bạn có thể chia sẻ hành trình cho người thân.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dl-ico">💳</div>
+                                    <div>
+                                        <div class="dl-title">Dữ liệu thanh toán</div>
+                                        <p class="dl-desc">Xử lý qua cổng VNPAY, MoMo, ZaloPay và ngân hàng đạt chuẩn PCI-DSS — Bốn Phương không lưu số thẻ.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="legal"><p>Bản thử nghiệm này lưu dữ liệu ngay trên trình duyệt của bạn (localStorage), không gửi về máy chủ:</p></div>
+                            <div class="cookie-wrap">
+                                <table class="cookie-tbl">
+                                    <thead><tr><th>Khóa lưu trữ</th><th>Mục đích</th><th>Thời hạn</th><th>Phân loại</th></tr></thead>
+                                    <tbody><tr><td><strong>gkbp_user</strong></td><td>Phiên đăng nhập và hồ sơ</td><td>Đến khi đăng xuất</td><td><span class="cbadge cbadge-req">Bắt buộc</span></td></tr><tr><td><strong>gkbp_cart</strong></td><td>Giỏ dịch vụ đang chọn</td><td>Đến khi thanh toán</td><td><span class="cbadge cbadge-req">Bắt buộc</span></td></tr><tr><td><strong>gkbp_garage · gkbp_orders</strong></td><td>Garage số và lịch sử dịch vụ</td><td>Do bạn quản lý</td><td><span class="cbadge cbadge-ana">Chức năng</span></td></tr><tr><td><strong>gkbp_saved_vouchers</strong></td><td>Kho voucher của tài khoản</td><td>Theo hạn mã</td><td><span class="cbadge cbadge-mkt">Ưu đãi</span></td></tr></tbody>
+                                </table>
+                            </div>
+                            <div class="partners">
+                                <span class="ptag">💳 VNPAY, MoMo, ZaloPay</span>
+                                <span class="ptag">🗺️ Bản đồ &amp; định vị</span>
+                                <span class="ptag">📱 SMS / email thông báo</span>
+                                <span class="ptag">🧑‍🔧 Thợ đang nhận cuốc (tên, SĐT ẩn, vị trí)</span>
+                                <span class="ptag">⚖️ Cơ quan có thẩm quyền (khi có yêu cầu hợp lệ)</span>
+                            </div>
+                            <div class="legal"><p>Bạn có quyền <strong>truy cập, chỉnh sửa, xóa</strong> dữ liệu, rút lại đồng ý chia sẻ vị trí hoặc nhận thông báo ưu đãi bất cứ lúc nào trong mục Hồ sơ &amp; cài đặt, hoặc gửi yêu cầu tới <a href="mailto:vonam583@gmail.com">vonam583@gmail.com</a> — phản hồi trong 30 ngày.</p></div>
+                        </div>
+                        <div class="policy-block reveal" id="s-quytac">
+                            <div class="block-head">
+                                <div class="block-ico">🧑‍🔧</div>
+                                <div>
+                                    <h2>7. Quy tắc ứng xử của thợ đối tác</h2>
+                                    <p class="bsub">Chuẩn dịch vụ mỗi thợ cam kết khi nhận cuốc</p>
+                                </div>
+                            </div>
+                            <div class="quick-sum">
+                                <div class="qs-lbl">⚡ Tóm tắt nhanh</div>
+                                <p>Thợ đối tác được xác minh danh tính và tay nghề, mặc đồng phục, xác nhận mã gặp mặt, báo giá trước khi làm và chụp ảnh trước – sau. Thợ duy trì đánh giá từ 4,0★ để tiếp tục nhận cuốc.</p>
+                            </div>
+                            <div class="sec-grid">
+                                <div class="sec-feat"><div class="sec-ico"><i class="fas fa-id-card"></i></div><div><h6>Xác minh danh tính</h6><p>CCCD, lý lịch và kiểm tra tay nghề trước khi nhận cuốc đầu tiên</p></div></div>
+                                <div class="sec-feat"><div class="sec-ico"><i class="fas fa-tshirt"></i></div><div><h6>Đồng phục &amp; thẻ thợ</h6><p>Áo navy – cam của Bốn Phương, thẻ thợ có mã QR tra cứu</p></div></div>
+                                <div class="sec-feat"><div class="sec-ico"><i class="fas fa-key"></i></div><div><h6>Mã gặp mặt 4 số</h6><p>Đọc đúng mã trên màn hình khách trước khi nhận xe</p></div></div>
+                                <div class="sec-feat"><div class="sec-ico"><i class="fas fa-file-invoice-dollar"></i></div><div><h6>Báo giá trước khi làm</h6><p>Không làm hạng mục ngoài giá trần khi chưa được khách đồng ý</p></div></div>
+                                <div class="sec-feat"><div class="sec-ico"><i class="fas fa-camera"></i></div><div><h6>Ảnh trước – sau</h6><p>Chụp tình trạng xe, phụ tùng thay ra và kết quả sau sửa</p></div></div>
+                                <div class="sec-feat"><div class="sec-ico"><i class="fas fa-star"></i></div><div><h6>Giữ chất lượng từ 4,0★</h6><p>Dưới mức này tạm ngưng nhận cuốc và tham gia đào tạo lại</p></div></div>
+                            </div>
+                            <div class="legal"><p>Chỉ tiêu vận hành: nhận cuốc trong khoảng <strong>3 phút</strong>, có mặt trong khoảng <strong>15 phút</strong>, tỷ lệ nhận cuốc từ <strong>95%</strong> và tỷ lệ hủy không quá <strong>5%</strong>. Phí công theo hạng thợ: Thợ Mới 0% (3 tháng đầu), Thợ Chuẩn 15%, Ưu tú và Tinh hoa 12%.</p></div>
+                        </div>
+                        </div><!-- /#policy-body -->
+
+                    </div><!-- /.policy-grid -->
+                </div><!-- /.policy-card -->
+            </div><!-- /.container -->
+        </section>
+
+        <div class="policy-cta">
+            <div class="container position-relative" style="z-index:2;">
+                <h3>Bạn có thắc mắc về các điều khoản này?</h3>
+                <p>Câu hỏi về giá trần, bảo hành, dữ liệu cá nhân hay một cuốc xe cụ thể — đội ngũ Bốn Phương luôn sẵn sàng giải đáp.</p>
+                <div class="pcta-btns">
+                    <a href="#" onclick="goComplaint(); return false;" class="pcta-main">
+                        <i class="fas fa-envelope"></i> Gửi câu hỏi / khiếu nại
+                    </a>
+                    <a href="#s-khieunai" onclick="return tocClick(document.querySelector('[href=\'#s-khieunai\']'),'#s-khieunai')" class="pcta-outline">
+                        <i class="fas fa-book"></i> Đọc quy trình khiếu nại 4 bước
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /#panel-policy -->
+
+</main>
+
+<!-- ================================================================
+     FOOTER — giống hệt trang chủ
+     ================================================================ -->
+<div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+<!-- jQuery + Bootstrap Bundle -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+<script>
+/* ================================================================
+   JAVASCRIPT — Liên hệ, hỗ trợ & Chính sách (html_lienhe_chinhsach.html)
+     1. Chuyển tab trang (Liên hệ / Chính sách) + liên kết sâu
+     2. Route card ↔ tab nhỏ trong form
+     3. Mức ưu tiên · đếm ký tự
+     4. Gửi yêu cầu → mã KN-xxxxxx · tra cứu tiến độ theo SLA
+     5. Đăng ký thợ đối tác
+     6. FAQ · scrollspy · tìm kiếm chính sách · mục lục · reveal
+   ================================================================ */
+function lsGet(k, f) { try { var v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? f : v; } catch (e) { return f; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function escH(s) { return window.GKBP ? GKBP.esc(s) : String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function toast(t, m) { if (window.GKBP) GKBP.showToast(t, m); }
+
+/* ── 1. CHUYỂN TAB TRANG ── */
+function switchPage(page, noScroll) {
+    var isContact = (page === 'contact');
+    document.getElementById('tab-btn-contact').classList.toggle('active', isContact);
+    document.getElementById('tab-btn-policy').classList.toggle('active', !isContact);
+    document.getElementById('panel-contact').classList.toggle('active', isContact);
+    document.getElementById('panel-policy').classList.toggle('active', !isContact);
+    document.getElementById('hero-content-contact').style.display = isContact ? '' : 'none';
+    document.getElementById('hero-content-policy').style.display = isContact ? 'none' : '';
+    document.getElementById('page-hero').setAttribute('data-icon', isContact ? '🔧' : '📜');
+    document.getElementById('breadcrumb-current').textContent = isContact ? 'Liên hệ & Hỗ trợ' : 'Chính sách & Điều khoản';
+    try { history.replaceState(null, '', isContact ? location.pathname : location.pathname + '#chinh-sach'); } catch (e) {}
+    if (!noScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goPolicy(key) {
+    switchPage('policy', true);
+    setTimeout(function () { tocClick(document.querySelector('.toc-link[href="#s-' + key + '"]'), '#s-' + key); }, 120);
+    return false;
+}
+function scrollToEl(id, offset) {
+    var el = document.getElementById(id); if (!el) return;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - (offset || 90), behavior: 'smooth' });
+}
+function goPartner() { switchPage('contact', true); setTimeout(function () { scrollToEl('doi-tac'); }, 80); return false; }
+function goTrack() { switchPage('contact', true); setTimeout(function () { scrollToEl('track-card', 120); document.getElementById('track-input').focus({ preventScroll: true }); }, 80); return false; }
+function goComplaint() {
+    switchPage('contact', true);
+    var t = document.getElementById('topic'); if (t) t.value = 'complaint';
+    setTimeout(function () { scrollToEl('contact-form', 140); }, 80);
+}
+
+/* ── 2. ROUTE CARD ↔ TAB NHỎ TRONG FORM ── */
+var ROUTE_TOPIC = { support: 'order', sales: 'partner', feedback: 'feedback' };
+function selectRoute(type, card) {
+    document.querySelectorAll('.route-card').forEach(function (c) { c.classList.remove('active'); });
+    card.classList.add('active');
+    var idx = { support: 0, sales: 1, feedback: 2 };
+    document.querySelectorAll('.form-inner-tab').forEach(function (t, i) { t.classList.toggle('active', i === idx[type]); });
+    updateFormTitle(type);
+    if (type === 'sales') { setTimeout(function () { scrollToEl('doi-tac'); }, 60); }
+}
+function selectInnerTab(type, btn) {
+    document.querySelectorAll('.form-inner-tab').forEach(function (t) { t.classList.remove('active'); });
+    btn.classList.add('active');
+    updateFormTitle(type);
+    document.querySelectorAll('.route-card').forEach(function (c) {
+        c.classList.remove('active');
+        if (c.getAttribute('onclick') && c.getAttribute('onclick').indexOf("'" + type + "'") > -1) c.classList.add('active');
+    });
+}
+function updateFormTitle(type) {
+    var titles = { support: 'Hỗ trợ đơn & khiếu nại', sales: 'Hợp tác & thợ đối tác', feedback: 'Góp ý & đánh giá chất lượng' };
+    var el = document.getElementById('form-title');
+    if (el) el.textContent = titles[type] || titles.support;
+    var t = document.getElementById('topic');
+    if (t && ROUTE_TOPIC[type]) t.value = ROUTE_TOPIC[type];
+}
+
+/* ── 3. MỨC ƯU TIÊN · ĐẾM KÝ TỰ ── */
+function selectPriority(label) {
+    var container = label.closest('.priority-opts');
+    container.querySelectorAll('.priority-opt').forEach(function (l) {
+        l.classList.remove('checked');
+        var d = l.querySelector('.ck-dot');
+        if (d) { d.style.background = ''; d.style.borderColor = ''; d.innerHTML = ''; }
+    });
+    label.classList.add('checked');
+    var dot = label.querySelector('.ck-dot');
+    if (dot) {
+        dot.style.background = 'var(--primary-blue)';
+        dot.style.borderColor = 'var(--primary-blue)';
+        dot.innerHTML = '<i class="fas fa-check" style="color:#fff;font-size:8px;"></i>';
+    }
+}
+function updateCharCount(el) {
+    var counter = document.getElementById('char-counter');
+    if (!counter) return;
+    counter.textContent = el.value.length + ' / 500 ký tự';
+    counter.classList.toggle('warn', el.value.length > 450);
+}
+
+/* ── 4. GỬI YÊU CẦU + TRA CỨU ── */
+var contactForm = document.getElementById('contact-form');
+function flag(el, bad) { if (el) el.style.borderColor = bad ? '#ff4d4d' : ''; }
+if (contactForm) {
+    contactForm.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var G = window.GKBP;
+        var nameEl = document.getElementById('fullname'), emailEl = document.getElementById('email'), phoneEl = document.getElementById('phone');
+        var topicEl = document.getElementById('topic'), msgEl = document.getElementById('message');
+        var name = nameEl.value.trim(), email = emailEl.value.trim(), phone = phoneEl.value.replace(/\D/g, ''), topic = topicEl.value, msg = msgEl.value.trim();
+        var firstBad = null;
+        if (!(G ? G.isValidName(name) : /^[^\d]{2,}$/.test(name))) { flag(nameEl, true); firstBad = firstBad || nameEl; } else flag(nameEl, false);
+        if (!(G ? G.isValidEmail(email) : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) { flag(emailEl, true); firstBad = firstBad || emailEl; } else flag(emailEl, false);
+        if (phone && !(G ? G.isValidPhone(phone) : /^0\d{9}$/.test(phone))) { flag(phoneEl, true); firstBad = firstBad || phoneEl; } else flag(phoneEl, false);
+        if (!topic) { flag(topicEl, true); firstBad = firstBad || topicEl; } else flag(topicEl, false);
+        if (msg.length < 10) { flag(msgEl, true); firstBad = firstBad || msgEl; } else flag(msgEl, false);
+        if (firstBad) {
+            toast('error', 'Vui lòng nhập đúng: <strong>họ tên (chỉ chữ), email, số điện thoại hợp lệ, chủ đề</strong> và mô tả tối thiểu 10 ký tự.');
+            firstBad.focus();
+            return;
+        }
+        var btn = document.getElementById('submit-btn'), txt = document.getElementById('btn-text'), ico = document.getElementById('btn-icon');
+        btn.classList.add('sending'); txt.textContent = 'Đang gửi...'; ico.className = 'fas fa-spinner fa-spin';
+        setTimeout(function () {
+            var code = 'KN-' + Math.floor(100000 + Math.random() * 900000);
+            var pr = document.querySelector('.priority-opt.checked');
+            var tickets = lsGet('gkbp_tickets', []);
+            tickets.unshift({ code: code, name: name, email: email, phone: phone, topic: topic, topicLabel: topicEl.options[topicEl.selectedIndex].text,
+                ref: document.getElementById('order-ref').value.trim().toUpperCase(), priority: pr ? pr.getAttribute('data-p') : 'normal', message: msg, createdAt: Date.now() });
+            lsSet('gkbp_tickets', tickets.slice(0, 30));
+            document.getElementById('ticket-code').textContent = code;
+            contactForm.style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+            toast('success', 'Đã tạo yêu cầu <b>' + code + '</b> — dùng mã này để tra cứu tiến độ.');
+        }, 1600);
+    });
+}
+
+function resetForm() {
+    contactForm.reset();
+    contactForm.style.display = '';
+    document.getElementById('success-msg').style.display = 'none';
+    document.getElementById('submit-btn').classList.remove('sending');
+    document.getElementById('btn-text').textContent = 'Gửi yêu cầu ngay';
+    document.getElementById('btn-icon').className = 'fas fa-paper-plane';
+    document.getElementById('char-counter').textContent = '0 / 500 ký tự';
+}
+
+function fmtTime(t) {
+    var d = new Date(t), p = function (n) { return (n < 10 ? '0' : '') + n; };
+    return p(d.getHours()) + ':' + p(d.getMinutes()) + ' ' + p(d.getDate()) + '/' + p(d.getMonth() + 1);
+}
+function trackTicket(code) {
+    code = String(code || '').trim().toUpperCase();
+    var box = document.getElementById('track-result'), inp = document.getElementById('track-input');
+    if (inp) inp.value = code;
+    scrollToEl('track-card', 120);
+    if (!/^KN-\d{6}$/.test(code)) { box.innerHTML = '<p class="gk-track-err"><i class="fas fa-exclamation-circle"></i> Mã yêu cầu gồm “KN-” và 6 chữ số (VD: KN-482913).</p>'; return; }
+    var t = lsGet('gkbp_tickets', []).find(function (x) { return x.code === code; });
+    if (!t) { box.innerHTML = '<p class="gk-track-err"><i class="fas fa-exclamation-circle"></i> Không tìm thấy mã ' + escH(code) + ' trên thiết bị này. Kiểm tra lại SMS / email hoặc gọi 0345 264 103.</p>'; return; }
+    var H = 3600000, now = Date.now();
+    var steps = [
+        ['Đã nhận yêu cầu', t.createdAt, 'fa-inbox'],
+        ['Tiếp nhận & phân loại', t.createdAt + 2 * H, 'fa-user-check'],
+        ['Phản hồi đầu tiên', t.createdAt + 24 * H, 'fa-reply'],
+        ['Giải quyết trọn vẹn', t.createdAt + 72 * H, 'fa-flag-checkered']
+    ];
+    var cur = 0; steps.forEach(function (s, i) { if (now >= s[1]) cur = i; });
+    box.innerHTML = '<div class="gk-track-head"><b>' + escH(t.code) + '</b><span>' + escH(t.topicLabel || '') + '</span>' + (t.ref ? '<small>Đơn liên quan: ' + escH(t.ref) + '</small>' : '') + '</div>' +
+        '<ol class="gk-track-steps">' + steps.map(function (s, i) {
+            var st = i < cur || (i === cur && i === 0) ? 'done' : i === cur ? 'now' : 'todo';
+            if (i === 0) st = cur > 0 ? 'done' : 'now';
+            return '<li class="' + st + '"><i class="fas ' + s[2] + '"></i><div><b>' + s[0] + '</b><span>' + (now >= s[1] ? 'Lúc ' + fmtTime(s[1]) : 'Cam kết trước ' + fmtTime(s[1])) + '</span></div></li>';
+        }).join('') + '</ol>';
+}
+
+/* ── 5. ĐĂNG KÝ THỢ ĐỐI TÁC ── */
+var partnerForm = document.getElementById('partner-form');
+if (partnerForm) {
+    partnerForm.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var G = window.GKBP;
+        var nm = document.getElementById('p-name'), ph = document.getElementById('p-phone'), ar = document.getElementById('p-area'), ex = document.getElementById('p-exp');
+        var skills = [].slice.call(document.querySelectorAll('#p-skills input:checked')).map(function (c) { return c.value; });
+        var agree = document.getElementById('p-agree').checked, bad = null;
+        if (!(G ? G.isValidName(nm.value.trim()) : nm.value.trim().length > 1)) { flag(nm, true); bad = bad || nm; } else flag(nm, false);
+        if (!(G ? G.isValidPhone(ph.value.replace(/\D/g, '')) : /^0\d{9}$/.test(ph.value))) { flag(ph, true); bad = bad || ph; } else flag(ph, false);
+        if (!ar.value) { flag(ar, true); bad = bad || ar; } else flag(ar, false);
+        if (!ex.value) { flag(ex, true); bad = bad || ex; } else flag(ex, false);
+        var chips = document.getElementById('p-skills'); chips.classList.toggle('bad', !skills.length);
+        if (!skills.length) bad = bad || chips;
+        if (!agree) { document.getElementById('p-agree').parentNode.classList.add('bad'); bad = bad || document.getElementById('p-agree'); }
+        else document.getElementById('p-agree').parentNode.classList.remove('bad');
+        if (bad) { toast('error', 'Vui lòng điền đủ thông tin, chọn ít nhất 1 chuyên môn và đồng ý quy tắc ứng xử.'); if (bad.focus) bad.focus(); return; }
+        var btn = document.getElementById('p-submit');
+        btn.classList.add('sending'); document.getElementById('p-btn-text').textContent = 'Đang gửi...'; document.getElementById('p-btn-icon').className = 'fas fa-spinner fa-spin';
+        setTimeout(function () {
+            var code = 'TD-' + Math.floor(10000 + Math.random() * 90000);
+            var apps = lsGet('gkbp_partner_apps', []);
+            apps.unshift({ code: code, name: G && G.titleCase ? G.titleCase(nm.value.trim()) : nm.value.trim(), phone: ph.value.replace(/\D/g, ''), area: ar.value, exp: ex.value, skills: skills, sos: document.getElementById('p-sos').checked, createdAt: Date.now() });
+            lsSet('gkbp_partner_apps', apps.slice(0, 20));
+            document.getElementById('p-code').textContent = code;
+            partnerForm.style.display = 'none';
+            document.getElementById('p-success').style.display = 'block';
+        }, 1400);
+    });
+}
+function resetPartner() {
+    partnerForm.reset();
+    partnerForm.style.display = '';
+    document.getElementById('p-success').style.display = 'none';
+    document.getElementById('p-submit').classList.remove('sending');
+    document.getElementById('p-btn-text').textContent = 'Gửi đăng ký';
+    document.getElementById('p-btn-icon').className = 'fas fa-paper-plane';
+}
+['phone', 'p-phone'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', function () { this.value = this.value.replace(/\D/g, '').slice(0, 10); });
+});
+
+/* ── 6. FAQ · SCROLLSPY · TÌM KIẾM · MỤC LỤC · REVEAL ── */
+function toggleFaq(trigger) {
+    var item = trigger.closest('.faq-item'), isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function (i) { i.classList.remove('open'); });
+    if (!isOpen) item.classList.add('open');
+}
+
+var policyBlocks = document.querySelectorAll('.policy-block');
+var tocLinks = document.querySelectorAll('.toc-link');
+window.addEventListener('scroll', function () {
+    if (!document.getElementById('panel-policy').classList.contains('active')) return;
+    var current = '';
+    policyBlocks.forEach(function (s) { if (window.scrollY >= s.getBoundingClientRect().top + window.scrollY - 220) current = '#' + s.id; });
+    tocLinks.forEach(function (l) { l.classList.toggle('toc-active', l.getAttribute('href') === current); });
+}, { passive: true });
+
+function searchPolicy(query) {
+    var q = query.toLowerCase().trim(), blocks = document.querySelectorAll('.policy-block'), noRes = document.getElementById('no-results'), found = 0;
+    blocks.forEach(function (b) { b.querySelectorAll('mark.search-hl').forEach(function (m) { m.outerHTML = m.textContent; }); });
+    if (!q) { blocks.forEach(function (b) { b.style.display = ''; }); if (noRes) noRes.style.display = 'none'; return; }
+    blocks.forEach(function (b) {
+        if (b.textContent.toLowerCase().indexOf(q) > -1) { b.style.display = ''; found++; highlightInBlock(b, query); }
+        else b.style.display = 'none';
+    });
+    if (noRes) noRes.style.display = found === 0 ? 'block' : 'none';
+}
+function highlightInBlock(el, query) {
+    var regex = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false), nodes = [], node;
+    while ((node = walker.nextNode())) nodes.push(node);
+    nodes.forEach(function (n) {
+        var tag = n.parentNode.tagName;
+        if (tag === 'SCRIPT' || tag === 'STYLE') return;
+        regex.lastIndex = 0;
+        if (regex.test(n.textContent)) {
+            var span = document.createElement('span');
+            span.innerHTML = escH(n.textContent).replace(new RegExp('(' + escH(query).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark class="search-hl">$1</mark>');
+            n.parentNode.replaceChild(span, n);
+        }
+    });
+}
+function tocClick(link, targetSelector) {
+    document.querySelectorAll('.toc-link').forEach(function (l) { l.classList.remove('toc-active'); });
+    if (link && link.classList) link.classList.add('toc-active');
+    var target = document.querySelector(targetSelector);
+    if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+    return false;
+}
+
+var revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(function (el) { revealObserver.observe(el); });
+
+/* Liên kết sâu */
+function handleHash() {
+    var h = location.hash.replace('#', '');
+    if (!h) return;
+    if (h === 'chinh-sach') switchPage('policy', true);
+    else if (h.indexOf('pol-') === 0) goPolicy(h.slice(4));
+    else if (h === 'doi-tac') goPartner();
+    else if (h === 'tra-cuu') goTrack();
+}
+window.addEventListener('hashchange', handleHash);
+document.addEventListener('DOMContentLoaded', function () {
+    handleHash();
+    var u = window.GKBP && GKBP.getUser();
+    if (u) {
+        var put = function (id, v) { var el = document.getElementById(id); if (el && v && !el.value) el.value = v; };
+        put('fullname', u.name); put('email', u.email); put('phone', u.phone);
+    }
+});
+</script>
+
+</body>
+</html>

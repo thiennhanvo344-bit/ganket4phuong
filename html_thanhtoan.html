@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Thanh toán | Gắn Kết Bốn Phương – Đặt thợ sửa xe tận nơi</title>
+    <meta name="description" content="Thanh toán đơn dịch vụ Gắn Kết Bốn Phương: thông tin xe và điểm hẹn, ưu tiên điều phối thợ, thẻ, ví điện tử QR, chuyển khoản hoặc tiền mặt khi hoàn tất.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 4 — dùng cùng phiên bản với trang chủ -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css_trangchu.css">
+    <!-- Font Awesome 5 — icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts: Be Vietnam Pro -->
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           html_thanhtoan.html — CSS riêng cho trang thanh toán
+           Đồng bộ màu với css_trangchu.css (không override header/footer/cursor)
+           --primary-blue: #0D4076  |  --dark-blue: #0A2B54
+           --accent-red: #ff4d4d    |  --teal-light: #FA7806
+           ============================================================ */
+
+
+        /* ── Nền trang thanh toán ── */
+        .ck-page {
+            background: #f5f7fb;
+            min-height: 100vh;
+            padding: 32px 0 80px;
+            font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+        }
+
+        /* ── Thanh bước tiến trình ── */
+        .ck-steps {
+            background: #fff;
+            border-bottom: 1px solid rgba(13,64,118,.08);
+            padding: 14px 0;
+        }
+        .ck-step-list {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0; max-width: 520px; margin: 0 auto; font-size: 12px;
+        }
+        .ck-step {
+            display: flex; align-items: center; gap: 7px;
+            color: #b0bec5; font-weight: 700;
+        }
+        .ck-step.done { color: #22c55e; }
+        .ck-step.active { color: #0D4076; }
+        .ck-step-circle {
+            width: 26px; height: 26px; border-radius: 50%;
+            background: #e8eef5; display: flex; align-items: center;
+            justify-content: center; font-size: 11px; font-weight: 900;
+            flex-shrink: 0; transition: all .3s;
+        }
+        .ck-step.done .ck-step-circle { background: #22c55e; color: #fff; }
+        .ck-step.active .ck-step-circle {
+            background: linear-gradient(135deg,#0A2B54,#0D4076,#1E5C9E);
+            color: #fff; box-shadow: 0 3px 12px rgba(13,64,118,.35);
+        }
+        .ck-step-arrow { color: #d0dae8; margin: 0 10px; font-size: 10px; }
+
+        /* ── Layout 2 cột: 60% form / 40% tóm tắt ── */
+        .ck-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 24px;
+            align-items: start;
+        }
+        @media (max-width: 1024px) {
+            .ck-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── Accordion mobile: tóm tắt thu gọn ở đầu trang ── */
+        .ck-mobile-acc {
+            display: none;
+            background: linear-gradient(135deg,#0A2B54,#0D4076);
+            border-radius: 14px; overflow: hidden; margin-bottom: 18px;
+        }
+        @media (max-width: 1024px) { .ck-mobile-acc { display: block; } }
+        .ck-mob-toggle {
+            width: 100%; background: none; border: none;
+            padding: 15px 18px; color: #fff; font-weight: 800; font-size: 14px;
+            display: flex; align-items: center; justify-content: space-between;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .ck-mob-toggle .mob-arr { transition: transform .3s; font-size: 12px; }
+        .ck-mob-toggle.open .mob-arr { transform: rotate(180deg); }
+        .ck-mob-body {
+            max-height: 0; overflow: hidden; background: #fff;
+            transition: max-height .4s cubic-bezier(.22,1,.36,1);
+        }
+        .ck-mob-body.open { max-height: 500px; }
+
+        /* ── Card section chung ── */
+        .ck-card {
+            background: #fff; border-radius: 18px;
+            padding: 26px; margin-bottom: 18px;
+            box-shadow: 0 2px 18px rgba(13,64,118,.06);
+            border: 1px solid rgba(13,64,118,.07);
+        }
+        .ck-card-title {
+            font-size: 15px; font-weight: 900; color: #0A2B54;
+            margin-bottom: 20px; display: flex; align-items: center; gap: 9px;
+        }
+        .ck-card-num {
+            width: 27px; height: 27px; border-radius: 8px;
+            background: linear-gradient(135deg,#0A2B54,#0D4076,#1E5C9E);
+            color: #fff; font-size: 12px; font-weight: 900;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* ── Floating label input ── */
+        .fl-group { position: relative; margin-bottom: 18px; }
+        .fl-input {
+            width: 100%; height: 52px;
+            border: 1.5px solid #dde4ee; border-radius: 11px;
+            padding: 18px 44px 5px 14px;
+            font-size: 14px; font-weight: 600; color: #0A2B54;
+            background: #f8faff; outline: none; font-family: 'Be Vietnam Pro', sans-serif;
+            transition: all .28s ease;
+        }
+        .fl-input:focus {
+            border-color: #0D4076; background: #fff;
+            box-shadow: 0 0 0 4px rgba(13,64,118,.1);
+        }
+        /* Trạng thái hợp lệ */
+        .fl-input.valid { border-color: #22c55e; background: #f0fdf4; }
+        /* Trạng thái lỗi + rung */
+        .fl-input.invalid { border-color: #ef4444; background: #fff5f5; animation: ck-shake .4s; }
+        .fl-label {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            font-size: 13.5px; color: #9baab8; font-weight: 600;
+            pointer-events: none; transition: all .22s cubic-bezier(.34,1.2,.64,1);
+        }
+        /* Nhãn bay lên khi focus hoặc có chữ */
+        .fl-input:focus ~ .fl-label,
+        .fl-input.has-val ~ .fl-label {
+            top: 9px; transform: none; font-size: 9.5px;
+            font-weight: 900; color: #0D4076;
+            letter-spacing: .5px; text-transform: uppercase;
+        }
+        /* Icon trạng thái phải input */
+        .fl-icon {
+            position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+            font-size: 13px; opacity: 0; transition: opacity .2s;
+        }
+        .fl-input.valid ~ .fl-icon { opacity: 1; color: #22c55e; }
+        .fl-input.invalid ~ .fl-icon { opacity: 1; color: #ef4444; }
+        /* Lỗi trượt xuống */
+        .fl-error {
+            font-size: 11px; color: #ef4444; font-weight: 700;
+            margin-top: 4px; display: none; animation: fl-slide-in .22s ease;
+        }
+        .fl-error.show { display: block; }
+
+        /* Textarea tự giãn */
+        .fl-textarea {
+            width: 100%; min-height: 72px; resize: none; overflow: hidden;
+            border: 1.5px solid #dde4ee; border-radius: 11px;
+            padding: 14px; font-size: 13.5px; font-weight: 600;
+            color: #0A2B54; background: #f8faff; outline: none;
+            font-family: 'Be Vietnam Pro', sans-serif; transition: all .25s;
+        }
+        .fl-textarea:focus { border-color: #0D4076; background: #fff; box-shadow: 0 0 0 4px rgba(13,64,118,.1); }
+        .fl-textarea-label { font-size: 11px; font-weight: 800; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
+
+        /* Datepicker label */
+        .fl-date-label { font-size: 10px; font-weight: 800; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; }
+        .fl-date {
+            width: 100%; height: 44px; border: 1.5px solid #dde4ee; border-radius: 11px;
+            padding: 0 14px; font-size: 13px; font-weight: 700; color: #0A2B54;
+            background: #f8faff; outline: none; font-family: 'Be Vietnam Pro', sans-serif;
+            transition: all .25s; cursor: pointer;
+        }
+        .fl-date:focus { border-color: #0D4076; background: #fff; box-shadow: 0 0 0 4px rgba(13,64,118,.1); }
+
+        /* ── Keyframe ── */
+        @keyframes ck-shake { 0%,100%{transform:translateX(0)} 22%{transform:translateX(-6px)} 66%{transform:translateX(6px)} }
+        @keyframes fl-slide-in { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes num-pop { 0%{transform:scale(1.25);opacity:.6} 100%{transform:scale(1);opacity:1} }
+        .num-pop { animation: num-pop .35s cubic-bezier(.34,1.56,.64,1); }
+
+        /* ── Lưới 2 cột input ── */
+        .ck-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media(max-width:600px){ .ck-row2 { grid-template-columns: 1fr; gap: 0; } }
+
+        /* ── Thẻ chọn gói nâng cấp / giao hàng ── */
+        .upgrade-cards { display: flex; flex-direction: column; gap: 10px; }
+        .upgrade-card {
+            border: 2px solid #e2eaf5; border-radius: 13px;
+            padding: 14px 18px; display: flex; align-items: center; gap: 14px;
+            cursor: pointer; transition: all .28s cubic-bezier(.34,1.2,.64,1);
+            background: #f8faff; position: relative;
+        }
+        .upgrade-card:hover { border-color: #FA7806; background: #f0f9ff; transform: translateY(-2px); box-shadow: 0 5px 18px rgba(13,64,118,.12); }
+        .upgrade-card.selected {
+            border-color: #0D4076; background: rgba(13,64,118,.04);
+            box-shadow: 0 4px 18px rgba(13,64,118,.18);
+        }
+        .upgrade-card input[type="radio"] { display: none; }
+        .uc-radio {
+            width: 20px; height: 20px; border: 2px solid #ccd6e0;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            transition: all .25s; flex-shrink: 0;
+        }
+        .upgrade-card.selected .uc-radio { border-color: #0D4076; background: #0D4076; }
+        .uc-dot {
+            width: 7px; height: 7px; border-radius: 50%; background: #fff;
+            transform: scale(0); transition: transform .22s cubic-bezier(.34,1.56,.64,1);
+        }
+        .upgrade-card.selected .uc-dot { transform: scale(1); }
+        .uc-icon { font-size: 26px; flex-shrink: 0; }
+        .uc-info { flex: 1; }
+        .uc-name { font-size: 13.5px; font-weight: 900; color: #0A2B54; margin-bottom: 2px; }
+        .uc-desc { font-size: 11.5px; color: #6c757d; }
+        .uc-price { font-size: 14px; font-weight: 900; color: #0D4076; white-space: nowrap; }
+        .uc-badge {
+            position: absolute; top: -8px; right: 12px;
+            background: #ff4d4d; color: #fff; font-size: 9.5px;
+            font-weight: 900; padding: 2px 9px; border-radius: 20px;
+        }
+
+        /* ── Phương thức thanh toán accordion ── */
+        .pay-list { display: flex; flex-direction: column; gap: 10px; }
+        .pay-item {
+            border: 2px solid #e2eaf5; border-radius: 14px;
+            overflow: hidden; transition: all .28s;
+        }
+        .pay-item.active { border-color: #0D4076; }
+        .pay-hd {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 18px; background: #f8faff;
+            cursor: pointer; transition: background .2s;
+        }
+        .pay-item.active .pay-hd { background: rgba(13,64,118,.04); }
+        .pay-hd:hover { background: #edf4fb; }
+        .pay-r {
+            width: 19px; height: 19px; border: 2px solid #ccd6e0;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            transition: all .25s; flex-shrink: 0;
+        }
+        .pay-item.active .pay-r { border-color: #0D4076; background: #0D4076; }
+        .pay-r-dot {
+            width: 6px; height: 6px; border-radius: 50%; background: #fff;
+            transform: scale(0); transition: transform .22s cubic-bezier(.34,1.56,.64,1);
+        }
+        .pay-item.active .pay-r-dot { transform: scale(1); }
+        .pay-title { font-size: 13.5px; font-weight: 800; color: #0A2B54; flex: 1; }
+        .pay-body {
+            max-height: 0; overflow: hidden;
+            transition: max-height .42s cubic-bezier(.22,1,.36,1);
+        }
+        .pay-item.active .pay-body { max-height: 600px; }
+        .pay-body-inner { padding: 0 18px 18px; }
+
+        /* ── Thẻ 3D Credit Card ── */
+        .cc-scene {
+            width: 100%; max-width: 320px;
+            height: 188px; margin: 0 auto 20px;
+            perspective: 1000px;
+        }
+        .cc-wrapper {
+            width: 100%; height: 100%; position: relative;
+            transform-style: preserve-3d;
+            transition: transform .65s cubic-bezier(.34,1.2,.64,1);
+        }
+        .cc-wrapper.flipped { transform: rotateY(180deg); }
+        .cc-face {
+            position: absolute; inset: 0; border-radius: 16px;
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            padding: 20px 22px; box-shadow: 0 18px 50px rgba(0,0,0,.28);
+        }
+        .cc-front { background: linear-gradient(135deg,#0A2B54 0%,#0D4076 55%,#1E5C9E 100%); color: #fff; }
+        .cc-back { background: linear-gradient(135deg,#061D38,#0A2B54); transform: rotateY(180deg); }
+        /* Chip thẻ */
+        .cc-chip { width: 38px; height: 28px; border-radius: 5px; background: linear-gradient(135deg,#e8c96c,#d4a820); margin-bottom: 16px; position: relative; overflow: hidden; }
+        .cc-chip::before { content:''; position:absolute; top:50%; left:0; right:0; height:1px; background:rgba(0,0,0,.2); }
+        .cc-chip::after { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px; background:rgba(0,0,0,.2); }
+        .cc-num {
+            font-family: 'Courier New', monospace; font-size: 17px;
+            letter-spacing: 3px; color: #fff; margin-bottom: 16px;
+            text-shadow: 0 1px 3px rgba(0,0,0,.3);
+        }
+        .cc-bot { display: flex; justify-content: space-between; align-items: flex-end; }
+        .cc-lbl { font-size: 9px; opacity: .6; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+        .cc-val { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .cc-brand {
+            position: absolute; top: 18px; right: 20px;
+            font-size: 13px; font-weight: 900; letter-spacing: .5px;
+        }
+        .cc-shimmer {
+            position: absolute; inset: 0; border-radius: 16px;
+            background: linear-gradient(135deg,transparent 30%,rgba(255,255,255,.07) 50%,transparent 70%);
+            animation: cc-shine 3s ease-in-out infinite;
+        }
+        @keyframes cc-shine { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+        /* Mặt sau thẻ */
+        .cc-stripe { height: 40px; background: #2d3748; margin: 0 -22px 14px; }
+        .cc-cvv-box { background: #f5f0dc; border-radius: 5px; padding: 7px 14px; display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
+        .cc-cvv-lbl { font-size: 9px; color: #555; font-weight: 800; text-transform: uppercase; }
+        .cc-cvv-val { font-family: 'Courier New', monospace; font-size: 15px; color: #0A2B54; font-weight: 900; letter-spacing: 4px; }
+        /* Form thẻ */
+        .cc-form { display: flex; flex-direction: column; gap: 12px; }
+
+        /* ── QR Code ── */
+        .qr-zone { display: flex; flex-direction: column; align-items: center; padding: 8px 0; }
+        .qr-tabs { display: flex; gap: 7px; margin-bottom: 14px; }
+        .qr-tab {
+            padding: 5px 14px; border-radius: 20px;
+            border: 1.5px solid #e2eaf5; font-size: 12px; font-weight: 800;
+            color: #9baab8; cursor: pointer; transition: all .22s;
+        }
+        .qr-tab.active { background: linear-gradient(135deg,#0A2B54,#0D4076,#1E5C9E); border-color: transparent; color: #fff; }
+        .qr-box {
+            width: 190px; height: 190px; border: 2.5px solid #e2eaf5;
+            border-radius: 14px; overflow: hidden; position: relative; background: #fff;
+            margin-bottom: 14px;
+        }
+        .qr-svg { width: 100%; height: 100%; padding: 10px; }
+        .qr-scan {
+            position: absolute; top: 0; left: 0; right: 0; height: 2.5px;
+            background: linear-gradient(90deg,transparent,#0D4076,transparent);
+            box-shadow: 0 0 8px rgba(13,64,118,.6);
+            animation: qr-scan-anim 1.8s ease-in-out infinite;
+        }
+        @keyframes qr-scan-anim { 0%{top:0} 100%{top:calc(100% - 2.5px)} }
+        .qr-timer { font-size: 22px; font-weight: 900; color: #0D4076; font-family: 'Courier New', monospace; }
+        .qr-hint { font-size: 11.5px; color: #6c757d; margin-top: 5px; text-align: center; line-height: 1.55; }
+
+        /* ── Chuyển khoản ngân hàng ── */
+        .bank-info { background: linear-gradient(135deg,#f0f9ff,#EAF1F9); border: 1px solid rgba(13,64,118,.15); border-radius: 12px; padding: 16px; }
+        .bank-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(13,64,118,.08); font-size: 13px; }
+        .bank-row:last-child { border-bottom: none; }
+        .bank-key { color: #6c757d; font-weight: 600; }
+        .bank-val { font-weight: 900; color: #0A2B54; display: flex; align-items: center; gap: 7px; }
+        .copy-btn {
+            background: rgba(13,64,118,.1); border: none; border-radius: 6px;
+            padding: 3px 8px; font-size: 11px; font-weight: 800; color: #0D4076;
+            cursor: pointer; transition: all .2s; font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .copy-btn:hover { background: #0D4076; color: #fff; }
+        .copy-btn.copied { background: #22c55e; color: #fff; }
+
+        /* ── COD box ── */
+        .cod-box { background: linear-gradient(135deg,#f0f9ff,#EAF1F9); border: 1px solid rgba(13,64,118,.12); border-radius: 12px; padding: 16px; display: flex; gap: 12px; }
+        .cod-icon { font-size: 34px; flex-shrink: 0; }
+        .cod-title { font-size: 14px; font-weight: 900; color: #0A2B54; margin-bottom: 4px; }
+        .cod-desc { font-size: 12.5px; color: #6c757d; line-height: 1.6; }
+
+        /* ══════════════════════════════
+           TÓM TẮT ĐƠN HÀNG (cột phải)
+           ══════════════════════════════ */
+        .ck-summary { position: sticky; top: 82px; }
+
+        /* Sản phẩm trong tóm tắt */
+        .sum-items { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
+        .sum-item { display: flex; gap: 12px; align-items: flex-start; padding-bottom: 14px; border-bottom: 1px solid rgba(13,64,118,.07); }
+        .sum-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .sum-thumb {
+            width: 64px; height: 64px; border-radius: 10px;
+            flex-shrink: 0; object-fit: cover;
+            background: linear-gradient(135deg,#0A2B54,#0D4076);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; color: #fff; overflow: hidden;
+        }
+        .sum-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+        .sum-info { flex: 1; min-width: 0; }
+        .sum-name { font-size: 12.5px; font-weight: 800; color: #0A2B54; line-height: 1.4; margin-bottom: 3px; }
+        .sum-meta { font-size: 11px; color: #9baab8; margin-bottom: 7px; }
+        .sum-qty-row { display: flex; align-items: center; gap: 8px; }
+        .sq-btn {
+            width: 24px; height: 24px; border-radius: 7px; border: 1.5px solid #e2eaf5;
+            background: #fff; display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; color: #0D4076;
+            cursor: pointer; transition: all .2s; flex-shrink: 0;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .sq-btn:hover { background: linear-gradient(135deg,#0A2B54,#0D4076); color: #fff; border-color: transparent; }
+        .sq-val { font-size: 13px; font-weight: 900; color: #0A2B54; min-width: 18px; text-align: center; }
+        .sum-price { font-size: 14px; font-weight: 900; color: #0D4076; white-space: nowrap; flex-shrink: 0; }
+
+        /* ── Mã giảm giá ── */
+        .coupon-row { display: flex; gap: 7px; margin-bottom: 16px; }
+        .coupon-inp {
+            flex: 1; height: 44px; border: 1.5px solid #e2eaf5; border-radius: 9px;
+            padding: 0 13px; font-size: 12.5px; font-weight: 700;
+            font-family: 'Be Vietnam Pro', sans-serif; color: #0A2B54; background: #f8faff;
+            outline: none; text-transform: uppercase; transition: all .25s;
+        }
+        .coupon-inp:focus { border-color: #0D4076; box-shadow: 0 0 0 3px rgba(13,64,118,.1); }
+        .coupon-inp.shake { animation: ck-shake .4s; border-color: #ef4444; }
+        .coupon-apply {
+            height: 44px; padding: 0 16px;
+            background: linear-gradient(135deg,#0A2B54,#0D4076,#1E5C9E);
+            border: none; border-radius: 9px; color: #fff;
+            font-size: 12.5px; font-weight: 900; cursor: pointer; white-space: nowrap;
+            display: flex; align-items: center; gap: 6px; transition: all .25s;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .coupon-apply:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(13,64,118,.3); }
+        .coupon-apply.loading { opacity: .8; pointer-events: none; }
+        .coupon-spinner { width: 15px; height: 15px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; display: none; }
+        .coupon-msg { font-size: 11.5px; font-weight: 700; margin-top: 5px; display: none; }
+        .coupon-msg.ok { color: #22c55e; display: block; }
+        .coupon-msg.err { color: #ef4444; display: block; }
+
+        /* ── Bảng giá ── */
+        .price-tbl { margin-bottom: 14px; }
+        .pt-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; font-size: 12.5px; }
+        .pt-lbl { color: #6c757d; font-weight: 600; }
+        .pt-val { font-weight: 800; color: #0A2B54; }
+        .pt-val.disc { color: #22c55e; }
+        .pt-divider { height: 1px; background: linear-gradient(90deg,transparent,rgba(13,64,118,.15),transparent); margin: 6px 0; }
+        .pt-total { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 0; }
+        .pt-total-lbl { font-size: 14px; font-weight: 900; color: #0A2B54; }
+        .pt-total-val {
+            font-size: 22px; font-weight: 900;
+            background: linear-gradient(135deg,#0A2B54,#0D4076,#1E5C9E);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── Nút đặt hàng CTA ── */
+        .ck-cta {
+            width: 100%; height: 54px; margin-top: 18px;
+            background: linear-gradient(135deg,#0A2B54 0%,#0D4076 55%,#1E5C9E 100%);
+            border: none; border-radius: 14px; color: #fff;
+            font-size: 15px; font-weight: 900; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 9px;
+            transition: all .3s cubic-bezier(.34,1.2,.64,1);
+            box-shadow: 0 5px 22px rgba(13,64,118,.38);
+            font-family: 'Be Vietnam Pro', sans-serif; position: relative; overflow: hidden;
+        }
+        .ck-cta::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg,#061D38,#0A3563,#1961AE);
+            opacity: 0; transition: opacity .28s;
+        }
+        .ck-cta:hover::before { opacity: 1; }
+        .ck-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(13,64,118,.45); }
+        .ck-cta.loading { pointer-events: none; }
+        .ck-cta-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 9px; }
+        .ck-cta-spin { width: 20px; height: 20px; border: 2.5px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Trust badges */
+        .trust-badges { display: flex; justify-content: center; gap: 18px; margin-top: 14px; }
+        .trust-b { display: flex; align-items: center; gap: 5px; font-size: 10.5px; color: #9baab8; font-weight: 700; }
+        .trust-b i { color: #22c55e; font-size: 11px; }
+
+        /* ── Vùng trống khi chưa có hàng ── */
+        .empty-state {
+            text-align: center; padding: 56px 24px;
+        }
+        .empty-icon { font-size: 64px; margin-bottom: 16px; }
+        .empty-title { font-size: 18px; font-weight: 900; color: #0A2B54; margin-bottom: 8px; }
+        .empty-desc { font-size: 13.5px; color: #6c757d; margin-bottom: 22px; line-height: 1.6; }
+        .empty-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg,#0A2B54,#0D4076,#1E5C9E);
+            color: #fff; text-decoration: none; padding: 12px 28px;
+            border-radius: 50px; font-size: 13.5px; font-weight: 900;
+            transition: all .28s; box-shadow: 0 4px 16px rgba(13,64,118,.3);
+        }
+        .empty-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(13,64,118,.4); color: #fff; text-decoration: none; }
+
+        /* ── Skeleton shimmer ── */
+        .sk-overlay {
+            position: fixed; inset: 0; background: #f5f7fb;
+            z-index: 9998; transition: opacity .5s, visibility .5s;
+        }
+        .sk-overlay.hide { opacity: 0; visibility: hidden; }
+        .sk-bar {
+            border-radius: 7px;
+            background: linear-gradient(90deg,#e4eaf2 25%,#f5f7fb 50%,#e4eaf2 75%);
+            background-size: 200% 100%;
+            animation: sk-wave 1.4s infinite;
+        }
+        @keyframes sk-wave { to { background-position: -200% 0; } }
+        .sk-hd { height: 60px; background: #fff; border-bottom: 1px solid #eee; display: flex; align-items: center; padding: 0 20px; gap: 16px; }
+        .sk-body { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 380px; gap: 22px; }
+        .sk-block { background: #fff; border-radius: 18px; padding: 26px; }
+        .sk-block .sk-bar + .sk-bar { margin-top: 12px; }
+
+        /* ── Modal thành công ── */
+        .success-overlay {
+            position: fixed; inset: 0;
+            background: rgba(4,21,42,.72); backdrop-filter: blur(8px);
+            z-index: 99999; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all .35s;
+        }
+        .success-overlay.show { opacity: 1; visibility: visible; }
+        .success-modal {
+            background: #fff; border-radius: 26px; padding: 46px 36px;
+            max-width: 440px; width: 90%; text-align: center;
+            box-shadow: 0 28px 80px rgba(0,0,0,.28);
+            transform: scale(.88) translateY(16px);
+            transition: transform .48s cubic-bezier(.34,1.56,.64,1);
+            position: relative; overflow: hidden;
+        }
+        .success-overlay.show .success-modal { transform: scale(1) translateY(0); }
+        .confetti-wrap { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .confetti-bit {
+            position: absolute; border-radius: 2px;
+            animation: fall-bit 3s ease-in forwards; opacity: 0;
+        }
+        @keyframes fall-bit { 0%{transform:translateY(-10px) rotate(0);opacity:1} 100%{transform:translateY(480px) rotate(720deg);opacity:0} }
+        .ok-circle { width: 86px; height: 86px; border-radius: 50%; background: rgba(34,197,94,.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .ok-svg { width: 44px; height: 44px; }
+        .ok-path { stroke: #22c55e; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; fill: none; stroke-dasharray: 58; stroke-dashoffset: 58; transition: stroke-dashoffset .6s ease .3s; }
+        .success-overlay.show .ok-path { stroke-dashoffset: 0; }
+        .ok-title { font-size: 22px; font-weight: 900; color: #0A2B54; margin-bottom: 7px; }
+        .ok-sub { font-size: 13.5px; color: #6c757d; line-height: 1.7; margin-bottom: 22px; }
+        .ok-code { background: rgba(13,64,118,.06); border: 1px solid rgba(13,64,118,.15); border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 800; color: #0A2B54; margin-bottom: 20px; }
+        .ok-code span { color: #0D4076; font-size: 15px; }
+        .ok-btn { width: 100%; padding: 12px; background: linear-gradient(135deg,#0A2B54,#0D4076,#1E5C9E); border: none; border-radius: 11px; color: #fff; font-size: 13.5px; font-weight: 900; cursor: pointer; transition: all .28s; font-family: 'Be Vietnam Pro', sans-serif; }
+        .ok-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(13,64,118,.35); }
+        .ok-back { display: block; margin-top: 10px; font-size: 12.5px; color: #9baab8; font-weight: 700; cursor: pointer; text-decoration: none; }
+
+        /* ── Info note ── */
+        .info-note { background: rgba(13,64,118,.05); border: 1px solid rgba(13,64,118,.12); border-radius: 9px; padding: 9px 13px; font-size: 11.5px; color: #0D4076; font-weight: 700; display: flex; align-items: center; gap: 7px; margin-top: 14px; }
+
+        /* ── Responsive summary không sticky trên mobile ── */
+        @media(max-width:1024px){ .ck-summary { position: static; } }
+        @media(max-width:576px){ .sk-body { grid-template-columns: 1fr; } }
+
+        /* ── Đường back ── */
+        .ck-back-link {
+            display: inline-flex; align-items: center; gap: 7px;
+            color: #0D4076; font-size: 12.5px; font-weight: 800;
+            text-decoration: none; transition: gap .2s;
+        }
+        .ck-back-link:hover { gap: 10px; color: #0D4076; text-decoration: none; }
+    
+
+
+        /* Nút đăng nhập/đăng ký */
+        .btn-login {
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            color:#fff !important; border:none; border-radius:10px;
+            padding:7px 16px; font-size:13px; transition:all .2s;
+        }
+        .btn-login:hover { opacity:.88; transform:translateY(-1px); }
+        /* Avatar user */
+        .user-avatar-btn {
+            width:38px; height:38px; border-radius:50%;
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-weight:800; font-size:15px;
+            cursor:pointer; border:none; transition:all .2s;
+        }
+        .user-avatar-btn:hover { box-shadow:0 4px 14px rgba(13,64,118,.35); }
+        .user-profile-dropdown .dropdown-menu {
+            border-radius:14px; padding:8px 0;
+            box-shadow:0 8px 30px rgba(0,0,0,.12);
+        }
+
+        
+        /* ══════════════════════════════════════════════════════════
+           BỔ SUNG — Thanh toán & đặt thợ Gắn Kết Bốn Phương
+           ══════════════════════════════════════════════════════════ */
+        .ck-step.active { color: #E06400; }
+        .ck-step.active .ck-step-circle { background: linear-gradient(135deg, #F26B00, #FF9F43) !important; color: #fff; box-shadow: 0 4px 14px rgba(250,120,6,.35); }
+        .ck-card-num { background: linear-gradient(135deg, #0A2B54, #1E5C9E); }
+        .upgrade-card:hover { border-color: #FA7806; background: #FFF7F0; }
+        .upgrade-card.selected { border-color: #FA7806 !important; background: #FFF7F0 !important; box-shadow: 0 6px 20px rgba(250,120,6,.14); }
+        .upgrade-card.selected .uc-radio { border-color: #FA7806; background: #FA7806; }
+        .uc-price { color: #E06400; }
+        .pay-item.active { border-color: #FA7806; }
+        .pay-item.active .pay-r { border-color: #FA7806; background: #FA7806; }
+        .pay-item.active .pay-hd { background: #FFF7F0; }
+        .pay-hd:hover { background: #FFF7F0; }
+        .cc-front { background: linear-gradient(135deg, #061D38 0%, #0D4076 58%, #1E5C9E 100%); }
+        .cc-gk-mark { position: absolute; right: 18px; top: 50%; transform: translateY(-50%) rotate(-20deg); font-size: 64px; color: rgba(250,120,6,.18); pointer-events: none; }
+        .qr-tab.active { background: linear-gradient(135deg, #F26B00, #FF9F43); }
+        .qr-timer { color: #E06400; }
+        .copy-btn:hover { background: #FA7806; }
+        .sum-price { color: #E06400; }
+        .sum-meta i { color: #FA7806; }
+        .gk-sum-extra { margin-top: 3px; color: #C2410C; font-weight: 700; }
+        .gk-sq-unit { font-size: 11px; color: #94a3b8; font-weight: 700; }
+        .sq-btn:hover { background: #FA7806 !important; }
+        .coupon-apply { background: linear-gradient(135deg, #0A2B54, #1E5C9E); }
+        .coupon-inp { min-width: 0; text-transform: uppercase; }
+        .pt-total-val { color: #E06400 !important; -webkit-text-fill-color: #E06400; background: none !important; }
+        .gk-points-earn { margin-top: 10px; font-size: 12px; font-weight: 700; color: #0D4076; background: #EAF1F9; border-radius: 10px; padding: 8px 12px; }
+        .gk-points-earn i { color: #FA7806; margin-right: 4px; }
+        .ck-cta { background: linear-gradient(135deg, #F26B00, #FF9F43) !important; }
+        .ck-cta:hover { box-shadow: 0 10px 32px rgba(250,120,6,.45) !important; }
+        .empty-btn { background: linear-gradient(135deg, #0A2B54, #1E5C9E); border: 0; }
+        .gk-empty-sos { background: linear-gradient(135deg, #F26B00, #FF9F43); color: #fff; cursor: pointer; }
+        .gk-garage-pick { margin-bottom: 16px; }
+        .gk-garage-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .gk-garage-chip { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid #e2e8f0; background: #fff; border-radius: 12px; padding: 8px 12px; font-size: 12.5px; cursor: pointer; transition: .2s; }
+        .gk-garage-chip i { color: #0D4076; }
+        .gk-garage-chip b { color: #0A2B54; font-family: ui-monospace, Menlo, Consolas, monospace; letter-spacing: .5px; }
+        .gk-garage-chip span { color: #64748b; }
+        .gk-garage-chip.on { border-color: #FA7806; background: #FFF7F0; box-shadow: 0 4px 12px rgba(250,120,6,.15); }
+        .gk-garage-chip.on i { color: #FA7806; }
+        #inp-addr.invalid { border-color: #ef4444; background: #fff5f5; }
+        #err-addr, #err-card { margin-top: 6px; }
+        .info-note { background: #FFF7F0; border-color: #FED7AA; color: #9A3412; }
+        .gk-rescue-note { background: #FEF2F2; border-color: #FECACA; color: #B91C1C; }
+
+        .ok-btn { background: linear-gradient(135deg, #F26B00, #FF9F43); }
+        .ok-btn:hover { box-shadow: 0 5px 18px rgba(250,120,6,.4); }
+        .ok-code span { color: #E06400; }
+        .gk-ok-match { position: relative; height: 34px; margin: -6px auto 8px; max-width: 280px; }
+        .gk-ok-road { position: absolute; left: 0; right: 0; top: 24px; height: 3px; background: repeating-linear-gradient(90deg, #cbd5e1 0 14px, transparent 14px 24px); }
+        .gk-ok-moto { position: absolute; top: 2px; left: 0; font-size: 20px; color: #FA7806; animation: gkOkRide 2.6s ease-in-out forwards; }
+        .gk-ok-pin { position: absolute; right: 0; top: 0; font-size: 20px; color: #0D4076; }
+        @keyframes gkOkRide { from { left: 0; } to { left: calc(100% - 46px); } }
+        .gk-ok-status { font-size: 12.5px; font-weight: 700; color: #0D4076; margin-bottom: 14px; }
+        .gk-ok-status.done { color: #047857; }
+        .gk-ok-points { font-size: 12.5px; font-weight: 800; color: #C2410C; background: #FFF1E6; border-radius: 10px; padding: 8px 12px; margin: -8px 0 16px; }
+        .gk-ok-points:empty { display: none; }
+
+        .gk-ck-mbar { display: none; }
+        @media (max-width: 1024px) {
+            .gk-ck-mbar { display: flex; align-items: center; justify-content: space-between; position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000; background: #fff; padding: 12px 16px; border-top: 1px solid #e2e8f0; box-shadow: 0 -6px 20px rgba(10,43,84,.12); border-radius: 16px 16px 0 0; }
+            .gk-ck-mbar-lbl { font-size: 12px; color: #6c757d; }
+            .gk-ck-mbar-val { font-size: 18px; font-weight: 900; color: #E06400; }
+            .gk-ck-mbar-btn { border: 0; background: linear-gradient(135deg, #F26B00, #FF9F43); color: #fff; font-weight: 800; font-size: 14px; border-radius: 12px; padding: 11px 22px; box-shadow: 0 6px 16px rgba(250,120,6,.35); }
+            .ck-page { padding-bottom: 140px; }
+        }
+        @media (max-width: 991.98px) {
+            .gk-ck-mbar { bottom: calc(64px + env(safe-area-inset-bottom)); }
+            .ck-page { padding-bottom: 170px; }
+        }
+        @media (max-width: 576px) {
+            .ck-page { padding-top: 18px; }
+            .ck-card { padding: 18px 16px; border-radius: 16px; }
+            .ck-step-list span { font-size: 11px; }
+            .ck-step-arrow { margin: 0 6px; }
+            .trust-badges { flex-wrap: wrap; gap: 10px; }
+            .cc-gk-mark { font-size: 48px; }
+            .upgrade-card { padding: 12px 14px; gap: 10px; }
+            .uc-icon { font-size: 20px; }
+            .uc-info { min-width: 0; }
+            .uc-name { font-size: 13px; }
+            .uc-price { font-size: 12.5px; }
+            .pay-hd { gap: 10px; }
+            .pay-title { font-size: 13px; }
+        }
+
+        </style>
+</head>
+<body class="gk-has-mbar">
+
+<!-- ════════════════════════════════════════════════════════
+     SKELETON LOADER — hiện khi trang vừa tải
+     ════════════════════════════════════════════════════════ -->
+<div class="sk-overlay" id="skOverlay">
+    <div class="sk-hd">
+        <div class="sk-bar" style="width:110px;height:30px;border-radius:8px;"></div>
+        <div class="sk-bar" style="width:240px;"></div>
+        <div class="sk-bar" style="width:160px;margin-left:auto;"></div>
+    </div>
+    <div class="sk-body">
+        <div>
+            <div class="sk-block" style="margin-bottom:18px;">
+                <div class="sk-bar" style="width:38%;height:16px;margin-bottom:18px;"></div>
+                <div class="sk-bar" style="height:48px;border-radius:11px;margin-bottom:12px;"></div>
+                <div class="sk-bar" style="height:48px;border-radius:11px;margin-bottom:12px;"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="sk-bar" style="height:48px;border-radius:11px;"></div>
+                    <div class="sk-bar" style="height:48px;border-radius:11px;"></div>
+                </div>
+            </div>
+            <div class="sk-block">
+                <div class="sk-bar" style="width:38%;height:16px;margin-bottom:18px;"></div>
+                <div class="sk-bar" style="height:64px;border-radius:12px;margin-bottom:10px;"></div>
+                <div class="sk-bar" style="height:64px;border-radius:12px;"></div>
+            </div>
+        </div>
+        <div>
+            <div class="sk-block">
+                <div class="sk-bar" style="width:55%;height:16px;margin-bottom:18px;"></div>
+                <div class="sk-bar" style="height:78px;border-radius:12px;margin-bottom:12px;"></div>
+                <div class="sk-bar" style="height:78px;border-radius:12px;margin-bottom:18px;"></div>
+                <div class="sk-bar" style="height:44px;border-radius:9px;margin-bottom:12px;"></div>
+                <div class="sk-bar" style="height:2px;margin-bottom:10px;"></div>
+                <div class="sk-bar" style="width:55%;height:14px;margin-bottom:6px;"></div>
+                <div class="sk-bar" style="width:65%;height:14px;margin-bottom:16px;"></div>
+                <div class="sk-bar" style="height:52px;border-radius:14px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     HEADER — y hệt trang chủ / trang dịch vụ
+     ════════════════════════════════════════════════════════ -->
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+<!-- Sub-nav -->
+<nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+<!-- ════════════════════════════════════════════════════════
+     THANH TIẾN TRÌNH (Steps)
+     ════════════════════════════════════════════════════════ -->
+<div class="ck-steps">
+    <div class="container">
+        <div class="ck-step-list">
+            <div class="ck-step done">
+                <div class="ck-step-circle"><i class="fas fa-check" style="font-size:10px;"></i></div>
+                <span>Chọn dịch vụ</span>
+            </div>
+            <div class="ck-step-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="ck-step active">
+                <div class="ck-step-circle">2</div>
+                <span>Thanh toán</span>
+            </div>
+            <div class="ck-step-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="ck-step">
+                <div class="ck-step-circle">3</div>
+                <span>Thợ nhận đơn</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     NỘI DUNG CHÍNH
+     ════════════════════════════════════════════════════════ -->
+<div class="ck-page">
+    <div class="container">
+
+        <!-- Trạng thái trống: không có dịch vụ từ "Đặt ngay" hoặc giỏ dịch vụ -->
+        <div id="emptyState" style="display:none;">
+            <div class="ck-card">
+                <div class="empty-state">
+                    <div class="empty-icon">🧰</div>
+                    <div class="empty-title">Chưa có dịch vụ nào</div>
+                    <div class="empty-desc">
+                        Bạn chưa chọn dịch vụ nào. Hãy quay lại trang dịch vụ,<br class="d-none d-md-inline">
+                        chọn sửa chữa, bảo dưỡng, gói thành viên hoặc phụ tùng và nhấn <strong>"Đặt ngay"</strong>.
+                    </div>
+                    <div class="d-flex flex-wrap justify-content-center" style="gap:10px;">
+                        <a href="html_dichvu.html" class="empty-btn">
+                            <i class="fas fa-tools"></i> Khám phá dịch vụ
+                        </a>
+                        <button type="button" class="empty-btn gk-empty-sos" data-sos-open="lop">
+                            <i class="fas fa-life-ring"></i> Cứu hộ khẩn cấp
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nội dung thanh toán -->
+        <div id="checkoutContent" style="display:none;">
+
+            <!-- Điện thoại: accordion tóm tắt đơn -->
+            <div class="ck-mobile-acc d-lg-none">
+                <button class="ck-mob-toggle" id="mobToggle">
+                    <span><i class="fas fa-receipt mr-2"></i>Tóm tắt đơn dịch vụ</span>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span id="mobTotalDisplay" style="font-size:17px;font-weight:900;"></span>
+                        <i class="fas fa-chevron-down mob-arr"></i>
+                    </div>
+                </button>
+                <div class="ck-mob-body" id="mobBody">
+                    <div style="padding:16px;" id="mobSummaryInner"></div>
+                </div>
+            </div>
+
+            <div class="ck-grid">
+
+                <!-- ═══════════════ CỘT TRÁI: FORM ═══════════════ -->
+                <div class="ck-left">
+
+                    <!-- SECTION 1: Thông tin khách hàng -->
+                    <div class="ck-card">
+                        <div class="ck-card-title">
+                            <span class="ck-card-num">1</span>
+                            Thông tin khách hàng
+                        </div>
+                        <div class="ck-row2">
+                            <div class="fl-group">
+                                <input type="text" class="fl-input" id="inp-lastname" autocomplete="off">
+                                <label class="fl-label">Họ *</label>
+                                <i class="fas fa-times fl-icon" id="icon-lastname"></i>
+                                <div class="fl-error" id="err-lastname">Vui lòng nhập họ (tối thiểu 2 ký tự)</div>
+                            </div>
+                            <div class="fl-group">
+                                <input type="text" class="fl-input" id="inp-firstname" autocomplete="off">
+                                <label class="fl-label">Tên *</label>
+                                <i class="fas fa-times fl-icon" id="icon-firstname"></i>
+                                <div class="fl-error" id="err-firstname">Vui lòng nhập tên</div>
+                            </div>
+                        </div>
+                        <div class="fl-group">
+                            <input type="email" class="fl-input" id="inp-email" autocomplete="off">
+                            <label class="fl-label">Email nhận hóa đơn điện tử *</label>
+                            <i class="fas fa-times fl-icon" id="icon-email"></i>
+                            <div class="fl-error" id="err-email">Email không hợp lệ (thiếu @ hoặc tên miền)</div>
+                        </div>
+                        <div class="fl-group">
+                            <input type="tel" class="fl-input" id="inp-phone" maxlength="12" autocomplete="off">
+                            <label class="fl-label">Số điện thoại để thợ liên hệ *</label>
+                            <i class="fas fa-times fl-icon" id="icon-phone"></i>
+                            <div class="fl-error" id="err-phone">Số điện thoại di động 10 số, bắt đầu 03/05/07/08/09</div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 2: Thông tin xe & điểm hẹn -->
+                    <div class="ck-card">
+                        <div class="ck-card-title">
+                            <span class="ck-card-num">2</span>
+                            Thông tin xe &amp; điểm hẹn
+                        </div>
+                        <div class="gk-garage-pick" id="garagePick" style="display:none;">
+                            <label class="fl-date-label"><i class="fas fa-warehouse mr-1"></i>Chọn xe trong Garage số</label>
+                            <div class="gk-garage-chips" id="garageChips"></div>
+                        </div>
+                        <div class="ck-row2">
+                            <div class="fl-group">
+                                <input type="text" class="fl-input" id="inp-plate" maxlength="14" autocomplete="off">
+                                <label class="fl-label">Biển số xe (VD: 59-X1 234.56)</label>
+                                <i class="fas fa-times fl-icon" id="icon-plate"></i>
+                                <div class="fl-error" id="err-plate">Biển số chưa đúng định dạng (VD: 59-X1 234.56)</div>
+                            </div>
+                            <div class="fl-group">
+                                <input type="text" class="fl-input" id="inp-model" maxlength="40" autocomplete="off">
+                                <label class="fl-label">Dòng xe (VD: Honda Vision)</label>
+                                <i class="fas fa-motorcycle fl-icon" style="opacity:.35;color:#9baab8;"></i>
+                            </div>
+                        </div>
+                        <div class="ck-row2" style="margin-bottom:18px;">
+                            <div>
+                                <label class="fl-date-label">Quận *</label>
+                                <select class="fl-date" id="inp-area" style="cursor:pointer;"><option value="Quận 1">Quận 1</option><option value="Quận 3">Quận 3</option><option value="Quận 10">Quận 10</option><option value="Bình Thạnh">Bình Thạnh</option><option value="Phú Nhuận">Phú Nhuận</option><option value="Gò Vấp">Gò Vấp</option></select>
+                            </div>
+                            <div>
+                                <label class="fl-date-label">Địa chỉ thợ đến / nhận hàng *</label>
+                                <input type="text" class="fl-date" id="inp-addr" maxlength="120" placeholder="Số nhà, tên đường, phường…">
+                                <div class="fl-error" id="err-addr">Vui lòng nhập địa chỉ để thợ tìm đến</div>
+                            </div>
+                        </div>
+                        <div class="ck-row2" style="margin-bottom:8px;">
+                            <div>
+                                <label class="fl-date-label">Ngày hẹn *</label>
+                                <input type="date" class="fl-date" id="inp-date">
+                            </div>
+                            <div>
+                                <label class="fl-date-label">Khung giờ ưa thích</label>
+                                <select class="fl-date" id="inp-time" style="cursor:pointer;">
+                                    <option>07:00 – 09:00</option>
+                                    <option>09:00 – 11:00</option>
+                                    <option>13:00 – 15:00</option>
+                                    <option>15:00 – 17:00</option>
+                                    <option>18:00 – 20:00</option>
+                                    <option>Linh hoạt – thợ gọi trước 15 phút</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="info-note gk-rescue-note" id="rescueNote" style="display:none;margin:0 0 16px;">
+                            <i class="fas fa-bolt" style="font-size:12px;"></i>
+                            Đơn có dịch vụ cứu hộ khẩn cấp: thợ được điều phối ngay sau khi xác nhận, ngày hẹn chỉ áp dụng cho dịch vụ đặt lịch.
+                        </div>
+                        <label class="fl-textarea-label">Mô tả tình trạng xe / ghi chú cho thợ (tùy chọn)</label>
+                        <textarea class="fl-textarea" id="inp-note" rows="2" placeholder="Ví dụ: xe đề không nổ sau mưa; xe để ở hầm B2, gọi trước khi đến; cần hóa đơn VAT…"></textarea>
+                    </div>
+
+                    <!-- SECTION 3: Ưu tiên điều phối -->
+                    <div class="ck-card">
+                        <div class="ck-card-title">
+                            <span class="ck-card-num">3</span>
+                            Ưu tiên điều phối thợ
+                        </div>
+                        <div class="upgrade-cards" id="upgradeCards">
+                            <label class="upgrade-card selected" onclick="selectUpgrade(this, 0, 'Điều phối tiêu chuẩn')">
+                                <input type="radio" name="upgrade" value="0" checked>
+                                <div class="uc-radio"><div class="uc-dot"></div></div>
+                                <span class="uc-icon">📋</span>
+                                <div class="uc-info">
+                                    <div class="uc-name">Điều phối tiêu chuẩn</div>
+                                    <div class="uc-desc">Thợ gần nhất trong bán kính 3–5 km nhận đơn · SMS cập nhật trạng thái</div>
+                                </div>
+                                <span class="uc-price">Miễn phí</span>
+                            </label>
+                            <label class="upgrade-card" onclick="selectUpgrade(this, 20000, 'Ưu tiên giờ cao điểm')">
+                                <input type="radio" name="upgrade" value="20000">
+                                <div class="uc-radio"><div class="uc-dot"></div></div>
+                                <span class="uc-icon">⚡</span>
+                                <div class="uc-info">
+                                    <div class="uc-name">Ưu tiên giờ cao điểm</div>
+                                    <div class="uc-desc">Xếp đầu hàng chờ khi mưa lớn, kẹt xe · tổng đài gọi xác nhận</div>
+                                </div>
+                                <span class="uc-price">+20.000đ</span>
+                                <div class="uc-badge">HOT</div>
+                            </label>
+                            <label class="upgrade-card" onclick="selectUpgrade(this, 50000, 'Thợ Ưu tú trở lên')">
+                                <input type="radio" name="upgrade" value="50000">
+                                <div class="uc-radio"><div class="uc-dot"></div></div>
+                                <span class="uc-icon">🏅</span>
+                                <div class="uc-info">
+                                    <div class="uc-name">Thợ Ưu tú trở lên</div>
+                                    <div class="uc-desc">Ghép thợ hạng Ưu tú / Tinh hoa (từ 4,6★) · ưu tiên thợ bạn từng chấm 5★</div>
+                                </div>
+                                <span class="uc-price">+50.000đ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 4: Phương thức thanh toán -->
+                    <div class="ck-card">
+                        <div class="ck-card-title">
+                            <span class="ck-card-num">4</span>
+                            Phương thức thanh toán
+                        </div>
+                        <div class="pay-list">
+
+                            <!-- ── Thẻ tín dụng / Ghi nợ ── -->
+                            <div class="pay-item active" id="pay-card">
+                                <div class="pay-hd" onclick="selectPay('pay-card')">
+                                    <div class="pay-r"><div class="pay-r-dot"></div></div>
+                                    <span style="font-size:22px;">💳</span>
+                                    <span class="pay-title">Thẻ tín dụng / Ghi nợ</span>
+                                    <span style="font-size:11px;color:#22c55e;font-weight:900;white-space:nowrap;display:flex;align-items:center;gap:4px;"><i class="fas fa-shield-alt"></i> SSL</span>
+                                </div>
+                                <div class="pay-body">
+                                    <div class="pay-body-inner">
+                                        <div class="cc-scene">
+                                            <div class="cc-wrapper" id="ccWrapper">
+                                                <div class="cc-face cc-front">
+                                                    <div class="cc-shimmer"></div>
+                                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                                                        <div class="cc-chip"></div>
+                                                        <div style="font-size:9px;opacity:.55;letter-spacing:1px;color:#fff;">DEBIT CARD</div>
+                                                    </div>
+                                                    <div class="cc-num" id="ccNumDisp">•••• •••• •••• ••••</div>
+                                                    <div class="cc-bot">
+                                                        <div>
+                                                            <div class="cc-lbl">Card Holder</div>
+                                                            <div class="cc-val" id="ccNameDisp">HỌ VÀ TÊN</div>
+                                                        </div>
+                                                        <div style="text-align:right;">
+                                                            <div class="cc-lbl">Expires</div>
+                                                            <div class="cc-val" style="font-family:'Courier New',monospace;" id="ccExpDisp">MM/YY</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="cc-brand" id="ccBrandDisp" style="color:rgba(255,255,255,.35);">BỐN PHƯƠNG</div>
+                                                    <i class="fas fa-wrench cc-gk-mark" aria-hidden="true"></i>
+                                                </div>
+                                                <div class="cc-face cc-back">
+                                                    <div class="cc-shimmer"></div>
+                                                    <div class="cc-stripe"></div>
+                                                    <div class="cc-cvv-box">
+                                                        <span class="cc-cvv-lbl">CVV</span>
+                                                        <span class="cc-cvv-val" id="ccCvvDisp">•••</span>
+                                                    </div>
+                                                    <div style="text-align:right;margin-top:10px;font-size:12px;color:rgba(255,255,255,.3);font-weight:800;" id="ccBrandBack">BỐN PHƯƠNG</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cc-form">
+                                            <div class="fl-group" style="margin-bottom:0;">
+                                                <input type="text" class="fl-input" id="ccNum" maxlength="19" placeholder=" " autocomplete="off" inputmode="numeric"
+                                                       oninput="fmtCardNum(this);updateCard();"
+                                                       onchange="updateCard();">
+                                                <label class="fl-label">Số thẻ *</label>
+                                                <i class="fas fa-credit-card fl-icon" style="opacity:.35;color:#9baab8;" id="ccNumIcon"></i>
+                                            </div>
+                                            <div class="fl-group" style="margin-bottom:0;">
+                                                <input type="text" class="fl-input" id="ccName" maxlength="28" placeholder=" " autocomplete="off"
+                                                       oninput="updateCardName(this);">
+                                                <label class="fl-label">Tên in trên thẻ *</label>
+                                                <i class="fas fa-user fl-icon" style="opacity:.35;color:#9baab8;"></i>
+                                            </div>
+                                            <div class="ck-row2">
+                                                <div class="fl-group" style="margin-bottom:0;">
+                                                    <input type="text" class="fl-input" id="ccExp" maxlength="5" placeholder=" " autocomplete="off" inputmode="numeric"
+                                                           oninput="fmtExp(this);updateCardExp(this);">
+                                                    <label class="fl-label">MM/YY *</label>
+                                                    <i class="fas fa-calendar fl-icon" style="opacity:.35;color:#9baab8;"></i>
+                                                </div>
+                                                <div class="fl-group" style="margin-bottom:0;">
+                                                    <input type="password" class="fl-input" id="ccCvv" maxlength="4" placeholder=" " autocomplete="off" inputmode="numeric"
+                                                           onfocus="flipCard(true)" onblur="flipCard(false)"
+                                                           oninput="updateCvv(this);">
+                                                    <label class="fl-label">CVV *</label>
+                                                    <i class="fas fa-lock fl-icon" style="opacity:.35;color:#9baab8;"></i>
+                                                </div>
+                                            </div>
+                                            <div class="fl-error" id="err-card">Vui lòng nhập đủ số thẻ (16 số), tên, hạn dùng và CVV</div>
+                                        </div>
+                                        <div class="info-note">
+                                            <i class="fas fa-lock" style="font-size:12px;"></i>
+                                            Thông tin thẻ được mã hóa SSL 256-bit. Gắn Kết Bốn Phương không lưu trữ số thẻ.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ── Ví điện tử / QR ── -->
+                            <div class="pay-item" id="pay-qr">
+                                <div class="pay-hd" onclick="selectPay('pay-qr')">
+                                    <div class="pay-r"><div class="pay-r-dot"></div></div>
+                                    <span style="font-size:22px;">📱</span>
+                                    <span class="pay-title">Ví điện tử (MoMo / ZaloPay / VNPAY)</span>
+                                </div>
+                                <div class="pay-body">
+                                    <div class="pay-body-inner">
+                                        <div class="qr-zone">
+                                            <div class="qr-tabs">
+                                                <div class="qr-tab active" onclick="switchQr(this,'MoMo')">MoMo</div>
+                                                <div class="qr-tab" onclick="switchQr(this,'ZaloPay')">ZaloPay</div>
+                                                <div class="qr-tab" onclick="switchQr(this,'VNPAY')">VNPAY</div>
+                                            </div>
+                                            <div class="qr-box">
+                                                <svg class="qr-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="100" height="100" fill="white"/>
+                                                    <rect x="5" y="5" width="28" height="28" rx="3" fill="none" stroke="#0A2B54" stroke-width="3"/>
+                                                    <rect x="10" y="10" width="18" height="18" rx="1.5" fill="#0A2B54"/>
+                                                    <rect x="67" y="5" width="28" height="28" rx="3" fill="none" stroke="#0A2B54" stroke-width="3"/>
+                                                    <rect x="72" y="10" width="18" height="18" rx="1.5" fill="#0A2B54"/>
+                                                    <rect x="5" y="67" width="28" height="28" rx="3" fill="none" stroke="#0A2B54" stroke-width="3"/>
+                                                    <rect x="10" y="72" width="18" height="18" rx="1.5" fill="#0A2B54"/>
+                                                    <rect x="38" y="5" width="5" height="5" fill="#0A2B54"/><rect x="46" y="5" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="54" y="5" width="5" height="5" fill="#0A2B54"/><rect x="38" y="13" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="54" y="13" width="5" height="5" fill="#0A2B54"/><rect x="38" y="21" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="46" y="21" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="5" y="38" width="5" height="5" fill="#0A2B54"/><rect x="13" y="38" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="21" y="38" width="5" height="5" fill="#0A2B54"/><rect x="38" y="38" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="46" y="38" width="5" height="5" fill="#0A2B54"/><rect x="54" y="38" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="62" y="38" width="5" height="5" fill="#0A2B54"/><rect x="5" y="46" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="21" y="46" width="5" height="5" fill="#0A2B54"/><rect x="38" y="46" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="54" y="46" width="5" height="5" fill="#0A2B54"/><rect x="70" y="46" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="5" y="54" width="5" height="5" fill="#0A2B54"/><rect x="13" y="54" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="29" y="54" width="5" height="5" fill="#0A2B54"/><rect x="46" y="54" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="62" y="54" width="5" height="5" fill="#0A2B54"/><rect x="78" y="54" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="38" y="62" width="5" height="5" fill="#0A2B54"/><rect x="54" y="62" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="70" y="62" width="5" height="5" fill="#0A2B54"/><rect x="78" y="62" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="38" y="70" width="5" height="5" fill="#0A2B54"/><rect x="46" y="70" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="62" y="70" width="5" height="5" fill="#0A2B54"/><rect x="78" y="70" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="38" y="78" width="5" height="5" fill="#0A2B54"/><rect x="54" y="78" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="70" y="78" width="5" height="5" fill="#0A2B54"/>
+                                                    <rect x="41" y="41" width="18" height="18" rx="3" fill="white" stroke="#FA7806" stroke-width="1.5"/>
+<text x="50" y="52.6" text-anchor="middle" font-size="7" font-weight="900" fill="#FA7806">GK</text>
+                                                </svg>
+                                                <div class="qr-scan"></div>
+                                            </div>
+                                            <div class="qr-timer" id="qrTimer">05:00</div>
+                                            <div class="qr-hint">Mở ứng dụng <strong id="qrAppName">MoMo</strong> và quét mã QR (mã minh họa).<br>Mã hết hạn sau thời gian trên.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ── Chuyển khoản ngân hàng ── -->
+                            <div class="pay-item" id="pay-bank">
+                                <div class="pay-hd" onclick="selectPay('pay-bank')">
+                                    <div class="pay-r"><div class="pay-r-dot"></div></div>
+                                    <span style="font-size:22px;">🏦</span>
+                                    <span class="pay-title">Chuyển khoản ngân hàng</span>
+                                </div>
+                                <div class="pay-body">
+                                    <div class="pay-body-inner">
+                                        <div class="bank-info">
+                                            <div class="bank-row">
+                                                <span class="bank-key">Ngân hàng</span>
+                                                <span class="bank-val">VPBank</span>
+                                            </div>
+                                            <div class="bank-row">
+                                                <span class="bank-key">Số tài khoản</span>
+                                                <span class="bank-val">
+                                                    <span id="bankAccNum">1234 5678 9012</span>
+                                                    <button class="copy-btn" onclick="copyText('123456789012', this)">Sao chép</button>
+                                                </span>
+                                            </div>
+                                            <div class="bank-row">
+                                                <span class="bank-key">Tên TK</span>
+                                                <span class="bank-val">GAN KET BON PHUONG</span>
+                                            </div>
+                                            <div class="bank-row">
+                                                <span class="bank-key">Nội dung CK</span>
+                                                <span class="bank-val">
+                                                    <span id="bankContent">GK-000000 HO TEN</span>
+                                                    <button class="copy-btn" id="bankContentCopyBtn" onclick="copyBankContent(this)">Sao chép</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="info-note" style="margin-top:12px;">
+                                            <i class="fas fa-info-circle" style="font-size:13px;"></i>
+                                            Tài khoản minh họa của bản thử nghiệm. Đơn được xác nhận ngay khi hệ thống nhận tiền (thường dưới 15 phút).
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ── Tiền mặt khi hoàn tất ── -->
+                            <div class="pay-item" id="pay-cash">
+                                <div class="pay-hd" onclick="selectPay('pay-cash')">
+                                    <div class="pay-r"><div class="pay-r-dot"></div></div>
+                                    <span style="font-size:22px;">💵</span>
+                                    <span class="pay-title">Tiền mặt cho thợ khi hoàn tất</span>
+                                </div>
+                                <div class="pay-body">
+                                    <div class="pay-body-inner">
+                                        <div class="cod-box">
+                                            <div class="cod-icon">🧾</div>
+                                            <div>
+                                                <div class="cod-title">Nghiệm thu rồi mới trả tiền</div>
+                                                <div class="cod-desc">Thợ báo giá trần trước khi làm, gửi ảnh trước – sau. Bạn kiểm tra xe, thanh toán đúng số tiền trên ứng dụng và nhận hóa đơn điện tử qua email.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div><!-- /pay-list -->
+                    </div>
+
+                    <a href="html_giohang.html" class="ck-back-link mb-4 d-inline-flex">
+                        <i class="fas fa-arrow-left"></i> Quay lại giỏ dịch vụ
+                    </a>
+                </div><!-- /ck-left -->
+
+                <!-- ═══════════════ CỘT PHẢI: TÓM TẮT ═══════════════ -->
+                <div class="ck-right">
+                    <div class="ck-summary">
+                        <div class="ck-card" style="margin-bottom:0;">
+                            <div class="ck-card-title" style="margin-bottom:16px;">
+                                <span class="ck-card-num" style="background:linear-gradient(135deg,#F26B00,#FF9F43);">
+                                    <i class="fas fa-receipt" style="font-size:11px;"></i>
+                                </span>
+                                Tóm tắt đơn dịch vụ
+                            </div>
+
+                            <div class="sum-items" id="summaryItems"></div>
+
+                            <div class="coupon-row">
+                                <input type="text" class="coupon-inp" id="couponInp" placeholder="Nhập mã ưu đãi..." maxlength="20" oninput="this.value=this.value.toUpperCase()">
+                                <button class="coupon-apply" id="couponBtn" onclick="applyCoupon()">
+                                    <span id="couponBtnTxt">Áp dụng</span>
+                                    <div class="coupon-spinner" id="couponSpinner"></div>
+                                </button>
+                            </div>
+                            <div class="coupon-msg" id="couponMsg"></div>
+                            <div id="kmv-quick-list-tt" style="margin-top:10px;"></div>
+
+                            <div class="price-tbl" id="priceTbl">
+                                <div class="pt-row">
+                                    <span class="pt-lbl">Tạm tính</span>
+                                    <span class="pt-val" id="ptSubtotal">—</span>
+                                </div>
+                                <div class="pt-row" id="ptUpgradeRow" style="display:none;">
+                                    <span class="pt-lbl">⚡ Ưu tiên điều phối</span>
+                                    <span class="pt-val" id="ptUpgrade">—</span>
+                                </div>
+                                <div class="pt-row">
+                                    <span class="pt-lbl">🛠️ Phí nền tảng</span>
+                                    <span class="pt-val disc">Miễn phí</span>
+                                </div>
+                                <div class="pt-row" id="ptDiscountRow" style="display:none;">
+                                    <span class="pt-lbl">🎉 Mã giảm giá</span>
+                                    <span class="pt-val disc" id="ptDiscount">—</span>
+                                </div>
+                            </div>
+                            <div class="pt-divider"></div>
+                            <div class="pt-total">
+                                <span class="pt-total-lbl">Tổng thanh toán</span>
+                                <span class="pt-total-val" id="ptTotal">—</span>
+                            </div>
+                            <div class="gk-points-earn" id="pointsEarn"><i class="fas fa-star"></i> Nhận <b id="ptPoints">0</b> điểm Bốn Phương khi hoàn tất</div>
+
+                            <button class="ck-cta" id="ctaBtn" onclick="placeOrder()">
+                                <span class="ck-cta-inner" id="ctaInner">
+                                    <i class="fas fa-lock" style="font-size:13px;"></i>
+                                    <span>Xác nhận &amp; đặt thợ</span>
+                                </span>
+                                <div class="ck-cta-spin" id="ctaSpin"></div>
+                            </button>
+
+                            <div class="trust-badges">
+                                <div class="trust-b"><i class="fas fa-shield-alt"></i> SSL 256-bit</div>
+                                <div class="trust-b"><i class="fas fa-undo"></i> Hoàn chênh lệch giá trần</div>
+                                <div class="trust-b"><i class="fas fa-headset"></i> 24/7</div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /ck-right -->
+
+            </div><!-- /ck-grid -->
+        </div><!-- /checkoutContent -->
+
+    </div><!-- /container -->
+</div><!-- /ck-page -->
+
+<!-- Thanh đặt thợ cố định trên điện thoại -->
+<div class="gk-ck-mbar" id="gkCkMbar">
+    <div>
+        <div class="gk-ck-mbar-lbl">Tổng thanh toán</div>
+        <div class="gk-ck-mbar-val" id="mbarTotal">0đ</div>
+    </div>
+    <button type="button" class="gk-ck-mbar-btn" onclick="placeOrder()"><i class="fas fa-lock mr-1"></i>Đặt thợ</button>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     FOOTER — y hệt trang chủ / html_dichvu.html
+     ════════════════════════════════════════════════════════ -->
+<div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+<!-- ════════════════════════════════════════════════════════
+     MODAL THANH TOÁN THÀNH CÔNG
+     ════════════════════════════════════════════════════════ -->
+<div class="success-overlay" id="successOverlay">
+    <div class="success-modal">
+        <div class="confetti-wrap" id="confettiWrap"></div>
+        <div class="ok-circle">
+            <svg class="ok-svg" viewBox="0 0 52 52">
+                <path class="ok-path" d="M14 26 L22 34 L38 18"/>
+            </svg>
+        </div>
+        <div class="ok-title">🎉 Đặt dịch vụ thành công!</div>
+        <div class="ok-sub">Cảm ơn bạn đã tin tưởng Gắn Kết Bốn Phương!<br>Hóa đơn điện tử đã gửi qua email. Thợ đối tác gần nhất sẽ xác nhận trong ít phút.</div>
+        <div class="gk-ok-match" aria-hidden="true">
+            <span class="gk-ok-road"></span>
+            <i class="fas fa-motorcycle gk-ok-moto"></i>
+            <i class="fas fa-map-marker-alt gk-ok-pin"></i>
+        </div>
+        <div class="gk-ok-status" id="okStatus"><i class="fas fa-circle-notch fa-spin"></i> Đang ghép thợ gần bạn…</div>
+        <div class="ok-code">Mã đơn dịch vụ: <span id="okOrderCode">#GK-000000</span></div>
+        <div class="gk-ok-points" id="okPoints"></div>
+        <button class="ok-btn" onclick="window.location.href='html_thongtin.html#tab-orders'">
+            <i class="fas fa-clipboard-list mr-2"></i>Xem đơn của tôi
+        </button>
+        <a class="ok-back" href="html_trangchu.html">Về trang chủ</a>
+    </div>
+</div>
+
+<!-- jQuery + Bootstrap JS --><script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+<script>
+/* ============================================================
+   html_thanhtoan.html — JavaScript chính
+   Dữ liệu: sessionStorage('gkbp_checkout') — "Đặt ngay" 1 dịch vụ
+            hoặc giỏ dịch vụ GKBP.getCart() ('gkbp_cart')
+   ============================================================ */
+
+/* ── 1. SKELETON LOADER — tắt sau 1 giây ── */
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        document.getElementById('skOverlay').classList.add('hide');
+    }, 1000);
+});
+
+/* ── 2. TRẠNG THÁI CHÍNH ── */
+var state = {
+    items: [],              // Dịch vụ cần thanh toán
+    upgradePrice: 0,        // Phí ưu tiên điều phối
+    upgradeName: 'Điều phối tiêu chuẩn',
+    discount: 0,            // Giảm giá voucher
+    couponApplied: false,
+    appliedCode: null,
+    subtotal: 0,
+    pay: 'pay-card',
+    fromCart: false
+};
+
+function fVND(n) { return Math.round(n || 0).toLocaleString('vi-VN') + 'đ'; }
+function escH(s) { return window.GKBP ? GKBP.esc(s) : String(s == null ? '' : s); }
+
+/* Nhãn số lượng theo nhóm dịch vụ (đồng bộ trang giỏ dịch vụ) */
+function qtyMeta(it) {
+    if (it.cat === 'Gói thành viên') return { unit: 'năm', max: 3 };
+    if (it.cat === 'Phụ tùng & Phụ kiện') return { unit: String(it.unit || '/sp').replace('/', '') || 'sp', max: 10 };
+    if (it.cat === 'Cứu hộ khẩn cấp') return { unit: 'xe', max: 3 };
+    return { unit: 'xe', max: 5 };
+}
+function itemQty(it) { return Math.max(1, Number(it.adult) || Number(it.qty) || 1); }
+/* Dòng = (đơn giá + gói thêm + phụ phí ca đêm) × số lượng + phí km kéo xe */
+function lineTotal(it) {
+    return ((Number(it.price) || 0) + (Number(it.equipFee) || 0) + (Number(it.nightFee) || 0)) * itemQty(it) + (Number(it.kmFee) || 0);
+}
+
+/* ── 3. ĐỌC DỮ LIỆU ── */
+function loadCartData() {
+    var items = [];
+    try {
+        var single = JSON.parse(sessionStorage.getItem('gkbp_checkout') || 'null');
+        if (single) items = [single];
+    } catch (e) {}
+    if (!items.length) {
+        items = window.GKBP ? GKBP.getCart() : [];
+        state.fromCart = items.length > 0;
+    }
+    return items.map(function (it) {
+        var o = Object.assign({}, it);
+        o.qty = o.adult = itemQty(o);
+        o.totalPrice = lineTotal(o);
+        return o;
+    });
+}
+
+/* ── 4. KHỞI TẠO TRANG ── */
+function initPage() {
+    state.items = loadCartData();
+    if (!state.items.length) {
+        document.getElementById('emptyState').style.display = '';
+        var bar = document.getElementById('gkCkMbar'); if (bar) bar.style.display = 'none';
+        document.body.classList.remove('gk-has-mbar');
+        return;
+    }
+    document.getElementById('checkoutContent').style.display = '';
+    renderSummaryItems();
+    updatePrices();
+    prefillFromUser();
+    prefillPlace();
+    renderGaragePick();
+    setDefaultDate();
+    initMobileAccordion();
+    updateBankContent();
+    restoreAppliedVoucher();
+}
+
+/* Khôi phục voucher đã áp ở giỏ dịch vụ / trang dịch vụ, kiểm tra lại theo tổng thực */
+function restoreAppliedVoucher() {
+    if (typeof GK_VOUCHER === 'undefined') return;
+    var saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem('gkbp_applied_voucher') || 'null'); } catch (e) {}
+    if (!saved && state.items.length === 1 && state.items[0].voucherCode) saved = { code: state.items[0].voucherCode };
+    if (saved && saved.code) {
+        var result = GK_VOUCHER.validate(saved.code, state.subtotal || 0, state.items);
+        var inp = document.getElementById('couponInp');
+        var msg = document.getElementById('couponMsg');
+        if (result.success) {
+            state.discount = result.discountAmount; state.couponApplied = true; state.appliedCode = saved.code;
+            if (inp) inp.value = saved.code;
+            if (msg) { msg.className = 'coupon-msg ok'; msg.innerHTML = result.msg; }
+        } else if (msg) {
+            state.discount = 0; state.couponApplied = false; state.appliedCode = null;
+            msg.className = 'coupon-msg err'; msg.innerHTML = result.msg;
+        }
+        updatePrices();
+    }
+    GK_VOUCHER.renderQuickSelect('kmv-quick-list-tt', 'couponInp', state.subtotal || 0, state.items);
+}
+
+/* ── 5. RENDER DANH SÁCH DỊCH VỤ TRONG TÓM TẮT ── */
+function renderSummaryItems() {
+    var html = '';
+    state.items.forEach(function (it, idx) {
+        var m = qtyMeta(it), q = itemQty(it);
+        var thumb = '<div class="sum-thumb"><img src="' + escH(it.img || 'img/logo-mark.png') + '" alt="' + escH(it.title || '') + '" onerror="this.onerror=null;this.src=\'img/logo-mark.png\'"></div>';
+        var meta = [it.cat, it.loc].filter(Boolean).map(escH).join(' · ');
+        if (it.date) meta += '<br><i class="far fa-clock"></i> ' + escH(it.date);
+        var extra = [];
+        (it.addons || []).forEach(function (a) { extra.push('+ ' + escH(a)); });
+        if (Number(it.nightFee) > 0) extra.push('Ca đêm +' + fVND(it.nightFee) + '/' + m.unit);
+        if (Number(it.kmFee) > 0) extra.push('Kéo ' + it.km + ' km +' + fVND(it.kmFee));
+        html += '<div class="sum-item" id="sum-item-' + idx + '">' + thumb +
+            '<div class="sum-info">' +
+            '<div class="sum-name">' + escH(it.title || 'Dịch vụ Bốn Phương') + '</div>' +
+            '<div class="sum-meta">' + meta + (extra.length ? '<div class="gk-sum-extra">' + extra.join(' · ') + '</div>' : '') + '</div>' +
+            '<div class="sum-qty-row">' +
+            '<button class="sq-btn" onclick="changeItemQty(' + idx + ', -1)" aria-label="Giảm">−</button>' +
+            '<span class="sq-val" data-qty="' + idx + '">' + q + '</span>' +
+            '<button class="sq-btn" onclick="changeItemQty(' + idx + ', 1)" aria-label="Tăng">+</button>' +
+            '<span class="gk-sq-unit">' + m.unit + '</span>' +
+            '</div></div>' +
+            '<span class="sum-price" data-price="' + idx + '">' + fVND(lineTotal(it)) + '</span>' +
+            '</div>';
+    });
+    document.getElementById('summaryItems').innerHTML = html;
+    var mobEl = document.getElementById('mobSummaryInner');
+    if (mobEl) mobEl.innerHTML = html;
+    var anyRescue = state.items.some(function (it) { return it.cat === 'Cứu hộ khẩn cấp'; });
+    var note = document.getElementById('rescueNote'); if (note) note.style.display = anyRescue ? '' : 'none';
+}
+
+/* ── 6. THAY ĐỔI SỐ LƯỢNG ── */
+function changeItemQty(idx, delta) {
+    var it = state.items[idx]; if (!it) return;
+    var m = qtyMeta(it), next = itemQty(it) + delta;
+    if (next > m.max) { if (window.GKBP) GKBP.showToast('info', 'Số lượng tối đa cho dịch vụ này là ' + m.max + ' ' + m.unit + '.'); return; }
+    it.qty = it.adult = Math.max(1, next);
+    it.totalPrice = lineTotal(it);
+    document.querySelectorAll('[data-qty="' + idx + '"]').forEach(function (el) { el.textContent = it.qty; popAnim(el); });
+    document.querySelectorAll('[data-price="' + idx + '"]').forEach(function (el) { el.textContent = fVND(it.totalPrice); popAnim(el); });
+    if (state.fromCart && window.GKBP) {   // đồng bộ lại giỏ dịch vụ
+        var cart = GKBP.getCart();
+        cart.forEach(function (c) { if ((c.cartId && c.cartId === it.cartId) || (!c.cartId && c.id === it.id)) { c.qty = c.adult = it.qty; c.totalPrice = it.totalPrice; } });
+        GKBP.setCart(cart);
+    }
+    updatePrices();
+    revalidateCoupon();
+}
+
+function popAnim(el) {
+    el.classList.remove('num-pop');
+    void el.offsetWidth;
+    el.classList.add('num-pop');
+}
+
+/* ── 7. TÍNH VÀ HIỆN GIÁ ── */
+function calcSubtotal() {
+    return state.items.reduce(function (s, it) { return s + lineTotal(it); }, 0);
+}
+
+function updatePrices() {
+    var sub = calcSubtotal();
+    state.subtotal = sub;
+    var total = Math.max(0, sub + state.upgradePrice - state.discount);
+
+    animVal('ptSubtotal', fVND(sub));
+    animVal('ptTotal', fVND(total));
+
+    var upRow = document.getElementById('ptUpgradeRow');
+    if (state.upgradePrice > 0) { if (upRow) upRow.style.display = ''; animVal('ptUpgrade', '+' + fVND(state.upgradePrice)); }
+    else if (upRow) upRow.style.display = 'none';
+
+    var discRow = document.getElementById('ptDiscountRow');
+    if (state.discount > 0) { if (discRow) discRow.style.display = ''; animVal('ptDiscount', '−' + fVND(state.discount)); }
+    else if (discRow) discRow.style.display = 'none';
+
+    var mobTotal = document.getElementById('mobTotalDisplay');
+    if (mobTotal) mobTotal.textContent = fVND(total);
+    var mbar = document.getElementById('mbarTotal');
+    if (mbar) mbar.textContent = fVND(total);
+    var pts = document.getElementById('ptPoints');
+    if (pts) pts.textContent = Math.floor(total / 1000).toLocaleString('vi-VN');
+
+    updateBankContent();
+}
+
+function animVal(id, val) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = val;
+    popAnim(el);
+}
+
+/* ── 8. ƯU TIÊN ĐIỀU PHỐI ── */
+function selectUpgrade(card, price, name) {
+    document.querySelectorAll('.upgrade-card').forEach(function (c) { c.classList.remove('selected'); });
+    card.classList.add('selected');
+    state.upgradePrice = price;
+    state.upgradeName = name;
+    updatePrices();
+}
+
+/* ── 9. PHƯƠNG THỨC THANH TOÁN ── */
+var qrTimerInt = null;
+var qrSecs = 300;
+
+function selectPay(id) {
+    document.querySelectorAll('.pay-item').forEach(function (m) { m.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    state.pay = id;
+    var cta = document.querySelector('#ctaInner span');
+    if (cta) cta.textContent = id === 'pay-cash' ? 'Xác nhận đặt thợ' : 'Xác nhận & thanh toán';
+    if (id === 'pay-qr') startQrTimer();
+    else clearInterval(qrTimerInt);
+}
+
+/* ── 10. QR TIMER ── */
+function startQrTimer() {
+    clearInterval(qrTimerInt);
+    qrSecs = 300;
+    qrTimerInt = setInterval(function () {
+        qrSecs--;
+        var m = String(Math.floor(qrSecs / 60)).padStart(2, '0');
+        var s = String(qrSecs % 60).padStart(2, '0');
+        var el = document.getElementById('qrTimer');
+        if (el) el.textContent = m + ':' + s;
+        if (qrSecs <= 0) { clearInterval(qrTimerInt); if (el) el.textContent = '00:00'; }
+    }, 1000);
+}
+
+function switchQr(tab, name) {
+    document.querySelectorAll('.qr-tab').forEach(function (t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    var el = document.getElementById('qrAppName');
+    if (el) el.textContent = name;
+    startQrTimer();
+}
+
+/* ── 11. THẺ 3D ── */
+function fmtCardNum(inp) {
+    var raw = inp.value.replace(/\D/g, '').slice(0, 16);
+    inp.value = raw.replace(/(.{4})/g, '$1 ').trim();
+    var brand = detectBrand(raw);
+    var colors = { VISA: 'rgba(255,255,255,0.9)', MASTERCARD: '#FF9F43', AMEX: 'rgba(255,255,255,0.9)', JCB: '#34d399' };
+    var frontEl = document.getElementById('ccBrandDisp');
+    var backEl  = document.getElementById('ccBrandBack');
+    if (frontEl) { frontEl.textContent = brand; frontEl.style.color = colors[brand] || 'rgba(255,255,255,.35)'; }
+    if (backEl)  { backEl.textContent  = brand; backEl.style.color  = colors[brand] || 'rgba(255,255,255,.25)'; }
+}
+
+function detectBrand(num) {
+    if (/^4/.test(num)) return 'VISA';
+    if (/^5[1-5]/.test(num)) return 'MASTERCARD';
+    if (/^3[47]/.test(num)) return 'AMEX';
+    if (/^35/.test(num)) return 'JCB';
+    return 'BỐN PHƯƠNG';
+}
+
+function updateCard() {
+    var raw = document.getElementById('ccNum').value.replace(/\D/g, '');
+    var masked = '';
+    for (var i = 0; i < 16; i++) {
+        if (i > 0 && i % 4 === 0) masked += ' ';
+        masked += raw[i] || '•';
+    }
+    var el = document.getElementById('ccNumDisp');
+    if (el) el.textContent = masked;
+}
+function updateCardName(inp) {
+    var el = document.getElementById('ccNameDisp');
+    if (el) el.textContent = inp.value.toUpperCase() || 'HỌ VÀ TÊN';
+}
+function fmtExp(inp) {
+    var raw = inp.value.replace(/\D/g, '').slice(0, 4);
+    if (raw.length >= 3) raw = raw.slice(0, 2) + '/' + raw.slice(2);
+    inp.value = raw;
+}
+function updateCardExp(inp) {
+    var el = document.getElementById('ccExpDisp');
+    if (el) el.textContent = inp.value || 'MM/YY';
+}
+function updateCvv(inp) {
+    inp.value = inp.value.replace(/\D/g, '');
+    var el = document.getElementById('ccCvvDisp');
+    if (el) el.textContent = inp.value ? '•'.repeat(inp.value.length) : '•••';
+}
+function flipCard(toBack) {
+    var w = document.getElementById('ccWrapper');
+    if (w) { if (toBack) w.classList.add('flipped'); else w.classList.remove('flipped'); }
+}
+
+/* ── 12. NHÃN NỔI + KIỂM TRA HỢP LỆ ── */
+var PLATE_RE = /^\d{2}[-\s]?[A-Z]{1,2}\d?[-\s]?\d{3}\.?\d{2}$/;
+var validators = {
+    'inp-lastname':  function (v) { return /^[\p{L}][\p{L}\s]*$/u.test(v.trim()) && v.trim().length >= 2; },
+    'inp-firstname': function (v) { return /^[\p{L}][\p{L}\s]*$/u.test(v.trim()) && v.trim().length >= 1; },
+    'inp-email':     function (v) { return window.GKBP ? GKBP.isValidEmail(v.trim()) : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); },
+    'inp-phone':     function (v) { var d = v.replace(/\D/g, ''); return window.GKBP ? GKBP.isValidPhone(d) : /^0\d{9}$/.test(d); },
+    'inp-plate':     function (v) { return PLATE_RE.test(v.trim().toUpperCase()); }
+};
+
+document.querySelectorAll('.fl-input').forEach(function (inp) {
+    inp.addEventListener('input', function () {
+        if (this.value) this.classList.add('has-val');
+        else this.classList.remove('has-val');
+    });
+    inp.addEventListener('blur', function () { validateInp(this); });
+});
+
+function validateInp(inp) {
+    var id = inp.id, val = inp.value;
+    var icon  = document.getElementById('icon-' + id.replace('inp-', ''));
+    var errEl = document.getElementById('err-' + id.replace('inp-', ''));
+    if (!val.trim()) { resetInp(inp, icon, errEl); return false; }
+    if (validators[id] && validators[id](val)) {
+        inp.classList.remove('invalid'); inp.classList.add('valid');
+        if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-check'); }
+        if (errEl) errEl.classList.remove('show');
+        return true;
+    } else if (validators[id]) {
+        inp.classList.remove('valid'); inp.classList.add('invalid');
+        if (icon) { icon.classList.remove('fa-check'); icon.classList.add('fa-times'); }
+        if (errEl) errEl.classList.add('show');
+        return false;
+    }
+    return true;
+}
+
+function resetInp(inp, icon, errEl) {
+    inp.classList.remove('valid', 'invalid');
+    if (errEl) errEl.classList.remove('show');
+}
+
+/* Ô SĐT: chỉ cho số, tối đa 10 chữ số */
+(function () {
+    var ph = document.getElementById('inp-phone');
+    if (!ph) return;
+    ph.setAttribute('inputmode', 'numeric');
+    ph.setAttribute('maxlength', '10');
+    ph.addEventListener('input', function () {
+        var digits = (this.value || '').replace(/\D/g, '').slice(0, 10);
+        this.value = digits;
+        if (digits) this.classList.add('has-val'); else this.classList.remove('has-val');
+    });
+})();
+
+/* Biển số: tự viết hoa */
+(function () {
+    var pl = document.getElementById('inp-plate');
+    if (pl) pl.addEventListener('input', function () { this.value = this.value.toUpperCase(); });
+})();
+
+/* Ô Họ & Tên: chỉ cho chữ */
+['inp-lastname', 'inp-firstname'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el && window.GKBP && GKBP.attachNameInput) GKBP.attachNameInput(el);
+});
+
+document.getElementById('inp-note').addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 180) + 'px';
+});
+
+/* ── 13. VOUCHER — GK_VOUCHER.validate() ── */
+function applyCoupon() {
+    var inpEl   = document.getElementById('couponInp');
+    var btn     = document.getElementById('couponBtn');
+    var btnTxt  = document.getElementById('couponBtnTxt');
+    var spinner = document.getElementById('couponSpinner');
+    var msgEl   = document.getElementById('couponMsg');
+    var code    = inpEl.value.trim().toUpperCase();
+    if (!code) { shakeEl(inpEl); return; }
+
+    btn.classList.add('loading');
+    btnTxt.style.display = 'none';
+    spinner.style.display = 'block';
+    msgEl.className = 'coupon-msg';
+    msgEl.textContent = '';
+
+    setTimeout(function () {
+        btn.classList.remove('loading');
+        btnTxt.style.display = '';
+        spinner.style.display = 'none';
+        if (typeof GK_VOUCHER === 'undefined') return;
+        var result = GK_VOUCHER.validate(code, state.subtotal || 0, state.items);
+        if (result.success) {
+            state.discount = result.discountAmount; state.couponApplied = true; state.appliedCode = code;
+            msgEl.className = 'coupon-msg ok';
+            msgEl.innerHTML = result.msg;
+        } else {
+            msgEl.className = 'coupon-msg err';
+            msgEl.innerHTML = result.msg;
+            shakeEl(inpEl);
+            state.discount = 0; state.couponApplied = false; state.appliedCode = null;
+        }
+        updatePrices();
+        GK_VOUCHER.renderQuickSelect('kmv-quick-list-tt', 'couponInp', state.subtotal || 0, state.items);
+    }, 800);
+}
+
+/* Số lượng thay đổi → kiểm tra lại voucher đang áp */
+function revalidateCoupon() {
+    if (typeof GK_VOUCHER === 'undefined') return;
+    if (state.appliedCode) {
+        var r = GK_VOUCHER.validate(state.appliedCode, state.subtotal, state.items);
+        var msgEl = document.getElementById('couponMsg');
+        if (r.success) { state.discount = r.discountAmount; }
+        else {
+            state.discount = 0; state.couponApplied = false; state.appliedCode = null;
+            if (msgEl) { msgEl.className = 'coupon-msg err'; msgEl.innerHTML = 'Voucher đã gỡ: ' + r.msg; }
+        }
+        updatePrices();
+    }
+    GK_VOUCHER.renderQuickSelect('kmv-quick-list-tt', 'couponInp', state.subtotal || 0, state.items);
+}
+
+function shakeEl(el) {
+    el.classList.remove('shake');
+    void el.offsetWidth;
+    el.classList.add('shake');
+    setTimeout(function () { el.classList.remove('shake'); }, 450);
+}
+
+/* ── 14. CHUYỂN KHOẢN: nội dung CK tự sinh từ mã đơn + tên (không dấu) ── */
+function noAccent(s) {
+    return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+}
+function updateBankContent() {
+    var code  = generateOrderCode();
+    var ln    = document.getElementById('inp-lastname');
+    var fn    = document.getElementById('inp-firstname');
+    var name  = noAccent(((ln ? ln.value : '') + ' ' + (fn ? fn.value : '')).trim()).toUpperCase() || 'HO TEN';
+    var el = document.getElementById('bankContent');
+    if (el) el.textContent = code + ' ' + name;
+}
+
+function copyBankContent(btn) {
+    copyText(document.getElementById('bankContent').textContent, btn);
+}
+
+var _orderCode = null;
+function generateOrderCode() {
+    if (!_orderCode) _orderCode = 'GK-' + Math.floor(100000 + Math.random() * 900000);
+    return _orderCode;
+}
+
+function copyText(text, btn) {
+    if (!btn) return;
+    function done() {
+        btn.textContent = '✓ Đã sao chép'; btn.classList.add('copied');
+        setTimeout(function () { btn.textContent = 'Sao chép'; btn.classList.remove('copied'); }, 2000);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else fallback();
+    function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        ta.remove(); done();
+    }
+}
+
+/* ── 15. ĐIỀN SẴN THÔNG TIN ── */
+function prefillFromUser() {
+    var u = window.GKBP ? GKBP.getUser() : null;
+    if (!u) return;
+    function put(id, v) { var el = document.getElementById(id); if (el && v) { el.value = v; el.classList.add('has-val'); } }
+    if (u.name) {
+        var parts = String(u.name).trim().split(/\s+/);
+        put('inp-firstname', parts[parts.length - 1]);
+        if (parts.length > 1) put('inp-lastname', parts.slice(0, -1).join(' '));
+    }
+    put('inp-email', u.email);
+    put('inp-phone', u.phone);
+}
+
+/* Quận + địa chỉ lấy từ lựa chọn ở trang dịch vụ (nếu có) */
+function prefillPlace() {
+    var first = state.items.filter(function (it) { return it.area; })[0];
+    var sel = document.getElementById('inp-area');
+    if (first && sel) {
+        for (var i = 0; i < sel.options.length; i++) if (sel.options[i].value === first.area) sel.selectedIndex = i;
+    }
+}
+
+/* Chọn xe trong Garage số (localStorage gkbp_garage — quản lý ở trang Tài khoản) */
+function renderGaragePick() {
+    var box = document.getElementById('garagePick'), chips = document.getElementById('garageChips');
+    if (!box || !chips || !window.GKBP) return;
+    var g = GKBP._ls('gkbp_garage', []);
+    if (!Array.isArray(g) || !g.length) return;
+    box.style.display = '';
+    chips.innerHTML = g.map(function (v, i) {
+        return '<button type="button" class="gk-garage-chip" onclick="pickVehicle(' + i + ', this)"><i class="fas ' + (v.type === 'car' ? 'fa-car' : 'fa-motorcycle') + '"></i>' +
+            '<b>' + escH(v.plate || '') + '</b><span>' + escH(v.model || '') + '</span></button>';
+    }).join('');
+    pickVehicle(0, chips.querySelector('.gk-garage-chip'));
+}
+function pickVehicle(i, btn) {
+    var g = GKBP._ls('gkbp_garage', []), v = g[i]; if (!v) return;
+    document.querySelectorAll('.gk-garage-chip').forEach(function (b) { b.classList.remove('on'); });
+    if (btn) btn.classList.add('on');
+    var pl = document.getElementById('inp-plate'), md = document.getElementById('inp-model');
+    if (pl) { pl.value = v.plate || ''; pl.classList.toggle('has-val', !!pl.value); validateInp(pl); }
+    if (md) { md.value = v.model || ''; md.classList.toggle('has-val', !!md.value); }
+}
+
+function setDefaultDate() {
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    var toIso = function (d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
+    var d = new Date(); d.setDate(d.getDate() + 1);
+    var el = document.getElementById('inp-date');
+    if (el) { el.value = toIso(d); el.min = toIso(new Date()); }
+}
+
+/* ── 16. ACCORDION TÓM TẮT TRÊN ĐIỆN THOẠI ── */
+function initMobileAccordion() {
+    var btn = document.getElementById('mobToggle');
+    var body = document.getElementById('mobBody');
+    if (!btn || !body) return;
+    btn.addEventListener('click', function () {
+        this.classList.toggle('open');
+        body.classList.toggle('open');
+    });
+}
+
+/* ── 17. NÚT ĐẶT THỢ ── */
+function cardOk() {
+    var num = document.getElementById('ccNum').value.replace(/\D/g, '');
+    var name = document.getElementById('ccName').value.trim();
+    var exp = document.getElementById('ccExp').value;
+    var cvv = document.getElementById('ccCvv').value;
+    var m = /^(\d{2})\/(\d{2})$/.exec(exp);
+    var expOk = m && +m[1] >= 1 && +m[1] <= 12;
+    return num.length === 16 && name.length >= 2 && expOk && cvv.length >= 3;
+}
+
+function placeOrder() {
+    if (window.GKBP && !GKBP.requireLogin('html_thanhtoan.html', 'Vui lòng đăng nhập để đặt dịch vụ.')) return;
+    var required = ['inp-lastname', 'inp-firstname', 'inp-email', 'inp-phone'];
+    var allOk = true, firstBad = null;
+    required.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (!el.value.trim()) {
+            el.classList.remove('invalid'); void el.offsetWidth; el.classList.add('invalid');
+            var errEl = document.getElementById('err-' + id.replace('inp-', ''));
+            if (errEl) errEl.classList.add('show');
+            allOk = false; firstBad = firstBad || el;
+        } else if (!validateInp(el)) { allOk = false; firstBad = firstBad || el; }
+    });
+    var plate = document.getElementById('inp-plate');
+    if (plate.value.trim() && !validateInp(plate)) { allOk = false; firstBad = firstBad || plate; }
+    var addr = document.getElementById('inp-addr'), addrErr = document.getElementById('err-addr');
+    if (addr.value.trim().length < 5) { addr.classList.add('invalid'); addrErr.classList.add('show'); allOk = false; firstBad = firstBad || addr; }
+    else { addr.classList.remove('invalid'); addrErr.classList.remove('show'); }
+    var cardErr = document.getElementById('err-card');
+    if (state.pay === 'pay-card' && !cardOk()) { cardErr.classList.add('show'); allOk = false; firstBad = firstBad || document.getElementById('ccNum'); }
+    else cardErr.classList.remove('show');
+
+    if (!allOk) {
+        if (firstBad) { firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(function () { firstBad.focus({ preventScroll: true }); }, 350); }
+        if (window.GKBP) GKBP.showToast('error', 'Vui lòng kiểm tra lại các thông tin được đánh dấu đỏ.');
+        return;
+    }
+
+    var btn = document.getElementById('ctaBtn');
+    var inner = document.getElementById('ctaInner');
+    var spin = document.getElementById('ctaSpin');
+    btn.classList.add('loading');
+    inner.style.display = 'none';
+    spin.style.display = 'block';
+
+    setTimeout(function () {
+        btn.classList.remove('loading');
+        inner.style.display = '';
+        spin.style.display = 'none';
+        var pts = finalizeOrder();
+        try { sessionStorage.removeItem('gkbp_checkout'); } catch (e) {}
+        if (state.fromCart && window.GKBP) GKBP.setCart([]);
+        showSuccess(pts);
+    }, 2000);
+}
+
+/* Lưu đơn vào lịch sử (gkbp_orders) + cộng điểm + đánh dấu voucher đã dùng */
+function finalizeOrder() {
+    if (!window.GKBP) return 0;
+    var code = generateOrderCode();
+    var sub = calcSubtotal();
+    var total = Math.max(0, sub + state.upgradePrice - state.discount);
+    var payLabel = { 'pay-card': 'Thẻ tín dụng / ghi nợ', 'pay-qr': 'Ví điện tử (QR)', 'pay-bank': 'Chuyển khoản', 'pay-cash': 'Tiền mặt khi hoàn tất' }[state.pay];
+    var area = document.getElementById('inp-area').value;
+    var addr = document.getElementById('inp-addr').value.trim();
+    var dateEl = document.getElementById('inp-date');
+    var when = (dateEl && dateEl.value ? dateEl.value.split('-').reverse().join('/') : '') + ' · ' + document.getElementById('inp-time').value;
+    var plate = document.getElementById('inp-plate').value.trim();
+    var model = document.getElementById('inp-model').value.trim();
+    var note = document.getElementById('inp-note').value.trim();
+    var created = Date.now();
+    /* phân bổ giảm giá + phí ưu tiên theo tỷ lệ từng dòng để tổng khớp hóa đơn */
+    var adj = state.upgradePrice - state.discount, used = 0;
+    state.items.forEach(function (it, i) {
+        var line = lineTotal(it);
+        var share = i === state.items.length - 1 ? adj - used : Math.round(adj * (sub ? line / sub : 0));
+        used += share;
+        var status = it.cat === 'Gói thành viên' ? 'Đã kích hoạt' : it.cat === 'Phụ tùng & Phụ kiện' ? 'Đang chuẩn bị giao' : 'Chờ thợ nhận';
+        GKBP.addOrder({
+            id: code + '-' + (i + 1), orderCode: code, type: 'booking', title: it.title, svcId: it.id, cat: it.cat,
+            veh: it.loc, img: it.img, qty: itemQty(it), addons: it.addons || [], km: it.km || 0,
+            area: area, addr: addr, appt: /Ngay khi đặt/.test(it.date || '') ? 'Ngay khi xác nhận (cứu hộ)' : (it.cat === 'Gói thành viên' ? (it.date || '') : when),
+            plate: plate, model: model, note: note, priority: state.upgradeName, pay: payLabel,
+            voucher: state.appliedCode, total: Math.max(0, line + share), status: status, createdAt: created
+        });
+    });
+    var pts = Math.floor(total / 1000);
+    GKBP.addPoints(pts);
+    if (state.appliedCode && typeof GK_VOUCHER !== 'undefined') GK_VOUCHER.markUsed(state.appliedCode);
+    try { sessionStorage.removeItem('gkbp_applied_voucher'); } catch (e) {}
+    return pts;
+}
+
+/* ── 18. MODAL THÀNH CÔNG + CONFETTI ── */
+function showSuccess(pts) {
+    var el = document.getElementById('okOrderCode');
+    if (el) el.textContent = '#' + generateOrderCode();
+    var p = document.getElementById('okPoints');
+    if (p) p.innerHTML = '<i class="fas fa-star"></i> +' + (pts || 0).toLocaleString('vi-VN') + ' điểm Bốn Phương · tổng ' + (window.GKBP ? GKBP.getPoints().toLocaleString('vi-VN') : 0) + ' điểm';
+    document.getElementById('successOverlay').classList.add('show');
+    spawnConfetti();
+    var onlyPkg = state.items.every(function (it) { return it.cat === 'Gói thành viên' || it.cat === 'Phụ tùng & Phụ kiện'; });
+    setTimeout(function () {
+        var s = document.getElementById('okStatus');
+        if (s) s.innerHTML = onlyPkg ? '<i class="fas fa-check-circle"></i> Đơn đã được ghi nhận — theo dõi trong mục Đơn của tôi'
+            : '<i class="fas fa-check-circle"></i> Đã gửi đơn tới thợ gần bạn — thợ sẽ gọi xác nhận trước khi đến';
+        s && s.classList.add('done');
+    }, 2600);
+}
+
+function closeSuccess() {
+    document.getElementById('successOverlay').classList.remove('show');
+}
+
+function spawnConfetti() {
+    var wrap = document.getElementById('confettiWrap');
+    var colors = ['#FA7806', '#FF9F43', '#0D4076', '#1E5C9E', '#0A2B54', '#22c55e', '#FFB066'];
+    wrap.innerHTML = '';
+    for (var i = 0; i < 65; i++) {
+        var bit = document.createElement('div');
+        bit.className = 'confetti-bit';
+        bit.style.cssText = 'left:' + (Math.random() * 100) + '%;top:-12px;' +
+            'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+            'width:' + (5 + Math.random() * 8) + 'px;' +
+            'height:' + (5 + Math.random() * 8) + 'px;' +
+            'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';' +
+            'animation-delay:' + (Math.random() * 1.5) + 's;' +
+            'animation-duration:' + (2 + Math.random() * 2) + 's;';
+        wrap.appendChild(bit);
+    }
+}
+
+/* ── 19. KHỞI ĐỘNG ── */
+document.addEventListener('DOMContentLoaded', function () {
+    initPage();
+    ['inp-lastname', 'inp-firstname'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateBankContent);
+    });
+    var addr = document.getElementById('inp-addr');
+    if (addr) addr.addEventListener('input', function () { if (this.value.trim().length >= 5) { this.classList.remove('invalid'); document.getElementById('err-addr').classList.remove('show'); } });
+});
+</script>
+
+</body>
+</html>

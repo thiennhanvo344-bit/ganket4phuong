@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu | Gắn Kết Bốn Phương – Đồng hành mọi nẻo đường</title>
+    <meta name="description" content="Câu chuyện, sứ mệnh, quy trình 8 bước, nhận diện thương hiệu và 10 thành viên Nhóm 8 xây dựng nền tảng cứu hộ – sửa xe Gắn Kết Bốn Phương.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css_trangchu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Dancing+Script:wght@700&family=Inter:wght@300;400;600&display=swap">
+
+    <style>
+        :root {
+            --primary-blue:   #0D4076;
+            --dark-blue:      #0A2B54;
+            --teal-light:     #FA7806;
+            --accent-red:     #ff4d4d;
+            --gradient-brand: linear-gradient(135deg, #0A2B54 0%, #0D4076 55%, #1E5C9E 100%);
+        }
+
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            color: var(--dark-blue);
+            background: #fff;
+            overflow-x: clip; /* clip thay cho hidden để header sticky hoạt động đồng bộ */
+        }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        /* Header / Sub-nav / Footer — dùng font chuẩn của trang chủ,
+           không để 'Inter' của trang này lấn vào (đồng bộ với các trang khác).
+           Chỉ đặt trên phần tử bao; icon Font Awesome giữ nguyên font riêng. */
+        header.navbar.sticky-top,
+        .sub-nav,
+        .gk-footer {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* ================================================================
+           BANNER HERO
+           ================================================================ */
+        .hero-carousel-container {
+            height: 60vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .carousel-item {
+            height: 60vh;
+            background-size: cover;
+            background-position: center;
+        }
+        .carousel-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        .carousel-caption-custom h1 {
+            font-weight: 900;
+            font-size: clamp(2rem, 5vw, 4rem);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            animation: letterSpacing 2s ease-out;
+        }
+        .carousel-caption-custom p { font-size: 1.2rem; opacity: .85; }
+        @keyframes letterSpacing {
+            from { letter-spacing: 20px; opacity: 0; }
+            to   { letter-spacing: normal; opacity: 1; }
+        }
+
+        .gk-truck-path {
+            position: absolute;
+            top: 15%;
+            left: -100px;
+            z-index: 100;
+            font-size: 2.5rem;
+            color: #fff;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            animation: flyAcross 15s linear infinite;
+        }
+        @keyframes flyAcross {
+            0%   { left: -100px; transform: scaleX(1); }
+            45%  { left: 110%;   transform: scaleX(1); }
+            50%  { transform: scaleX(-1); }
+            95%  { left: -100px; transform: scaleX(-1); }
+            100% { transform: scaleX(1); }
+        }
+
+        .wave-seamless-box {
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            z-index: 50;
+            pointer-events: none;
+        }
+        .waves-svg-main {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0px -10px 15px rgba(255,255,255,0.5));
+        }
+        .parallax-wave-layers > use { animation: wave-motion 20s cubic-bezier(.55,.5,.45,.5) infinite; }
+        .parallax-wave-layers > use:nth-child(1) { animation-delay:-2s; animation-duration:8s;  fill:rgba(255,255,255,0.3); }
+        .parallax-wave-layers > use:nth-child(2) { animation-delay:-3s; animation-duration:11s; fill:rgba(255,255,255,0.5); }
+        .parallax-wave-layers > use:nth-child(3) { animation-delay:-4s; animation-duration:14s; fill:rgba(255,255,255,0.8); }
+        .parallax-wave-layers > use:nth-child(4) { animation-delay:-5s; animation-duration:19s; fill:#ffffff; }
+        @keyframes wave-motion {
+            0%   { transform: translate3d(-90px,0,0); }
+            100% { transform: translate3d(85px,0,0); }
+        }
+
+        .reveal { opacity: 0; transform: translateY(50px); transition: .8s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================================================================
+           SECTION CÂU CHUYỆN
+           ================================================================ */
+        .story-section {
+            padding: 100px 0 120px;
+            position: relative;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)),
+                url('img/hero/hero-2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        .story-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('img/pattern/cubes.png');
+            opacity: 0.07;
+            pointer-events: none;
+        }
+
+        .floating-bubble {
+            position: absolute;
+            background: rgba(250,120,6,0.06);
+            border-radius: 50%;
+            z-index: 1;
+            animation: floatBubble 10s infinite ease-in-out;
+        }
+        @keyframes floatBubble {
+            0%,100% { transform: translateY(0) translateX(0); }
+            50%     { transform: translateY(-50px) translateX(30px); }
+        }
+
+        .image-stack-wrapper {
+            position: relative;
+            height: 420px;
+            perspective: 1000px;
+        }
+        .stacked-img {
+            position: absolute;
+            width: 80%;
+            height: 340px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.18);
+            transition: all .6s cubic-bezier(.68,-.55,.265,1.55);
+        }
+        .img-1 { z-index:3; top:40px; left:15%; transform:rotate(2deg);  opacity:1;   }
+        .img-2 { z-index:2; top:20px; left:10%; transform:rotate(-4deg); opacity:0.9; }
+        .img-3 { z-index:1; top: 0px; left: 5%; transform:rotate(-8deg); opacity:0.7; }
+
+        .image-stack-wrapper.shuffled .img-1 { z-index:1; top:0;    left:5%;  transform:rotate(-8deg); opacity:0.7; }
+        .image-stack-wrapper.shuffled .img-2 { z-index:3; top:40px; left:15%; transform:rotate(2deg);  opacity:1;   }
+        .image-stack-wrapper.shuffled .img-3 { z-index:2; top:20px; left:10%; transform:rotate(-4deg); opacity:0.9; }
+
+        .image-stack-wrapper.shuffled2 .img-1 { z-index:2; top:20px; left:10%; transform:rotate(-4deg); opacity:0.9; }
+        .image-stack-wrapper.shuffled2 .img-2 { z-index:1; top:0;    left:5%;  transform:rotate(-8deg); opacity:0.7; }
+        .image-stack-wrapper.shuffled2 .img-3 { z-index:3; top:40px; left:15%; transform:rotate(2deg);  opacity:1;   }
+
+        .story-content-card {
+            display: none;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            padding: 36px 40px;
+            border-radius: 20px;
+            border-left: 8px solid var(--primary-blue);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.09);
+            transition: .5s;
+            animation: fadeCardIn .4s ease forwards;
+        }
+        .story-content-card.active { display: block; }
+        .story-content-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 60px rgba(13,64,118,0.18);
+        }
+        @keyframes fadeCardIn {
+            from { opacity:0; transform:translateY(16px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .story-content-card h2 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--dark-blue);
+            margin-bottom: 16px;
+        }
+        .story-text { font-size: 1rem; line-height: 1.85; color: #444; }
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: var(--primary-blue);
+            display: block;
+            margin-top: 18px;
+        }
+
+        /* ================================================================
+           SECTION GALLERY
+           ================================================================ */
+        .gk-process-section {
+            padding: 100px 0 120px;
+            position: relative;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)),
+                url('img/hero/hero-3.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* ── Video embed container ── */
+        .gt-video-wrap {
+            position: relative;
+            max-width: 960px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+            background: #000;
+            /* Tỉ lệ 16:9 */
+            aspect-ratio: 16 / 9;
+        }
+        .gt-video-wrap iframe,
+        .gt-video-wrap video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        /* Placeholder hiện trước khi có link video */
+        .gt-video-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0A2B54 0%, #0D4076 55%, #1E5C9E 100%);
+            color: #fff;
+            gap: 18px;
+        }
+        .gt-video-placeholder i {
+            font-size: 4rem;
+            opacity: .85;
+        }
+        .gt-video-placeholder p {
+            font-size: 1rem;
+            opacity: .7;
+            margin: 0;
+        }
+        @media (max-width: 768px) {
+            .gt-video-wrap { border-radius: 12px; }
+        }
+
+        /* zoomModal đã được gỡ cùng với slider ảnh */
+
+        /* ================================================================
+           SECTION LÝ DO CHỌN Gắn Kết Bốn Phương
+           ================================================================ */
+        .reasons-tabs-section {
+            padding: 100px 0;
+            position: relative;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)),
+                url('img/kv/quan-3.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .reasons-nav {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        .reason-tab-item {
+            padding: 14px 28px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark-blue);
+            transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .reason-tab-item i { color: var(--primary-blue); transition: .4s; }
+        .reason-tab-item:hover { border-color: var(--primary-blue); color: var(--primary-blue); transform: translateY(-3px); }
+        .reason-tab-item.active {
+            background: var(--gradient-brand) !important;
+            color: #fff !important; border: none;
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 10px 25px rgba(10,43,84,0.2);
+        }
+        .reason-tab-item.active i { color: #fff !important; transform: scale(1.2); }
+
+        .reason-display-area {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 230px;
+        }
+        .reason-content-panel {
+            position: absolute; inset: 0;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            display: none;
+            border-bottom: 5px solid var(--primary-blue);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .reason-content-panel.active {
+            display: block;
+            animation: slideUpFade .55s cubic-bezier(.23,1,.32,1) forwards;
+        }
+        @keyframes slideUpFade {
+            from { opacity:0; transform:translateY(28px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .reason-detail-header { display: flex; align-items: center; gap: 20px; margin-bottom: 18px; }
+        .big-icon {
+            font-size: 2.8rem;
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .reason-detail-text { font-size: 1.05rem; line-height: 1.82; color: #555; font-weight: 500; }
+
+        /* ================================================================
+           SECTION CỘNG SỰ Gắn Kết Bốn Phương
+           ================================================================ */
+        .partners-section {
+            padding: 100px 0 0;
+            position: relative;
+            background: linear-gradient(180deg, #f4f9ff 0%, #EAF1F9 50%, #f4f9ff 100%);
+        }
+
+        .partners-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(13,64,118,0.06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(250,120,6,0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .partners-container { position: relative; z-index: 2; }
+
+        .partners-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .partners-subtitle {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1rem;
+            margin-bottom: 60px;
+        }
+
+        .partners-grid-new {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ── Thẻ thành viên ──
+           TẤT CẢ đều có padding-top: 62px để nhường chỗ cho vương miện
+        */
+        .member-card {
+            width: 190px;
+            position: relative;
+            padding-top: 62px; /* ← đồng đều cho tất cả thành viên */
+            animation: memberFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes memberFloat {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-10px); }
+        }
+
+        .member-card:hover {
+            animation-play-state: paused;
+            transform: translateY(-18px) scale(1.05);
+            z-index: 10;
+        }
+
+        /* Vòng tròn ảnh */
+        .member-avatar-wrap {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 0;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #0A2B54, #0D4076, #1E5C9E, #0A2B54);
+            padding: 4px;
+            box-shadow: 0 8px 30px rgba(13,64,118,0.25);
+            transition: all 0.5s cubic-bezier(.175,.885,.32,1.275);
+        }
+        .member-card:hover .member-avatar-wrap {
+            box-shadow: 0 20px 50px rgba(13,64,118,0.45);
+            animation: borderSpin 2s linear infinite;
+        }
+        @keyframes borderSpin {
+            from { background: conic-gradient(from 0deg, #0A2B54, #0D4076, #1E5C9E, #0A2B54); }
+            to   { background: conic-gradient(from 360deg, #0A2B54, #0D4076, #1E5C9E, #0A2B54); }
+        }
+
+        .member-avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #EAF1F9;
+            position: relative;
+        }
+
+        .member-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: opacity 0.5s ease, transform 0.6s ease;
+        }
+        .member-img-default { opacity: 1; z-index: 1; }
+        .member-img-hover   { opacity: 0; z-index: 2; transform: scale(1.1); }
+
+        .member-card:hover .member-img-default { opacity: 0; }
+        .member-card:hover .member-img-hover   { opacity: 1; transform: scale(1); }
+
+        .member-avatar-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #EAF1F9, #C9DFF7);
+            color: var(--primary-blue);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .member-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 34px;
+            height: 34px;
+            background: var(--gradient-brand);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 12px rgba(13,64,118,0.4);
+            z-index: 10;
+            border: 2px solid #fff;
+        }
+
+        /* Panel thông tin */
+        .member-info-box {
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 18px 16px 16px;
+            margin-top: -16px;
+            padding-top: 24px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+            border: 1px solid rgba(13,64,118,0.08);
+            text-align: center;
+            transition: all 0.5s cubic-bezier(.175,.885,.32,1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-info-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-brand);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        .member-card:hover .member-info-box::before { transform: scaleX(1); }
+        .member-card:hover .member-info-box {
+            box-shadow: 0 20px 50px rgba(13,64,118,0.18);
+            border-color: rgba(13,64,118,0.2);
+        }
+
+        .member-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .member-role-tag {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--teal-light);
+            margin-bottom: 10px;
+        }
+
+        .member-bio {
+            font-size: 0.78rem;
+            color: #666;
+            line-height: 1.55;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.4s ease 0.1s, margin 0.4s ease;
+            margin-top: 0;
+        }
+        .member-card:hover .member-bio {
+            max-height: 120px;
+            opacity: 1;
+            margin-top: 8px;
+        }
+
+        .member-divider {
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--teal-light));
+            margin: 0 auto;
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+        .member-card:hover .member-divider { width: 40px; }
+
+        .member-socials {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 0;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.4s ease 0.15s, opacity 0.35s ease 0.2s, margin 0.4s ease;
+        }
+        .member-card:hover .member-socials {
+            max-height: 40px;
+            opacity: 1;
+            margin-top: 10px;
+        }
+        .member-social-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--gradient-brand);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .member-social-btn:hover {
+            transform: scale(1.2) translateY(-2px);
+            box-shadow: 0 6px 16px rgba(13,64,118,0.4);
+            color: #fff;
+        }
+
+        /*
+         * VƯƠNG MIỆN — đặt position absolute, top âm để nổi lên trên avatar
+         * Dùng chung cho tất cả thành viên, căn giữa theo chiều ngang
+         */
+        .leader-crown {
+            position: absolute;
+            /* Căn giữa so với .member-card */
+            left: 50%;
+            transform: translateX(-50%);
+            /* Đặt ngay trên đầu avatar-wrap, tính từ top của .member-card:
+               padding-top = 62px, vương miện cao 53px → top = 62 - 53 - 2px gap = 7px */
+            top: 7px;
+            display: block;
+            z-index: 20;
+            line-height: 1;
+            /* Animation nhảy nhẹ */
+            animation: crownBounce 2.2s ease-in-out infinite;
+        }
+        @keyframes crownBounce {
+            0%,100% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
+            50%      { transform: translateX(-50%) translateY(-6px) rotate(2deg); }
+        }
+
+        @media (max-width: 768px) {
+            .partners-grid-new { gap: 20px; }
+            .member-card { width: 155px; }
+            .member-avatar-wrap { width: 130px; height: 130px; }
+        }
+        @media (max-width: 480px) {
+            .member-card { width: 140px; }
+            .member-avatar-wrap { width: 115px; height: 115px; }
+        }
+
+        .wave-seamless-box-relative {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            pointer-events: none;
+            margin-top: 60px;
+            bottom: -5px;
+        }
+        .wave-seamless-box-relative .waves-svg-main {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0px -10px 15px rgba(255,255,255,0.5));
+        }
+    
+
+
+        /* Nút đăng nhập/đăng ký */
+        .btn-login {
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            color:#fff !important; border:none; border-radius:10px;
+            padding:7px 16px; font-size:13px; transition:all .2s;
+        }
+        .btn-login:hover { opacity:.88; transform:translateY(-1px); }
+        /* Avatar user */
+        .user-avatar-btn {
+            width:38px; height:38px; border-radius:50%;
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-weight:800; font-size:15px;
+            cursor:pointer; border:none; transition:all .2s;
+        }
+        .user-avatar-btn:hover { box-shadow:0 4px 14px rgba(13,64,118,.35); }
+        .user-profile-dropdown .dropdown-menu {
+            border-radius:14px; padding:8px 0;
+            box-shadow:0 8px 30px rgba(0,0,0,.12);
+        }
+
+        
+        /* ══ Bổ sung: Gắn Kết Bốn Phương ══ */
+        .gk-truck-path { top: auto; bottom: 58px; font-size: 2.1rem; color: #FFC285; }
+        .carousel-item { position: relative; }
+        .carousel-overlay { background: linear-gradient(180deg, rgba(6,29,56,.35), rgba(6,29,56,.72)) !important; }
+        .stacked-img { object-fit: cover; background: #0A2B54; }
+        .member-mssv { font-size: 10.5px; font-weight: 800; color: #64748b; letter-spacing: .3px; margin-top: 4px; }
+        .member-social-id { cursor: default; opacity: .7; }
+        .partners-grid-new { max-width: 1180px; }
+        /* cuộn phim quy trình 8 bước */
+        .gk-reel { background: linear-gradient(180deg, #061D38 0%, #0D4076 62%, #12345F 100%); color: #fff; }
+        .gk-reel-sky { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1.5px); background-size: 46px 46px; opacity: .25; }
+        .gk-reel-city { position: absolute; left: 0; right: 0; bottom: 28%; height: 34%; background: repeating-linear-gradient(90deg, rgba(4,21,42,.9) 0 46px, rgba(4,21,42,.6) 46px 70px, rgba(4,21,42,.95) 70px 118px, transparent 118px 130px); -webkit-mask: linear-gradient(0deg, #000 70%, transparent); mask: linear-gradient(0deg, #000 70%, transparent); opacity: .8; }
+        .gk-reel-caption { position: absolute; left: 50%; top: 9%; transform: translateX(-50%); width: min(620px, 88%); text-align: center; z-index: 3; }
+        .gk-reel-step { display: inline-block; font-size: 12px; font-weight: 900; letter-spacing: 2px; background: rgba(250,120,6,.9); padding: 4px 12px; border-radius: 999px; }
+        .gk-reel-ico { width: 64px; height: 64px; margin: 14px auto 10px; border-radius: 20px; background: linear-gradient(135deg,#F26B00,#FF9F43); display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 10px 26px rgba(250,120,6,.4); }
+        .gk-reel-caption h4 { font-weight: 900; font-size: clamp(18px, 2.6vw, 28px); margin-bottom: 6px; }
+        .gk-reel-caption p { color: #cbd5e1; font-size: clamp(13px, 1.6vw, 16px); margin: 0; }
+        .gk-reel-caption.swap h4, .gk-reel-caption.swap p, .gk-reel-caption.swap .gk-reel-ico { animation: gkReelIn .5s ease; }
+        @keyframes gkReelIn { from { opacity: 0; transform: translateY(10px); } }
+        .gk-reel-road { position: absolute; left: 0; right: 0; bottom: 14%; height: 18%; background: #0b1d33; border-top: 3px solid rgba(255,255,255,.12); }
+        .gk-reel-lane { position: absolute; left: 0; right: 0; top: 50%; height: 4px; margin-top: -2px; background: repeating-linear-gradient(90deg, #FFC285 0 30px, transparent 30px 52px); opacity: .8; }
+        .gk-reel-mark { position: absolute; top: -22px; width: 38px; height: 38px; margin-left: -19px; border-radius: 50%; border: 3px solid #fff; background: #1E5C9E; color: #fff; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: .3s; z-index: 2; }
+        .gk-reel-mark.done { background: #10b981; } .gk-reel-mark.on { background: #FA7806; transform: scale(1.18); box-shadow: 0 0 0 6px rgba(250,120,6,.25); }
+        .gk-reel-bike { position: absolute; top: 34%; left: 6%; margin-left: -18px; font-size: 26px; color: #FFC285; transition: left 1.1s cubic-bezier(.45,0,.2,1); filter: drop-shadow(0 4px 8px rgba(0,0,0,.4)); z-index: 3; }
+        .gk-reel-controls { position: absolute; left: 0; right: 0; bottom: 0; height: 14%; display: flex; align-items: center; gap: 12px; padding: 0 18px; background: rgba(4,21,42,.65); }
+        .gk-reel-play { width: 34px; height: 34px; border-radius: 50%; border: 0; background: #fff; color: #0A2B54; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+        .gk-reel-dots { display: flex; gap: 6px; flex: 1; }
+        .gk-reel-dots span { flex: 1; height: 5px; border-radius: 3px; background: rgba(255,255,255,.2); cursor: pointer; transition: .3s; }
+        .gk-reel-dots span.done { background: #10b981; } .gk-reel-dots span.on { background: #FA7806; }
+        .gk-reel-badge { font-size: 11.5px; font-weight: 800; color: #FFC285; white-space: nowrap; }
+        @media (max-width: 575.98px) { .gk-reel { aspect-ratio: 4 / 5 !important; } .gk-reel-badge { display: none; } .gk-reel-mark { width: 30px; height: 30px; margin-left: -15px; font-size: 11px; top: -17px; } .gk-reel-caption { top: 6%; } }
+        /* nhận diện thương hiệu */
+        .gk-brandkit { padding: 70px 0; background: #fff; }
+        .gk-kicker { display: inline-block; font-size: 11px; font-weight: 900; letter-spacing: 3px; color: #FA7806; margin-bottom: 8px; }
+        .gk-brandkit-title { font-weight: 900; color: #0A2B54; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.15; margin-bottom: 14px; }
+        .gk-brandkit-title em { font-style: normal; color: #FA7806; }
+        .gk-swatches { display: flex; gap: 12px; margin: 18px 0; }
+        .gk-swatches span { flex: 1; padding: 46px 10px 10px; border-radius: 16px; background: linear-gradient(var(--c), var(--c)) top / 100% 38px no-repeat, #f8fafc; font-weight: 800; color: #0A2B54; font-size: 13px; border: 1px solid #eef2f7; }
+        .gk-swatches small { color: #64748b; font-weight: 700; }
+        .gk-values { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .gk-value { display: flex; flex-direction: column; gap: 2px; padding: 12px; border-radius: 14px; background: #f8fafc; border: 1px solid #eef2f7; }
+        .gk-value i { color: #FA7806; font-size: 18px; margin-bottom: 4px; } .gk-value b { color: #0A2B54; } .gk-value span { font-size: 12.5px; color: #64748b; }
+        .gk-uniform { margin: 0; border-radius: 24px; overflow: hidden; box-shadow: 0 24px 60px rgba(10,43,84,.18); background: #f1f5f9; }
+        .gk-uniform img { width: 100%; display: block; }
+        .gk-uniform figcaption { padding: 12px 16px; font-size: 13px; font-weight: 700; color: #0A2B54; background: #fff; }
+        @media (max-width: 767.98px) { .carousel-caption-custom { padding: 0 18px; max-width: 100%; } .carousel-caption-custom p { font-size: 1.02rem; line-height: 1.55; max-width: 34ch; margin: 10px auto 0; } }
+        @media (max-width: 575.98px) { .gk-values { grid-template-columns: 1fr; } .member-card { width: 46% !important; } .partners-grid-new { gap: 14px !important; } }
+
+        /* ══ Màu viền cho 10 thành viên (tông xanh navy – cam của dự án) ══ */
+        .member-card:nth-child(1) { animation-delay: 0.00s; }
+        .member-card:nth-child(1) .member-avatar-wrap { background: conic-gradient(from 0deg, #FF9F43, #E06400, #FF9F43, #E06400); box-shadow: 0 8px 30px #E0640055; }
+        .member-card:nth-child(1):hover .member-avatar-wrap { box-shadow: 0 20px 50px #E0640088; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(1) .member-info-box::before { background: linear-gradient(90deg, #FF9F43, #E06400); }
+        .member-card:nth-child(1) .member-role-tag { color: #E06400; }
+        .member-card:nth-child(1) .member-badge { background: linear-gradient(135deg, #FF9F43, #E06400); }
+        .member-card:nth-child(2) { animation-delay: 0.35s; }
+        .member-card:nth-child(2) .member-avatar-wrap { background: conic-gradient(from 0deg, #1E5C9E, #0A2B54, #1E5C9E, #0A2B54); box-shadow: 0 8px 30px #0A2B5455; }
+        .member-card:nth-child(2):hover .member-avatar-wrap { box-shadow: 0 20px 50px #0A2B5488; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(2) .member-info-box::before { background: linear-gradient(90deg, #1E5C9E, #0A2B54); }
+        .member-card:nth-child(2) .member-role-tag { color: #0A2B54; }
+        .member-card:nth-child(2) .member-badge { background: linear-gradient(135deg, #1E5C9E, #0A2B54); }
+        .member-card:nth-child(3) { animation-delay: 0.70s; }
+        .member-card:nth-child(3) .member-avatar-wrap { background: conic-gradient(from 0deg, #FFD54F, #FF8F00, #FFD54F, #FF8F00); box-shadow: 0 8px 30px #FF8F0055; }
+        .member-card:nth-child(3):hover .member-avatar-wrap { box-shadow: 0 20px 50px #FF8F0088; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(3) .member-info-box::before { background: linear-gradient(90deg, #FFD54F, #FF8F00); }
+        .member-card:nth-child(3) .member-role-tag { color: #FF8F00; }
+        .member-card:nth-child(3) .member-badge { background: linear-gradient(135deg, #FFD54F, #FF8F00); }
+        .member-card:nth-child(4) { animation-delay: 1.05s; }
+        .member-card:nth-child(4) .member-avatar-wrap { background: conic-gradient(from 0deg, #3A7BC8, #0D4076, #3A7BC8, #0D4076); box-shadow: 0 8px 30px #0D407655; }
+        .member-card:nth-child(4):hover .member-avatar-wrap { box-shadow: 0 20px 50px #0D407688; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(4) .member-info-box::before { background: linear-gradient(90deg, #3A7BC8, #0D4076); }
+        .member-card:nth-child(4) .member-role-tag { color: #0D4076; }
+        .member-card:nth-child(4) .member-badge { background: linear-gradient(135deg, #3A7BC8, #0D4076); }
+        .member-card:nth-child(5) { animation-delay: 1.40s; }
+        .member-card:nth-child(5) .member-avatar-wrap { background: conic-gradient(from 0deg, #FF8A50, #D9480F, #FF8A50, #D9480F); box-shadow: 0 8px 30px #D9480F55; }
+        .member-card:nth-child(5):hover .member-avatar-wrap { box-shadow: 0 20px 50px #D9480F88; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(5) .member-info-box::before { background: linear-gradient(90deg, #FF8A50, #D9480F); }
+        .member-card:nth-child(5) .member-role-tag { color: #D9480F; }
+        .member-card:nth-child(5) .member-badge { background: linear-gradient(135deg, #FF8A50, #D9480F); }
+        .member-card:nth-child(6) { animation-delay: 1.75s; }
+        .member-card:nth-child(6) .member-avatar-wrap { background: conic-gradient(from 0deg, #64748B, #0A2B54, #64748B, #0A2B54); box-shadow: 0 8px 30px #0A2B5455; }
+        .member-card:nth-child(6):hover .member-avatar-wrap { box-shadow: 0 20px 50px #0A2B5488; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(6) .member-info-box::before { background: linear-gradient(90deg, #64748B, #0A2B54); }
+        .member-card:nth-child(6) .member-role-tag { color: #0A2B54; }
+        .member-card:nth-child(6) .member-badge { background: linear-gradient(135deg, #64748B, #0A2B54); }
+        .member-card:nth-child(7) { animation-delay: 2.10s; }
+        .member-card:nth-child(7) .member-avatar-wrap { background: conic-gradient(from 0deg, #FFC285, #FA7806, #FFC285, #FA7806); box-shadow: 0 8px 30px #FA780655; }
+        .member-card:nth-child(7):hover .member-avatar-wrap { box-shadow: 0 20px 50px #FA780688; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(7) .member-info-box::before { background: linear-gradient(90deg, #FFC285, #FA7806); }
+        .member-card:nth-child(7) .member-role-tag { color: #FA7806; }
+        .member-card:nth-child(7) .member-badge { background: linear-gradient(135deg, #FFC285, #FA7806); }
+        .member-card:nth-child(8) { animation-delay: 2.45s; }
+        .member-card:nth-child(8) .member-avatar-wrap { background: conic-gradient(from 0deg, #5B9BD5, #164E8C, #5B9BD5, #164E8C); box-shadow: 0 8px 30px #164E8C55; }
+        .member-card:nth-child(8):hover .member-avatar-wrap { box-shadow: 0 20px 50px #164E8C88; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(8) .member-info-box::before { background: linear-gradient(90deg, #5B9BD5, #164E8C); }
+        .member-card:nth-child(8) .member-role-tag { color: #164E8C; }
+        .member-card:nth-child(8) .member-badge { background: linear-gradient(135deg, #5B9BD5, #164E8C); }
+        .member-card:nth-child(9) { animation-delay: 2.80s; }
+        .member-card:nth-child(9) .member-avatar-wrap { background: conic-gradient(from 0deg, #FBBF24, #B45309, #FBBF24, #B45309); box-shadow: 0 8px 30px #B4530955; }
+        .member-card:nth-child(9):hover .member-avatar-wrap { box-shadow: 0 20px 50px #B4530988; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(9) .member-info-box::before { background: linear-gradient(90deg, #FBBF24, #B45309); }
+        .member-card:nth-child(9) .member-role-tag { color: #B45309; }
+        .member-card:nth-child(9) .member-badge { background: linear-gradient(135deg, #FBBF24, #B45309); }
+        .member-card:nth-child(10) { animation-delay: 3.15s; }
+        .member-card:nth-child(10) .member-avatar-wrap { background: conic-gradient(from 0deg, #2F7BC4, #061D38, #2F7BC4, #061D38); box-shadow: 0 8px 30px #061D3855; }
+        .member-card:nth-child(10):hover .member-avatar-wrap { box-shadow: 0 20px 50px #061D3888; animation: borderSpin 2s linear infinite; }
+        .member-card:nth-child(10) .member-info-box::before { background: linear-gradient(90deg, #2F7BC4, #061D38); }
+        .member-card:nth-child(10) .member-role-tag { color: #061D38; }
+        .member-card:nth-child(10) .member-badge { background: linear-gradient(135deg, #2F7BC4, #061D38); }
+
+    </style>
+</head>
+<body>
+
+
+<!-- ================================================================
+     HEADER
+     ================================================================ -->
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text active" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+<!-- SUB-NAV -->
+<nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+<!-- ================================================================
+     BANNER HERO
+     ================================================================ -->
+<div class="hero-carousel-container">
+        <div class="gk-truck-path" aria-hidden="true"><i class="fas fa-truck-pickup"></i></div>
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="4500">
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="background-image: url('img/hero/hero-1.jpg');">
+                    <div class="carousel-overlay">
+                        <div class="text-center carousel-caption-custom">
+                            <h1>GẮN KẾT BỐN PHƯƠNG</h1>
+                            <p>Đồng hành mọi nẻo đường – nền tảng cứu hộ &amp; sửa chữa xe minh bạch</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('img/hero/hero-3.jpg');">
+                    <div class="carousel-overlay">
+                        <div class="text-center carousel-caption-custom">
+                            <h1>KHÔNG AI BỊ BỎ LẠI GIỮA ĐƯỜNG</h1>
+                            <p>Thợ đã xác minh có mặt trong khoảng 15 phút, báo giá trước khi làm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="wave-seamless-box">
+        <svg class="waves-svg-main" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="wave-gt" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+            </defs>
+            <g class="parallax-wave-layers">
+                <use xlink:href="#wave-gt" x="48" y="0"/>
+                <use xlink:href="#wave-gt" x="48" y="3"/>
+                <use xlink:href="#wave-gt" x="48" y="5"/>
+                <use xlink:href="#wave-gt" x="48" y="7"/>
+            </g>
+        </svg>
+    </div>
+</div>
+
+
+
+<section class="story-section">
+        <div class="floating-bubble" style="width:100px;height:100px;top:10%;left:5%;"></div>
+        <div class="floating-bubble" style="width:140px;height:140px;bottom:10%;right:5%;animation-delay:2s;"></div>
+        <div class="container" style="position:relative;z-index:2;">
+            <div class="row align-items-start">
+                <div class="col-lg-6 reveal mb-4">
+                    <div class="image-stack-wrapper" id="imageStack">
+                        <img src="img/dv/ch01-2.jpg" class="stacked-img img-1" alt="Thủng lốp lúc nửa đêm"><img src="img/hero/hero-3.jpg" class="stacked-img img-2" alt="Nền tảng kết nối hai phía"><img src="img/dv/gt03-2.jpg" class="stacked-img img-3" alt="Lộ trình 5 năm">
+                    </div>
+                    <p class="text-center mt-3 text-muted small">
+                        <i class="fas fa-hand-pointer mr-2"></i>
+                        Nhấn vào ảnh để xem từng chặng câu chuyện!
+                    </p>
+                </div>
+                <div class="col-lg-6 reveal">
+                    <div class="story-content-card active" id="storyCard1">
+                        <h2>Câu chuyện khởi nguồn</h2>
+                        <div class="story-text"><p>Thủng lốp lúc 11 giờ đêm, xe chết máy giữa cơn mưa ngập hay quên chìa trong cốp trước giờ phỏng vấn – ai đi xe ở thành phố cũng từng ít nhất một lần rơi vào cảnh “kêu trời không thấu”. Không biết tiệm nào còn mở, không biết thợ có đến không, và luôn lo bị nói thách.</p><p>Ở phía bên kia, rất nhiều thợ sửa xe giỏi nghề lại có những giờ ngồi chờ khách, tệp khách quanh tiệm nhỏ và chưa có kênh số. <b>Gắn Kết Bốn Phương</b> ra đời để nối hai phía ấy lại bằng một nền tảng minh bạch, nhanh và đáng tin.</p></div>
+                        <span class="handwritten">Không ai bị bỏ lại giữa đường!</span>
+                    </div>
+                    <div class="story-content-card" id="storyCard2">
+                        <h2>Nền tảng kết nối hai phía</h2>
+                        <div class="story-text"><p>Với khách hàng: <b>“Cứu hộ nhanh trong 15 phút – Minh bạch giá – An tâm chất lượng”</b>. Một chạm để báo sự cố, ghép thợ gần nhất trong bán kính 3–5 km, xem giá trần trước, theo dõi thợ và đối chiếu mã gặp mặt.</p><p>Với đối tác thợ: <b>“Gia tăng thu nhập từ thời gian rảnh – Mở rộng tệp khách hàng số – Bảo vệ quyền lợi”</b>. Nền tảng đảm nhận điều phối, chuẩn hóa quy trình 8 bước, kiểm soát chất lượng bằng đánh giá thực và hỗ trợ xử lý khiếu nại công bằng cho cả hai bên.</p></div>
+                        <span class="handwritten">Một chạm – thợ đến – an tâm lăn bánh!</span>
+                    </div>
+                    <div class="story-content-card" id="storyCard3">
+                        <h2>Lộ trình 5 năm phủ khắp</h2>
+                        <div class="story-text"><p>Năm 1 thí điểm tại 3 quận trung tâm TP.HCM với 150 thợ đạt chuẩn và mục tiêu 10.000 lượt cứu hộ thành công. Năm 2 đủ 6 quận trung tâm với 300 đối tác; Năm 3 phủ toàn TP.HCM, đạt hòa vốn vận hành.</p><p>Từ Năm 4, dự án thí điểm bảo dưỡng tại nhà, ra mắt Hà Nội, Đà Nẵng cùng gói thành viên theo năm và hợp đồng doanh nghiệp – hướng tới mạng lưới 1.900 thợ, 406.000 cuốc mỗi năm dưới mô hình <b>công ty cổ phần</b>.</p></div>
+                        <span class="handwritten">Phủ khắp mọi nẻo đường 2030!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="wave-seamless-box">
+        <svg class="waves-svg-main" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="wave-story" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+            </defs>
+            <g class="parallax-wave-layers">
+                <use xlink:href="#wave-story" x="48" y="0"/>
+                <use xlink:href="#wave-story" x="48" y="3"/>
+                <use xlink:href="#wave-story" x="48" y="5"/>
+                <use xlink:href="#wave-story" x="48" y="7"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION: GALLERY
+     ================================================================ -->
+<section class="gk-process-section reveal">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 style="font-weight:900;color:var(--dark-blue);">Gắn Kết Bốn Phương vận hành như thế nào?</h2>
+                <p class="text-muted">Quy trình 8 bước chuẩn – từ lúc gặp sự cố đến khi xe lăn bánh trở lại</p>
+            </div>
+            <div class="gt-video-wrap gk-reel" id="gkReel" data-steps="[{&quot;t&quot;: &quot;Phát sinh sự cố & gửi yêu cầu&quot;, &quot;d&quot;: &quot;Khách chọn loại sự cố, loại xe, ghim vị trí và gửi ảnh – qua web, tem QR hoặc hotline.&quot;, &quot;i&quot;: &quot;fa-exclamation-triangle&quot;}, {&quot;t&quot;: &quot;Tìm thợ phù hợp 3–5 km&quot;, &quot;d&quot;: &quot;Hệ thống ưu tiên thợ gần nhất, đang sẵn sàng và có kỹ năng xử lý đúng loại sự cố.&quot;, &quot;i&quot;: &quot;fa-search-location&quot;}, {&quot;t&quot;: &quot;Thợ tiếp nhận yêu cầu&quot;, &quot;d&quot;: &quot;Thợ xem vị trí, tình trạng xe rồi nhận cuốc; khách thấy thông tin thợ và mã gặp mặt.&quot;, &quot;i&quot;: &quot;fa-user-check&quot;}, {&quot;t&quot;: &quot;Di chuyển & kiểm tra xe&quot;, &quot;d&quot;: &quot;Thợ đến hiện trường, kiểm tra thực tế và giải thích rõ nguyên nhân, phương án xử lý.&quot;, &quot;i&quot;: &quot;fa-motorcycle&quot;}, {&quot;t&quot;: &quot;Báo giá & xác nhận&quot;, &quot;d&quot;: &quot;Báo giá ghi rõ di chuyển, nhân công, phụ tùng. Khách duyệt rồi thợ mới làm.&quot;, &quot;i&quot;: &quot;fa-file-invoice-dollar&quot;}, {&quot;t&quot;: &quot;Sửa chữa hoặc cứu hộ&quot;, &quot;d&quot;: &quot;Xử lý tại chỗ; trường hợp không thể, hỗ trợ kéo xe về cơ sở sửa chữa phù hợp.&quot;, &quot;i&quot;: &quot;fa-tools&quot;}, {&quot;t&quot;: &quot;Hoàn tất & nghiệm thu&quot;, &quot;d&quot;: &quot;Khách kiểm tra kết quả, ảnh trước – sau được lưu trong hộp đen chuyến cứu hộ.&quot;, &quot;i&quot;: &quot;fa-clipboard-check&quot;}, {&quot;t&quot;: &quot;Thanh toán & đánh giá&quot;, &quot;d&quot;: &quot;Thanh toán theo phương thức hỗ trợ, đánh giá thợ theo 4 tiêu chí để nâng chất lượng.&quot;, &quot;i&quot;: &quot;fa-star&quot;}]">
+                <div class="gk-reel-sky"></div>
+                <div class="gk-reel-city"></div>
+                <div class="gk-reel-caption">
+                    <span class="gk-reel-step" id="gkReelStep">Bước 1/8</span>
+                    <div class="gk-reel-ico" id="gkReelIco"><i class="fas fa-exclamation-triangle"></i></div>
+                    <h4 id="gkReelTitle">Phát sinh sự cố & gửi yêu cầu</h4>
+                    <p id="gkReelDesc">Khách chọn loại sự cố, loại xe, ghim vị trí và gửi ảnh – qua web, tem QR hoặc hotline.</p>
+                </div>
+                <div class="gk-reel-road">
+                    <div class="gk-reel-lane"></div>
+                    <button type="button" class="gk-reel-mark" data-i="0" style="left:6.0%" aria-label="Bước 1"><i class="fas fa-exclamation-triangle"></i></button><button type="button" class="gk-reel-mark" data-i="1" style="left:18.5%" aria-label="Bước 2"><i class="fas fa-search-location"></i></button><button type="button" class="gk-reel-mark" data-i="2" style="left:31.0%" aria-label="Bước 3"><i class="fas fa-user-check"></i></button><button type="button" class="gk-reel-mark" data-i="3" style="left:43.5%" aria-label="Bước 4"><i class="fas fa-motorcycle"></i></button><button type="button" class="gk-reel-mark" data-i="4" style="left:56.0%" aria-label="Bước 5"><i class="fas fa-file-invoice-dollar"></i></button><button type="button" class="gk-reel-mark" data-i="5" style="left:68.5%" aria-label="Bước 6"><i class="fas fa-tools"></i></button><button type="button" class="gk-reel-mark" data-i="6" style="left:81.0%" aria-label="Bước 7"><i class="fas fa-clipboard-check"></i></button><button type="button" class="gk-reel-mark" data-i="7" style="left:93.5%" aria-label="Bước 8"><i class="fas fa-star"></i></button>
+                    <div class="gk-reel-bike" id="gkReelBike"><i class="fas fa-motorcycle"></i></div>
+                </div>
+                <div class="gk-reel-controls">
+                    <button type="button" class="gk-reel-play" id="gkReelPlay" aria-label="Tạm dừng"><i class="fas fa-pause"></i></button>
+                    <div class="gk-reel-dots" id="gkReelDots"><span data-i="0"></span><span data-i="1"></span><span data-i="2"></span><span data-i="3"></span><span data-i="4"></span><span data-i="5"></span><span data-i="6"></span><span data-i="7"></span></div>
+                    <span class="gk-reel-badge"><i class="fas fa-film mr-1"></i> Mô phỏng quy trình</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<!-- zoomModal đã được gỡ cùng với slider ảnh -->
+
+
+
+<section class="reasons-tabs-section reveal">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 style="font-weight:900;font-size:2.6rem;color:var(--dark-blue);">
+                    Lý do bạn nên chọn Gắn Kết Bốn Phương
+                </h2>
+                <p class="text-muted">Cho mọi hành trình được an tâm trọn vẹn</p>
+            </div>
+            <div class="reasons-nav">
+                <div class="reason-tab-item active" data-target="reason1">
+                    <i class="fas fa-shield-alt"></i> An Toàn
+                </div>
+                <div class="reason-tab-item" data-target="reason2">
+                    <i class="fas fa-bolt"></i> Tốc Độ
+                </div>
+                <div class="reason-tab-item" data-target="reason3">
+                    <i class="fas fa-hand-holding-usd"></i> Giá Cả
+                </div>
+                <div class="reason-tab-item" data-target="reason4">
+                    <i class="fas fa-headset"></i> Hỗ Trợ
+                </div>
+            </div>
+            <div class="reason-display-area">
+                <div class="reason-content-panel active" id="reason1">
+                    <div class="reason-detail-header">
+                        <i class="fas fa-shield-alt big-icon"></i>
+                        <h3 class="font-weight-bold">An toàn trên từng cây số</h3>
+                    </div>
+                    <p class="reason-detail-text">Mỗi thợ đối tác đều được xác minh danh tính và tay nghề trước khi nhận cuốc. Khi thợ đến, bạn đối chiếu <b>mã gặp mặt 4 số</b> rồi mới giao xe; có thể chia sẻ hành trình cứu hộ cho người thân, bật <b>chế độ an toàn đêm 22h–5h</b> và bấm SOS để được hỗ trợ khẩn cấp bất cứ lúc nào.</p>
+                </div>
+                <div class="reason-content-panel" id="reason2">
+                    <div class="reason-detail-header">
+                        <i class="fas fa-bolt big-icon"></i>
+                        <h3 class="font-weight-bold">Có mặt trong khoảng 15 phút</h3>
+                    </div>
+                    <p class="reason-detail-text">Hệ thống ghép thợ gần nhất trong bán kính 3–5 km, mục tiêu <b>≥95% yêu cầu có thợ nhận dưới 3 phút</b> và thợ đến trong khoảng 15 phút. Bạn đặt ngay trên trình duyệt hoặc quét tem QR dán xe – không cần cài ứng dụng, không cần nhớ số điện thoại.</p>
+                </div>
+                <div class="reason-content-panel" id="reason3">
+                    <div class="reason-detail-header">
+                        <i class="fas fa-hand-holding-usd big-icon"></i>
+                        <h3 class="font-weight-bold">Minh bạch giá – có giá trần</h3>
+                    </div>
+                    <p class="reason-detail-text">Bảng giá chuẩn được niêm yết công khai, <b>giá trần</b> hiển thị trước khi thợ đến. Mọi hạng mục phát sinh phải được bạn duyệt trên ứng dụng; nếu bị thu vượt mà không có lý do chính đáng, nền tảng <b>hoàn 100% phần chênh lệch</b>. Mỗi cuốc đều có hóa đơn điện tử.</p>
+                </div>
+                <div class="reason-content-panel" id="reason4">
+                    <div class="reason-detail-header">
+                        <i class="fas fa-headset big-icon"></i>
+                        <h3 class="font-weight-bold">Hỗ trợ 24/7 & khiếu nại 4 bước</h3>
+                    </div>
+                    <p class="reason-detail-text">Tổng đài và Đội SOS trực đêm luôn sẵn sàng. Khiếu nại được <b>tiếp nhận trong 2 giờ</b>, phản hồi ban đầu trong 24 giờ, vụ việc phức tạp xử lý tối đa 72 giờ; bộ phận chăm sóc khách hàng có thẩm quyền xử lý bồi hoàn đến 2.000.000đ để bảo vệ quyền lợi của bạn.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+<section class="gk-brandkit reveal">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <span class="gk-kicker">NHẬN DIỆN THƯƠNG HIỆU</span>
+                    <h2 class="gk-brandkit-title">Xanh navy tin cậy,<br><em>cam năng động</em></h2>
+                    <p class="text-muted">Logo là chiếc ghim định vị màu cam ôm lấy biểu tượng xe và cờ lê, đặt trên con đường xanh navy – thông điệp “ở đâu có sự cố, ở đó có Gắn Kết Bốn Phương”. Đồng phục thợ dùng bộ màu navy – cam – xám kèm dải phản quang để dễ nhận diện cả ban đêm.</p>
+                    <div class="gk-swatches"><span style="--c:#0D4076">Navy<br><small>#0D4076</small></span><span style="--c:#FA7806">Cam<br><small>#FA7806</small></span><span style="--c:#BFC5CC">Xám<br><small>#BFC5CC</small></span></div>
+                    <div class="gk-values"><div class="gk-value"><i class="fas fa-balance-scale"></i><b>Trung thực</b><span>Báo đúng lỗi, đúng giá, không vẽ bệnh.</span></div><div class="gk-value"><i class="fas fa-eye"></i><b>Minh bạch</b><span>Giá trần, hóa đơn điện tử, ảnh trước – sau.</span></div><div class="gk-value"><i class="fas fa-hands-helping"></i><b>Tôn trọng</b><span>Lịch sự với khách, công bằng với thợ.</span></div><div class="gk-value"><i class="fas fa-user-shield"></i><b>Trách nhiệm</b><span>Bảo hành sau sửa, khiếu nại phản hồi 24 giờ.</span></div></div>
+                </div>
+                <div class="col-lg-7">
+                    <figure class="gk-uniform">
+                        <img src="img/dong-phuc.jpg" alt="Bộ nhận diện đồng phục thợ Gắn Kết Bốn Phương: áo polo, áo khoác phản quang, nón và quần" loading="lazy">
+                        <figcaption><i class="fas fa-tshirt mr-1"></i> Đồng phục đối tác thợ: áo polo, áo khoác có dải phản quang, nón và quần túi hộp</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+<section class="partners-section">
+        <div class="partners-container container">
+            <h2 class="partners-title reveal">Đội ngũ Gắn Kết Bốn Phương</h2>
+            <p class="partners-subtitle reveal">10 thành viên Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – GV hướng dẫn: Chu Thị Thùy</p>
+            <div class="partners-grid-new reveal">
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Võ Thiên Ân.jpg" data-photo="img/Võ Thiên Ân.jpg" class="member-img member-img-default" alt="Võ Thiên Ân" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv01n.svg'">
+                        <img src="img/team/tv01b.svg" class="member-img member-img-hover" alt="Võ Thiên Ân – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-cogs"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Võ Thiên Ân</div>
+                    <div class="member-role-tag">🎯 Vận hành – Kiểm soát</div>
+                    <div class="member-mssv">MSSV 24646591 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Rà soát toàn bộ dự án, xây dựng phần vận hành – kiểm soát; kiểm tra và thuyết trình các yếu tố nguồn lực.</div>
+                    <div class="member-socials"><a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="member-social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="member-social-btn" title="Instagram"><i class="fab fa-instagram"></i></a><a href="mailto:vonam583@gmail.com" class="member-social-btn" title="Email"><i class="fas fa-envelope"></i></a></div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Cao Thị Bảo Châu.jpg" data-photo="img/Cao Thị Bảo Châu.jpg" class="member-img member-img-default" alt="Cao Thị Bảo Châu" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv02n.svg'">
+                        <img src="img/team/tv02b.svg" class="member-img member-img-hover" alt="Cao Thị Bảo Châu – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-boxes"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Cao Thị Bảo Châu</div>
+                    <div class="member-role-tag">🧭 Vận hành – Nguồn lực</div>
+                    <div class="member-mssv">MSSV 24643541 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Rà soát toàn bộ dự án, xây dựng phần vận hành – kiểm soát; kiểm tra các yếu tố nguồn lực của dự án.</div>
+                    <div class="member-socials"><a href="https://www.facebook.com/bao.chau.946380" target="_blank" rel="noopener" class="member-social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/treasures_04/" target="_blank" rel="noopener" class="member-social-btn" title="Instagram"><i class="fab fa-instagram"></i></a></div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Hồ Thị Hằng.jpg" data-photo="img/Hồ Thị Hằng.jpg" class="member-img member-img-default" alt="Hồ Thị Hằng" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv03n.svg'">
+                        <img src="img/team/tv03b.svg" class="member-img member-img-hover" alt="Hồ Thị Hằng – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-search-location"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Hồ Thị Hằng</div>
+                    <div class="member-role-tag">🔍 Môi trường kinh doanh</div>
+                    <div class="member-mssv">MSSV 24639471 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Phân tích môi trường kinh doanh, làm rõ ý tưởng khởi nghiệp và xây dựng mô phỏng hệ thống.</div>
+                    <div class="member-socials"><a href="https://www.facebook.com/hohang274456" target="_blank" rel="noopener" class="member-social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/_ohnagt.iam_/" target="_blank" rel="noopener" class="member-social-btn" title="Instagram"><i class="fab fa-instagram"></i></a></div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Nguyễn Bùi Thúy Kiều.jpg" data-photo="img/Nguyễn Bùi Thúy Kiều.jpg" class="member-img member-img-default" alt="Nguyễn Bùi Thúy Kiều" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv04n.svg'">
+                        <img src="img/team/tv04b.svg" class="member-img member-img-hover" alt="Nguyễn Bùi Thúy Kiều – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-gem"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Nguyễn Bùi Thúy Kiều</div>
+                    <div class="member-role-tag">💎 Giá trị khách hàng</div>
+                    <div class="member-mssv">MSSV 24637501 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Phân tích giá trị khách hàng và hệ thống; xây dựng hệ thống đạo đức và quy tắc ứng xử.</div>
+                    <div class="member-socials"><a href="https://www.facebook.com/thuy.kieu.337748" target="_blank" rel="noopener" class="member-social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/casann.illus/" target="_blank" rel="noopener" class="member-social-btn" title="Instagram"><i class="fab fa-instagram"></i></a></div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Trần Thị Diễm My.jpg" data-photo="img/Trần Thị Diễm My.jpg" class="member-img member-img-default" alt="Trần Thị Diễm My" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv05n.svg'">
+                        <img src="img/team/tv05b.svg" class="member-img member-img-hover" alt="Trần Thị Diễm My – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-lightbulb"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Trần Thị Diễm My</div>
+                    <div class="member-role-tag">💡 Ý tưởng – Mô phỏng</div>
+                    <div class="member-mssv">MSSV 24639721 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Phân tích môi trường kinh doanh, làm rõ ý tưởng khởi nghiệp và xây dựng mô phỏng hệ thống.</div>
+                    <div class="member-socials"><a href="https://www.facebook.com/embecuaaicutedzayyy" target="_blank" rel="noopener" class="member-social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/_eju.dmie_/" target="_blank" rel="noopener" class="member-social-btn" title="Instagram"><i class="fab fa-instagram"></i></a></div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Phan Thị Yến Oanh.jpg" data-photo="img/Phan Thị Yến Oanh.jpg" class="member-img member-img-default" alt="Phan Thị Yến Oanh" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv06n.svg'">
+                        <img src="img/team/tv06b.svg" class="member-img member-img-hover" alt="Phan Thị Yến Oanh – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-microchip"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Phan Thị Yến Oanh</div>
+                    <div class="member-role-tag">⚙️ Hình thức – Công nghệ</div>
+                    <div class="member-mssv">MSSV 24644941 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Lựa chọn và phân tích hình thức khởi nghiệp; đề xuất kỹ thuật và công nghệ cho nền tảng.</div>
+                    <div class="member-socials"><span class="member-social-btn member-social-id" title="Mã số sinh viên"><i class="fas fa-id-card"></i></span></div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Phan Anh Tài.jpg" data-photo="img/Phan Anh Tài.jpg" class="member-img member-img-default" alt="Phan Anh Tài" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv07n.svg'">
+                        <img src="img/team/tv07b.svg" class="member-img member-img-hover" alt="Phan Anh Tài – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-chart-line"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Phan Anh Tài</div>
+                    <div class="member-role-tag">📊 Tài chính – Kế hoạch</div>
+                    <div class="member-mssv">MSSV 24638021 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Ước tính vốn đầu tư giai đoạn thí điểm và xây dựng kế hoạch dài hạn 5 năm.</div>
+                    <div class="member-socials"><span class="member-social-btn member-social-id" title="Mã số sinh viên"><i class="fas fa-id-card"></i></span></div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Trần Phương Tùng.jpg" data-photo="img/Trần Phương Tùng.jpg" class="member-img member-img-default" alt="Trần Phương Tùng" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv08n.svg'">
+                        <img src="img/team/tv08b.svg" class="member-img member-img-hover" alt="Trần Phương Tùng – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-bullseye"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Trần Phương Tùng</div>
+                    <div class="member-role-tag">🗺️ Mục tiêu SMART</div>
+                    <div class="member-mssv">MSSV 24737351 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Xây dựng mục tiêu SMART, lập kế hoạch tổng thể dự án và phân tích nguồn lực.</div>
+                    <div class="member-socials"><span class="member-social-btn member-social-id" title="Mã số sinh viên"><i class="fas fa-id-card"></i></span></div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Phạm Thị Mai Thi.jpg" data-photo="img/Phạm Thị Mai Thi.jpg" class="member-img member-img-default" alt="Phạm Thị Mai Thi" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv09n.svg'">
+                        <img src="img/team/tv09b.svg" class="member-img member-img-hover" alt="Phạm Thị Mai Thi – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-book-open"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Phạm Thị Mai Thi</div>
+                    <div class="member-role-tag">📚 Tổng hợp – Định hướng</div>
+                    <div class="member-mssv">MSSV 24642871 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Xây dựng dàn ý, định hướng; tổng hợp toàn bộ dự án, rà soát và đánh giá.</div>
+                    <div class="member-socials"><span class="member-social-btn member-social-id" title="Mã số sinh viên"><i class="fas fa-id-card"></i></span></div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar-wrap">
+                    <div class="member-avatar-inner">
+                        <div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>
+                        <img src="img/Trần Thống Vương.jpg" data-photo="img/Trần Thống Vương.jpg" class="member-img member-img-default" alt="Trần Thống Vương" loading="lazy" onerror="this.onerror=null;this.src='img/team/tv10n.svg'">
+                        <img src="img/team/tv10b.svg" class="member-img member-img-hover" alt="Trần Thống Vương – đồng phục đối tác" loading="lazy">
+                    </div>
+                    <div class="member-badge"><i class="fas fa-bullhorn"></i></div>
+                </div>
+                <div class="member-info-box">
+                    <div class="member-name">Trần Thống Vương</div>
+                    <div class="member-role-tag">📣 Marketing – Vận hành</div>
+                    <div class="member-mssv">MSSV 24643821 · Hoàn thành 100%</div>
+                    <div class="member-divider"></div>
+                    <div class="member-bio">Xây dựng chiến lược marketing theo lộ trình và thiết lập khung vận hành.</div>
+                    <div class="member-socials"><span class="member-social-btn member-social-id" title="Mã số sinh viên"><i class="fas fa-id-card"></i></span></div>
+                </div>
+            </div>
+            </div>
+        </div>
+<div class="wave-seamless-box-relative" style="margin-top:60px;">
+        <svg class="waves-svg-main" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="wave-pt" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+            </defs>
+            <g class="parallax-wave-layers">
+                <use xlink:href="#wave-pt" x="48" y="0"/>
+                <use xlink:href="#wave-pt" x="48" y="3"/>
+                <use xlink:href="#wave-pt" x="48" y="5"/>
+                <use xlink:href="#wave-pt" x="48" y="7"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     FOOTER
+     ================================================================ -->
+<div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+<!-- ================================================================
+     THƯ VIỆN JS
+     ================================================================ -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+<script>
+
+    /* ── Reveal khi cuộn ── */
+    function revealOnScroll() {
+        document.querySelectorAll('.reveal').forEach(el => {
+            if (el.getBoundingClientRect().top < window.innerHeight - 80)
+                el.classList.add('active');
+        });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+
+    /* ── Stack ảnh ── */
+    let stackState = 0;
+    const stack = document.getElementById('imageStack');
+    stack.addEventListener('click', function() {
+        stackState = (stackState + 1) % 3;
+        this.classList.remove('shuffled', 'shuffled2');
+        if (stackState === 1) this.classList.add('shuffled');
+        if (stackState === 2) this.classList.add('shuffled2');
+        document.querySelectorAll('.story-content-card').forEach(c => c.classList.remove('active'));
+        document.getElementById('storyCard' + (stackState + 1)).classList.add('active');
+        this.style.transform = 'scale(0.96)';
+        setTimeout(() => this.style.transform = 'scale(1)', 120);
+    });
+
+    
+    /* ── Cuộn phim quy trình 8 bước ── */
+    (function () {
+        var reel = document.getElementById('gkReel'); if (!reel) return;
+        var steps = JSON.parse(reel.getAttribute('data-steps') || '[]'), i = 0, playing = true, timer = null;
+        var marks = reel.querySelectorAll('.gk-reel-mark'), dots = reel.querySelectorAll('.gk-reel-dots span');
+        var cap = reel.querySelector('.gk-reel-caption'), bike = document.getElementById('gkReelBike');
+        function go(n) {
+            i = (n + steps.length) % steps.length; var s = steps[i];
+            document.getElementById('gkReelStep').textContent = 'Bước ' + (i + 1) + '/' + steps.length;
+            document.getElementById('gkReelTitle').textContent = s.t;
+            document.getElementById('gkReelDesc').textContent = s.d;
+            document.getElementById('gkReelIco').innerHTML = '<i class="fas ' + s.i + '"></i>';
+            cap.classList.remove('swap'); void cap.offsetWidth; cap.classList.add('swap');
+            bike.style.left = (6 + i * 12.5) + '%';
+            marks.forEach(function (m, k) { m.classList.toggle('on', k === i); m.classList.toggle('done', k < i); });
+            dots.forEach(function (d, k) { d.classList.toggle('on', k === i); d.classList.toggle('done', k < i); });
+        }
+        function loop() { clearInterval(timer); if (playing) timer = setInterval(function () { go(i + 1); }, 3200); }
+        marks.forEach(function (m) { m.addEventListener('click', function () { go(+m.getAttribute('data-i')); loop(); }); });
+        dots.forEach(function (d) { d.addEventListener('click', function () { go(+d.getAttribute('data-i')); loop(); }); });
+        var btn = document.getElementById('gkReelPlay');
+        btn.addEventListener('click', function () { playing = !playing; btn.innerHTML = playing ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>'; btn.setAttribute('aria-label', playing ? 'Tạm dừng' : 'Phát'); loop(); });
+        go(0); loop();
+    })();
+
+    /* ── Ảnh thật của thành viên (nếu có trong img/) ── */
+    document.querySelectorAll('img[data-photo]').forEach(function (img) {
+        var p = img.getAttribute('data-photo'), t = new Image();
+        t.onload = function () { if (t.naturalWidth > 10) img.src = p; }; t.src = p;
+    });
+
+
+    /* ── Tab lý do ── */
+    document.querySelectorAll('.reason-tab-item').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.reason-tab-item').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            const target = this.getAttribute('data-target');
+            document.querySelectorAll('.reason-content-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(target).classList.add('active');
+        });
+    });
+
+    /* ── Thành viên — stagger reveal ── */
+    const memberCards = document.querySelectorAll('.member-card');
+    const memberObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const delay = Array.from(memberCards).indexOf(entry.target) * 120;
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, delay);
+                memberObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    memberCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(60px)';
+        card.style.transition = 'opacity 0.7s ease, transform 0.7s cubic-bezier(.175,.885,.32,1.275)';
+        memberObserver.observe(card);
+    });
+</script>
+
+</body>
+</html>

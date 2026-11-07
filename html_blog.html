@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog cẩm nang | Gắn Kết Bốn Phương</title>
+    <meta name="description" content="Cẩm nang xử lý sự cố xe, bảo dưỡng, an toàn khi đi đêm, xe điện và câu chuyện thợ đối tác từ đội ngũ Gắn Kết Bốn Phương.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css_trangchu.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<style>
+
+/* ── Progress bar ── */
+#read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#0A2B54,#0D4076,#1E5C9E);z-index:99999;pointer-events:none;transition:width .1s linear}
+
+/* ══════════════════════════════════════════════════
+   HERO BLOG
+══════════════════════════════════════════════════ */
+.blog-hero{
+  background:linear-gradient(135deg,#0A2B54 0%,#0D4076 55%,#1E5C9E 100%);
+  padding:72px 0 56px;position:relative;overflow:hidden;
+}
+.blog-hero::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:56px;
+  background:#f4f7fc;clip-path:ellipse(55% 100% at 50% 100%);
+}
+.blog-hero-dots{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.07) 1.5px,transparent 1.5px);
+  background-size:28px 28px;pointer-events:none;
+}
+.blog-hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:800;
+  letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.8);
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+  padding:6px 18px;border-radius:30px;margin-bottom:18px;
+}
+.blog-hero-title{
+  font-size:clamp(28px,4.5vw,58px);font-weight:900;color:#fff;
+  line-height:1.1;letter-spacing:-1.5px;margin-bottom:14px;
+}
+.blog-hero-title span{color:#FFB066}
+.blog-hero-sub{font-size:14px;color:rgba(255,255,255,.78);line-height:1.75;max-width:420px;margin-bottom:26px}
+.blog-search-bar{
+  display:flex;background:#fff;border-radius:50px;overflow:hidden;
+  box-shadow:0 10px 40px rgba(0,0,0,.22);max-width:460px;
+}
+.blog-search-bar input{
+  flex:1;border:none;outline:none;padding:13px 18px;font-size:14px;color:#0A2B54;background:transparent;
+}
+.blog-search-bar button{
+  background:linear-gradient(135deg,#0A2B54,#0D4076);border:none;color:#fff;
+  padding:13px 22px;font-weight:800;font-size:13px;cursor:pointer!important;white-space:nowrap;transition:opacity .2s;
+}
+.blog-search-bar button:hover{opacity:.88}
+.blog-hero-stats{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap}
+.bhero-stat-num{font-size:26px;font-weight:900;color:#fff;line-height:1}
+.bhero-stat-lbl{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+
+/* ══════════════════════════════════════════════════
+   CATEGORY CHIPS (kiểu DT)
+══════════════════════════════════════════════════ */
+.blog-cats-wrap{background:#fff;border-bottom:1px solid #eee;padding:16px 0;position:sticky;top:70px;z-index:100}
+.blog-chip{
+  padding:9px 20px;border-radius:100px;border:1px solid #e5e5e5;
+  font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;
+  transition:all .3s;color:#6c757d;cursor:pointer!important;background:#fff;white-space:nowrap;
+}
+.blog-chip:hover{border-color:#0D4076;color:#0D4076;background:rgba(13,64,118,.05)}
+.blog-chip.active{background:#0A2B54;border-color:#0A2B54;color:#fff;box-shadow:0 8px 20px rgba(10,43,84,.2)}
+
+/* ══════════════════════════════════════════════════
+   HOME VIEW — CARD GRID
+══════════════════════════════════════════════════ */
+.blog-home-main{background:#f4f7fc;padding:48px 0 80px;min-height:50vh}
+.blog-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media(max-width:1200px){.blog-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.blog-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:576px){.blog-grid{grid-template-columns:1fr}}
+
+/* Card kiểu DT.html */
+.bcard{
+  border-radius:20px;overflow:hidden;background:#fff;
+  box-shadow:0 4px 20px rgba(13,64,118,.07);
+  border:1px solid rgba(13,64,118,.09);
+  transition:all .4s cubic-bezier(.34,1.2,.64,1);
+  cursor:pointer!important;display:flex;flex-direction:column;
+}
+.bcard:hover{transform:translateY(-10px) scale(1.015);box-shadow:0 28px 60px rgba(13,64,118,.17);border-color:rgba(13,64,118,.22)}
+.bcard__img{
+  height:200px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#0A2B54,#1B69BD);
+}
+.bcard__img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.bcard:hover .bcard__img img{transform:scale(1.08)}
+.bcard__cat{
+  position:absolute;top:12px;left:12px;
+  background:linear-gradient(135deg,#0A2B54,#0D4076);color:#fff;
+  font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;z-index:2;
+}
+.bcard__featured{position:absolute;top:12px;right:12px;background:#ff4d4d;color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;z-index:2}
+.bcard__body{padding:18px;flex:1;display:flex;flex-direction:column;gap:8px}
+.bcard__title{
+  font-size:14px;font-weight:800;color:#0A2B54;line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0;
+  transition:color .2s;
+}
+.bcard:hover .bcard__title{color:#0D4076}
+.bcard__excerpt{
+  font-size:12px;color:#6c757d;line-height:1.6;flex:1;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0;
+}
+.bcard__meta{
+  display:flex;align-items:center;gap:10px;font-size:11px;color:#9baab8;font-weight:500;
+  border-top:1px solid rgba(13,64,118,.07);padding-top:10px;margin-top:auto;
+}
+.bcard__meta i{color:#FA7806}
+.bcard__btn{
+  display:inline-flex;align-items:center;gap:5px;color:#0D4076!important;
+  font-size:11px;font-weight:800;transition:gap .2s;background:none;border:none;
+  cursor:pointer!important;padding:0;
+}
+.bcard:hover .bcard__btn{gap:9px}
+
+/* Pagination */
+.blog-pag{display:flex;justify-content:center;gap:8px;margin-top:44px}
+.bpag-btn{
+  width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  border:2px solid rgba(13,64,118,.18);font-size:13px;font-weight:700;
+  color:#0A2B54;background:#fff;cursor:pointer!important;transition:all .25s;
+}
+.bpag-btn:hover,.bpag-btn.active{
+  background:linear-gradient(135deg,#0A2B54,#0D4076);border-color:transparent;
+  color:#fff;box-shadow:0 4px 14px rgba(13,64,118,.3);
+}
+
+/* No results */
+.no-results{grid-column:1/-1;text-align:center;padding:60px 20px;color:#6c757d}
+.no-results i{font-size:44px;color:#d0d8e4;display:block;margin-bottom:14px}
+
+/* ══════════════════════════════════════════════════
+   DETAIL VIEW — full page kiểu DT.html
+══════════════════════════════════════════════════ */
+#blog-home-view{display:block}
+#blog-detail-view{display:none}
+
+.bdetail-wrap{background:#fff;min-height:100vh;padding-bottom:80px}
+
+/* Hero image header */
+.bdetail-hero{
+  height:480px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#0A2B54,#1B69BD);
+}
+@media(max-width:576px){.bdetail-hero{height:300px}}
+.bdetail-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.bdetail-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(4,21,42,.9) 0%,rgba(4,21,42,.3) 55%,transparent 100%);
+}
+.bdetail-hero-content{position:absolute;bottom:0;left:0;right:0;padding:32px 40px}
+@media(max-width:576px){.bdetail-hero-content{padding:20px}}
+.bdetail-cat-badge{
+  display:inline-block;background:linear-gradient(135deg,#0A2B54,#0D4076);color:#fff;
+  font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;
+  padding:4px 12px;border-radius:20px;margin-bottom:10px;
+}
+.bdetail-title{
+  font-size:clamp(22px,4vw,40px);font-weight:900;color:#fff;
+  line-height:1.15;margin:0 0 14px;max-width:760px;
+}
+.bdetail-hero-meta{
+  display:flex;flex-wrap:wrap;gap:14px;font-size:12px;
+  color:rgba(255,255,255,.78);align-items:center;
+}
+.bdetail-hero-meta img{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.35);object-fit:cover}
+.bdetail-hero-meta i{color:#FA7806}
+
+/* Back btn */
+.bdetail-back-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:900;color:#0D4076;text-transform:uppercase;letter-spacing:2px;
+  background:#EAF1F9;padding:10px 22px;border-radius:30px;border:none;
+  cursor:pointer!important;transition:all .25s;margin-bottom:36px;
+}
+.bdetail-back-btn:hover{background:#0A2B54;color:#fff}
+
+/* Article body */
+.bdetail-body{max-width:780px}
+.bdetail-body h2{
+  font-size:22px;font-weight:900;color:#0A2B54;
+  margin:32px 0 14px;padding-bottom:8px;
+  border-bottom:2px solid rgba(13,64,118,.1);
+}
+.bdetail-body h3{font-size:18px;font-weight:800;color:#0A2B54;margin:24px 0 10px}
+.bdetail-body p{font-size:15px;line-height:1.85;color:#3a4460;margin-bottom:16px}
+.bdetail-body ul,.bdetail-body ol{margin:10px 0 18px 22px}
+.bdetail-body li{font-size:15px;line-height:1.75;color:#3a4460;margin-bottom:8px}
+.bdetail-body blockquote{
+  border-left:4px solid #0D4076;background:rgba(13,64,118,.05);
+  border-radius:0 12px 12px 0;padding:16px 22px;margin:24px 0;
+  font-style:italic;font-size:15px;color:#0A2B54;
+}
+.bdetail-body blockquote cite{display:block;margin-top:6px;font-size:12px;font-style:normal;color:#6c757d;font-weight:700}
+.tip-box{
+  background:linear-gradient(135deg,rgba(13,64,118,.06),rgba(27,105,189,.06));
+  border:1px solid rgba(13,64,118,.18);border-radius:14px;padding:18px 22px;margin:22px 0;
+}
+.tip-box-title{font-size:12px;font-weight:900;color:#0D4076;margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.tip-box p{margin:0;font-size:14px;color:#3a4460}
+
+/* Inline images inside article */
+.bdetail-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.bdetail-img-grid img{width:100%;height:220px;object-fit:cover;border-radius:14px}
+@media(max-width:576px){.bdetail-img-grid{grid-template-columns:1fr}}
+.bdetail-single-img{width:100%;max-height:380px;object-fit:cover;border-radius:16px;margin:24px 0;display:block;box-shadow:0 6px 24px rgba(0,0,0,.12)}
+.bdetail-img-caption{text-align:center;font-size:12px;color:#6c757d;margin:-16px 0 22px;font-style:italic}
+
+/* Tags */
+.bdetail-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+.bdetail-tag{
+  padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;
+  background:rgba(13,64,118,.07);color:#0D4076;border:1px solid rgba(13,64,118,.15);
+  cursor:pointer!important;transition:all .2s;
+}
+.bdetail-tag:hover{background:linear-gradient(135deg,#0A2B54,#0D4076);color:#fff;border-color:transparent}
+
+/* Share */
+.bdetail-share{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  padding:18px 0;border-top:1px solid rgba(13,64,118,.08);
+  border-bottom:1px solid rgba(13,64,118,.08);margin-bottom:28px;
+}
+.bdetail-share-label{font-size:12px;font-weight:800;color:#0A2B54}
+.share-btn{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 14px;
+  border-radius:30px;font-size:12px;font-weight:700;
+  color:#fff!important;text-decoration:none!important;
+  transition:all .25s;cursor:pointer!important;border:none;
+}
+.share-btn--fb{background:#1877F2}
+.share-btn--link{background:linear-gradient(135deg,#0A2B54,#0D4076)}
+.share-btn:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(0,0,0,.2)}
+
+/* Author box */
+.bdetail-author{
+  background:#f8faff;border-radius:16px;padding:20px;margin:24px 0;
+  display:flex;gap:14px;align-items:flex-start;border:1px solid rgba(13,64,118,.1);
+}
+.bdetail-author-avatar{width:60px;height:60px;border-radius:50%;flex-shrink:0;object-fit:cover;border:3px solid rgba(13,64,118,.2)}
+.bdetail-author-name{font-size:14px;font-weight:900;color:#0A2B54;margin-bottom:3px}
+.bdetail-author-role{font-size:11px;color:#0D4076;font-weight:700;margin-bottom:5px}
+.bdetail-author-bio{font-size:13px;color:#6c757d;line-height:1.6;margin:0}
+
+/* TOC */
+.bdetail-toc{
+  background:linear-gradient(135deg,rgba(13,64,118,.05),rgba(27,105,189,.05));
+  border:1px solid rgba(13,64,118,.14);border-radius:14px;padding:16px 20px;margin:0 0 26px;
+}
+.bdetail-toc-title{font-size:12px;font-weight:900;color:#0D4076;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.bdetail-toc ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px}
+.bdetail-toc li a{font-size:12px;color:#3a4460;text-decoration:none!important;display:flex;align-items:flex-start;gap:7px;transition:color .2s;font-weight:500;cursor:pointer!important}
+.bdetail-toc li a::before{content:'';width:5px;height:5px;border-radius:50%;background:#FA7806;flex-shrink:0;margin-top:5px}
+.bdetail-toc li a:hover{color:#0D4076;font-weight:700}
+
+/* Related */
+.bdetail-related-title{font-size:18px;font-weight:900;color:#0A2B54;margin:32px 0 18px;display:flex;align-items:center;gap:8px}
+.bdetail-related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:600px){.bdetail-related-grid{grid-template-columns:1fr}}
+.bdetail-related-card{border-radius:14px;overflow:hidden;background:#f4f7fc;cursor:pointer!important;transition:transform .25s;border:1px solid rgba(13,64,118,.08)}
+.bdetail-related-card:hover{transform:translateY(-5px)}
+.bdetail-related-thumb{height:100px;background:linear-gradient(135deg,#0A2B54,#1B69BD);position:relative;overflow:hidden}
+.bdetail-related-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bdetail-related-body{padding:11px}
+.bdetail-related-cat{font-size:10px;font-weight:800;color:#0D4076;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.bdetail-related-name{font-size:12px;font-weight:700;color:#0A2B54;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Booking CTA box */
+.bdetail-cta{
+  background:linear-gradient(135deg,#0A2B54,#0D4076,#1E5C9E);
+  border-radius:20px;padding:28px 24px;color:#fff;text-align:center;
+  position:sticky;top:88px;
+}
+.bdetail-cta-title{font-size:16px;font-weight:900;margin-bottom:8px}
+.bdetail-cta-sub{font-size:12px;opacity:.82;margin-bottom:18px;line-height:1.6}
+.bdetail-cta-btn{
+  display:block;background:#fff;color:#0A2B54!important;text-decoration:none!important;
+  font-weight:900;font-size:13px;padding:12px 20px;border-radius:30px;
+  transition:all .25s;cursor:pointer!important;margin-bottom:10px;
+}
+.bdetail-cta-btn:hover{background:rgba(255,255,255,.88);transform:translateY(-2px)}
+.bdetail-cta-list{text-align:left;font-size:12px;opacity:.85;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.bdetail-cta-list li::before{content:'✓ ';font-weight:900}
+
+/* ══════════════════════════════════════════════════
+   DISCOVER SECTION (thay newsletter)
+══════════════════════════════════════════════════ */
+.blog-discover{padding:64px 0;background:#fff;border-top:1px solid #f0f4f8}
+.bdiscover-eyebrow{font-size:10px;font-weight:800;letter-spacing:4px;color:#0D4076;text-transform:uppercase;margin-bottom:8px}
+.bdiscover-title{font-size:clamp(26px,4vw,42px);font-weight:900;color:#0A2B54;margin-bottom:12px;line-height:1.15}
+.bdiscover-sub{font-size:14px;color:#6c757d;margin-bottom:32px;max-width:420px;line-height:1.75}
+.bdiscover-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:768px){.bdiscover-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.bdiscover-grid{grid-template-columns:1fr}}
+.bdiscover-item{
+  border-radius:16px;overflow:hidden;position:relative;height:160px;
+  cursor:pointer!important;transition:transform .3s;
+}
+.bdiscover-item:hover{transform:scale(1.03)}
+.bdiscover-item img{width:100%;height:100%;object-fit:cover;display:block}
+.bdiscover-item-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(4,21,42,.75) 0%,transparent 60%);
+}
+.bdiscover-item-label{
+  position:absolute;bottom:0;left:0;right:0;padding:14px;
+  color:#fff;font-weight:900;font-size:13px;
+}
+.bdiscover-item-cat{font-size:10px;opacity:.8;font-weight:600;margin-bottom:2px}
+
+
+        /* ══ Bổ sung: Gắn Kết Bốn Phương ══ */
+        .bdetail-lead { font-size: 17px; font-weight: 600; color: #334155; line-height: 1.8; }
+        .bdetail-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 10px 0 18px; font-size: 14px; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; }
+        .bdetail-table th { background: #0A2B54; color: #fff; padding: 10px 12px; text-align: left; font-weight: 800; }
+        .bdetail-table td { padding: 9px 12px; border-top: 1px solid #eef2f7; color: #334155; }
+        .bdetail-table tr:nth-child(even) td { background: #f8fafc; }
+        .bdetail-body ol, .bdetail-body ul { padding-left: 20px; line-height: 1.85; color: #334155; }
+        .bdetail-body li { margin-bottom: 4px; }
+        .bdetail-single-img { background: #EAF1F9; }
+        .bdiscover-item { cursor: pointer; }
+        @media (max-width: 767.98px) {
+            #blog-chips { flex-wrap: nowrap !important; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+            .blog-chip { white-space: nowrap; flex-shrink: 0; }
+            .bdetail-table { font-size: 12.5px; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="read-progress-bar"></div>
+
+<!-- ================================================================
+     HEADER — Copy 1:1 từ html_trangchu.html
+================================================================ -->
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text active" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+<nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+<!-- ================================================================
+     HOME VIEW
+================================================================ -->
+<div id="blog-home-view">
+<section class="blog-hero">
+    <div class="blog-hero-dots"></div>
+    <div class="container position-relative" style="z-index:2">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <span class="blog-hero-eyebrow"><i class="fas fa-pen-nib mr-1"></i> BLOG BỐN PHƯƠNG</span>
+                <h1 class="blog-hero-title">Cẩm nang giữ xe<br>&amp; <span>an tâm</span> mọi nẻo đường</h1>
+                <p class="blog-hero-sub">Xử lý sự cố đúng cách, lịch bảo dưỡng, mẹo an toàn khi đi đêm, kiến thức xe điện và câu chuyện thật từ đội ngũ thợ đối tác.</p>
+                <div class="blog-search-bar">
+                    <input type="text" id="blog-search-input" placeholder="Tìm bài viết: vá lốp, ắc quy, xe điện..." aria-label="Tìm bài viết">
+                    <button id="blog-search-btn" type="button"><i class="fas fa-search mr-1"></i>Tìm kiếm</button>
+                </div>
+                <div class="blog-hero-stats">
+                    <div><div class="bhero-stat-num">30</div><div class="bhero-stat-lbl">Bài viết</div></div>
+                    <div><div class="bhero-stat-num">7</div><div class="bhero-stat-lbl">Chủ đề</div></div>
+                    <div><div class="bhero-stat-num">6</div><div class="bhero-stat-lbl">Sự cố có hướng dẫn</div></div>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="position-relative" style="height:260px">
+                    <div style="position:absolute;top:0;right:0;width:185px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:18px;backdrop-filter:blur(10px);padding:16px;animation:floatCard 3s ease-in-out infinite">
+                        <div style="font-size:24px;margin-bottom:7px">🛞</div>
+                        <div style="color:#fff;font-weight:800;font-size:13px">Xử lý sự cố đúng cách</div>
+                        <div style="color:rgba(255,255,255,.65);font-size:11px;margin-top:3px">Thủng lốp, hết bình, ngập nước</div>
+                    </div>
+                    <div style="position:absolute;bottom:24px;left:0;width:160px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:18px;backdrop-filter:blur(10px);padding:14px;animation:floatCard 3.5s ease-in-out infinite .7s">
+                        <div style="font-size:22px;margin-bottom:6px">🔧</div>
+                        <div style="color:#fff;font-weight:800;font-size:12px">Kinh nghiệm thực tế</div>
+                        <div style="color:rgba(255,255,255,.65);font-size:11px;margin-top:2px">Từ thợ đối tác đã xác minh</div>
+                    </div>
+                    <div style="position:absolute;bottom:44px;right:10px;width:120px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:18px;backdrop-filter:blur(10px);padding:12px;animation:floatCard 4s ease-in-out infinite 1.4s">
+                        <div style="font-size:18px;margin-bottom:5px">💡</div>
+                        <div style="color:#fff;font-weight:800;font-size:11px">Mẹo giữ xe bền</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+</style>
+<div class="blog-cats-wrap">
+    <div class="container">
+        <div class="d-flex flex-wrap gap-2" id="blog-chips" style="gap:8px!important">
+            <button class="blog-chip active mr-2 mb-2" data-cat="all">Tất cả</button>
+            <button class="blog-chip mr-2 mb-2" data-cat="Cứu hộ">Cứu hộ</button>
+            <button class="blog-chip mr-2 mb-2" data-cat="Cẩm nang">Cẩm nang</button>
+            <button class="blog-chip mr-2 mb-2" data-cat="Bảo dưỡng">Bảo dưỡng</button>
+            <button class="blog-chip mr-2 mb-2" data-cat="Xe điện">Xe điện</button>
+            <button class="blog-chip mr-2 mb-2" data-cat="An toàn">An toàn</button>
+            <button class="blog-chip mr-2 mb-2" data-cat="Câu chuyện thợ">Câu chuyện thợ</button>
+            <button class="blog-chip mr-2 mb-2" data-cat="Bốn Phương">Bốn Phương</button>
+        </div>
+    </div>
+</div>
+<section class="blog-home-main">
+    <div class="container">
+        <div class="blog-grid" id="blog-grid"></div>
+        <div class="blog-pag" id="blog-pag"></div>
+    </div>
+</section>
+
+<!-- Discover Section (thay newsletter) -->
+<section class="blog-discover">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="bdiscover-eyebrow">Đọc nhiều nhất</div>
+                    <h2 class="bdiscover-title">6 cẩm nang ai đi xe cũng nên biết</h2>
+                    <p class="bdiscover-sub">Từ cách xử lý thủng lốp lúc nửa đêm, xe chết máy trong mưa ngập đến lịch bảo dưỡng và thu nhập của thợ đối tác – đọc trước để luôn chủ động trên đường.</p>
+                    <button type="button" class="btn btn-primary px-4" data-sos-open>
+                        <i class="fas fa-life-ring mr-2"></i>Gặp sự cố? Gọi cứu hộ
+                    </button>
+                </div>
+                <div class="col-lg-7">
+                    <div class="bdiscover-grid">
+                    <div class="bdiscover-item" onclick="openPost(1)" role="button" tabindex="0">
+                        <img src="img/blog/b01.jpg" alt="Xử lý thủng lốp ban đêm" loading="lazy">
+                        <div class="bdiscover-item-overlay"></div>
+                        <div class="bdiscover-item-label">Xử lý thủng lốp ban đêm</div>
+                    </div>
+                    <div class="bdiscover-item" onclick="openPost(3)" role="button" tabindex="0">
+                        <img src="img/blog/b03.jpg" alt="Mưa ngập: đừng đề nổ" loading="lazy">
+                        <div class="bdiscover-item-overlay"></div>
+                        <div class="bdiscover-item-label">Mưa ngập: đừng đề nổ</div>
+                    </div>
+                    <div class="bdiscover-item" onclick="openPost(11)" role="button" tabindex="0">
+                        <img src="img/blog/b11.jpg" alt="Lịch bảo dưỡng tay ga" loading="lazy">
+                        <div class="bdiscover-item-overlay"></div>
+                        <div class="bdiscover-item-label">Lịch bảo dưỡng tay ga</div>
+                    </div>
+                    <div class="bdiscover-item" onclick="openPost(16)" role="button" tabindex="0">
+                        <img src="img/blog/b16.jpg" alt="Xe điện hết pin" loading="lazy">
+                        <div class="bdiscover-item-overlay"></div>
+                        <div class="bdiscover-item-label">Xe điện hết pin</div>
+                    </div>
+                    <div class="bdiscover-item" onclick="openPost(20)" role="button" tabindex="0">
+                        <img src="img/blog/b20.jpg" alt="An toàn khi đi đêm" loading="lazy">
+                        <div class="bdiscover-item-overlay"></div>
+                        <div class="bdiscover-item-label">An toàn khi đi đêm</div>
+                    </div>
+                    <div class="bdiscover-item" onclick="openPost(26)" role="button" tabindex="0">
+                        <img src="img/blog/b26.jpg" alt="Thu nhập thợ đối tác" loading="lazy">
+                        <div class="bdiscover-item-overlay"></div>
+                        <div class="bdiscover-item-label">Thu nhập thợ đối tác</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div><!-- end #blog-home-view -->
+
+<!-- ================================================================
+     DETAIL VIEW — full page (kiểu DT.html)
+================================================================ -->
+<div id="blog-detail-view" class="bdetail-wrap">
+    <div class="container py-4">
+        <button class="bdetail-back-btn" onclick="showHome()">
+            <i class="fas fa-arrow-left"></i> Quay lại Blog cẩm nang
+        </button>
+    </div>
+    <div id="bdetail-hero-slot"></div>
+    <div class="container">
+        <div class="row" style="gap:0">
+            <div class="col-lg-8">
+                <div id="bdetail-body-slot" class="bdetail-body pt-4"></div>
+            </div>
+            <div class="col-lg-4 pl-lg-4 pt-4">
+                <div class="bdetail-cta">
+                    <div style="font-size:32px;margin-bottom:10px">🛟</div>
+                    <div class="bdetail-cta-title">Gặp sự cố ngay lúc này?</div>
+                    <div class="bdetail-cta-sub">Thợ gần nhất trong bán kính 3–5 km có mặt trong khoảng 15 phút – báo giá trước khi làm.</div>
+                    <button type="button" class="bdetail-cta-btn" data-sos-open style="border:0;width:100%"><i class="fas fa-life-ring mr-2"></i>Gọi cứu hộ ngay</button>
+                    <a href="html_dichvu.html" class="bdetail-cta-btn" style="background:rgba(255,255,255,.2);color:#fff!important"><i class="fas fa-receipt mr-2"></i>Xem bảng giá dịch vụ</a>
+                    <ul class="bdetail-cta-list mt-3">
+                        <li>Giá trần – thu vượt hoàn 100% chênh lệch</li>
+                        <li>Thợ đã xác minh, có mã gặp mặt</li>
+                        <li>Hỗ trợ 24/7, Đội SOS trực đêm</li>
+                        <li>Bảo hành sau sửa chữa</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="bdetail-related-slot" class="py-4 border-top mt-2"></div>
+    </div>
+</div>
+
+<!-- ================================================================
+     FOOTER — Copy 1:1 từ html_trangchu.html
+================================================================ -->
+<div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+<script>
+/* ================================================================
+   BLOG CẨM NANG — Gắn Kết Bốn Phương (30 bài, 7 chủ đề)
+   Tiêu đề/danh mục/ảnh: GK_DATA.BLOG_INDEX · Nội dung: BLOG_CONTENT bên dưới
+================================================================ */
+/* ================================================================
+   NỘI DUNG 30 BÀI VIẾT — Blog cẩm nang Gắn Kết Bốn Phương
+   Mỗi bài: tác giả (thành viên nhóm), thẻ, mở bài, các mục (h2), hộp mẹo, ảnh minh họa.
+   Tiêu đề / danh mục / ngày / ảnh bìa lấy từ GK_DATA.BLOG_INDEX (js/gkbp-data.js).
+================================================================ */
+var AUTHORS = [
+  null,
+  { name: 'Võ Thiên Ân', role: 'Vận hành – Kiểm soát', avatar: 'img/Võ Thiên Ân.jpg' },
+  { name: 'Cao Thị Bảo Châu', role: 'Vận hành – Nguồn lực', avatar: 'img/Cao Thị Bảo Châu.jpg' },
+  { name: 'Hồ Thị Hằng', role: 'Môi trường kinh doanh', avatar: 'img/Hồ Thị Hằng.jpg' },
+  { name: 'Nguyễn Bùi Thúy Kiều', role: 'Giá trị khách hàng', avatar: 'img/Nguyễn Bùi Thúy Kiều.jpg' },
+  { name: 'Trần Thị Diễm My', role: 'Ý tưởng – Mô phỏng', avatar: 'img/Trần Thị Diễm My.jpg' },
+  { name: 'Phan Thị Yến Oanh', role: 'Hình thức – Công nghệ', avatar: 'img/Phan Thị Yến Oanh.jpg' },
+  { name: 'Phan Anh Tài', role: 'Tài chính – Kế hoạch', avatar: 'img/Phan Anh Tài.jpg' },
+  { name: 'Trần Phương Tùng', role: 'Mục tiêu SMART', avatar: 'img/Trần Phương Tùng.jpg' },
+  { name: 'Phạm Thị Mai Thi', role: 'Tổng hợp – Định hướng', avatar: 'img/Phạm Thị Mai Thi.jpg' },
+  { name: 'Trần Thống Vương', role: 'Marketing – Vận hành', avatar: 'img/Trần Thống Vương.jpg' }
+];
+function UL(items) { return '<ul>' + items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>'; }
+function OL(items) { return '<ol>' + items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>'; }
+
+var BLOG_CONTENT = {
+  1: { a: 1, tags: ['Thủng lốp', 'Ban đêm', 'An toàn'], img: ['img/dv/ch01-2.jpg', 'Đứng ở nơi có ánh sáng trong lúc chờ thợ đến'],
+    intro: 'Thủng lốp vào ban đêm là tình huống phổ biến nhất trong các cuốc cứu hộ của Gắn Kết Bốn Phương. Điều quan trọng không phải là tự vá thật nhanh, mà là giữ an toàn cho bản thân trong khoảng 15 phút chờ thợ đến.',
+    s: [['1. Dắt xe vào lề, bật đèn cảnh báo', '<p>Khi thấy tay lái nặng hoặc xe lắc, hãy giảm tốc từ từ, <strong>không phanh gấp</strong>. Dắt xe vào sát lề phải, tránh xa khúc cua và chân cầu. Bật đèn xi-nhan khẩn cấp (nếu xe có) hoặc bật đèn pha để xe phía sau nhìn thấy.</p>'],
+      ['2. Chọn chỗ đứng có ánh sáng', '<p>Ưu tiên trước cửa hàng tiện lợi, cây xăng hoặc trạm xe buýt có đèn. Đừng đứng giữa xe và dòng xe chạy. Nếu đi một mình, hãy bật <strong>chế độ an toàn đêm</strong> khi gửi yêu cầu cứu hộ để hệ thống ưu tiên thợ Đội SOS.</p>'],
+      ['3. Gửi yêu cầu với vị trí chính xác', '<p>Bấm nút SOS, chọn “Thủng / xì lốp”, ghim vị trí GPS và ghi chú mốc dễ nhận biết (số nhà, tên cửa hàng). Một tấm ảnh bánh xe giúp thợ biết lốp có săm hay không săm để mang đúng đồ nghề.</p>'],
+      ['4. Kiểm tra mã gặp mặt trước khi giao xe', '<p>Khi thợ đến, yêu cầu thợ đọc <strong>mã gặp mặt 4 số</strong> hiển thị trên màn hình của bạn. Chỉ giao xe khi mã khớp. Nếu không khớp, đừng tranh cãi – bấm SOS khẩn cấp và giữ khoảng cách.</p>'],
+      ['5. Duyệt báo giá rồi mới làm', '<p>Thợ kiểm tra thực tế và gửi báo giá lên ứng dụng. Vá 1 điểm thủng xe máy có giá trần 120.000đ đã gồm di chuyển; nếu cần thay ruột hay lốp, khoản này phải được bạn duyệt trước.</p>']],
+    tip: ['Mẹo an toàn', 'Chia sẻ hành trình cứu hộ cho người thân ngay khi thợ nhận cuốc. Người nhà sẽ biết tên thợ, mã gặp mặt và giờ dự kiến đến.'] },
+  2: { a: 8, tags: ['Chết máy', 'Ngã tư', 'Kỹ năng'], img: ['img/dv/ch05-2.jpg', 'Đưa xe ra khỏi luồng giao thông là việc đầu tiên'],
+    intro: 'Xe đột ngột tắt máy khi đang chờ đèn đỏ khiến nhiều người hoảng hốt đề liên tục. Thực tế, 60 giây đầu tiên quyết định bạn có an toàn và có tránh được hư hỏng nặng hơn hay không.',
+    s: [['Giây 0–10: giữ bình tĩnh, ra tín hiệu', '<p>Giơ tay ra hiệu cho xe phía sau, bật xi-nhan khẩn cấp. Đừng cố đề khi đèn đã chuyển xanh và dòng xe đang dồn tới.</p>'],
+      ['Giây 10–40: đưa xe vào lề', '<p>Về số mo (xe số) hoặc tắt khóa (xe tay ga), xuống xe và dắt sát lề. Với ô tô, bật đèn khẩn cấp, về số N và nhờ người hỗ trợ đẩy nếu xe đang chắn làn.</p>'],
+      ['Giây 40–60: kiểm tra nhanh 3 thứ', OL(['<strong>Xăng:</strong> kim xăng có chạm vạch đỏ không?', '<strong>Điện:</strong> bật khóa, đèn và còi còn mạnh không?', '<strong>Khóa:</strong> công tắc tắt máy khẩn cấp (nút đỏ trên tay lái) có bị gạt nhầm?'])],
+      ['Khi nào nên gọi thợ?', '<p>Nếu đã đề 3 lần, mỗi lần không quá 5 giây mà máy vẫn không nổ, hãy dừng lại – đề tiếp chỉ làm cạn ắc quy. Gửi yêu cầu “Chết máy, không khởi động” để thợ kiểm tra theo quy trình nhiên liệu – đánh lửa – điện.</p>']],
+    tip: ['Đừng làm điều này', 'Không đạp nổ hoặc đề liên tục khi xe vừa lội nước – nguy cơ thủy kích làm cong tay biên.'] },
+  3: { a: 3, tags: ['Mưa ngập', 'Thủy kích', 'Kéo xe'], img: ['img/dv/ch12-2.jpg', 'Xe chết máy trong nước: gọi kéo xe thay vì đề nổ'],
+    intro: 'Mùa mưa TP.HCM, những tuyến như Nguyễn Hữu Cảnh, Huỳnh Tấn Phát hay khu vực quanh Bình Thạnh thường ngập sâu. Mỗi năm có rất nhiều xe hỏng nặng chỉ vì chủ xe cố đề nổ ngay sau khi xe chết máy trong nước.',
+    s: [['Thủy kích là gì?', '<p>Khi nước tràn vào cổ hút và buồng đốt, piston nén nước – một chất gần như không thể nén. Lực ép lớn có thể làm <strong>cong tay biên, vỡ piston</strong>. Chi phí sửa có thể lên tới hàng chục triệu đồng với ô tô.</p>'],
+      ['Làm gì khi xe chết máy trong nước?', OL(['Tắt khóa điện ngay, không đề lại.', 'Dắt hoặc đẩy xe lên chỗ cao.', 'Với xe máy, có thể dựng chân chống giữa để nước thoát bớt khỏi ống xả.', 'Gửi yêu cầu “Cần kéo xe” để được đưa về tiệm đối tác.'])],
+      ['Thợ sẽ xử lý thế nào?', '<p>Tại tiệm, thợ tháo bugi, quay máy để đẩy nước ra, thay nhớt (nhớt lẫn nước chuyển màu trắng đục), vệ sinh lọc gió và kiểm tra hệ thống điện trước khi khởi động lại.</p>'],
+      ['Phòng ngừa từ trước', UL(['Bật <strong>chế độ thời tiết/ngập</strong> để nhận cảnh báo tuyến ngập.', 'Giữ tốc độ đều, đi số thấp khi qua đoạn ngập nông.', 'Không đi theo sau xe tải lớn vì sóng nước dâng cao.'])]],
+    tip: ['Ưu đãi mùa mưa', 'Mã MUANGAP25 giảm 25% phí kéo xe ngập (tối đa 150.000đ) đến hết 30/11/2026.'] },
+  4: { a: 4, tags: ['Chìa khóa', 'Xác minh', 'Garage số'], img: ['img/dv/ch09-1.jpg', 'Thợ khóa đối chiếu giấy tờ trước khi mở khóa'],
+    intro: 'Quên chìa trong cốp, gãy chìa trong ổ hay mất chìa ngay trước giờ làm – tình huống “dở khóc dở cười” này giải quyết được trong khoảng 20 phút nếu bạn chuẩn bị sẵn giấy tờ xe.',
+    s: [['Vì sao phải xác minh chủ xe?', '<p>Quy tắc của nền tảng: <strong>thợ chỉ mở khóa khi xác minh được chủ xe</strong>. Điều này bảo vệ chính bạn khỏi việc kẻ gian lợi dụng dịch vụ để lấy xe.</p>'],
+      ['Chuẩn bị gì để được mở nhanh?', UL(['Ảnh cà-vẹt (đăng ký xe) lưu trong <strong>Garage số</strong>.', 'CCCD của bạn hoặc người đứng tên xe.', 'Nếu xe mượn: tin nhắn/cuộc gọi xác nhận từ chủ xe.'])],
+      ['Thợ thực hiện ra sao?', '<p>Thợ dùng bộ dụng cụ chuyên dụng mở ổ mà không phá hỏng, sau đó cắt chìa cơ mới theo ổ. Chìa mới được bảo hành 30 ngày. Chìa thông minh (smartkey) cần báo giá theo dòng xe.</p>']],
+    tip: ['Mẹo nhỏ', 'Làm sẵn một chìa dự phòng và để ở nhà người thân – chi phí thấp hơn nhiều so với một lần mở khóa khẩn cấp.'] },
+  5: { a: 10, tags: ['Kéo xe', 'Xe máy', 'An toàn'], img: ['img/dv/ch11-2.jpg', 'Xe cứu hộ chở xe máy về tiệm đối tác'],
+    intro: 'Hình ảnh một người dùng chân đẩy xe hỏng của bạn trên đường rất quen thuộc, nhưng đó là cách kéo xe tiềm ẩn nhiều nguy hiểm. Đây là cách các đối tác cứu hộ chuyên nghiệp thực hiện.',
+    s: [['Ba cách kéo xe máy phổ biến', OL(['<strong>Chở bằng xe chuyên dụng:</strong> an toàn nhất, không gây hao mòn.', '<strong>Kéo dây chuyên dụng:</strong> dây có lò xo giảm chấn, giữ khoảng cách 2–3 m.', '<strong>Đẩy bằng chân:</strong> không khuyến khích, dễ mất thăng bằng khi phanh gấp.'])],
+      ['Những điều cấm khi kéo xe', UL(['Không kéo trên cầu dốc, đường cao tốc.', 'Không vượt quá 30 km/h.', 'Không dùng dây thừng thường, dễ đứt hoặc quấn vào bánh.'])],
+      ['Chi phí kéo xe minh bạch', '<p>Gói kéo xe máy về tiệm có giá trần 200.000đ cho 5 km đầu, mỗi km thêm 15.000đ. Hệ thống hiển thị quãng đường thực tế trên bản đồ để bạn đối chiếu.</p>']],
+    tip: ['Bạn có biết?', 'Bạn có thể đi cùng xe cứu hộ hoặc theo dõi toàn bộ hành trình kéo xe trên bản đồ, kèm ảnh tình trạng xe lúc bàn giao.'] },
+  6: { a: 4, tags: ['Báo giá', 'Minh bạch', 'Hóa đơn'], img: ['img/dv/bd02-3.jpg', 'Báo giá luôn tách 3 khoản rõ ràng'],
+    intro: 'Nỗi lo lớn nhất khi sửa xe dọc đường là bị “chặt chém”. Hiểu cấu trúc một báo giá giúp bạn yên tâm và nhận ra ngay khi có điều bất thường.',
+    s: [['Khoản 1: Phí di chuyển', '<p>Là chi phí để thợ đến chỗ bạn. Trên Gắn Kết Bốn Phương, phí di chuyển trong 5 km đã gồm trong giá dịch vụ; xa hơn sẽ hiển thị rõ đơn giá mỗi km.</p>'],
+      ['Khoản 2: Phí nhân công', '<p>Tiền công cho thao tác sửa chữa: vá lốp, kích bình, thay má phanh… Đây là khoản thợ nhận chính, nền tảng thu hoa hồng từ khoản này (15% với thợ Chuẩn, 12% với thợ Ưu tú, Tinh hoa).</p>'],
+      ['Khoản 3: Phụ tùng / vật tư', '<p>Ruột xe, ắc quy, bugi, nhớt… có giá niêm yết. Thợ phải chụp ảnh phụ tùng cũ và mới để bạn đối chiếu.</p>'],
+      ['Dấu hiệu báo giá có vấn đề', UL(['Không tách các khoản, chỉ báo một con số tổng.', 'Phát sinh hạng mục mới nhưng không hỏi ý kiến bạn.', 'Thúc ép thay phụ tùng khi chưa kiểm tra.'])]],
+    tip: ['Quyền của bạn', 'Nếu bị thu vượt giá trần mà không có hạng mục phát sinh được bạn duyệt, hãy gửi khiếu nại – nền tảng hoàn 100% phần chênh lệch.'] },
+  7: { a: 7, tags: ['Giá trần', 'Hoàn tiền', 'Chính sách'], img: ['img/dv/gt03-3.jpg', 'Giá trần hiển thị trước khi thợ đến'],
+    intro: 'Giá trần là mức giá tối đa bạn phải trả cho một dịch vụ khi không có hạng mục phát sinh. Đây là cam kết “Minh bạch giá” trong tuyên bố giá trị của dự án.',
+    s: [['Giá trần được tính thế nào?', '<p>Dựa trên bảng giá chuẩn của từng loại sự cố và loại xe, cộng các điều chỉnh minh bạch: loại xe (ví dụ phân khối lớn), quãng đường kéo vượt mức, phụ phí ca đêm 22h–5h (100% chuyển cho thợ trực SOS).</p>'],
+      ['Khi nào giá có thể vượt giá trần?', '<p>Chỉ khi thợ kiểm tra thực tế và phát hiện hạng mục mới – ví dụ lốp bị rách cần thay chứ không vá được. Hạng mục này phải hiện trên ứng dụng và <strong>bạn bấm duyệt</strong> thì thợ mới thực hiện.</p>'],
+      ['Hoàn chênh lệch hoạt động ra sao?', OL(['Bạn gửi khiếu nại trong mục Lịch sử cứu hộ.', 'Bộ phận chăm sóc khách hàng tiếp nhận trong 2 giờ.', 'Đối chiếu báo giá, ảnh và hộp đen chuyến cứu hộ.', 'Hoàn tiền chênh lệch vào phương thức thanh toán ban đầu.'])]],
+    tip: ['Ghi nhớ', 'Giá trần là “trần” chứ không phải giá cố định – nhiều trường hợp chi phí thực tế thấp hơn, bạn chỉ trả đúng phần đã dùng.'] },
+  8: { a: 2, tags: ['Ắc quy', 'Xe máy', 'Dấu hiệu'], img: ['img/dv/ch03-1.jpg', 'Ắc quy yếu là nguyên nhân hàng đầu khiến xe không đề được'],
+    intro: 'Ắc quy xe máy thường dùng được 1,5–2 năm. Nhận biết sớm 7 dấu hiệu dưới đây giúp bạn thay bình chủ động thay vì bị “đứng hình” giữa đường.',
+    s: [['7 dấu hiệu cần chú ý', OL(['Đề nghe “lạch cạch” hoặc rất yếu vào buổi sáng.', 'Đèn pha mờ khi chưa nổ máy.', 'Còi rè, nhỏ tiếng.', 'Xi-nhan chớp chậm bất thường.', 'Phải đạp nổ thay vì đề.', 'Vỏ bình phồng, có vết nứt hoặc rỉ axit.', 'Bình đã dùng trên 2 năm.'])],
+      ['Kích bình hay thay bình?', '<p>Nếu xe chỉ để lâu ngày không chạy, kích bình là đủ. Thợ sẽ đo điện áp sạc ở 3 mức vòng tua: nếu bộ sạc tốt mà bình vẫn không giữ điện, lúc đó mới cần thay.</p>'],
+      ['Chăm sóc ắc quy đúng cách', UL(['Chạy xe ít nhất 20 phút mỗi tuần.', 'Không gắn thêm đèn công suất lớn.', 'Tắt khóa hẳn khi dừng lâu, tránh để chế độ đèn.'])]],
+    tip: ['Dịch vụ liên quan', 'Kích bình ắc quy xe máy giá trần 150.000đ, đo kiểm bộ sạc miễn phí trong cùng cuốc.'] },
+  9: { a: 3, tags: ['Lốp xe', 'So sánh', 'Đi phố'], img: ['img/dv/pt03-1.jpg', 'Lốp không săm giữ hơi lâu hơn khi bị đinh'],
+    intro: 'Lốp có săm và không săm đều có mặt trên xe máy Việt Nam. Mỗi loại có ưu nhược điểm riêng khi đi phố đông, đường nhiều đinh và mùa mưa.',
+    s: [['Lốp có săm', UL(['Giá rẻ, dễ thay ở mọi tiệm.', 'Khi thủng, xẹp nhanh – phải dừng ngay.', 'Thường phải thay ruột thay vì vá nếu rách lớn.'])],
+      ['Lốp không săm', UL(['Khi dính đinh, hơi thoát chậm – vẫn có thể đi tiếp quãng ngắn.', 'Vá nấm hoặc keo nhanh, bền.', 'Giá cao hơn, cần vành phù hợp.'])],
+      ['Nên chọn loại nào?', '<p>Với người đi làm hằng ngày trong nội thành, <strong>lốp không săm</strong> là lựa chọn an toàn và tiện lợi hơn. Bộ vá lốp mini + bơm điện trong cốp giúp bạn tự xử lý vết đinh nhỏ.</p>']],
+    tip: ['Kiểm tra áp suất', 'Lốp non hơi làm hao xăng và dễ thủng hơn. Kiểm tra áp suất mỗi 2 tuần theo thông số in ở càng xe.'] },
+  10: { a: 6, tags: ['Check engine', 'Ô tô', 'OBD'], img: ['img/dv/ch06-1.jpg', 'Máy đọc lỗi OBD-II giúp khoanh vùng nguyên nhân'],
+    intro: 'Đèn check engine (đèn báo lỗi động cơ) sáng có thể chỉ là nắp bình xăng chưa đóng chặt, nhưng cũng có thể là dấu hiệu hư hỏng nghiêm trọng. Phân biệt đúng giúp bạn quyết định đi tiếp hay dừng ngay.',
+    s: [['Đèn sáng liên tục', '<p>Thường là lỗi cảm biến, hệ thống khí thải hoặc nắp bình xăng. Bạn có thể đi tiếp với tốc độ vừa phải và đặt lịch kiểm tra sớm.</p>'],
+      ['Đèn nhấp nháy', '<p>Dấu hiệu bỏ máy (misfire) nghiêm trọng, có thể làm hỏng bộ xúc tác. <strong>Hãy giảm tốc, tìm chỗ an toàn dừng xe</strong> và gọi kỹ thuật viên chẩn đoán tại chỗ.</p>'],
+      ['Chẩn đoán OBD tại chỗ', '<p>Kỹ thuật viên cắm máy đọc lỗi, đối chiếu dữ liệu cảm biến trực tiếp và gửi báo cáo mã lỗi vào Garage số – bạn có thể mang báo cáo này tới hãng để sửa tiếp.</p>']],
+    tip: ['Đừng chủ quan', 'Xóa lỗi bằng thiết bị mà không xử lý nguyên nhân chỉ làm đèn tắt tạm thời.'] },
+  11: { a: 5, tags: ['Bảo dưỡng', 'Xe tay ga', 'Số km'], img: ['img/dv/bd02-1.jpg', 'Bảng tra lịch bảo dưỡng theo số km'],
+    intro: 'Xe tay ga cần chăm sóc nhiều hạng mục hơn xe số vì có bộ truyền động dây curoa. Bảng tra nhanh dưới đây giúp bạn không bỏ sót hạng mục nào.',
+    s: [['Bảng tra theo số km', '<table class="bdetail-table"><thead><tr><th>Hạng mục</th><th>Kiểm tra</th><th>Thay thế</th></tr></thead><tbody><tr><td>Nhớt máy</td><td>Mỗi 1.000 km</td><td>1.500–2.000 km</td></tr><tr><td>Nhớt láp</td><td>Mỗi 4.000 km</td><td>8.000 km</td></tr><tr><td>Lọc gió</td><td>Mỗi 4.000 km</td><td>12.000 km</td></tr><tr><td>Bugi</td><td>Mỗi 4.000 km</td><td>8.000–10.000 km</td></tr><tr><td>Dây curoa</td><td>Mỗi 15.000 km</td><td>20.000–25.000 km</td></tr><tr><td>Má phanh</td><td>Mỗi 4.000 km</td><td>Khi dưới 1,5 mm</td></tr></tbody></table>'],
+      ['Gói bảo dưỡng 18 hạng mục', '<p>Thợ đến tận nhà, làm theo checklist có ảnh từng hạng mục và đánh dấu 3 mức: Tốt – Cần theo dõi – Cần thay. Kết quả lưu vào sổ bảo dưỡng điện tử, ứng dụng tự nhắc lịch lần sau.</p>']],
+    tip: ['Đi phố đông', 'Xe chạy quãng ngắn, dừng nhiều nên theo mốc sớm trong khoảng khuyến nghị.'] },
+  12: { a: 9, tags: ['Thay nhớt', 'Đô thị', 'Bảo dưỡng'], img: ['img/dv/bd01-1.jpg', 'Thay nhớt tận nhà, thu gom nhớt thải đúng quy định'],
+    intro: '“Thay nhớt bao nhiêu km một lần?” là câu hỏi được gửi nhiều nhất tới tổng đài. Câu trả lời phụ thuộc vào cách bạn đi xe hơn là con số in trên chai nhớt.',
+    s: [['Điều kiện đô thị khắc nghiệt hơn bạn nghĩ', '<p>Kẹt xe, chạy ngắn, dừng đèn đỏ liên tục khiến máy nóng nhưng nhớt không đủ thời gian “làm việc” ổn định. Vì vậy xe đi phố nên thay nhớt mỗi <strong>1.500–2.000 km</strong>.</p>'],
+      ['Dấu hiệu nhớt đã xuống cấp', UL(['Máy kêu to hơn, rung khi chạy chậm.', 'Nhớt đen đặc, có cặn khi kiểm tra que thăm.', 'Xe nóng máy nhanh.'])],
+      ['Thay nhớt tận nhà có gì khác?', '<p>Thợ xả nhớt vào khay kín, vệ sinh lưới lọc, châm đúng dung tích và ghi số km vào sổ bảo dưỡng điện tử. Bạn không cần xếp hàng ở tiệm hay nghỉ làm.</p>']],
+    tip: ['Ưu đãi', 'Mã NHOT20 giảm 20% dịch vụ thay nhớt tận nhà (tối đa 40.000đ).'] },
+  13: { a: 8, tags: ['Về quê', 'Tết', 'Checklist'], img: ['img/dv/bd05-1.jpg', 'Kiểm tra xe kỹ trước khi chạy đường dài về quê'],
+    intro: 'Mỗi dịp Tết, hàng triệu người chạy xe về quê. Một chiếc xe được kiểm tra kỹ giúp hành trình hàng trăm cây số trở nên nhẹ nhàng và an toàn hơn.',
+    s: [['Nhóm an toàn (bắt buộc)', OL(['Phanh trước – sau, dầu phanh.', 'Lốp: độ mòn gai, vết nứt, áp suất.', 'Đèn pha – cos, xi-nhan, đèn phanh, còi.', 'Gương chiếu hậu.', 'Xích/dây curoa và nhông.'])],
+      ['Nhóm vận hành', OL(['Nhớt máy, nước làm mát (ô tô).', 'Ắc quy và hệ thống sạc.', 'Bugi, lọc gió.', 'Ốc vít bánh xe, giảm xóc.'])],
+      ['Đồ mang theo', UL(['Bộ vá lốp mini + bơm điện.', 'Áo mưa, đèn pin, sạc dự phòng.', 'Tem QR cứu hộ dán xe – quét là gọi.'])],
+      ['Lộ trình nghỉ ngơi', '<p>Cứ 2 giờ lái xe nên dừng nghỉ 15 phút. Gói “Hành trình về quê” gợi ý sẵn các điểm dừng an toàn trên lộ trình.</p>']],
+    tip: ['Ưu đãi Tết', 'Mã VEQUE25 giảm 25% gói kiểm tra 25 hạng mục đến hết 28/02/2027.'] },
+  14: { a: 6, tags: ['Ô tô', 'Chung cư', 'Bảo dưỡng tại chỗ'], img: ['img/dv/bd04-1.jpg', 'Bảo dưỡng cấp nhỏ ngay tại hầm xe'],
+    intro: 'Dịch vụ bảo dưỡng ô tô tại tầng hầm chung cư đang là xu hướng ở các đô thị lớn. Nhưng hạng mục nào làm tại chỗ được và hạng mục nào nên đưa về gara?',
+    s: [['Làm tốt tại chỗ', UL(['Thay dầu máy, lọc dầu bằng máy hút (không cần cầu nâng).', 'Thay lọc gió động cơ, lọc gió điều hòa.', 'Kiểm tra phanh, lốp, đèn, gạt mưa, nước làm mát.', 'Thay má phanh một trục với kích chuyên dụng.'])],
+      ['Nên đưa về gara', UL(['Sửa hộp số, động cơ cần tháo lớn.', 'Cân chỉnh thước lái, cân bằng động.', 'Hàn, sơn, xử lý gầm.'])],
+      ['Quy tắc khi làm tại hầm', '<p>Kỹ thuật viên dùng thảm hứng dầu, thu gom dầu thải, tuân thủ quy định phòng cháy của tòa nhà và chụp ảnh từng hạng mục cho bạn.</p>']],
+    tip: ['Lưu ý', 'Báo trước với ban quản lý tòa nhà khi đặt lịch để kỹ thuật viên được ra vào thuận tiện.'] },
+  15: { a: 10, tags: ['Xích', 'Nhông', 'Tự kiểm tra'], img: ['img/dv/sc05-1.jpg', 'Đo độ chùng xích đúng cách'],
+    intro: 'Bộ nhông – xích – đĩa mòn gây tiếng kêu, nhảy răng và có thể tuột xích khi đang chạy. Chỉ mất 2 phút để tự kiểm tra tại nhà.',
+    s: [['Bước 1: Đo độ chùng xích', '<p>Dựng chân chống giữa, ấn xích ở điểm giữa nhông và đĩa. Độ chùng chuẩn khoảng <strong>20–30 mm</strong>. Chùng quá dễ tuột xích, căng quá làm mòn nhanh.</p>'],
+      ['Bước 2: Nhìn răng nhông, đĩa', '<p>Răng nhọn như vây cá mập, mòn lệch một bên hay bị khuyết là dấu hiệu cần thay cả bộ.</p>'],
+      ['Bước 3: Kéo thử mắt xích', '<p>Kéo mắt xích ở phía sau đĩa: nếu kéo ra được quá nửa răng đĩa, xích đã giãn quá mức.</p>'],
+      ['Thay cả bộ hay thay lẻ?', '<p>Nên thay đồng bộ nhông – xích – đĩa để các chi tiết ăn khớp, tránh mòn nhanh chi tiết mới.</p>']],
+    tip: ['Chăm sóc', 'Vệ sinh và tra dầu xích mỗi 500 km khi đi mưa nhiều.'] },
+  16: { a: 6, tags: ['Xe điện', 'Hết pin', 'Sạc lưu động'], img: ['img/dv/xd01-2.jpg', 'Sạc cứu hộ lưu động đủ đi tiếp 10–15 km'],
+    intro: 'Xe máy điện ngày càng phổ biến, kéo theo một loại sự cố mới: hết pin giữa đường. Xe điện nặng và không thể đẩy xa như xe xăng, nên chọn đúng phương án cứu hộ rất quan trọng.',
+    s: [['Phương án 1: Sạc lưu động', '<p>Thợ mang bộ sạc nhanh đến, sạc 20–30 phút đủ để đi tiếp 10–15 km tới trạm sạc hoặc về nhà. Giá trần 180.000đ trong bán kính 5 km.</p>'],
+      ['Phương án 2: Kéo về trạm/xưởng', '<p>Phù hợp khi pin hoặc motor có dấu hiệu lỗi. Xe được ngắt nguồn chính và cố định an toàn trên thùng chở chuyên dụng.</p>'],
+      ['Phương án 3: Đổi pin', '<p>Với các dòng xe hỗ trợ pin rời, đổi pin tại trạm là nhanh nhất nếu trạm ở gần.</p>'],
+      ['Phòng tránh hết pin', UL(['Không để pin xuống dưới 10%.', 'Theo dõi quãng đường còn lại thay vì phần trăm.', 'Lưu vị trí trạm sạc gần nơi làm việc.'])]],
+    tip: ['Ưu đãi xe điện', 'Mã XEDIEN20 giảm 20% các dịch vụ xe điện, tối đa 50.000đ.'] },
+  17: { a: 2, tags: ['Pin', 'Sạc qua đêm', 'Tuổi thọ'], img: ['img/dv/xd02-1.jpg', 'Sạc đúng cách giúp pin bền hơn'],
+    intro: 'Cắm sạc qua đêm rồi đi ngủ là thói quen của rất nhiều người dùng xe điện. Thói quen này vừa làm giảm tuổi thọ pin, vừa tiềm ẩn rủi ro an toàn.',
+    s: [['Vì sao không nên sạc qua đêm?', '<p>Pin lithium giữ ở mức 100% trong nhiều giờ sẽ chịu áp lực điện áp cao, chai nhanh hơn. Bộ sạc kém chất lượng còn có thể quá nhiệt.</p>'],
+      ['Sạc thế nào cho đúng?', UL(['Giữ pin trong khoảng 20–80% khi dùng hằng ngày.', 'Rút sạc khi đầy, không sạc ngay khi vừa chạy xong lúc pin còn nóng.', 'Dùng sạc chính hãng hoặc đạt chuẩn.'])],
+      ['Vị trí đặt xe khi sạc', '<p>Nơi thoáng mát, xa vật dễ cháy, không sạc trong lối thoát hiểm hay phòng ngủ.</p>']],
+    tip: ['Kiểm tra định kỳ', 'Đo sức khỏe pin mỗi 6 tháng để phát hiện sớm cell yếu.'] },
+  18: { a: 3, tags: ['Xe điện', 'Mưa ngập', 'Bộ điều khiển'], img: ['img/dv/xd04-2.jpg', 'Xe điện lội nước cần được kiểm tra trước khi bật nguồn'],
+    intro: 'Xe điện có cấp bảo vệ chống nước nhất định, nhưng ngập sâu và lâu vẫn có thể làm hỏng bộ điều khiển, pin và motor.',
+    s: [['Mức nước an toàn', '<p>Tránh đi qua chỗ ngập cao quá nửa bánh xe hoặc ngập tới sàn để chân. Nước bắn liên tục vào gầm cũng có thể lọt vào giắc kết nối.</p>'],
+      ['Sau khi lội nước', OL(['Tắt nguồn ngay nếu xe có dấu hiệu bất thường.', 'Không sạc cho tới khi xe được kiểm tra khô ráo.', 'Dựng xe nơi thoáng để nước thoát.'])],
+      ['Khi nào gọi cứu hộ?', '<p>Xe không lên nguồn, có mùi khét hoặc đồng hồ báo lỗi – hãy gọi dịch vụ kéo xe điện về xưởng thay vì cố khởi động.</p>']],
+    tip: ['An toàn là trên hết', 'Pin bị ngập có thể phát sinh nhiệt sau đó vài giờ – để xe xa khu vực sinh hoạt.'] },
+  19: { a: 7, tags: ['Pin', 'Báo cáo', 'Xe điện'], img: ['img/dv/xd02-3.jpg', 'Báo cáo sức khỏe pin trong Garage số'],
+    intro: 'Sau mỗi lần kiểm tra pin, bạn nhận được báo cáo với con số “sức khỏe pin 78%”. Con số này nói lên điều gì và khi nào cần thay pin?',
+    s: [['Dung lượng thực (SoH)', '<p>Là phần trăm dung lượng pin còn lại so với lúc mới. Trên 80%: tốt; 60–80%: dùng được nhưng quãng đường giảm rõ; dưới 60%: nên cân nhắc thay.</p>'],
+      ['Nội trở', '<p>Nội trở tăng khiến pin nóng và sụt áp khi tăng tốc, lên dốc. Báo cáo đánh dấu các cụm cell có nội trở cao bất thường.</p>'],
+      ['Chu kỳ sạc', '<p>Mỗi lần sạc đầy tương đương một chu kỳ. Pin lithium phổ biến bền khoảng vài trăm đến hơn một nghìn chu kỳ tùy loại.</p>']],
+    tip: ['Dịch vụ liên quan', 'Kiểm tra pin & bộ điều khiển xe điện 200.000đ, kết quả lưu vào Garage số.'] },
+  20: { a: 4, tags: ['Ban đêm', 'An toàn', 'SOS'], img: ['img/dv/ch05-2.jpg', 'Bật chế độ an toàn đêm trước khi gửi yêu cầu'],
+    intro: 'Phụ nữ, sinh viên và người làm ca đêm là những người cần cảm giác an toàn nhất khi gặp sự cố lúc khuya. Ba lớp bảo vệ dưới đây được thiết kế dành riêng cho họ.',
+    s: [['Lớp 1: Chế độ an toàn đêm', '<p>Từ 22h đến 5h, hệ thống ưu tiên điều phối thợ hạng Tinh hoa thuộc Đội SOS – những người có điểm đánh giá 4,9–5,0 và kinh nghiệm xử lý ca đêm.</p>'],
+      ['Lớp 2: Chia sẻ hành trình', '<p>Người thân nhận được tên thợ, mã gặp mặt và vị trí thợ theo thời gian thực cho tới khi cuốc cứu hộ hoàn tất.</p>'],
+      ['Lớp 3: Mã gặp mặt & nút SOS', '<p>Chỉ giao xe khi mã 4 số khớp. Nếu thấy bất thường, nút SOS khẩn cấp hiển thị ngay số 113, 115 và kết nối tổng đài.</p>']],
+    tip: ['Ưu đãi ca đêm', 'Mã DEMANTOAN giảm 30.000đ cho cuốc cứu hộ từ 120.000đ.'] },
+  21: { a: 1, tags: ['Mã gặp mặt', 'Chống mạo danh', 'An toàn'], img: ['img/dv/ch09-3.jpg', 'Mã 4 số chỉ hiển thị cho khách và thợ được giao'],
+    intro: 'Mã gặp mặt là chuỗi 4 số được tạo ngẫu nhiên cho mỗi cuốc cứu hộ. Cơ chế đơn giản này giúp loại bỏ rủi ro người lạ mạo danh thợ để tiếp cận xe của bạn.',
+    s: [['Mã hoạt động thế nào?', OL(['Khi thợ nhận cuốc, hệ thống tạo mã 4 số.', 'Bạn thấy mã trên màn hình; thợ thấy trên ứng dụng đối tác.', 'Khi gặp, thợ đọc mã – bạn đối chiếu rồi mới giao xe.'])],
+      ['Vì sao cần thiết?', '<p>Ở nơi đông người, bất kỳ ai cũng có thể nói “tôi là thợ được gọi tới”. Mã gặp mặt xác thực đúng người, đúng cuốc chỉ trong vài giây.</p>'],
+      ['Nếu mã không khớp?', '<p>Không giao xe, không tranh cãi. Bấm SOS khẩn cấp, giữ khoảng cách và chờ tổng đài hỗ trợ.</p>']],
+    tip: ['Nhớ nhé', 'Không đọc mã cho người khác trước – hãy để thợ đọc cho bạn nghe.'] },
+  22: { a: 9, tags: ['Đồ nghề', 'Cốp xe', 'Chuẩn bị'], img: ['img/dv/pt01-1.jpg', 'Bộ đồ nghề tối thiểu gọn trong cốp xe tay ga'],
+    intro: 'Không cần mang cả hộp đồ nghề, chỉ vài món nhỏ gọn trong cốp đã đủ giúp bạn xử lý hoặc chờ cứu hộ an toàn hơn.',
+    s: [['Danh sách tối thiểu', OL(['Bơm điện mini sạc USB-C.', 'Keo vá hoặc bộ cắm vá nấm cho lốp không săm.', 'Đèn pin nhỏ hoặc đèn đội đầu.', 'Áo mưa và túi chống nước cho điện thoại.', 'Sạc dự phòng.', 'Tem QR cứu hộ dán xe.'])],
+      ['Bố trí trong cốp', '<p>Đặt bộ vá và bơm ở trên cùng để lấy nhanh; bọc kim loại sắc trong túi vải để không làm xước cốp.</p>']],
+    tip: ['Gợi ý', 'Bộ vá lốp khẩn cấp mini + bơm điện có giá 390.000đ, giao trong 2 giờ, kèm video hướng dẫn.'] },
+  23: { a: 8, tags: ['Cầu', 'Cao tốc', 'Quy tắc'], img: ['img/dv/ch12-1.jpg', 'Đặt cảnh báo từ xa khi dừng xe khẩn cấp'],
+    intro: 'Dừng xe trên cầu hoặc đường cao tốc là tình huống nguy hiểm nhất. Tuân thủ các quy tắc dưới đây giúp tránh tai nạn liên hoàn.',
+    s: [['Với ô tô trên cao tốc', OL(['Bật đèn khẩn cấp, đưa xe vào làn dừng khẩn cấp.', 'Mọi người xuống xe về phía an toàn, đứng sau dải phân cách hoặc ngoài lan can.', 'Đặt tam giác cảnh báo cách xe ít nhất 100–150 m.', 'Gọi cứu hộ, không tự sửa trên làn đường.'])],
+      ['Với xe máy trên cầu', '<p>Dắt xe sát lan can, tránh khu vực khuất tầm nhìn ở đỉnh cầu. Nếu cầu không có lề, dắt xe xuống chân cầu rồi mới gửi yêu cầu.</p>'],
+      ['Sai lầm thường gặp', UL(['Đứng trước hoặc sau xe để nói chuyện điện thoại.', 'Mở cửa xe phía làn xe chạy.', 'Tắt đèn để “tiết kiệm bình” trong đêm.'])]],
+    tip: ['Ghi nhớ', 'Tính mạng quan trọng hơn chiếc xe – khi có người bị thương, gọi 115 trước.'] },
+  24: { a: 5, tags: ['Đội SOS', 'Câu chuyện', 'Ca đêm'], img: ['img/dv/ch12-3.jpg', 'Một đêm trực SOS ở trung tâm thành phố'],
+    intro: '22 giờ, anh Hùng – thợ hạng Tinh hoa thuộc Đội SOS Quận 1 – kiểm tra lại thùng đồ nghề, sạc đầy bộ kích bình và bật ứng dụng đối tác. Đêm nay anh nhận 9 cuốc.',
+    s: [['22:30 – Cô sinh viên thủng lốp', '<p>Cuốc đầu tiên ở đường Lê Lợi. Mã gặp mặt khớp, 12 phút sau xe đã được vá xong. “Nhìn em ấy bớt lo là mình vui rồi”, anh kể.</p>'],
+      ['01:10 – Ô tô hết bình trước bệnh viện', '<p>Một gia đình đưa con đi khám đêm, xe không nổ máy. Anh kích bình bằng booster, đo CCA và khuyên họ thay bình sớm.</p>'],
+      ['03:40 – Tài xế công nghệ hết xăng', '<p>Anh mang 2 lít xăng đến tận nơi. Phụ phí ca đêm 30.000đ được chuyển 100% cho thợ trực SOS – một phần thu nhập giúp anh gắn bó với nghề.</p>'],
+      ['Điều anh muốn nhắn', '<p>“Đến sớm một phút là khách bớt lo một phút. Mình làm nghề này vì cảm giác được tin tưởng.”</p>']],
+    tip: ['Đội SOS', 'Thợ trực SOS 22h–5h nhận thêm 30.000đ mỗi cuốc và được bảo đảm tối thiểu 200.000đ mỗi đêm.'] },
+  25: { a: 2, tags: ['Đối tác thợ', 'Thu nhập', 'Câu chuyện'], img: ['img/dv/sc04-2.jpg', 'Tiệm nhỏ, khách mới từ nền tảng'],
+    intro: 'Anh Tâm có một tiệm sửa xe nhỏ ở Quận 3. Trước đây, buổi trưa và chiều tối tiệm khá vắng. Sau 4 tháng làm đối tác, anh nhận trung bình 30 cuốc mỗi tuần.',
+    s: [['Tận dụng giờ rảnh', '<p>Anh bật trạng thái “sẵn sàng” vào giờ vắng khách tại tiệm, nhận các cuốc trong bán kính 3 km. Khi tiệm đông, anh tạm tắt để phục vụ khách quen.</p>'],
+      ['Báo giá minh bạch tạo niềm tin', '<p>“Khách thấy giá trên app, thấy ảnh trước – sau nên không mặc cả. Nhiều người sau đó thành khách quen của tiệm luôn.”</p>'],
+      ['Lên hạng để giảm hoa hồng', '<p>Từ Thợ Chuẩn (15% hoa hồng), anh đạt điểm 4,88 và lên hạng Ưu tú với mức hoa hồng 12%, được ưu tiên các đơn giá trị cao.</p>']],
+    tip: ['Dành cho thợ', 'Miễn 100% hoa hồng trong 3 tháng đầu cho đối tác mới đăng ký tại khu vực thí điểm.'] },
+  26: { a: 7, tags: ['Thu nhập', 'Hoa hồng', 'Minh bạch'], img: ['img/dv/gt05-3.jpg', 'Ví dụ thu nhập một cuốc cứu hộ'],
+    intro: 'Minh bạch không chỉ dành cho khách hàng mà còn cho đối tác thợ. Dưới đây là cách thu nhập của một cuốc cứu hộ được tính, theo đúng mô hình của dự án.',
+    s: [['Ví dụ một cuốc ca đêm', '<table class="bdetail-table"><tbody><tr><td>Phí công</td><td>200.000đ</td></tr><tr><td>Phụ tùng thu theo cuốc</td><td>100.000đ</td></tr><tr><td>Thưởng đánh giá 5★</td><td>20.000đ</td></tr><tr><td>Phụ cấp trực SOS</td><td>30.000đ</td></tr><tr><td>Hoa hồng nền tảng (15% phí công)</td><td>−30.000đ</td></tr><tr><td><strong>Thợ nhận</strong></td><td><strong>320.000đ</strong></td></tr></tbody></table>'],
+      ['Hoa hồng theo hạng', UL(['Thợ Mới: miễn phí 3 tháng đầu.', 'Thợ Chuẩn (4,0 – dưới 4,6★): 15% phí công.', 'Thợ Ưu tú (4,6 – dưới 4,9★) và Tinh hoa (4,9–5,0★): 12% phí công.'])],
+      ['Thanh toán cho thợ', '<p>Thu nhập được cập nhật vào ví đối tác ngay sau khi khách xác nhận hoàn tất, có bảng kê chi tiết từng cuốc.</p>']],
+    tip: ['Thử tính', 'Dùng máy tính thu nhập đối tác trên trang chủ để ước tính thu nhập theo số cuốc mỗi ngày.'] },
+  27: { a: 9, tags: ['Ra mắt', 'Thí điểm', 'TP.HCM'], img: ['img/kv/quan-1.jpg', 'Khu vực thí điểm đầu tiên'],
+    intro: 'Gắn Kết Bốn Phương chính thức thí điểm tại 3 quận trung tâm TP.HCM với 150 thợ đối tác đạt chuẩn, mang đến dịch vụ cứu hộ và sửa xe minh bạch cho người đi đường.',
+    s: [['Mục tiêu năm đầu', UL(['10.000 lượt cứu hộ thành công.', 'Điểm đánh giá trung bình 4,6/5.', '≥95% yêu cầu có thợ nhận dưới 3 phút, thợ đến trong khoảng 15 phút, tỉ lệ hủy dưới 5%.'])],
+      ['Vì sao bắt đầu từ 3 quận?', '<p>Giới hạn phạm vi giúp đội ngũ vận hành tập trung nguồn lực, kiểm soát chất lượng và hoàn thiện quy trình trước khi mở rộng – mỗi quận mới chỉ mở khi quận cũ đã ổn định.</p>'],
+      ['Mô hình doanh nghiệp', '<p>Dự án vận hành dưới hình thức công ty cổ phần, doanh thu chính đến từ hoa hồng trên phí công của thợ đối tác, cùng các gói thành viên và dịch vụ cho doanh nghiệp ở giai đoạn sau.</p>']],
+    tip: ['Mừng ra mắt', 'Mã BONPHUONG50 giảm 50% tối đa 100.000đ cho đơn từ 300.000đ đến hết 30/11/2026.'] },
+  28: { a: 10, tags: ['Lá Chắn Số', 'Gói thành viên', 'Ưu đãi'], img: ['img/dv/gt03-1.jpg', 'Các gói thành viên Lá Chắn Số'],
+    intro: 'Lá Chắn Số là chương trình thành viên giúp bạn được bảo vệ suốt năm với chi phí thấp hơn nhiều so với từng lần gọi cứu hộ riêng lẻ.',
+    s: [['Các gói hiện có', '<table class="bdetail-table"><thead><tr><th>Gói</th><th>Phí năm</th><th>Quyền lợi nổi bật</th></tr></thead><tbody><tr><td>Cơ bản</td><td>0đ</td><td>Garage số, tích điểm 1%, voucher chào mừng</td></tr><tr><td>Sinh viên</td><td>99.000đ</td><td>2 lượt miễn phí di chuyển, giảm 15% phí công</td></tr><tr><td>Cá nhân</td><td>199.000đ</td><td>3 lượt miễn phí di chuyển, ưu tiên giờ cao điểm</td></tr><tr><td>Gia đình</td><td>449.000đ</td><td>Đến 3 xe, 8 lượt dùng chung, chia sẻ hành trình</td></tr><tr><td>Doanh nghiệp</td><td>Từ 2.900.000đ</td><td>Cổng quản lý đội xe, SLA riêng, VAT tập trung</td></tr></tbody></table>'],
+      ['Chọn gói nào?', UL(['Sinh viên đi xe máy: gói Sinh viên.', 'Đi làm hằng ngày, hay chạy đêm: gói Cá nhân.', 'Gia đình nhiều xe, có con đi học: gói Gia đình.'])]],
+    tip: ['Ưu đãi', 'Mã LACHANSO50 giảm 50.000đ khi kích hoạt gói Cá nhân hoặc Gia đình.'] },
+  29: { a: 1, tags: ['Khiếu nại', 'Chăm sóc khách hàng', 'Cam kết'], img: ['img/dv/gt01-3.jpg', 'Quy trình khiếu nại 4 bước'],
+    intro: 'Dù đã chuẩn hóa quy trình, sự cố trong dịch vụ vẫn có thể xảy ra. Điều quan trọng là khách hàng biết rõ mình được xử lý thế nào và trong bao lâu.',
+    s: [['Bước 1: Tiếp nhận (trong 2 giờ)', '<p>Khiếu nại gửi qua ứng dụng, hotline hoặc trang Liên hệ được ghi nhận kèm mã hồ sơ.</p>'],
+      ['Bước 2: Phản hồi ban đầu (trong 24 giờ)', '<p>Chuyên viên liên hệ, thu thập thông tin từ hai phía, đối chiếu báo giá, ảnh và dữ liệu vị trí trong hộp đen chuyến cứu hộ.</p>'],
+      ['Bước 3: Giải quyết (tối đa 72 giờ với vụ phức tạp)', '<p>Đưa ra phương án: làm lại miễn phí, hoàn chênh lệch hoặc bồi hoàn. Bộ phận chăm sóc khách hàng có thẩm quyền xử lý đến 2.000.000đ.</p>'],
+      ['Bước 4: Theo dõi & cải tiến', '<p>Vụ việc được dùng để đào tạo lại, điều chỉnh hạng thợ và cải tiến quy trình – không để lỗi lặp lại.</p>']],
+    tip: ['Bảo vệ cả hai phía', 'Thợ đối tác cũng có quyền phản hồi; mọi quyết định dựa trên dữ liệu khách quan.'] },
+  30: { a: 7, tags: ['Lộ trình', '5 năm', 'Mở rộng'], img: ['img/hero/hero-3.jpg', 'Mạng lưới đối tác mở rộng theo từng giai đoạn'],
+    intro: 'Từ 150 thợ ở 3 quận trung tâm, Gắn Kết Bốn Phương đặt mục tiêu xây dựng mạng lưới 1.900 đối tác với khoảng 406.000 cuốc mỗi năm sau 5 năm.',
+    s: [['Năm 1 – Thí điểm', '<p>3 quận trung tâm TP.HCM, 150 thợ, 10.000 lượt cứu hộ, điểm đánh giá 4,6.</p>'],
+      ['Năm 2 – Mở rộng', '<p>Mở lần lượt quận thứ 4, 5, 6; đạt 300 đối tác và 24.000 lượt cứu hộ trong năm.</p>'],
+      ['Năm 3 – Toàn thành phố', '<p>Phủ 16–19 quận, huyện; hình thành cấp quản lý khu vực; 800 đối tác, 150.000 cuốc và đạt hòa vốn vận hành.</p>'],
+      ['Năm 4–5 – Vươn xa', '<p>Thí điểm bảo dưỡng tại nhà, ra mắt Hà Nội, Đà Nẵng, gói thành viên/bảo hiểm cứu hộ theo năm và hợp đồng doanh nghiệp B2B: 1.400 đối tác (Năm 4) và 1.900 đối tác (Năm 5).</p>']],
+    tip: ['Đồng hành cùng dự án', 'Thợ ở khu vực sắp mở có thể đăng ký trước để được đào tạo và ưu đãi hoa hồng.'] }
+};
+
+/* Ghép nội dung HTML cho từng bài: mục lục tự động + ảnh + các mục + hộp mẹo */
+function buildContent(id) {
+  var c = BLOG_CONTENT[id]; if (!c) return '';
+  var toc = '<div class="bdetail-toc"><div class="bdetail-toc-title"><i class="fas fa-list-ul"></i> Mục lục</div><ul>' +
+    c.s.map(function (s, i) { return '<li><a onclick="scrollH(\'s' + (i + 1) + '\')">' + s[0] + '</a></li>'; }).join('') + '</ul></div>';
+  var body = '<p class="bdetail-lead">' + c.intro + '</p>' +
+    '<img src="' + c.img[0] + '" class="bdetail-single-img" alt="' + c.img[1] + '"><p class="bdetail-img-caption">' + c.img[1] + '</p>';
+  c.s.forEach(function (s, i) { body += '<h2 id="s' + (i + 1) + '">' + s[0] + '</h2>' + s[1]; if (i === 1 && c.tip) body += '<div class="tip-box"><div class="tip-box-title"><i class="fas fa-lightbulb"></i> ' + c.tip[0] + '</div><p>' + c.tip[1] + '</p></div>'; });
+  if (c.s.length < 2 && c.tip) body += '<div class="tip-box"><div class="tip-box-title"><i class="fas fa-lightbulb"></i> ' + c.tip[0] + '</div><p>' + c.tip[1] + '</p></div>';
+  return toc + body;
+}
+
+var POSTS = [];
+function initPosts() {   /* gọi sau khi js/gkbp-data.js đã tải (DOMContentLoaded) */
+  POSTS = (window.GK_DATA ? GK_DATA.BLOG_INDEX : []).map(function (p) {
+    var c = BLOG_CONTENT[p.id] || {}, au = AUTHORS[c.a] || AUTHORS[1];
+    return Object.assign({}, p, { author: au.name, authorRole: au.role, authorAvatar: au.avatar, tags: c.tags || [], content: buildContent(p.id) });
+  });
+}
+var currentCat = 'all', currentSearch = '', currentPage = 1, PAGE_SIZE = 8;
+function norm(s) { return window.gkSearch ? gkSearch.norm(s) : String(s || '').toLowerCase(); }
+
+function filtered() {
+  return POSTS.filter(function (p) {
+    var mc = currentCat === 'all' || p.cat === currentCat;
+    var q = norm(currentSearch);
+    var ms = !q || q.split(' ').every(function (w) { return norm(p.title + ' ' + p.excerpt + ' ' + (p.tags || []).join(' ') + ' ' + p.cat).indexOf(w) > -1; });
+    return mc && ms;
+  });
+}
+function renderGrid() {
+  var all = filtered(), total = all.length;
+  var start = (currentPage - 1) * PAGE_SIZE, page = all.slice(start, start + PAGE_SIZE);
+  var grid = document.getElementById('blog-grid');
+  grid.innerHTML = '';
+  if (!page.length) {
+    grid.innerHTML = '<div class="no-results"><i class="fas fa-search"></i><h5>Không tìm thấy bài viết</h5><p>Thử từ khóa khác như “vá lốp”, “ắc quy”, “xe điện”</p></div>';
+    renderPag(0); return;
+  }
+  page.forEach(function (p, i) {
+    var card = document.createElement('div');
+    card.className = 'bcard';
+    card.style.animationDelay = (i * .06) + 's';
+    card.onclick = function () { openPost(p.id); };
+    var imgH = p.img ? '<img src="' + p.img + '" alt="' + p.title + '" loading="lazy" onerror="this.style.display=\'none\'">' : '';
+    card.innerHTML =
+      '<div class="bcard__img" style="background:' + getGrad(p.cat) + '">' + imgH +
+      '<span class="bcard__cat">' + p.cat + '</span>' +
+      (p.featured ? '<span class="bcard__featured">⭐ Nổi bật</span>' : '') + '</div>' +
+      '<div class="bcard__body">' +
+      '<h3 class="bcard__title">' + p.title + '</h3>' +
+      '<p class="bcard__excerpt">' + p.excerpt + '</p>' +
+      '<div class="bcard__meta"><span><i class="far fa-calendar-alt"></i> ' + p.date + '</span><span><i class="far fa-clock"></i> ' + p.readTime + ' phút</span></div>' +
+      '<button class="bcard__btn" type="button">Đọc bài viết <i class="fas fa-arrow-right"></i></button>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+  renderPag(total);
+}
+function getGrad(cat) {
+  var g = {
+    'Cứu hộ': 'linear-gradient(135deg,#E06400,#FF9F43)',
+    'Cẩm nang': 'linear-gradient(135deg,#0A2B54,#1E5C9E)',
+    'Bảo dưỡng': 'linear-gradient(135deg,#0D4076,#2F7BC4)',
+    'Xe điện': 'linear-gradient(135deg,#064e3b,#10b981)',
+    'An toàn': 'linear-gradient(135deg,#061D38,#0D4076)',
+    'Câu chuyện thợ': 'linear-gradient(135deg,#9a3412,#FA7806)',
+    'Bốn Phương': 'linear-gradient(135deg,#061D38,#1E5C9E)'
+  };
+  return g[cat] || 'linear-gradient(135deg,#0A2B54,#0D4076)';
+}
+function renderPag(total) {
+  var pag = document.getElementById('blog-pag');
+  var pages = Math.ceil(total / PAGE_SIZE);
+  pag.innerHTML = '';
+  if (pages <= 1) return;
+  function btn(label, handler, active, aria) {
+    var b = document.createElement('button');
+    b.className = 'bpag-btn' + (active ? ' active' : ''); b.type = 'button';
+    b.innerHTML = label; b.onclick = handler; if (aria) b.setAttribute('aria-label', aria);
+    pag.appendChild(b);
+  }
+  btn('<i class="fas fa-chevron-left"></i>', function () { if (currentPage > 1) { currentPage--; renderGrid(); scrollGrid(); } }, false, 'Trang trước');
+  for (var i = 1; i <= pages; i++) (function (p) { btn(p, function () { currentPage = p; renderGrid(); scrollGrid(); }, p === currentPage); })(i);
+  btn('<i class="fas fa-chevron-right"></i>', function () { if (currentPage < pages) { currentPage++; renderGrid(); scrollGrid(); } }, false, 'Trang sau');
+}
+function scrollGrid() { document.getElementById('blog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+
+document.querySelectorAll('.blog-chip').forEach(function (b) {
+  b.addEventListener('click', function () {
+    document.querySelectorAll('.blog-chip').forEach(function (x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    currentCat = b.getAttribute('data-cat');
+    currentPage = 1; renderGrid();
+  });
+});
+document.getElementById('blog-search-btn').addEventListener('click', doSearch);
+document.getElementById('blog-search-input').addEventListener('keydown', function (e) { if (e.key === 'Enter') doSearch(); });
+function doSearch() {
+  currentSearch = document.getElementById('blog-search-input').value.trim();
+  currentPage = 1; renderGrid();
+  document.getElementById('blog-grid').scrollIntoView({ behavior: 'smooth' });
+}
+function openPost(id) {
+  var p = POSTS.find(function (x) { return x.id === id; });
+  if (!p) return;
+  var imgH = p.img ? '<img src="' + p.img + '" alt="' + p.title + '" onerror="this.style.display=\'none\'">' : '';
+  document.getElementById('bdetail-hero-slot').innerHTML =
+    '<div class="bdetail-hero" style="background:' + getGrad(p.cat) + '">' + imgH +
+    '<div class="bdetail-hero-overlay"></div>' +
+    '<div class="bdetail-hero-content container">' +
+    '<span class="bdetail-cat-badge">' + p.cat + '</span>' +
+    '<h1 class="bdetail-title">' + p.title + '</h1>' +
+    '<div class="bdetail-hero-meta">' +
+    '<img src="' + p.authorAvatar + '" alt="' + p.author + '" onerror="this.onerror=null;this.src=\'img/logo-mark.png\'">' +
+    '<span><i class="fas fa-user"></i> ' + p.author + '</span>' +
+    '<span><i class="far fa-calendar-alt"></i> ' + p.date + '</span>' +
+    '<span><i class="far fa-clock"></i> ' + p.readTime + ' phút đọc</span>' +
+    '</div></div></div>';
+  var tagsHtml = (p.tags || []).map(function (t) { return '<span class="bdetail-tag" onclick="filterTag(\'' + t + '\')">#' + t + '</span>'; }).join('');
+  var authorHtml = '<div class="bdetail-author"><img src="' + p.authorAvatar + '" alt="' + p.author + '" class="bdetail-author-avatar" onerror="this.onerror=null;this.src=\'img/logo-mark.png\'"><div><div class="bdetail-author-name">' + p.author + '</div><div class="bdetail-author-role">' + p.authorRole + ' · Nhóm dự án Gắn Kết Bốn Phương</div><p class="bdetail-author-bio">Thành viên Nhóm 8 – lớp ĐHTMĐT20A, cùng đội ngũ thợ đối tác biên soạn cẩm nang để mọi người đi đường an tâm hơn khi gặp sự cố.</p></div></div>';
+  var shareHtml = '<div class="bdetail-share"><span class="bdetail-share-label">Chia sẻ:</span><a class="share-btn share-btn--fb" href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href.split('?')[0] + '?id=' + p.id) + '" target="_blank" rel="noopener"><i class="fab fa-facebook-f mr-1"></i>Facebook</a><button class="share-btn share-btn--link" type="button" onclick="copyLink(' + p.id + ')"><i class="fas fa-link mr-1"></i>Sao chép liên kết</button></div>';
+  document.getElementById('bdetail-body-slot').innerHTML = '<div class="bdetail-tags">' + tagsHtml + '</div>' + p.content + authorHtml + shareHtml;
+  var rel = POSTS.filter(function (x) { return x.id !== id && x.cat === p.cat; }).slice(0, 3);
+  if (rel.length < 3) rel = rel.concat(POSTS.filter(function (x) { return x.id !== id && rel.every(function (r) { return r.id !== x.id; }); })).slice(0, 3);
+  var relHtml = rel.map(function (r) {
+    return '<div class="bdetail-related-card" onclick="openPost(' + r.id + ')">' +
+      '<div class="bdetail-related-thumb" style="background:' + getGrad(r.cat) + '">' + (r.img ? '<img src="' + r.img + '" alt="' + r.title + '" onerror="this.style.display=\'none\'">' : '') + '</div>' +
+      '<div class="bdetail-related-body"><div class="bdetail-related-cat">' + r.cat + '</div><div class="bdetail-related-name">' + r.title + '</div></div></div>';
+  }).join('');
+  document.getElementById('bdetail-related-slot').innerHTML = '<div class="bdetail-related-title"><i class="fas fa-bookmark mr-2"></i>Bài viết liên quan</div><div class="bdetail-related-grid">' + relHtml + '</div>';
+  document.getElementById('blog-home-view').style.display = 'none';
+  document.getElementById('blog-detail-view').style.display = 'block';
+  try { history.replaceState(null, '', 'html_blog.html?id=' + p.id); } catch (e) {}
+  document.title = p.title + ' | Blog Gắn Kết Bốn Phương';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('bdetail-progress-bar').style.width = '0%';
+}
+function openPostById(id) { openPost(id); }
+function showHome() {
+  document.getElementById('blog-detail-view').style.display = 'none';
+  document.getElementById('blog-home-view').style.display = 'block';
+  try { history.replaceState(null, '', 'html_blog.html'); } catch (e) {}
+  document.title = 'Blog cẩm nang | Gắn Kết Bốn Phương';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function filterTag(t) {
+  currentSearch = t; currentPage = 1;
+  document.querySelectorAll('.blog-chip').forEach(function (b) { b.classList.remove('active'); });
+  document.querySelector('[data-cat="all"]').classList.add('active');
+  currentCat = 'all';
+  var si = document.getElementById('blog-search-input'); if (si) si.value = t;
+  showHome(); setTimeout(function () { renderGrid(); }, 100);
+}
+function scrollH(id) {
+  var el = document.getElementById('bdetail-body-slot').querySelector('#' + id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function copyLink(id) {
+  var url = location.href.split('?')[0] + (id ? '?id=' + id : '');
+  var ok = function () { if (window.GKBP) GKBP.showToast('success', 'Đã sao chép liên kết bài viết! 📋'); };
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(ok, function () { window.prompt('Sao chép liên kết:', url); });
+  else window.prompt('Sao chép liên kết:', url);
+}
+var pb = document.createElement('div');
+pb.id = 'bdetail-progress-bar';
+pb.style.cssText = 'position:fixed;top:0;left:0;height:4px;width:0%;background:linear-gradient(90deg,#F26B00,#FF9F43);z-index:99999;pointer-events:none;transition:width .1s linear';
+document.body.appendChild(pb);
+window.addEventListener('scroll', function () {
+  var bar = document.getElementById('bdetail-progress-bar');
+  var isDetail = document.getElementById('blog-detail-view').style.display === 'block';
+  if (!bar || !isDetail) return;
+  var sc = window.scrollY, tot = document.documentElement.scrollHeight - window.innerHeight;
+  bar.style.width = (tot > 0 ? sc / tot * 100 : 0) + '%';
+}, { passive: true });
+document.addEventListener('DOMContentLoaded', function () {
+  initPosts();
+  var hdr = document.getElementById('header-search-inp');
+  if (hdr) hdr.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.stopImmediatePropagation(); e.preventDefault(); currentSearch = this.value.trim(); currentPage = 1; var si = document.getElementById('blog-search-input'); if (si) si.value = currentSearch; showHome(); renderGrid(); } }, true);
+  var urlParams = new URLSearchParams(window.location.search);
+  var cat = urlParams.get('cat');
+  if (cat) { var chip = document.querySelector('.blog-chip[data-cat="' + cat + '"]'); if (chip) chip.click(); }
+  renderGrid();
+  var urlId = parseInt(urlParams.get('id'), 10);
+  if (!isNaN(urlId)) setTimeout(function () { openPost(urlId); }, 120);
+});
+</script>
+
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+</body>
+</html>

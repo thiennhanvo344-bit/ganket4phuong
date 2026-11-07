@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ dịch vụ | Gắn Kết Bốn Phương – Cứu hộ, sửa xe tận nơi</title>
+    <meta name="description" content="Giỏ dịch vụ Gắn Kết Bốn Phương: kiểm tra dịch vụ sửa xe, bảo dưỡng, gói thành viên và phụ tùng, áp voucher, xem giá trần minh bạch trước khi thanh toán.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 4 — grid, utilities -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css_trangchu.css">
+    <!-- Font Awesome 5 — icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* ══════════════════════════════════════════════════════════
+           BIẾN MÀU — đảm bảo đồng bộ khi css_trangchu.css chưa load
+           ══════════════════════════════════════════════════════════ */
+        :root {
+            --primary-blue:   #0D4076;
+            --dark-blue:      #0A2B54;
+            --accent-red:     #ff4d4d;
+            --teal-light:     #FA7806;
+            --gradient-brand: linear-gradient(135deg, #0A2B54 0%, #0D4076 55%, #1E5C9E 100%);
+            --bg-light:       #f0f4f8;
+            --text-dark:      #0A2B54;
+            --text-muted:     #6c757d;
+            --white:          #ffffff;
+        }
+
+
+        /* ── NỀN TRANG GIỎ HÀNG ── */
+        body { background: var(--bg-light); }
+
+        /* ── BREADCRUMB ── */
+        .cart-breadcrumb {
+            background: #fff;
+            border-bottom: 1px solid rgba(13,64,118,0.1);
+            padding: 12px 0;
+        }
+        .cart-breadcrumb .breadcrumb {
+            background: transparent;
+            margin: 0; padding: 0;
+            font-size: 13px;
+        }
+        .cart-breadcrumb .breadcrumb-item a { color: var(--primary-blue); text-decoration: none; }
+        .cart-breadcrumb .breadcrumb-item.active { color: var(--text-muted); }
+
+        /* ══════════════════════════════════════════════════════════
+           SKELETON LOADING — hiển thị 1.2 giây đầu khi mở trang
+           Gồm 2 khung: danh sách + order summary
+           ══════════════════════════════════════════════════════════ */
+        #cart-skeleton {
+            display: none; /* JS sẽ show khi tải */
+        }
+        .skeleton-block {
+            background: linear-gradient(90deg, #e8edf3 25%, #f4f7fc 50%, #e8edf3 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 12px;
+        }
+        @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skel-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .skel-img  { width: 120px; height: 90px; flex-shrink: 0; }
+        .skel-body { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        .skel-line { height: 14px; }
+        .skel-line.w-70 { width: 70%; }
+        .skel-line.w-50 { width: 50%; }
+        .skel-line.w-30 { width: 30%; }
+        .skel-summary {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .skel-summary .skel-line { margin-bottom: 14px; }
+
+        /* ══════════════════════════════════════════════════════════
+           TIÊU ĐỀ TRANG GIỎ HÀNG
+           ══════════════════════════════════════════════════════════ */
+        .cart-page-title {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--dark-blue);
+            margin-bottom: 4px;
+        }
+        .cart-page-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           PROGRESS BAR NHẬN QUÀ
+           Ngưỡng 500.000đ — tặng Tem QR cứu hộ, khi đạt hiện tick xanh + chúc mừng
+           ══════════════════════════════════════════════════════════ */
+        .gift-progress-bar-wrap {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(13,64,118,0.08);
+            border: 1px solid rgba(13,64,118,0.1);
+        }
+        .gift-progress-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .gift-progress-track {
+            height: 8px;
+            background: #e8edf3;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .gift-progress-fill {
+            height: 100%;
+            background: var(--gradient-brand);
+            border-radius: 8px;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.34,1.2,0.64,1);
+        }
+        /* Trạng thái đã đạt ngưỡng */
+        .gift-progress-bar-wrap.achieved .gift-progress-fill {
+            background: linear-gradient(90deg, #00b894, #00cec9);
+        }
+        .gift-achieved-msg {
+            display: none;
+            font-size: 13px;
+            font-weight: 700;
+            color: #00b894;
+            margin-top: 6px;
+            animation: bounceIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .gift-progress-bar-wrap.achieved .gift-achieved-msg { display: block; }
+        .gift-progress-bar-wrap.achieved .gift-remaining-msg { display: none; }
+        @keyframes bounceIn {
+            0%   { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1);   opacity: 1; }
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           THẺ DỊCH VỤ TRONG GIỎ
+           Hover: elevation + ảnh zoom nhẹ
+           ══════════════════════════════════════════════════════════ */
+        .cart-item-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 18px;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+            border: 1px solid rgba(13,64,118,0.08);
+            /* Transition cho hover elevation và animation xóa */
+            transition: transform 0.3s ease, box-shadow 0.3s ease,
+                        max-height 0.45s ease, opacity 0.35s ease,
+                        padding 0.35s ease, margin 0.35s ease;
+            overflow: hidden;
+            max-height: 400px;
+            position: relative;
+        }
+        /* Hover: nổi nhẹ lên */
+        .cart-item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(13,64,118,0.15);
+        }
+        /* Trạng thái đang xóa: trượt sang phải + mờ dần */
+        .cart-item-card.removing {
+            transform: translateX(120px);
+            opacity: 0;
+        }
+        /* Sau khi trượt: thu chiều cao về 0 để danh sách co lại mượt */
+        .cart-item-card.collapsed {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border: none;
+        }
+
+        /* Ảnh dịch vụ */
+        .cart-item-img-wrap {
+            width: 120px;
+            height: 90px;
+            border-radius: 14px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: var(--gradient-brand);
+        }
+        .cart-item-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease; /* Zoom nhẹ khi hover */
+        }
+        .cart-item-card:hover .cart-item-img { transform: scale(1.05); }
+
+        /* Nội dung card */
+        .cart-item-body { flex: 1; min-width: 0; }
+        .cart-item-badge {
+            font-size: 10px; font-weight: 800;
+            background: var(--gradient-brand);
+            color: #fff; padding: 2px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .cart-item-title {
+            font-size: 15px; font-weight: 800;
+            color: var(--dark-blue);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        .cart-item-meta {
+            font-size: 12px; color: var(--text-muted);
+            display: flex; flex-wrap: wrap; gap: 10px;
+            margin-bottom: 12px;
+        }
+        .cart-item-meta i { color: var(--teal-light); }
+
+        /* Bộ tăng/giảm số lượng (số xe / số năm / sản phẩm) */
+        .pax-group {
+            display: flex; align-items: center; gap: 16px;
+            flex-wrap: wrap;
+        }
+        .pax-label {
+            font-size: 12px; font-weight: 700; color: #6c757d;
+            min-width: 65px;
+        }
+        .pax-ctrl {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .pax-btn {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(13,64,118,0.3);
+            background: #f0f4f8;
+            color: var(--primary-blue);
+            font-size: 14px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+            padding: 0;
+            line-height: 1;
+        }
+        .pax-btn:hover {
+            background: var(--primary-blue);
+            color: #fff;
+            border-color: var(--primary-blue);
+        }
+        .pax-btn:disabled {
+            opacity: 0.35;
+            pointer-events: none;
+        }
+        .pax-count {
+            font-size: 15px; font-weight: 800;
+            color: var(--dark-blue);
+            min-width: 20px; text-align: center;
+        }
+
+        /* Giá tiền từng dịch vụ */
+        .cart-item-price-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: space-between;
+            min-width: 120px;
+        }
+        .cart-item-price {
+            font-size: 18px; font-weight: 900;
+            color: var(--accent-red);
+            white-space: nowrap;
+        }
+        .cart-item-price-per {
+            font-size: 11px; color: var(--text-muted);
+        }
+        /* Nút xóa */
+        .cart-item-remove {
+            background: none; border: none;
+            color: #ccc; font-size: 14px;
+            padding: 4px; transition: color 0.2s, transform 0.2s;
+        }
+        .cart-item-remove:hover { color: var(--accent-red); transform: scale(1.2); }
+
+        /* ══════════════════════════════════════════════════════════
+           EMPTY CART — Giỏ hàng trống
+           ══════════════════════════════════════════════════════════ */
+        #empty-cart {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .empty-cart-icon { font-size: 72px; margin-bottom: 16px; opacity: 0.5; }
+        .empty-cart-title { font-size: 22px; font-weight: 800; color: var(--dark-blue); }
+        .empty-cart-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+
+        /* ══════════════════════════════════════════════════════════
+           ORDER SUMMARY — Sticky sidebar bên phải
+           Khi scroll vẫn giữ vị trí nhờ position:sticky
+           ══════════════════════════════════════════════════════════ */
+        .order-summary-wrap {
+            position: sticky;
+            top: 80px; /* Dưới header sticky */
+        }
+        .order-summary {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(13,64,118,0.1);
+            border: 1px solid rgba(13,64,118,0.1);
+        }
+        .order-summary-title {
+            font-size: 18px; font-weight: 900;
+            color: var(--dark-blue); margin-bottom: 20px;
+        }
+
+        /* Dòng tiền trong summary */
+        .order-row {
+            display: flex; justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(13,64,118,0.1);
+        }
+        .order-row:last-of-type { border-bottom: none; }
+        .order-row .label { color: var(--text-muted); }
+        .order-row .value { font-weight: 700; color: var(--dark-blue); }
+        .order-row .value.red  { color: var(--accent-red); }
+        .order-row .value.green { color: #00b894; }
+
+        /* Dòng giảm giá — ẩn/hiện bằng max-height transition */
+        #discount-row {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        #discount-row.show {
+            max-height: 60px;
+            opacity: 1;
+        }
+
+        /* Tổng cộng */
+        .order-total-row {
+            display: flex; justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px solid rgba(13,64,118,0.15);
+        }
+        .order-total-label { font-size: 16px; font-weight: 900; color: var(--dark-blue); }
+        .order-total-value {
+            font-size: 22px; font-weight: 900;
+            color: var(--accent-red);
+        }
+
+        /* Ô nhập mã giảm giá */
+        .coupon-section { margin-top: 20px; }
+        .coupon-title {
+            font-size: 13px; font-weight: 700;
+            color: var(--dark-blue); margin-bottom: 10px;
+        }
+        .coupon-row {
+            display: flex; gap: 8px;
+        }
+        .coupon-input {
+            flex: 1; border: 1.5px solid rgba(13,64,118,0.2);
+            border-radius: 10px; padding: 10px 14px;
+            font-size: 13px; color: var(--dark-blue);
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            text-transform: uppercase;
+        }
+        .coupon-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(13,64,118,0.12);
+        }
+        .coupon-btn {
+            background: var(--gradient-brand);
+            color: #fff; border: none;
+            border-radius: 10px; padding: 10px 16px;
+            font-size: 13px; font-weight: 800;
+            white-space: nowrap;
+            transition: opacity 0.2s, transform 0.15s;
+            min-width: 80px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .coupon-btn:hover { opacity: 0.88; transform: scale(1.02); }
+        /* Spinner loading trong nút */
+        .coupon-spinner {
+            width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        /* Icon tick thành công */
+        .coupon-tick {
+            display: none;
+            color: #fff;
+            animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes popIn {
+            0%   { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+        .coupon-msg {
+            font-size: 12px; margin-top: 6px;
+            display: none;
+        }
+        .coupon-msg.success { color: #00b894; display: block; }
+        .coupon-msg.error   { color: var(--accent-red); display: block; }
+
+        /* Nút Thanh toán */
+        .checkout-btn {
+            width: 100%; padding: 14px;
+            background: var(--gradient-brand);
+            color: #fff; border: none;
+            border-radius: 14px;
+            font-size: 16px; font-weight: 900;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.3s;
+        }
+        .checkout-btn:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(13,64,118,0.35);
+        }
+        /* Ripple effect khi click nút checkout */
+        .checkout-btn::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            width: 0; height: 0;
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+            opacity: 0;
+        }
+        .checkout-btn:active::after {
+            width: 300px; height: 300px; opacity: 0;
+        }
+
+        /* Phương thức thanh toán chấp nhận */
+        .payment-accept {
+            margin-top: 14px;
+            display: flex; gap: 8px; flex-wrap: wrap;
+            align-items: center;
+        }
+        .payment-accept span { font-size: 11px; color: var(--text-muted); }
+        .pay-icon {
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            font-size: 11px; font-weight: 800;
+            color: #555;
+            background: #f8f9fa;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           UNDO TOAST — Xuất hiện góc dưới khi xóa dịch vụ
+           Gồm: thông báo + nút Hoàn tác + countdown progress bar
+           ══════════════════════════════════════════════════════════ */
+        #undo-toast {
+            position: fixed;
+            bottom: -120px; /* Ẩn bên dưới màn hình ban đầu */
+            right: 24px;
+            background: #1a1f2e;
+            color: #fff;
+            border-radius: 16px;
+            padding: 16px 20px;
+            min-width: 300px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            z-index: 99999;
+            transition: bottom 0.4s cubic-bezier(0.34,1.2,0.64,1);
+        }
+        #undo-toast.show { bottom: 24px; }
+        .toast-row {
+            display: flex; align-items: center;
+            justify-content: space-between; gap: 12px;
+            margin-bottom: 10px;
+        }
+        .toast-msg { font-size: 13px; font-weight: 600; flex: 1; }
+        .toast-undo-btn {
+            background: var(--teal-light);
+            color: #fff; border: none;
+            border-radius: 8px; padding: 6px 14px;
+            font-size: 12px; font-weight: 800;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+        .toast-undo-btn:hover { opacity: 0.85; }
+        /* Countdown bar */
+        .toast-countdown {
+            height: 3px; background: rgba(255,255,255,0.15);
+            border-radius: 3px; overflow: hidden;
+        }
+        .toast-countdown-fill {
+            height: 100%;
+            background: var(--teal-light);
+            width: 100%;
+            /* Transition được đặt qua JS để kiểm soát chính xác */
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           BOUNCE BADGE — hiệu ứng nẩy khi số lượng giỏ thay đổi
+           ══════════════════════════════════════════════════════════ */
+        @keyframes badgeBounce {
+            0%   { transform: scale(1); }
+            30%  { transform: scale(1.45); }
+            60%  { transform: scale(0.85); }
+            80%  { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        .cart-badge-bounce {
+            animation: badgeBounce 0.5s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        /* Badge số lượng trên icon giỏ hàng header */
+        .cart-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-red);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            position: absolute;
+            top: -4px; right: -6px;
+            line-height: 1;
+        }
+        .cart-icon-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           RESPONSIVE — Mobile: layout 1 cột, bottom checkout bar
+           ══════════════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            .cart-item-card { flex-direction: column; }
+            .cart-item-img-wrap { width: 100%; height: 160px; }
+            .cart-item-price-wrap {
+                flex-direction: row;
+                align-items: center;
+                min-width: unset;
+            }
+            /* Sticky bottom bar trên mobile */
+            .mobile-checkout-bar {
+                display: flex !important;
+            }
+        }
+        /* Bottom sticky checkout bar — chỉ hiện trên mobile */
+        .mobile-checkout-bar {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: #fff;
+            border-top: 1px solid rgba(13,64,118,0.15);
+            padding: 12px 16px;
+            z-index: 1000;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+        .mobile-total-label { font-size: 12px; color: var(--text-muted); }
+        .mobile-total-value { font-size: 18px; font-weight: 900; color: var(--accent-red); }
+        .mobile-checkout-btn {
+            background: var(--gradient-brand);
+            color: #fff; border: none;
+            border-radius: 12px; padding: 10px 20px;
+            font-size: 14px; font-weight: 800;
+        }
+
+        /* ── CÁC STYLE HỖ TRỢ KHÁC ── */
+        .section-divider { height: 1px; background: rgba(13,64,118,0.08); margin: 16px 0; }
+
+        /* Hiệu ứng tick xanh khi cập nhật thành công */
+        @keyframes successTick {
+            0%   { transform: scale(0) rotate(-45deg); opacity: 0; }
+            60%  { transform: scale(1.2) rotate(5deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+        .success-tick-anim { animation: successTick 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
+        /* Footer sub-nav highlight trang hiện tại */
+    
+
+
+        /* Nút đăng nhập/đăng ký */
+        .btn-login {
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            color:#fff !important; border:none; border-radius:10px;
+            padding:7px 16px; font-size:13px; transition:all .2s;
+        }
+        .btn-login:hover { opacity:.88; transform:translateY(-1px); }
+        /* Avatar user */
+        .user-avatar-btn {
+            width:38px; height:38px; border-radius:50%;
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-weight:800; font-size:15px;
+            cursor:pointer; border:none; transition:all .2s;
+        }
+        .user-avatar-btn:hover { box-shadow:0 4px 14px rgba(13,64,118,.35); }
+        .user-profile-dropdown .dropdown-menu {
+            border-radius:14px; padding:8px 0;
+            box-shadow:0 8px 30px rgba(0,0,0,.12);
+        }
+
+        
+        /* ══════════════════════════════════════════════════════════
+           BỔ SUNG — Giỏ dịch vụ Gắn Kết Bốn Phương
+           ══════════════════════════════════════════════════════════ */
+        .gk-cart-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+        .gk-steps { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; gap: 6px; }
+        .gk-steps li { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 800; color: #94a3b8; }
+        .gk-steps li + li::before { content: ''; width: 28px; height: 2px; background: repeating-linear-gradient(90deg, #cbd5e1 0 6px, transparent 6px 10px); margin-right: 2px; }
+        .gk-steps li span { width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: #e2e8f0; color: #64748b; font-size: 13px; }
+        .gk-steps li.on { color: #0A2B54; }
+        .gk-steps li.on span { background: linear-gradient(135deg, #F26B00, #FF9F43); color: #fff; box-shadow: 0 6px 16px rgba(250,120,6,.35); }
+
+        .gift-progress-fill { background: linear-gradient(90deg, #F26B00, #FF9F43); }
+        .gift-progress-bar-wrap.achieved .gift-progress-fill { background: linear-gradient(90deg, #10b981, #34d399); }
+        .gk-gift-road { position: relative; height: 22px; margin-top: 2px; }
+        .gift-progress-bar-wrap.achieved .gift-remaining-msg { display: inline; color: #047857; }
+        .coupon-input { min-width: 0; }
+        .gk-gift-truck { position: absolute; top: 2px; left: 0; font-size: 17px; color: #0D4076; transition: left .5s cubic-bezier(0.34,1.2,0.64,1); }
+        .gk-gift-flag { position: absolute; right: 0; top: 3px; font-size: 14px; color: #94a3b8; }
+        .gift-progress-bar-wrap.achieved .gk-gift-truck { color: #10b981; animation: gkHop .6s ease-in-out 2; }
+        .gift-progress-bar-wrap.achieved .gk-gift-flag { color: #10b981; }
+        @keyframes gkHop { 50% { transform: translateY(-5px); } }
+
+        .cart-item-card { max-height: 1200px; }
+        .cart-item-badge { background: linear-gradient(135deg, #F26B00, #FF9F43); }
+        .cart-item-title a { color: inherit; text-decoration: none; }
+        .cart-item-title a:hover { color: #E06400; }
+        .cart-item-meta i { color: #FA7806; }
+        .gk-ci-extras { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 12px; }
+        .gk-ci-chip, .gk-ci-fee { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+        .gk-ci-chip { background: #EAF1F9; color: #0D4076; }
+        .gk-ci-chip i { font-size: 9px; }
+        .gk-ci-fee { background: #FFF1E6; color: #C2410C; }
+        .gk-ci-unit { margin-top: 10px; font-size: 12px; color: var(--text-muted); }
+        .gk-ci-unit i { color: #FA7806; }
+        .gk-ci-trust { margin-top: 6px; display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; color: #047857; background: #ecfdf5; padding: 3px 10px; border-radius: 8px; }
+        .cart-item-price { color: #E06400; }
+        .pax-btn { border-color: rgba(13,64,118,.3); color: #0D4076; }
+        .pax-btn:hover { background: #FA7806; border-color: #FA7806; color: #fff; }
+
+        .gk-empty-sos { background: #FFF1E6; color: #C2410C !important; border: 1.5px solid #FDBA74; border-radius: 12px; }
+        .gk-empty-sos:hover { background: #FA7806; color: #fff !important; }
+        .gk-empty-login { background: #0A2B54; color: #fff !important; border-radius: 12px; }
+
+        .gk-xsell { background: #fff; border-radius: 20px; padding: 18px 20px; margin-bottom: 16px; box-shadow: 0 2px 14px rgba(0,0,0,.05); border: 1px solid rgba(13,64,118,.08); }
+        .gk-xsell-title { font-size: 14px; font-weight: 900; color: #0A2B54; margin-bottom: 12px; }
+        .gk-xsell-title i { color: #FA7806; margin-right: 4px; }
+        .gk-xsell-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .gk-xsell-card { display: flex; align-items: center; gap: 10px; border: 1.5px dashed #e2e8f0; border-radius: 14px; padding: 8px; transition: border-color .2s, transform .2s; }
+        .gk-xsell-card:hover { border-color: #FDBA74; transform: translateY(-2px); }
+        .gk-xsell-card img { width: 54px; height: 54px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+        .gk-xsell-body { flex: 1; min-width: 0; }
+        .gk-xsell-name { display: block; font-size: 12.5px; font-weight: 800; color: #0A2B54; line-height: 1.35; text-decoration: none; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .gk-xsell-name:hover { color: #E06400; text-decoration: none; }
+        .gk-xsell-price { font-size: 13px; font-weight: 900; color: #E06400; margin-top: 2px; }
+        .gk-xsell-price small { font-size: 10.5px; color: #94a3b8; font-weight: 700; margin-left: 2px; }
+        .gk-xsell-add { width: 32px; height: 32px; border-radius: 50%; border: 0; background: #0A2B54; color: #fff; flex-shrink: 0; transition: background .2s, transform .2s; }
+        .gk-xsell-add:hover { background: #FA7806; transform: rotate(90deg); }
+
+        .gk-cart-trust { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .gk-cart-trust > div { background: #fff; border-radius: 16px; padding: 14px; display: grid; grid-template-columns: 34px 1fr; column-gap: 10px; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+        .gk-cart-trust i { grid-row: span 2; width: 34px; height: 34px; border-radius: 10px; background: #FFF1E6; color: #E06400; display: flex; align-items: center; justify-content: center; }
+        .gk-cart-trust b { font-size: 12.5px; color: #0A2B54; }
+        .gk-cart-trust span { font-size: 11px; color: #64748b; line-height: 1.4; }
+
+        .order-total-value { color: #E06400; }
+        .gk-sum-note { font-size: 11.5px; color: #047857; background: #ecfdf5; border-radius: 10px; padding: 8px 10px; margin: 12px 0 0; line-height: 1.5; }
+        .gk-sum-note i { margin-right: 5px; }
+        .gk-best-voucher { cursor: pointer; display: flex; align-items: center; gap: 8px; background: #FFF7F0; border: 1.5px dashed #FA7806; border-radius: 10px; padding: 8px 12px; font-size: 12px; color: #9A3412; font-weight: 700; }
+        .gk-best-voucher:hover { background: #FFF1E6; }
+        .gk-best-voucher i { color: #FA7806; }
+        .checkout-btn, .mobile-checkout-btn { background: linear-gradient(135deg, #F26B00, #FF9F43); }
+        .checkout-btn:hover { box-shadow: 0 8px 28px rgba(250,120,6,.38); }
+        .mobile-total-value { color: #E06400; }
+        #undo-toast { right: auto; left: 24px; }
+
+        @media (max-width: 991.98px) {
+            .mobile-checkout-bar { display: flex !important; bottom: calc(64px + env(safe-area-inset-bottom)); border-radius: 16px 16px 0 0; }
+            main.py-4 { padding-bottom: 150px !important; }
+            #undo-toast { left: 12px; right: 12px; min-width: 0; }
+            #undo-toast.show { bottom: calc(142px + env(safe-area-inset-bottom)); }
+            .order-summary-wrap { position: static; }
+        }
+        @media (max-width: 768px) {
+            .gk-steps { width: 100%; justify-content: space-between; }
+            .gk-steps li { font-size: 11px; gap: 5px; }
+            .gk-steps li + li::before { width: 14px; }
+            .gk-steps li span { width: 28px; height: 28px; font-size: 11px; }
+            .cart-item-card { padding: 14px; gap: 12px; }
+            .cart-item-img-wrap { height: 140px; }
+            .cart-item-price-wrap { justify-content: space-between; padding-top: 10px; border-top: 1px dashed #e2e8f0; }
+            .gk-xsell-row { grid-template-columns: 1fr; gap: 8px; }
+            .gk-cart-trust { grid-template-columns: 1fr; gap: 8px; }
+            .cart-page-title { font-size: 22px; }
+        }
+
+        </style>
+</head>
+<body class="gk-has-mbar">
+
+    <!-- ================================================================
+         HEADER — GIỐNG TRANG CHỦ (sticky, logo, search, nav, auth)
+         Thêm: badge số lượng giỏ hàng với id="cart-badge-count"
+         ================================================================ -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================================================================
+         SUB-NAV — Thanh danh mục phụ (chỉ hiện trên desktop)
+         ================================================================ -->
+    <nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================================================================
+         BREADCRUMB — đường dẫn điều hướng
+         ================================================================ -->
+    <div class="cart-breadcrumb">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="html_trangchu.html"><i class="fas fa-home mr-1"></i>Trang chủ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Giỏ dịch vụ</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ================================================================
+         NỘI DUNG TRANG GIỎ HÀNG
+         ================================================================ -->
+    <main class="py-4">
+        <div class="container">
+
+            <!-- Tiêu đề trang + các bước đặt dịch vụ -->
+            <div class="mb-4 gk-cart-head">
+                <div>
+                    <h1 class="cart-page-title">
+                        <i class="fas fa-shopping-basket mr-2" style="color:var(--teal-light);font-size:22px;"></i>
+                        Giỏ dịch vụ của bạn
+                    </h1>
+                    <p class="cart-page-subtitle">
+                        <!-- Số lượng dịch vụ sẽ được cập nhật bởi JS -->
+                        <span id="cart-count-label">Đang tải...</span>
+                    </p>
+                </div>
+                <ol class="gk-steps" aria-label="Các bước đặt dịch vụ">
+                    <li class="on"><span><i class="fas fa-shopping-basket"></i></span>Giỏ dịch vụ</li>
+                    <li><span><i class="fas fa-credit-card"></i></span>Thanh toán</li>
+                    <li><span><i class="fas fa-tools"></i></span>Thợ nhận đơn</li>
+                </ol>
+            </div>
+
+            <!-- Skeleton Loading — hiện ngắn khi mở trang -->
+            <div id="cart-skeleton" class="row">
+                <div class="col-lg-8">
+                    <div class="skel-card">
+                        <div class="skeleton-block skel-img"></div>
+                        <div class="skel-body">
+                            <div class="skeleton-block skel-line w-70"></div>
+                            <div class="skeleton-block skel-line w-50"></div>
+                            <div class="skeleton-block skel-line w-30"></div>
+                        </div>
+                    </div>
+                    <div class="skel-card">
+                        <div class="skeleton-block skel-img"></div>
+                        <div class="skel-body">
+                            <div class="skeleton-block skel-line w-70"></div>
+                            <div class="skeleton-block skel-line w-50"></div>
+                            <div class="skeleton-block skel-line w-30"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="skel-summary">
+                        <div class="skeleton-block skel-line w-70"></div>
+                        <div class="skeleton-block skel-line" style="height:60px;margin-bottom:14px;"></div>
+                        <div class="skeleton-block skel-line w-50"></div>
+                        <div class="skeleton-block skel-line w-30"></div>
+                        <div class="skeleton-block skel-line" style="height:44px;width:100%;margin-top:24px;border-radius:14px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nội dung thật — ẩn trong lúc skeleton đang chạy -->
+            <div id="cart-real-content" style="display:none;">
+                <div class="row">
+
+                    <!-- ── CỘT TRÁI: Danh sách dịch vụ + thanh nhận quà ── -->
+                    <div class="col-lg-8 mb-4">
+
+                        <!-- Thanh tiến độ nhận quà: Tem QR cứu hộ dán xe -->
+                        <div class="gift-progress-bar-wrap" id="gift-progress-wrap">
+                            <div class="gift-progress-label">
+                                <span>🎁</span>
+                                <span id="gift-remaining-msg" class="gift-remaining-msg">Đang tính...</span>
+                            </div>
+                            <div class="gift-progress-track">
+                                <div class="gift-progress-fill" id="gift-progress-fill"></div>
+                            </div>
+                            <div class="gk-gift-road" aria-hidden="true">
+                                <i class="fas fa-truck-pickup gk-gift-truck" id="gk-gift-truck"></i>
+                                <i class="fas fa-flag-checkered gk-gift-flag"></i>
+                            </div>
+                            <div class="gift-achieved-msg" id="gift-achieved-msg">
+                                <i class="fas fa-check-circle mr-1 success-tick-anim"></i>
+                                Chúc mừng! Đơn của bạn được tặng Tem QR cứu hộ dán xe — quét là gọi cứu hộ, không cần cài ứng dụng 🎉
+                            </div>
+                        </div>
+
+                        <!-- Danh sách dịch vụ trong giỏ -->
+                        <div id="cart-items-list">
+                            <!-- Các thẻ dịch vụ sẽ được render bởi JS -->
+                        </div>
+
+                        <!-- Giỏ dịch vụ trống -->
+                        <div id="empty-cart">
+                            <div class="empty-cart-icon">🧰</div>
+                            <h3 class="empty-cart-title">Giỏ dịch vụ trống!</h3>
+                            <p class="empty-cart-sub" id="empty-cart-sub">Bạn chưa thêm dịch vụ nào. Đặt sửa xe tận nơi, bảo dưỡng tại nhà, gói thành viên Lá Chắn Số hoặc phụ tùng — thợ đối tác đã xác minh luôn sẵn sàng.</p>
+                            <div class="d-flex flex-wrap justify-content-center" style="gap:10px;">
+                                <a href="html_dichvu.html" class="btn btn-primary font-weight-bold px-4 py-2" style="border-radius:12px;">
+                                    <i class="fas fa-tools mr-2"></i>Khám phá dịch vụ
+                                </a>
+                                <button type="button" class="btn font-weight-bold px-4 py-2 gk-empty-sos" data-sos-open="lop">
+                                    <i class="fas fa-life-ring mr-2"></i>Cần cứu hộ ngay?
+                                </button>
+                                <a href="html_dangnhap_dangky.html?mode=login" class="btn font-weight-bold px-4 py-2 gk-empty-login" id="empty-cart-login" style="display:none;" onclick="return cartLogin()">
+                                    <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Gợi ý đặt kèm -->
+                        <div class="gk-xsell" id="gk-xsell" style="display:none;"></div>
+
+                        <!-- Cam kết dịch vụ -->
+                        <div class="gk-cart-trust">
+                            <div><i class="fas fa-file-invoice-dollar"></i><b>Giá trần minh bạch</b><span>Báo giá trước khi làm, không phát sinh</span></div>
+                            <div><i class="fas fa-user-check"></i><b>Thợ đã xác minh</b><span>Hồ sơ, tay nghề, đánh giá công khai</span></div>
+                            <div><i class="fas fa-shield-alt"></i><b>Bảo hành sau sửa</b><span>Tối thiểu 30 ngày, ảnh trước – sau</span></div>
+                        </div>
+                    </div>
+
+                    <!-- ── CỘT PHẢI: Tóm tắt đơn (sticky) ── -->
+                    <div class="col-lg-4">
+                        <div class="order-summary-wrap">
+                            <div class="order-summary">
+                                <h4 class="order-summary-title">📋 Tóm tắt đơn dịch vụ</h4>
+
+                                <div class="order-row">
+                                    <span class="label">Tạm tính (dịch vụ + gói thêm)</span>
+                                    <span class="value" id="summary-subtotal">0đ</span>
+                                </div>
+                                <div class="order-row">
+                                    <span class="label">Phụ phí ca đêm · km kéo xe</span>
+                                    <span class="value" id="summary-service">0đ</span>
+                                </div>
+                                <div class="order-row">
+                                    <span class="label">Phí nền tảng</span>
+                                    <span class="value green">Miễn phí</span>
+                                </div>
+
+                                <!-- Dòng giảm giá — ẩn bằng max-height 0, hiện khi có voucher hợp lệ -->
+                                <div id="discount-row" class="order-row">
+                                    <span class="label" style="color:#00b894;">
+                                        <i class="fas fa-tag mr-1"></i>Giảm giá voucher
+                                    </span>
+                                    <span class="value green" id="summary-discount">-0đ</span>
+                                </div>
+
+                                <div class="order-total-row">
+                                    <span class="order-total-label">Tổng thanh toán</span>
+                                    <span class="order-total-value" id="summary-total">0đ</span>
+                                </div>
+                                <p class="gk-sum-note"><i class="fas fa-shield-alt"></i>Giá trần: nếu chi phí thực tế thấp hơn báo giá, phần chênh lệch được hoàn lại.</p>
+
+                                <!-- Ô nhập mã giảm giá -->
+                                <div class="coupon-section">
+                                    <p class="coupon-title"><i class="fas fa-ticket-alt mr-1" style="color:var(--teal-light);"></i>Mã giảm giá</p>
+                                    <div class="coupon-row">
+                                        <input type="text" id="coupon-input" class="coupon-input"
+                                               placeholder="Nhập mã voucher..."
+                                               oninput="this.value=this.value.toUpperCase()">
+                                        <button class="coupon-btn" id="coupon-btn" onclick="applyCoupon()">
+                                            <span id="coupon-btn-text">Áp dụng</span>
+                                            <div class="coupon-spinner" id="coupon-spinner"></div>
+                                            <i class="fas fa-check coupon-tick" id="coupon-tick"></i>
+                                        </button>
+                                    </div>
+                                    <p class="coupon-msg" id="coupon-msg"></p>
+                                    <!-- Gợi ý mã tốt nhất (tự fill khi bấm) -->
+                                    <div id="voucher-best-suggest" style="margin-top:6px;"></div>
+                                    <!-- Voucher đã lưu trong tài khoản + mã công khai -->
+                                    <div id="voucher-quick-list" style="margin-top:8px;"></div>
+                                </div>
+
+                                <!-- Nút thanh toán chính -->
+                                <button class="checkout-btn" onclick="goCheckout()">
+                                    <i class="fas fa-lock mr-2"></i>Tiến hành thanh toán
+                                </button>
+
+                                <!-- Phương thức thanh toán được chấp nhận -->
+                                <div class="payment-accept">
+                                    <span>Chấp nhận:</span>
+                                    <span class="pay-icon">VISA</span>
+                                    <span class="pay-icon">MC</span>
+                                    <span class="pay-icon">MOMO</span>
+                                    <span class="pay-icon">VNPAY</span>
+                                    <span class="pay-icon">QR</span>
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    <a href="html_dichvu.html" style="font-size:13px;color:var(--primary-blue);font-weight:700;text-decoration:none;">
+                                        <i class="fas fa-arrow-left mr-1"></i>Tiếp tục chọn dịch vụ
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /cart-real-content -->
+
+        </div>
+    </main>
+
+    <!-- ================================================================
+         MOBILE CHECKOUT BAR — chỉ hiện trên mobile (display:none trên desktop)
+         ================================================================ -->
+    <div class="mobile-checkout-bar" id="mobile-checkout-bar">
+        <div>
+            <div class="mobile-total-label">Tổng thanh toán</div>
+            <div class="mobile-total-value" id="mobile-total">0đ</div>
+        </div>
+        <button class="mobile-checkout-btn" onclick="goCheckout()">
+            <i class="fas fa-lock mr-1"></i>Thanh toán
+        </button>
+    </div>
+
+    <!-- ================================================================
+         UNDO TOAST — hiện góc dưới khi xóa dịch vụ
+         Tự ẩn sau 5 giây nếu không nhấn Hoàn tác
+         ================================================================ -->
+    <div id="undo-toast">
+        <div class="toast-row">
+            <span class="toast-msg" id="toast-msg">Đã xóa dịch vụ...</span>
+            <button class="toast-undo-btn" onclick="undoRemove()">
+                <i class="fas fa-undo mr-1"></i>Hoàn tác
+            </button>
+        </div>
+        <!-- Countdown progress bar — co từ 100% → 0% trong 5 giây -->
+        <div class="toast-countdown">
+            <div class="toast-countdown-fill" id="toast-countdown-fill"></div>
+        </div>
+    </div>
+
+
+    <!-- ================================================================
+         FOOTER — giống trang chủ (Navy tối #06121F)
+         ================================================================ -->
+    <div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- jQuery + Bootstrap Bundle -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+<script>
+    // ══════════════════════════════════════════════════════════════
+    // 0. GIỎ DỊCH VỤ — chỉ hiện dịch vụ thật từ localStorage ('gkbp_cart').
+    //    Dịch vụ được thêm qua nút "Thêm vào giỏ" ở html_dichvu.html
+    //    (khi đã đăng nhập) hoặc từ mục "Thường được đặt kèm" bên dưới.
+    //    Mỗi dòng có cartId riêng → cùng một dịch vụ có thể đặt nhiều lần
+    //    với tùy chọn khác nhau (loại xe, gói thêm, thời gian…).
+    // ══════════════════════════════════════════════════════════════
+
+    // ══════════════════════════════════════════════════════════════
+    // 1. GKCart — Module đọc/ghi giỏ (đồng bộ tài khoản qua gkbp-core.js)
+    // ══════════════════════════════════════════════════════════════
+    const GKCart = {
+        KEY: 'gkbp_cart',
+        load() {
+            if (window.GKBP) return GKBP.getCart();
+            try {
+                const data = JSON.parse(localStorage.getItem(this.KEY) || '[]');
+                return Array.isArray(data) ? data : [];
+            } catch (e) { return []; }
+        },
+        save(items) {
+            if (window.GKBP) { GKBP.setCart(items); return; }   // lưu + đồng bộ tài khoản + badge
+            try { localStorage.setItem(this.KEY, JSON.stringify(items)); } catch (e) {}
+        }
+    };
+
+    // ══════════════════════════════════════════════════════════════
+    // 2. STATE — Biến toàn cục của trang giỏ dịch vụ
+    // ══════════════════════════════════════════════════════════════
+    let cartItems = [];          // Các dịch vụ trong giỏ
+    let deletedItem = null;      // Dịch vụ vừa xóa (để hoàn tác)
+    let deletedIndex = null;     // Vị trí cũ
+    let undoTimer  = null;       // Timer 5 giây
+    let currentDiscount = 0;     // Số tiền giảm giá hiện tại
+    let currentCoupon = null;    // Mã voucher đang áp dụng
+    const GIFT_THRESHOLD = 500000;              // Ngưỡng tặng Tem QR cứu hộ: 500.000đ
+    const XSELL_IDS = ['pt05', 'pt01', 'gt02', 'bd05'];   // Gợi ý đặt kèm
+
+    const esc = s => (window.GKBP ? GKBP.esc(s) : String(s == null ? '' : s));
+    const keyOf = it => String(it.cartId || it.id);
+    const findByKey = k => cartItems.find(it => keyOf(it) === k);
+
+    // Nhãn số lượng theo nhóm dịch vụ
+    function qtyMeta(it) {
+        if (it.cat === 'Gói thành viên') return { label: '📅 Số năm', unit: 'năm', max: 3 };
+        if (it.cat === 'Phụ tùng & Phụ kiện') return { label: '📦 Số lượng', unit: String(it.unit || '/sp').replace('/', '') || 'sp', max: 10 };
+        if (it.cat === 'Cứu hộ khẩn cấp') return { label: '🛵 Số xe', unit: 'xe', max: 3 };
+        return { label: '🛵 Số xe', unit: 'xe', max: 5 };
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // 3. CART RENDERER — Tạo HTML thẻ dịch vụ
+    // ══════════════════════════════════════════════════════════════
+    const CartRenderer = {
+
+        buildCard(item, idx) {
+            const k = keyOf(item), q = CartCalc.qty(item), m = qtyMeta(item);
+            const fmt = CartCalc.fmt.bind(CartCalc);
+            const isPkg = item.cat === 'Gói thành viên', isPart = item.cat === 'Phụ tùng & Phụ kiện';
+            const dateLabel = item.date ? esc(item.date) : 'Chưa chọn thời gian';
+            const addons = (item.addons || []).map(a => `<span class="gk-ci-chip"><i class="fas fa-plus"></i>${esc(a)}</span>`).join('');
+            let fees = '';
+            if (Number(item.nightFee) > 0) fees += `<span class="gk-ci-fee"><i class="fas fa-moon"></i>Ca đêm +${fmt(item.nightFee)}/${m.unit}</span>`;
+            if (Number(item.kmFee) > 0) fees += `<span class="gk-ci-fee"><i class="fas fa-route"></i>Kéo ${item.km} km · +${fmt(item.kmFee)}</span>`;
+            const trust = isPkg ? '<i class="fas fa-shield-alt"></i>Kích hoạt ngay sau khi thanh toán'
+                : isPart ? '<i class="fas fa-box-open"></i>Giao trong 2 giờ hoặc thợ mang đến lắp'
+                : '<i class="fas fa-shield-alt"></i>Giá trần đã gồm công thợ · không phát sinh';
+
+            return `
+            <div class="cart-item-card" id="cart-card-${k}" data-idx="${idx}">
+                <!-- Ảnh dịch vụ — zoom nhẹ khi hover -->
+                <div class="cart-item-img-wrap">
+                    <img class="cart-item-img" src="${esc(item.img || 'img/logo-mark.png')}" alt="${esc(item.title)}"
+                         onerror="this.onerror=null;this.src='img/logo-mark.png'">
+                </div>
+
+                <!-- Thông tin dịch vụ -->
+                <div class="cart-item-body">
+                    <span class="cart-item-badge">${esc(item.cat || 'Dịch vụ')}</span>
+                    <h5 class="cart-item-title"><a href="html_dichvu.html?id=${encodeURIComponent(item.id)}">${esc(item.title)}</a></h5>
+                    <div class="cart-item-meta">
+                        <span><i class="fas fa-car-side"></i> ${esc(item.loc || '')}</span>
+                        <span><i class="fas fa-calendar"></i> ${dateLabel}</span>
+                        ${item.area ? `<span><i class="fas fa-map-marker-alt"></i> ${esc(item.area)}${item.place ? ' · ' + esc(item.place) : ''}</span>` : ''}
+                    </div>
+                    ${(addons || fees) ? `<div class="gk-ci-extras">${addons}${fees}</div>` : ''}
+
+                    <!-- Bộ tăng giảm số lượng -->
+                    <div class="pax-group">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span class="pax-label">${m.label}</span>
+                            <div class="pax-ctrl">
+                                <button class="pax-btn" onclick="changePax('${k}',-1)" id="qty-minus-${k}" aria-label="Giảm" ${q <= 1 ? 'disabled' : ''}>−</button>
+                                <span class="pax-count" id="qty-count-${k}">${q}</span>
+                                <button class="pax-btn" onclick="changePax('${k}',1)" id="qty-plus-${k}" aria-label="Tăng" ${q >= m.max ? 'disabled' : ''}>+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gk-ci-unit">
+                        <i class="fas fa-info-circle"></i>
+                        Đơn giá: ${fmt(item.price || 0)}/${m.unit}${Number(item.equipFee) > 0 ? ' · Gói thêm: +' + fmt(item.equipFee) + '/' + m.unit : ''}
+                    </div>
+                    <div class="gk-ci-trust">${trust}</div>
+                </div>
+
+                <!-- Giá + nút xóa -->
+                <div class="cart-item-price-wrap">
+                    <div>
+                        <div class="cart-item-price" id="item-price-${k}">${fmt(CartCalc.itemSubtotal(item))}</div>
+                        <div class="cart-item-price-per" id="item-per-${k}">${q} ${m.unit}</div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeItem('${k}')" title="Xóa dịch vụ này" aria-label="Xóa dịch vụ này">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>`;
+        },
+
+        renderAll() {
+            const list = document.getElementById('cart-items-list');
+            const empty = document.getElementById('empty-cart');
+            const gift = document.getElementById('gift-progress-wrap');
+
+            if (!cartItems || cartItems.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                gift.style.display = 'none';
+                const logged = window.GKBP && GKBP.isLoggedIn();
+                document.getElementById('empty-cart-login').style.display = logged ? 'none' : '';
+                document.getElementById('empty-cart-sub').textContent = logged
+                    ? 'Bạn chưa thêm dịch vụ nào. Đặt sửa xe tận nơi, bảo dưỡng tại nhà, gói thành viên Lá Chắn Số hoặc phụ tùng — thợ đối tác đã xác minh luôn sẵn sàng.'
+                    : 'Đăng nhập để xem giỏ dịch vụ đã lưu trên tài khoản. Gặp sự cố khẩn cấp? Bấm cứu hộ ngay — không cần giỏ hàng.';
+            } else {
+                empty.style.display = 'none';
+                gift.style.display = 'block';
+                list.innerHTML = cartItems.map((item, i) => this.buildCard(item, i)).join('');
+            }
+
+            CartCalc.updateAll();
+            CartUI.updateBadge();
+            renderXsell();
+        }
+    };
+
+    // ══════════════════════════════════════════════════════════════
+    // 4. CART CALC — Tính tiền và cập nhật tóm tắt đơn
+    //    Dòng = (đơn giá + gói thêm + phụ phí ca đêm) × số lượng + phí km kéo xe
+    // ══════════════════════════════════════════════════════════════
+    const CartCalc = {
+
+        fmt(n) { return Math.round(n || 0).toLocaleString('vi-VN') + 'đ'; },
+        qty(it) { return Math.max(1, Number(it.adult) || Number(it.qty) || 1); },
+        baseLine(it) { return ((Number(it.price) || 0) + (Number(it.equipFee) || 0)) * this.qty(it); },
+        feeLine(it) { return (Number(it.nightFee) || 0) * this.qty(it) + (Number(it.kmFee) || 0); },
+        itemSubtotal(it) { return this.baseLine(it) + this.feeLine(it); },
+        baseTotal() { return cartItems.reduce((s, it) => s + this.baseLine(it), 0); },
+        feeTotal() { return cartItems.reduce((s, it) => s + this.feeLine(it), 0); },
+        subtotal() { return cartItems.reduce((s, it) => s + this.itemSubtotal(it), 0); },
+
+        // Kiểm tra lại voucher mỗi khi giỏ thay đổi (đơn tối thiểu, phạm vi áp dụng…)
+        revalidate(sub) {
+            if (!currentCoupon || typeof GK_VOUCHER === 'undefined') return;
+            const r = cartItems.length ? GK_VOUCHER.validate(currentCoupon, sub, cartItems) : { success: false, msg: 'Giỏ dịch vụ đang trống.' };
+            if (r.success) { currentDiscount = r.discountAmount; return; }
+            currentDiscount = 0; currentCoupon = null;
+            document.getElementById('discount-row').classList.remove('show');
+            document.getElementById('coupon-tick').style.display = 'none';
+            document.getElementById('coupon-btn-text').style.display = 'block';
+            const msgEl = document.getElementById('coupon-msg');
+            msgEl.className = 'coupon-msg error';
+            msgEl.innerHTML = '<i class="fas fa-times-circle mr-1"></i>Voucher đã gỡ: ' + r.msg;
+        },
+
+        updateAll() {
+            const base = this.baseTotal(), fee = this.feeTotal(), sub = base + fee;
+            this.revalidate(sub);
+            const disc  = currentDiscount;
+            const total = Math.max(0, sub - disc);
+            const count = cartItems.length;
+
+            document.getElementById('cart-count-label').textContent =
+                count > 0 ? `Bạn có ${count} dịch vụ trong giỏ · thợ đối tác đã xác minh thực hiện` : 'Giỏ dịch vụ đang trống';
+
+            this.animateCount('summary-subtotal', base);
+            this.animateCount('summary-service', fee);
+            this.animateCount('summary-total', total);
+            this.animateCount('mobile-total', total);
+            if (disc > 0) this.animateCount('summary-discount', disc, '-');
+
+            this.updateGiftBar(total);
+            if (typeof renderCartVouchers === 'function') renderCartVouchers();
+        },
+
+        // Animation count-up/down 400ms
+        animateCount(elId, targetVal, prefix = '') {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            const startVal = this._parseVND(el.textContent);
+            const duration = 400;
+            const start = performance.now();
+            const step = (now) => {
+                const progress = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                el.textContent = prefix + this.fmt(Math.round(startVal + (targetVal - startVal) * ease));
+                if (progress < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+        },
+
+        _parseVND(str) { return parseInt((str || '0').replace(/[^\d]/g, '')) || 0; },
+
+        // Thanh nhận quà: xe cứu hộ chạy theo tiến độ
+        updateGiftBar(total) {
+            const fill   = document.getElementById('gift-progress-fill');
+            const wrap   = document.getElementById('gift-progress-wrap');
+            const remMsg = document.getElementById('gift-remaining-msg');
+            const truck  = document.getElementById('gk-gift-truck');
+            const pct    = Math.min(100, (total / GIFT_THRESHOLD) * 100);
+            fill.style.width = pct + '%';
+            if (truck) truck.style.left = 'calc(' + pct + '% - ' + (pct / 100 * 44) + 'px)';
+            if (total >= GIFT_THRESHOLD) {
+                wrap.classList.add('achieved');
+                remMsg.textContent = 'Đơn đã đủ điều kiện nhận quà tặng';
+            } else {
+                wrap.classList.remove('achieved');
+                remMsg.textContent = `Còn thiếu ${this.fmt(GIFT_THRESHOLD - total)} để được tặng Tem QR cứu hộ dán xe (trị giá 29.000đ)! 📱`;
+            }
+        }
+    };
+
+    // ══════════════════════════════════════════════════════════════
+    // 5. CART ACTIONS — Tương tác người dùng
+    // ══════════════════════════════════════════════════════════════
+
+    // Tăng/giảm số lượng (số xe / số năm / số sản phẩm)
+    function changePax(k, delta) {
+        const item = findByKey(k);
+        if (!item) return;
+        const m = qtyMeta(item);
+        const next = CartCalc.qty(item) + delta;
+        if (next > m.max) {
+            if (window.GKBP) GKBP.showToast('info', item.cat === 'Cứu hộ khẩn cấp'
+                ? 'Tối đa 3 xe cho một cuốc cứu hộ — hãy đặt thêm cuốc mới nếu cần.'
+                : 'Số lượng tối đa cho dịch vụ này là ' + m.max + ' ' + m.unit + '.');
+            return;
+        }
+        item.adult = item.qty = Math.max(1, next);
+        item.totalPrice = CartCalc.itemSubtotal(item);
+
+        const countEl = document.getElementById(`qty-count-${k}`);
+        if (countEl) countEl.textContent = item.qty;
+        const minusEl = document.getElementById(`qty-minus-${k}`);
+        if (minusEl) minusEl.disabled = item.qty <= 1;
+        const plusEl = document.getElementById(`qty-plus-${k}`);
+        if (plusEl) plusEl.disabled = item.qty >= m.max;
+        const perEl = document.getElementById(`item-per-${k}`);
+        if (perEl) perEl.textContent = `${item.qty} ${m.unit}`;
+
+        CartCalc.animateCount(`item-price-${k}`, item.totalPrice);
+        CartCalc.updateAll();
+        GKCart.save(cartItems);
+    }
+
+    // Xóa dịch vụ — không dùng confirm(), dùng undo toast
+    function removeItem(k) {
+        const idx = cartItems.findIndex(it => keyOf(it) === k);
+        if (idx === -1) return;
+        const item = cartItems[idx];
+        deletedItem  = { ...item };
+        deletedIndex = idx;
+
+        const card = document.getElementById(`cart-card-${k}`);
+        if (card) {
+            card.classList.add('removing');
+            setTimeout(() => {
+                card.classList.add('collapsed');
+                setTimeout(() => {
+                    const i = cartItems.findIndex(it => keyOf(it) === k);
+                    if (i > -1) cartItems.splice(i, 1);
+                    GKCart.save(cartItems);
+                    CartRenderer.renderAll();
+                }, 450);
+            }, 350);
+        }
+        CartUI.showUndoToast(item.title);
+    }
+
+    // Hoàn tác xóa — khôi phục về vị trí cũ
+    function undoRemove() {
+        if (!deletedItem) return;
+        clearTimeout(undoTimer);
+        if (!findByKey(keyOf(deletedItem))) cartItems.splice(Math.min(deletedIndex, cartItems.length), 0, { ...deletedItem });
+        GKCart.save(cartItems);
+        CartRenderer.renderAll();
+        CartUI.hideUndoToast();
+        deletedItem  = null;
+        deletedIndex = null;
+    }
+
+    // Áp dụng mã giảm giá — hệ voucher thật (gkbp-voucher.js)
+    // Mã công khai dùng ngay; mã khác phải được LƯU trong kho voucher của tài khoản.
+    function applyCoupon() {
+        const input = document.getElementById('coupon-input');
+        const code  = (input.value || '').trim().toUpperCase();
+        if (!code) return;
+
+        const btnText = document.getElementById('coupon-btn-text');
+        const spinner = document.getElementById('coupon-spinner');
+        const tick    = document.getElementById('coupon-tick');
+        const msgEl   = document.getElementById('coupon-msg');
+        const discRow = document.getElementById('discount-row');
+
+        btnText.style.display = 'none';
+        spinner.style.display = 'block';
+        tick.style.display    = 'none';
+        msgEl.className       = 'coupon-msg';
+
+        setTimeout(() => {
+            spinner.style.display = 'none';
+            if (typeof GK_VOUCHER === 'undefined') {
+                btnText.style.display = 'block';
+                msgEl.className = 'coupon-msg error';
+                msgEl.innerHTML = '<i class="fas fa-times-circle mr-1"></i>Hệ thống voucher chưa sẵn sàng.';
+                return;
+            }
+            const sub    = CartCalc.subtotal();
+            const result = cartItems.length ? GK_VOUCHER.validate(code, sub, cartItems) : { success: false, msg: 'Giỏ dịch vụ đang trống.' };
+
+            if (result.success) {
+                currentDiscount = result.discountAmount;
+                currentCoupon   = code;
+                tick.style.display = 'inline';
+                tick.classList.add('success-tick-anim');
+                btnText.style.display = 'none';
+                msgEl.className = 'coupon-msg success';
+                msgEl.innerHTML = result.msg;
+                discRow.classList.add('show');
+            } else {
+                currentDiscount = 0;
+                currentCoupon   = null;
+                tick.style.display = 'none';
+                btnText.style.display = 'block';
+                msgEl.className = 'coupon-msg error';
+                msgEl.innerHTML = '<i class="fas fa-times-circle mr-1"></i>' + result.msg;
+                discRow.classList.remove('show');
+            }
+            CartCalc.updateAll();
+        }, 900);
+    }
+
+    // Voucher đã lưu + mã công khai + gợi ý mã tốt nhất cho giỏ hiện tại
+    function renderCartVouchers() {
+        if (typeof GK_VOUCHER === 'undefined') return;
+        const sub = CartCalc.subtotal();
+        const bestWrap = document.getElementById('voucher-best-suggest');
+        if (!cartItems.length) {
+            document.getElementById('voucher-quick-list').innerHTML = '';
+            if (bestWrap) bestWrap.innerHTML = '';
+            return;
+        }
+        GK_VOUCHER.renderQuickSelect('voucher-quick-list', 'coupon-input', sub, cartItems);
+        if (!bestWrap) return;
+        const best = GK_VOUCHER.getBestVoucher(sub, cartItems);
+        if (best && (!currentCoupon || currentCoupon !== best.voucher.code)) {
+            bestWrap.innerHTML =
+                '<div class="gk-best-voucher" onclick="useBestVoucher(\'' + best.voucher.code + '\')">' +
+                '<i class="fas fa-magic"></i><span>Mã tốt nhất cho giỏ này: <strong>' + best.voucher.code +
+                '</strong> (−' + GK_VOUCHER._fmtVND(best.discountAmount) + ') — bấm để áp dụng</span></div>';
+        } else {
+            bestWrap.innerHTML = '';
+        }
+    }
+
+    function useBestVoucher(code) {
+        const input = document.getElementById('coupon-input');
+        if (input) { input.value = code; input.disabled = false; }
+        applyCoupon();
+    }
+
+    // Gợi ý đặt kèm (phụ tùng, gói thành viên, kiểm tra 25 hạng mục trước khi đi xa)
+    function renderXsell() {
+        const box = document.getElementById('gk-xsell');
+        if (!box || !window.GK_DATA) return;
+        const inCart = cartItems.map(i => i.id);
+        const list = XSELL_IDS.map(id => GK_DATA.findService(id)).filter(s => s && inCart.indexOf(s.id) < 0).slice(0, 3);
+        if (!cartItems.length || !list.length) { box.style.display = 'none'; box.innerHTML = ''; return; }
+        box.style.display = '';
+        box.innerHTML = '<div class="gk-xsell-title"><i class="fas fa-toolbox"></i> Thường được đặt kèm</div><div class="gk-xsell-row">' +
+            list.map(s => `
+            <div class="gk-xsell-card">
+                <img src="${s.img}" alt="${esc(s.title)}">
+                <div class="gk-xsell-body">
+                    <a class="gk-xsell-name" href="html_dichvu.html?id=${s.id}">${esc(s.title)}</a>
+                    <div class="gk-xsell-price">${s.price}<small>${esc(s.unit || '')}</small></div>
+                </div>
+                <button type="button" class="gk-xsell-add" onclick="addXsell('${s.id}')" title="Thêm vào giỏ" aria-label="Thêm ${esc(s.title)} vào giỏ"><i class="fas fa-plus"></i></button>
+            </div>`).join('') + '</div>';
+    }
+
+    function addXsell(id) {
+        const s = window.GK_DATA && GK_DATA.findService(id);
+        if (!s) return;
+        if (window.GKBP && !GKBP.requireLogin('html_giohang.html', 'Đăng nhập để thêm dịch vụ vào giỏ.')) return;
+        const item = {
+            id: s.id, title: s.title, cat: s.cat, loc: s.loc, img: s.img,
+            price: s.priceNum, priceLabel: s.price, unit: s.unit,
+            adult: 1, child: 0, qty: 1,
+            date: s.cat === 'Gói thành viên' ? 'Kích hoạt ngay sau thanh toán' : 'Giao kèm khi thợ đến',
+            area: '', place: '', addons: [], km: 0,
+            equipFee: 0, cabinFee: 0, kmFee: 0, nightFee: 0, totalPrice: s.priceNum, addedAt: Date.now()
+        };
+        GKBP.addToCart(item);
+        cartItems = GKCart.load();
+        CartRenderer.renderAll();
+        GKBP.showToast('success', 'Đã thêm “' + esc(s.title) + '” vào giỏ dịch vụ.');
+    }
+
+    function cartLogin() {
+        if (window.GKBP) { GKBP.requireLogin('html_giohang.html', 'Đăng nhập để xem giỏ dịch vụ của bạn.'); return false; }
+        return true;
+    }
+
+    // Sang trang thanh toán — mang toàn bộ giỏ + voucher đã áp
+    function goCheckout() {
+        if (window.GKBP && !GKBP.requireLogin('html_giohang.html', 'Vui lòng đăng nhập để thanh toán giỏ dịch vụ.')) return;
+        if (!cartItems || cartItems.length === 0) {
+            if (window.GKBP) GKBP.showToast('error', 'Giỏ dịch vụ đang trống! Hãy chọn dịch vụ trước khi thanh toán.');
+            return;
+        }
+        cartItems.forEach(it => { it.adult = it.qty = CartCalc.qty(it); it.totalPrice = CartCalc.itemSubtotal(it); });
+        GKCart.save(cartItems);
+        try {
+            if (currentCoupon && currentDiscount > 0) {
+                sessionStorage.setItem('gkbp_applied_voucher', JSON.stringify({ code: currentCoupon, discountAmount: currentDiscount }));
+            } else {
+                sessionStorage.removeItem('gkbp_applied_voucher');
+            }
+            sessionStorage.removeItem('gkbp_checkout');   // bỏ đơn "Đặt ngay" lẻ để trang thanh toán đọc đúng giỏ
+        } catch (e) {}
+        window.location.href = 'html_thanhtoan.html';
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // 6. CART UI — Hiệu ứng giao diện
+    // ══════════════════════════════════════════════════════════════
+    const CartUI = {
+        updateBadge() {
+            if (window.GKBP) GKBP.syncCartBadge();
+            const badge = document.getElementById('cart-badge');
+            if (!badge || !cartItems.length) return;
+            badge.classList.remove('gk-bump'); void badge.offsetWidth; badge.classList.add('gk-bump');
+        },
+
+        showUndoToast(name) {
+            const toast = document.getElementById('undo-toast');
+            const msg   = document.getElementById('toast-msg');
+            const fill  = document.getElementById('toast-countdown-fill');
+            const t = String(name || '');
+            msg.textContent = `Đã xóa "${t.substring(0, 30)}${t.length > 30 ? '...' : ''}"`;
+            toast.classList.add('show');
+            fill.style.transition = 'none';
+            fill.style.width = '100%';
+            setTimeout(() => { fill.style.transition = 'width 5s linear'; fill.style.width = '0%'; }, 50);
+            clearTimeout(undoTimer);
+            undoTimer = setTimeout(() => { this.hideUndoToast(); deletedItem = null; deletedIndex = null; }, 5000);
+        },
+
+        hideUndoToast() { document.getElementById('undo-toast').classList.remove('show'); },
+
+        showSkeleton() {
+            document.getElementById('cart-skeleton').style.display = 'flex';
+            document.getElementById('cart-real-content').style.display = 'none';
+        },
+        hideSkeleton() {
+            document.getElementById('cart-skeleton').style.display = 'none';
+            document.getElementById('cart-real-content').style.display = 'block';
+        }
+    };
+
+    // ══════════════════════════════════════════════════════════════
+    // 7. KHỞI ĐỘNG
+    // ══════════════════════════════════════════════════════════════
+    document.addEventListener('DOMContentLoaded', () => {
+        CartUI.showSkeleton();
+        setTimeout(() => {
+            cartItems = GKCart.load();
+            CartRenderer.renderAll();
+            CartUI.hideSkeleton();
+        }, 800);
+        document.getElementById('coupon-input')?.addEventListener('keydown', e => {
+            if (e.key === 'Enter') applyCoupon();
+        });
+    });
+    </script>
+
+</body>
+</html>

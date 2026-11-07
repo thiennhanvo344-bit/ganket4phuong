@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dịch vụ cứu hộ &amp; sửa xe | Gắn Kết Bốn Phương – Bảng giá minh bạch</title>
+    <meta name="description" content="Bảng giá cứu hộ xe máy, ô tô, xe điện: vá lốp, kích bình, kéo xe, mở khóa, bảo dưỡng tại nhà, gói thành viên Lá Chắn Số và phụ tùng lắp tận nơi.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css_trangchu.css">
+    <!-- Font Awesome 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* ============================================================
+           html_dichvu.html — CSS riêng, đồng bộ màu css_trangchu.css
+           --primary-blue: #0D4076  --dark-blue: #0A2B54
+           --accent-red: #ff4d4d    --gradient-brand: 135deg,...
+           Không override css_trangchu: header, footer dùng chung
+           ============================================================ */
+
+
+        /* ── Hero banner ── */
+        .dv-hero {
+            background: linear-gradient(135deg,#0A2B54 0%,#0D4076 55%,#1E5C9E 100%);
+            padding: 48px 0 36px; position: relative; overflow: hidden;
+        }
+        .dv-hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: url('img/hero/hero-1.jpg') center/cover;
+            opacity: .13;
+        }
+        .dv-hero-inner { position: relative; z-index: 1; }
+
+        /* ── Hero search ── */
+        .dv-search-bar {
+            max-width: 600px; margin: 0 auto;
+            background: #fff; border-radius: 50px;
+            padding: 5px 7px 5px 22px;
+            display: flex; align-items: center;
+            box-shadow: 0 12px 44px rgba(0,0,0,.2);
+        }
+        .dv-search-bar input { flex:1; border:none; outline:none; font-size:14px; font-weight:600; color:#0A2B54; background:transparent; }
+        .dv-search-bar input::placeholder { color:#aab4c0; }
+        .dv-search-btn {
+            background: linear-gradient(135deg,#0A2B54,#0D4076);
+            color:#fff; border:none; border-radius:40px;
+            padding: 10px 22px; font-size:12.5px; font-weight:900; cursor:pointer; white-space:nowrap;
+            transition: all .25s;
+        }
+        .dv-search-btn:hover { opacity:.9; transform:scale(1.04); }
+
+        /* ── Categories ── */
+        .dv-cate-wrap { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 18px; padding:24px 0 12px; }
+        .dv-cate-item {
+            display:flex; flex-direction:column; align-items:center; gap:8px;
+            padding:12px 16px; border-radius:16px; cursor:pointer;
+            border:2px solid transparent; transition:all .3s cubic-bezier(.34,1.2,.64,1); min-width:86px;
+        }
+        .dv-cate-item:hover, .dv-cate-item.active {
+            background:rgba(13,64,118,.08); border-color:rgba(13,64,118,.28); transform:translateY(-5px);
+        }
+        .dv-cate-icon { width:62px; height:62px; border-radius:15px; overflow:hidden; border:2px solid #fff; box-shadow:0 6px 18px rgba(0,0,0,.1); }
+        .dv-cate-icon img { width:100%; height:100%; object-fit:cover; }
+        .dv-cate-label { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:#0A2B54; }
+        .dv-cate-item.active .dv-cate-label { color:#0D4076; }
+
+        /* ── City chips ── */
+        .dv-city-row { display:flex; flex-wrap:wrap; justify-content:center; gap:7px; padding:12px 0 22px; border-top:1px solid #eef2f8; margin-top:4px; }
+        .dv-chip {
+            padding:7px 16px; border-radius:100px;
+            border:1.5px solid #dde4ef; font-size:10.5px; font-weight:800;
+            text-transform:uppercase; letter-spacing:.8px;
+            transition:all .2s; color:#6c757d; cursor:pointer; background:#fff;
+        }
+        .dv-chip:hover { border-color:#0D4076; color:#0D4076; background:rgba(13,64,118,.05); }
+        .dv-chip.active { background:#0A2B54; border-color:#0A2B54; color:#fff; box-shadow:0 4px 14px rgba(10,43,84,.25); }
+
+        /* ── Product card ── */
+        .dv-card {
+            border-radius:20px; overflow:hidden; border:1px solid rgba(0,0,0,.05);
+            background:#fff; transition:all .4s cubic-bezier(.34,1.1,.64,1);
+            height:100%; display:flex; flex-direction:column; cursor:pointer;
+        }
+        .dv-card:hover { transform:translateY(-9px) scale(1.016); box-shadow:0 28px 56px rgba(10,43,84,.1); }
+        .dv-card-img { overflow:hidden; height:200px; }
+        .dv-card-img img { width:100%; height:100%; object-fit:cover; transition:transform .7s ease; }
+        .dv-card:hover .dv-card-img img { transform:scale(1.08); }
+        .dv-card-body { padding:16px 18px; flex:1; display:flex; flex-direction:column; }
+        .dv-card-meta { font-size:10px; font-weight:900; color:#0D4076; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .dv-card-title { font-size:14.5px; font-weight:800; color:#0A2B54; line-height:1.35; flex:1; margin-bottom:8px; }
+        .dv-card-foot { display:flex; justify-content:space-between; align-items:center; padding-top:10px; border-top:1px solid #f0f4f8; }
+        .dv-card-price { font-size:16px; font-weight:900; color:#ff4d4d; }
+
+        /* ── Detail Gallery ── */
+        .dv-gallery {
+            display:grid; grid-template-columns:2fr 1fr; gap:12px;
+            height:460px; border-radius:26px; overflow:hidden;
+            box-shadow:0 20px 56px rgba(10,43,84,.1); margin-bottom:28px;
+        }
+        .dv-gallery-main { overflow:hidden; position:relative; }
+        .dv-gallery-main img { width:100%; height:100%; object-fit:cover; transition:transform .7s ease; }
+        .dv-gallery-main:hover img { transform:scale(1.04); }
+        .dv-gallery-side { display:grid; grid-template-rows:1fr 1fr; gap:12px; }
+        .dv-gallery-thumb { overflow:hidden; }
+        .dv-gallery-thumb img { width:100%; height:100%; object-fit:cover; transition:transform .6s ease; }
+        .dv-gallery-thumb:hover img { transform:scale(1.06); }
+        @media(max-width:767px){
+            .dv-gallery { grid-template-columns:1fr; height:auto; }
+            .dv-gallery-side { grid-template-columns:1fr 1fr; grid-template-rows:none; height:130px; }
+            .dv-gallery-main { height:220px; }
+        }
+
+        /* ── Detail desc ── */
+        .dv-desc { font-size:1.05rem; line-height:1.88; color:#5a6780; border-left:5px solid rgba(13,64,118,.2); padding:11px 22px; margin-bottom:30px; background:linear-gradient(to right,rgba(13,64,118,.03),transparent); border-radius:0 9px 9px 0; }
+
+        /* ── Highlight chips ── */
+        .dv-highlight { background:#f7f9ff; border:1px solid #dde4ef; border-radius:13px; padding:14px 12px; text-align:center; }
+
+        /* ── Accordion ── */
+        .dv-acc { border:1px solid #edf2f7; border-radius:14px; margin-bottom:10px; overflow:hidden; background:#fff; transition:.25s; }
+        .dv-acc:hover { border-color:rgba(13,64,118,.22); box-shadow:0 4px 18px rgba(13,64,118,.06); }
+        .dv-acc-hd { padding:16px 22px; display:flex; align-items:center; cursor:pointer; gap:12px; }
+        .dv-acc-time { font-size:13px; font-weight:900; color:#0D4076; min-width:52px; }
+        .dv-acc-title { font-size:14px; font-weight:800; color:#0A2B54; flex:1; }
+        .dv-acc-icon { color:#c0ccd8; transition:transform .28s; flex-shrink:0; }
+        .dv-acc-body { max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.4,0,.2,1); background:#fafbff; }
+        .dv-acc-body.open { max-height:600px; border-top:1px solid #edf2f7; }
+        .dv-acc-inner { padding:16px 22px; }
+        .dv-tip { background:linear-gradient(135deg,#EAF1F9,#f0f9ff); padding:11px 15px; border-radius:11px; border-left:3px solid #0D4076; margin-top:11px; }
+
+        /* ── Include / Exclude ── */
+        .dv-inc { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:16px; padding:20px; }
+        .dv-exc { background:#fff7f7; border:1px solid #fecaca; border-radius:16px; padding:20px; }
+
+        /* ── Reviews ── */
+        .dv-review { background:#f8faff; border:1px solid #edf2f7; border-radius:18px; padding:20px; margin-bottom:12px; }
+        .dv-avatar { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#0A2B54,#0D4076); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; font-size:13px; flex-shrink:0; }
+        .dv-stars { color:#f59e0b; font-size:12px; letter-spacing:1px; }
+        .dv-verified { display:inline-flex; align-items:center; gap:3px; font-size:9.5px; font-weight:800; color:#16a34a; background:#dcfce7; border-radius:20px; padding:2px 7px; }
+        .dv-rbar-row { display:flex; align-items:center; gap:7px; margin-bottom:6px; }
+        .dv-rbar-lbl { font-size:11px; font-weight:700; color:#6c757d; width:14px; text-align:right; }
+        .dv-rbar-track { flex:1; height:5px; background:#edf2f7; border-radius:5px; overflow:hidden; }
+        .dv-rbar-fill { height:100%; background:linear-gradient(90deg,#f59e0b,#fbbf24); border-radius:5px; transition:width 1s ease; width:0%; }
+        .dv-rbar-cnt { font-size:11px; font-weight:700; color:#6c757d; width:18px; }
+
+        /* ── Booking box ── */
+        .dv-booking {
+            background:#fff; border:1px solid #edf2f7; border-radius:22px;
+            padding:24px 22px; position:sticky; top:88px;
+            box-shadow:0 14px 44px rgba(10,43,84,.07);
+        }
+        .dv-booking-price { font-size:36px; font-weight:900; color:#ff4d4d; letter-spacing:-1px; line-height:1; }
+        .dv-form-group { margin-bottom:11px; }
+        .dv-label { font-size:10px; font-weight:900; letter-spacing:2px; text-transform:uppercase; color:#6c757d; margin-bottom:5px; display:block; }
+        .dv-input { width:100%; border:1.5px solid #edf2f7; border-radius:11px; padding:10px 13px; font-size:13px; font-weight:600; color:#0A2B54; background:#fafbff; outline:none; transition:.2s; font-family:inherit; }
+        .dv-input:focus { border-color:#0D4076; background:#fff; box-shadow:0 0 0 3px rgba(13,64,118,.08); }
+        .dv-select { width:100%; border:1.5px solid #edf2f7; border-radius:11px; padding:10px 13px; font-size:13px; font-weight:600; color:#0A2B54; background:#fafbff; outline:none; transition:.2s; appearance:none; cursor:pointer; font-family:inherit; }
+        .dv-select:focus { border-color:#0D4076; box-shadow:0 0 0 3px rgba(13,64,118,.08); }
+        .dv-counter { display:flex; align-items:center; border:1.5px solid #edf2f7; border-radius:11px; overflow:hidden; background:#fafbff; }
+        .dv-ctr-btn { width:40px; height:40px; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; color:#6c757d; cursor:pointer; background:none; border:none; transition:.18s; }
+        .dv-ctr-btn:hover { background:#edf2f7; color:#0D4076; }
+        .dv-ctr-val { flex:1; text-align:center; font-weight:900; font-size:15px; color:#0A2B54; }
+        .dv-breakdown { background:#f7f9ff; border-radius:13px; padding:14px 16px; margin:12px 0; }
+        .dv-bdr { display:flex; justify-content:space-between; font-size:12px; font-weight:700; color:#6c757d; margin-bottom:6px; }
+        .dv-bdr.total { border-top:1px solid #dde4ef; padding-top:8px; margin-top:4px; color:#0A2B54; font-size:14px; font-weight:900; }
+        .dv-bdr.total .v { color:#ff4d4d; }
+        .dv-btn-book { width:100%; padding:14px; border:none; border-radius:15px; background:linear-gradient(135deg,#0A2B54,#0D4076,#1E5C9E); color:#fff; font-size:12.5px; font-weight:900; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all .26s; display:flex; align-items:center; justify-content:center; gap:8px; }
+        .dv-btn-book:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(10,43,84,.3); }
+        .dv-btn-consult { width:100%; padding:11px; border:1.5px solid #dde4ef; border-radius:15px; background:transparent; color:#6c757d; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:1px; cursor:pointer; transition:all .2s; margin-top:7px; font-family:inherit; }
+        .dv-btn-consult:hover { border-color:#0D4076; color:#0D4076; }
+        .dv-info-item { display:flex; align-items:center; gap:9px; font-size:12px; font-weight:700; color:#6c757d; margin-bottom:7px; }
+        .dv-info-icon { width:34px; height:34px; border-radius:9px; background:rgba(13,64,118,.07); display:flex; align-items:center; justify-content:center; color:#0D4076; flex-shrink:0; font-size:13px; }
+
+        /* ── Login Modal ── */
+        .dv-modal { position:fixed; inset:0; background:rgba(10,43,84,.52); backdrop-filter:blur(8px); z-index:3000; display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .3s; }
+        .dv-modal.open { opacity:1; pointer-events:auto; }
+        .dv-modal-box { background:#fff; border-radius:26px; width:100%; max-width:450px; padding:34px; box-shadow:0 36px 96px rgba(10,43,84,.22); transform:translateY(18px) scale(.97); transition:transform .32s cubic-bezier(.34,1.2,.64,1); position:relative; }
+        .dv-modal.open .dv-modal-box { transform:translateY(0) scale(1); }
+        .dv-modal-icon { width:68px; height:68px; border-radius:18px; background:linear-gradient(135deg,#0A2B54,#0D4076); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }
+
+        /* ── Section divider ── */
+        .dv-divider { width:44px; height:3px; background:linear-gradient(135deg,#0A2B54,#0D4076); border-radius:4px; margin-bottom:18px; }
+
+        /* ── Responsive ── */
+        @media(max-width:991px){ .dv-booking { position:static; margin-top:24px; } }
+        @media(max-width:575px){ .dv-cate-wrap { gap:8px 14px; } }
+
+        .hd-dropdown {
+            position: absolute; top: calc(100% - 1px); left: 0; right: 0;
+            background: #fff;
+            border-radius: 0 0 18px 18px;
+            border: 1.5px solid rgba(13,64,118,.5); border-top: none;
+            box-shadow: 0 20px 56px rgba(10,43,84,.14);
+            z-index: 9200; display: none; max-height: 440px; overflow-y: auto;
+        }
+        .hd-dropdown.hd-open { display: block; animation: hdSlide .22s ease; }
+        @keyframes hdSlide { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+        .hd-item {
+            padding: 10px 16px; display: flex; align-items: center; gap: 12px;
+            cursor: pointer; border-bottom: 1px solid #f0f4f8;
+        }
+        .hd-item:hover { background: #f7f9ff; }
+        .hd-item img { width: 44px; height: 44px; border-radius: 9px; object-fit: cover; flex-shrink:0; }
+        .hd-item-title { font-size: 13px; font-weight: 800; color: #0A2B54; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hd-item-meta { font-size: 11px; font-weight: 700; color: #6c757d; }
+        .hd-footer {
+            padding: 10px 18px; text-align: center; font-size: 12px;
+            font-weight: 800; color: #0D4076; cursor: pointer;
+        }
+        .hd-footer:hover { background: #f7f9ff; }
+    
+        /* ── Nút Thêm Vào Giỏ Hàng ── */
+        .dv-btn-cart {
+            width:100%; padding:12px; border:2px solid #0D4076;
+            border-radius:15px; background:transparent; color:#0D4076;
+            font-size:12px; font-weight:900; text-transform:uppercase;
+            letter-spacing:1px; cursor:pointer; transition:all .22s;
+            margin-top:7px; font-family:inherit;
+            display:flex; align-items:center; justify-content:center; gap:8px;
+        }
+        .dv-btn-cart:hover { background:#0D4076; color:#fff; transform:translateY(-2px); box-shadow:0 8px 22px rgba(13,64,118,.25); }
+        /* ── Badge số lượng giỏ hàng trên icon header ── */
+        .cart-badge-wrap { position:relative; display:inline-flex; }
+        .cart-badge {
+            position:absolute; top:-7px; right:-9px;
+            background:#ff4d4d; color:#fff; border-radius:50%;
+            width:17px; height:17px; font-size:10px; font-weight:900;
+            display:none; align-items:center; justify-content:center;
+            border:2px solid #fff; line-height:1;
+        }
+        /* ── Toast thông báo thêm giỏ hàng thành công ── */
+        #cart-toast {
+            position:fixed; bottom:28px; right:28px; z-index:9999;
+            background:#0A2B54; color:#fff; border-radius:14px;
+            padding:14px 20px; font-size:13px; font-weight:700;
+            box-shadow:0 12px 36px rgba(10,43,84,.25);
+            display:flex; align-items:center; gap:10px;
+            transform:translateY(80px); opacity:0;
+            transition:all .35s cubic-bezier(.34,1.2,.64,1);
+            pointer-events:none;
+        }
+        #cart-toast.show { transform:translateY(0); opacity:1; }
+        #cart-toast i { font-size:16px; color:#00d4aa; }
+
+        /* ── Ô nhập mã voucher trong booking box ── */
+        .dv-voucher-wrap { margin-top: 8px; }
+        .dv-voucher-row { display: flex; gap: 8px; align-items: center; }
+        .dv-voucher-input {
+            flex: 1; height: 40px; padding: 0 12px;
+            border: 1.5px solid #dde4ef; border-radius: 10px;
+            font-size: 13px; font-weight: 700; letter-spacing: 1px;
+            color: #0A2B54; background: #f7f9ff;
+            transition: border-color .2s; font-family: inherit;
+        }
+        .dv-voucher-input:focus {
+            outline: none; border-color: #0D4076;
+            background: #fff; box-shadow: 0 0 0 3px rgba(13,64,118,.08);
+        }
+        .dv-voucher-btn {
+            height: 40px; padding: 0 14px; background: #0A2B54; color: #fff;
+            border: none; border-radius: 10px; font-size: 12px; font-weight: 800;
+            cursor: pointer; transition: background .2s, transform .15s; white-space: nowrap;
+        }
+        .dv-voucher-btn:hover { background: #0D4076; transform: scale(1.04); }
+        .dv-voucher-msg { margin-top: 5px; font-size: 11.5px; font-weight: 700; min-height: 16px; }
+        .dv-voucher-msg.ok  { color: #10b981; }
+        .dv-voucher-msg.err { color: #ef4444; }
+
+
+
+        /* ══ Bổ sung: Gắn Kết Bốn Phương ══ */
+        .dv-hero { background: linear-gradient(120deg, rgba(6,29,56,.94) 0%, rgba(13,64,118,.86) 60%, rgba(13,64,118,.55) 100%), url('img/hero/hero-1.jpg') center / cover !important; }
+        .dv-trust { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 16px; }
+        .dv-trust span { color: #fff; font-size: 12.5px; font-weight: 700; opacity: .92; }
+        .dv-trust i { color: #FFC285; margin-right: 5px; }
+        .dv-cate-icon img { object-fit: cover; }
+        .dv-chip i { opacity: .75; }
+        .dv-sos-strip { display: flex; align-items: center; gap: 16px; margin: 6px 0 28px; padding: 14px 16px; border-radius: 18px; background: linear-gradient(135deg, #FFF1E6, #fff); border: 1.5px solid #FFD3A8; }
+        .dv-sos-strip-txt { display: flex; gap: 12px; align-items: center; min-width: 260px; }
+        .dv-sos-strip-txt > i { width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(135deg,#F26B00,#FF9F43); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; animation: gkHazard 1.2s steps(2) infinite; }
+        .dv-sos-strip-txt b { display: block; color: #0A2B54; font-size: 14.5px; } .dv-sos-strip-txt span { font-size: 12.5px; color: #64748b; }
+        .dv-sos-incs { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; justify-content: flex-end; }
+        .dv-sos-inc { display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 999px; border: 1.5px solid #FFC285; background: #fff; color: #9a3412; font-weight: 800; font-size: 12.5px; cursor: pointer; transition: .2s; }
+        .dv-sos-inc:hover { background: #FA7806; border-color: #FA7806; color: #fff; transform: translateY(-2px); }
+        .dv-sort { border: 1.5px solid #dbe5f1; border-radius: 12px; padding: 7px 12px; font-weight: 700; font-size: 13px; color: #0A2B54; background: #fff; }
+        .dv-query-badge { font-size: 13px; color: #475569; margin-top: 4px; }
+        .dv-query-badge button { border: 0; background: #f1f5f9; border-radius: 50%; width: 22px; height: 22px; margin-left: 6px; font-weight: 900; color: #64748b; cursor: pointer; }
+        .dv-card { animation: dvCardIn .45s ease both; }
+        @keyframes dvCardIn { from { opacity: 0; transform: translateY(14px); } }
+        .dv-card-img { position: relative; }
+        .dv-card-badge { position: absolute; top: 10px; left: 10px; background: linear-gradient(135deg,#F26B00,#FF9F43); color: #fff; font-size: 10.5px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+        .dv-card-eta { position: absolute; right: 10px; bottom: 10px; background: rgba(6,29,56,.82); color: #fff; font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 999px; }
+        .dv-card-eta i { color: #FFC285; }
+        .dv-card-rate { display: flex; align-items: center; justify-content: space-between; font-size: 12px; margin: 6px 0 2px; }
+        .dv-card-rate span { color: #f59e0b; font-weight: 800; } .dv-card-rate small { color: #94a3b8; font-weight: 700; }
+        .dv-card-unit { font-size: 11px; color: #94a3b8; font-weight: 700; margin-left: 2px; }
+        .dv-card-go { width: 32px; height: 32px; border-radius: 50%; background: #EAF1F9; color: #0D4076; display: flex; align-items: center; justify-content: center; transition: .25s; }
+        .dv-card:hover .dv-card-go { background: #FA7806; color: #fff; transform: translateX(3px); }
+        .dv-tag { font-size: 10.5px; font-weight: 900; padding: 5px 12px; border-radius: 20px; letter-spacing: .4px; margin-right: 6px; margin-bottom: 6px; display: inline-flex; align-items: center; gap: 5px; }
+        .dv-tag-cat { background: rgba(13,64,118,.1); color: #0D4076; text-transform: uppercase; }
+        .dv-tag-veh { background: #f1f5f9; color: #475569; }
+        .dv-tag-hot { background: rgba(250,120,6,.12); color: #E06400; border: 1px solid rgba(250,120,6,.25); }
+        .dv-tag-war { background: #ecfdf5; color: #047857; }
+        .dv-pill-eta { background: #EAF1F9; color: #0D4076; font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 20px; }
+        .dv-btn-sos { background: linear-gradient(135deg,#e11d48,#FA7806) !important; margin-bottom: 14px; }
+        .dv-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #f1f5f9; padding: 4px; border-radius: 12px; }
+        .dv-seg button { border: 0; background: none; border-radius: 9px; padding: 8px; font-weight: 800; font-size: 12.5px; color: #475569; cursor: pointer; }
+        .dv-seg button.on { background: #fff; color: #E06400; box-shadow: 0 2px 8px rgba(10,43,84,.1); }
+        .dv-slots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+        .dv-slots button { border: 1.5px solid #dbe5f1; background: #fff; border-radius: 10px; padding: 7px 4px; font-size: 12px; font-weight: 700; color: #334155; cursor: pointer; }
+        .dv-slots button.on { border-color: #FA7806; background: #FFF1E6; color: #9a3412; }
+        .dv-addon { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1.5px solid #eef2f7; border-radius: 10px; margin-bottom: 6px; font-size: 12.5px; font-weight: 600; color: #334155; cursor: pointer; }
+        .dv-addon input { accent-color: #FA7806; } .dv-addon span { flex: 1; } .dv-addon b { color: #E06400; white-space: nowrap; }
+        .dv-range { width: 100%; accent-color: #FA7806; }
+        .dv-rel { display: flex; gap: 10px; align-items: center; padding: 8px; border-radius: 14px; border: 1px solid #eef2f7; background: #fff; cursor: pointer; transition: .2s; height: 100%; }
+        .dv-rel:hover { border-color: #FFC285; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(10,43,84,.08); }
+        .dv-rel img { width: 58px; height: 58px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+        .dv-rel b { display: block; font-size: 12.5px; color: #0A2B54; line-height: 1.3; } .dv-rel span { font-size: 12px; color: #E06400; font-weight: 800; }
+        @media (max-width: 767.98px) {
+            .dv-sos-strip { flex-direction: column; align-items: stretch; }
+            .dv-sos-incs { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+            .dv-sos-inc { white-space: nowrap; }
+            .dv-cate-wrap { flex-wrap: nowrap !important; overflow-x: auto; justify-content: flex-start !important; padding-bottom: 6px; scrollbar-width: none; }
+            .dv-cate-item { flex-shrink: 0; }
+            .dv-city-row { flex-wrap: nowrap !important; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+            .dv-chip { white-space: nowrap; flex-shrink: 0; }
+            #dv-grid > div { flex: 0 0 50%; max-width: 50%; padding-left: 6px; padding-right: 6px; }
+            #dv-grid { margin-left: -6px; margin-right: -6px; }
+            .dv-card-title { font-size: 13px !important; }
+            .dv-trust { gap: 6px 12px; } .dv-trust span { font-size: 11.5px; }
+        }
+
+    </style>
+</head>
+<body>
+
+
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+<nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link active" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+<!-- ================================================================
+     HERO BANNER
+     ================================================================ -->
+<div class="dv-hero">
+        <div class="container dv-hero-inner">
+            <p style="font-size:10px;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:8px;">GẮN KẾT BỐN PHƯƠNG</p>
+            <h1 style="font-size:clamp(1.7rem,4vw,3rem);font-weight:900;color:#fff;margin-bottom:10px;letter-spacing:-1px;">Dịch vụ cứu hộ &amp; sửa chữa xe</h1>
+            <p style="color:rgba(255,255,255,.85);font-size:14.5px;margin-bottom:24px;">39 dịch vụ · 6 sự cố cứu hộ khẩn cấp · thợ đến ~15 phút · giá trần minh bạch</p>
+            <div class="dv-search-bar">
+                <i class="fas fa-search" style="color:#aab4c0;margin-right:9px;font-size:14px;flex-shrink:0;"></i>
+                <input type="text" id="dv-search-inp" placeholder="Tìm dịch vụ: vá lốp, kích bình, thay nhớt, gói sinh viên..." aria-label="Tìm dịch vụ"
+                    onkeydown="if(event.key==='Enter')dvSearch(this.value)">
+                <button class="dv-search-btn" type="button" onclick="dvSearch(document.getElementById('dv-search-inp').value)">
+                    <i class="fas fa-search mr-1"></i>Tìm kiếm
+                </button>
+            </div>
+            <div class="dv-trust"><span><i class="fas fa-receipt"></i> Giá trần trước khi làm</span><span><i class="fas fa-user-check"></i> Thợ đã xác minh</span><span><i class="fas fa-shield-alt"></i> Bảo hành sau sửa</span><span><i class="fas fa-mobile-alt"></i> Không cần cài app</span></div>
+        </div>
+    </div>
+<div id="home-view">
+        <div class="container">
+            <div class="dv-cate-wrap" id="dv-cate-wrap">
+            <div class="dv-cate-item active" data-cat="" onclick="filterCate('',this)" tabindex="0" onkeydown="if(event.key==='Enter')filterCate('',this)">
+                <div class="dv-cate-icon"><img src="img/dv/ch12-3.jpg" alt="Tất cả"></div>
+                <span class="dv-cate-label">Tất cả</span>
+            </div>
+            <div class="dv-cate-item" data-cat="Cứu hộ khẩn cấp" onclick="filterCate('Cứu hộ khẩn cấp',this)" tabindex="0" onkeydown="if(event.key==='Enter')filterCate('Cứu hộ khẩn cấp',this)">
+                <div class="dv-cate-icon"><img src="img/dv/ch01-1.jpg" alt="Cứu hộ khẩn cấp"></div>
+                <span class="dv-cate-label">Cứu hộ khẩn cấp</span>
+            </div>
+            <div class="dv-cate-item" data-cat="Sửa chữa tại chỗ" onclick="filterCate('Sửa chữa tại chỗ',this)" tabindex="0" onkeydown="if(event.key==='Enter')filterCate('Sửa chữa tại chỗ',this)">
+                <div class="dv-cate-icon"><img src="img/dv/sc04-1.jpg" alt="Sửa chữa tại chỗ"></div>
+                <span class="dv-cate-label">Sửa chữa tại chỗ</span>
+            </div>
+            <div class="dv-cate-item" data-cat="Bảo dưỡng tại nhà" onclick="filterCate('Bảo dưỡng tại nhà',this)" tabindex="0" onkeydown="if(event.key==='Enter')filterCate('Bảo dưỡng tại nhà',this)">
+                <div class="dv-cate-icon"><img src="img/dv/bd01-1.jpg" alt="Bảo dưỡng tại nhà"></div>
+                <span class="dv-cate-label">Bảo dưỡng tại nhà</span>
+            </div>
+            <div class="dv-cate-item" data-cat="Xe điện" onclick="filterCate('Xe điện',this)" tabindex="0" onkeydown="if(event.key==='Enter')filterCate('Xe điện',this)">
+                <div class="dv-cate-icon"><img src="img/dv/xd01-1.jpg" alt="Xe điện"></div>
+                <span class="dv-cate-label">Xe điện</span>
+            </div>
+            <div class="dv-cate-item" data-cat="Gói thành viên" onclick="filterCate('Gói thành viên',this)" tabindex="0" onkeydown="if(event.key==='Enter')filterCate('Gói thành viên',this)">
+                <div class="dv-cate-icon"><img src="img/dv/gt03-1.jpg" alt="Gói Lá Chắn Số"></div>
+                <span class="dv-cate-label">Gói Lá Chắn Số</span>
+            </div>
+            <div class="dv-cate-item" data-cat="Phụ tùng & Phụ kiện" onclick="filterCate('Phụ tùng & Phụ kiện',this)" tabindex="0" onkeydown="if(event.key==='Enter')filterCate('Phụ tùng & Phụ kiện',this)">
+                <div class="dv-cate-icon"><img src="img/dv/pt01-1.jpg" alt="Phụ tùng"></div>
+                <span class="dv-cate-label">Phụ tùng</span>
+            </div>
+            </div>
+            <div class="dv-city-row" id="dv-city-row">
+                <button class="dv-chip active" type="button" data-veh="" onclick="filterCity('',this)"><i class="fas fa-th-large mr-1"></i>Tất cả</button>
+                <button class="dv-chip" type="button" data-veh="Xe máy" onclick="filterCity('Xe máy',this)"><i class="fas fa-motorcycle mr-1"></i>Xe máy</button>
+                <button class="dv-chip" type="button" data-veh="Ô tô" onclick="filterCity('Ô tô',this)"><i class="fas fa-car-side mr-1"></i>Ô tô</button>
+                <button class="dv-chip" type="button" data-veh="Xe điện" onclick="filterCity('Xe điện',this)"><i class="fas fa-charging-station mr-1"></i>Xe điện</button>
+                <button class="dv-chip" type="button" data-veh="Mọi loại xe" onclick="filterCity('Mọi loại xe',this)"><i class="fas fa-layer-group mr-1"></i>Gói & phụ kiện chung</button>
+            </div>
+            <div class="dv-sos-strip">
+                <div class="dv-sos-strip-txt"><i class="fas fa-exclamation-triangle"></i><div><b>Đang gặp sự cố trên đường?</b><span>Chọn sự cố – thợ gần nhất nhận cuốc dưới 3 phút, không cần đăng nhập.</span></div></div>
+                <div class="dv-sos-incs"><button type="button" class="dv-sos-inc" data-sos-open="lop"><i class="fas fa-life-ring"></i><span>Thủng / xì lốp</span></button><button type="button" class="dv-sos-inc" data-sos-open="binh"><i class="fas fa-car-battery"></i><span>Hết bình ắc quy</span></button><button type="button" class="dv-sos-inc" data-sos-open="may"><i class="fas fa-cogs"></i><span>Chết máy, không khởi động</span></button><button type="button" class="dv-sos-inc" data-sos-open="xang"><i class="fas fa-gas-pump"></i><span>Hết xăng giữa đường</span></button><button type="button" class="dv-sos-inc" data-sos-open="khoa"><i class="fas fa-key"></i><span>Mất / quên chìa khóa</span></button><button type="button" class="dv-sos-inc" data-sos-open="keo"><i class="fas fa-truck-pickup"></i><span>Cần kéo xe</span></button></div>
+            </div>
+        </div>
+        <section class="container mb-5 pb-3">
+            <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap" style="gap:10px">
+                <div>
+                    <div style="font-size:10px;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:#E06400;">Bảng giá minh bạch</div>
+                    <h2 style="font-size:1.85rem;font-weight:900;color:#0A2B54;margin:5px 0 0;" id="grid-title">Tất cả dịch vụ</h2>
+                    <div id="dv-query-badge" class="dv-query-badge"></div>
+                </div>
+                <div class="d-flex align-items-center" style="gap:12px">
+                    <span class="text-muted font-weight-bold" style="font-size:13px;" id="grid-count"></span>
+                    <select class="dv-sort" onchange="sortGrid(this.value)" aria-label="Sắp xếp">
+                        <option value="pop">Phổ biến nhất</option><option value="rate">Đánh giá cao</option><option value="low">Giá thấp → cao</option><option value="high">Giá cao → thấp</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" id="dv-grid"></div>
+        </section>
+    </div>
+<div id="detail-view" class="d-none">
+    <div class="container py-4">
+        <!-- Back button -->
+        <button onclick="showHome()" class="btn mb-4 d-inline-flex align-items-center"
+            style="background:rgba(13,64,118,.09);color:#0D4076;border-radius:20px;padding:7px 18px;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:1px;border:none;gap:6px;">
+            <i class="fas fa-arrow-left fa-sm"></i> Quay lại bảng giá dịch vụ
+        </button>
+
+        <!-- Gallery -->
+        <div class="dv-gallery" id="dv-gallery"></div>
+
+        <div class="row">
+            <!-- Nội dung bên trái -->
+            <div class="col-lg-8">
+                <!-- Badges & Title -->
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-3" id="dv-detail-tags"></div>
+                <h1 style="font-size:clamp(1.6rem,3vw,2.6rem);font-weight:900;color:#0A2B54;line-height:1.15;margin-bottom:12px;" id="dv-detail-title"></h1>
+
+                <!-- Mô tả -->
+                <div class="dv-desc" id="dv-detail-desc"></div>
+
+                <!-- Highlights -->
+                <div class="row mb-4" id="dv-highlights"></div>
+
+                <!-- Hành trình / Lịch trình -->
+                <div class="mb-4">
+                    <div class="dv-divider"></div>
+                    <h3 style="font-size:1.2rem;font-weight:900;color:#0A2B54;margin-bottom:16px;">
+                        <i class="fas fa-route mr-2" style="color:#FA7806;"></i>Quy trình thực hiện
+                    </h3>
+                    <div id="dv-itinerary"></div>
+                </div>
+
+                <!-- Included / Excluded -->
+                <div class="row mb-4" id="dv-include-section"></div>
+
+                <!-- Đánh giá -->
+                <div class="pt-3 border-top">
+                    <div class="dv-divider"></div>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+                        <h3 style="font-size:1.2rem;font-weight:900;color:#0A2B54;margin:0;">
+                            <i class="fas fa-star mr-2" style="color:#f59e0b;"></i>Đánh giá thực tế
+                        </h3>
+                        <div id="dv-rating-summary"></div>
+                    </div>
+                    <div id="dv-rating-bars" class="mb-3" style="max-width:300px;"></div>
+                    <div id="dv-reviews"></div>
+                    </div>
+                    <div class="pt-4">
+                        <div class="dv-divider"></div>
+                        <h3 style="font-size:1.2rem;font-weight:900;color:#0A2B54;margin-bottom:14px;"><i class="fas fa-tools mr-2" style="color:#FA7806;"></i>Dịch vụ liên quan</h3>
+                        <div class="row" id="dv-related"></div>
+                </div>
+            </div>
+
+            <!-- Booking box bên phải -->
+            <div class="col-lg-4">
+                <div class="dv-booking" id="dv-booking-box"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================
+     LOGIN MODAL
+     ================================================================ -->
+<div class="dv-modal" id="loginModal" onclick="if(event.target===this)closeLoginModal()">
+    <div class="dv-modal-box">
+        <button onclick="closeLoginModal()"
+            style="position:absolute;top:14px;right:14px;background:#f0f4f8;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;color:#6c757d;font-size:16px;display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-times fa-sm"></i>
+        </button>
+        <div class="dv-modal-icon"><i class="fas fa-lock fa-lg text-white"></i></div>
+        <h3 class="text-center font-weight-black mb-2" style="color:#0A2B54;font-size:1.35rem;">Đăng nhập để đặt dịch vụ</h3>
+        <p class="text-center text-muted mb-3" style="font-size:13px;">
+            Đăng nhập để đặt lịch, thanh toán và lưu lịch sử sửa chữa trong Garage số.<br><b>Gọi cứu hộ khẩn cấp không cần đăng nhập.</b>
+        </p>
+        <div id="modal-service-summary" class="mb-3" style="background:#f7f9ff;border-radius:14px;padding:14px 16px;"></div>
+        <a href="html_dangnhap_dangky.html?mode=login" class="dv-btn-book d-flex text-decoration-none text-white mb-2">
+            <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập ngay
+        </a>
+        <a href="html_dangnhap_dangky.html?mode=register"
+            class="dv-btn-consult d-block text-decoration-none text-center"
+            style="display:block!important;text-decoration:none!important;">
+            Chưa có tài khoản? Đăng ký miễn phí
+        </a>
+    </div>
+</div>
+
+
+<div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+<!-- jQuery + Bootstrap Bundle -->
+<script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+
+
+<script>
+/* ================================================================
+   TRANG DỊCH VỤ — Gắn Kết Bốn Phương
+   Dữ liệu: GK_DATA.SERVICES (js/gkbp-data.js) — 39 dịch vụ / gói / phụ tùng
+   Luồng: lọc nhóm + loại xe + tìm kiếm + sắp xếp → chi tiết → đặt lịch / giỏ / SOS
+================================================================ */
+var MASTER_DATA = (window.GK_DATA && GK_DATA.SERVICES) || [];
+function fVND(n){ return (Math.round(n)||0).toLocaleString('vi-VN')+'đ'; }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function norm(s){ return (window.gkSearch ? gkSearch.norm(s) : String(s||'').toLowerCase()); }
+
+/* ── TRẠNG THÁI ── */
+var _filterCat='', _filterCity='', _sort='pop', _query='', _adultCount=1, _childCount=0;
+var _currentProduct=null, _appliedVoucher=null, _voucherSaving=0;
+var INC_BY_SVC = {}; (GK_DATA.INCIDENTS||[]).forEach(function(x){ INC_BY_SVC[x.svc.moto]=x.id; INC_BY_SVC[x.svc.car]=x.id; });
+INC_BY_SVC.xd01='binh'; INC_BY_SVC.xd03='lop'; INC_BY_SVC.xd04='keo';
+var KM_ITEMS = { ch11:{inc:5, per:15000}, ch12:{inc:10, per:25000}, xd04:{inc:5, per:15000} };
+var SLOTS = ['08:00 – 10:00','10:00 – 12:00','13:00 – 15:00','15:00 – 17:00','17:00 – 19:00','19:00 – 21:00'];
+
+/* ── LỌC & HIỂN THỊ LƯỚI ── */
+function filterCate(cat, el){
+    _filterCat = cat;
+    document.querySelectorAll('.dv-cate-item').forEach(function(i){ i.classList.remove('active'); });
+    if(el) el.classList.add('active');
+    renderGrid();
+}
+function filterCity(veh, el){
+    _filterCity = veh;
+    document.querySelectorAll('.dv-chip').forEach(function(c){ c.classList.remove('active'); });
+    if(el) el.classList.add('active');
+    renderGrid();
+}
+function sortGrid(v){ _sort = v; renderGrid(); }
+function dvSearch(q){
+    _query = (q||'').trim();
+    renderGrid();
+    if(!document.getElementById('detail-view').classList.contains('d-none')) showHome();
+    setTimeout(function(){ var g=document.getElementById('dv-grid'); if(g) g.scrollIntoView({behavior:'smooth',block:'start'}); }, 120);
+}
+function clearSearch(){ _query=''; var si=document.getElementById('dv-search-inp'); if(si) si.value=''; renderGrid(); }
+function renderGrid(){
+    var grid = document.getElementById('dv-grid');
+    var title = document.getElementById('grid-title');
+    var countEl = document.getElementById('grid-count');
+    var filtered = MASTER_DATA.slice();
+    if(_filterCat) filtered = filtered.filter(function(p){ return p.cat===_filterCat; });
+    if(_filterCity) filtered = filtered.filter(function(p){ return p.loc===_filterCity || (p.loc==='Mọi loại xe' && _filterCity!=='Mọi loại xe'); });
+    if(_query){
+        var words = norm(_query).split(' ').filter(Boolean);
+        filtered = filtered.filter(function(p){ var t = norm(p.title+' '+p.cat+' '+p.loc+' '+p.desc); return words.every(function(w){ return t.indexOf(w)>-1; }); });
+    }
+    if(_sort==='low') filtered.sort(function(a,b){ return a.priceNum-b.priceNum; });
+    else if(_sort==='high') filtered.sort(function(a,b){ return b.priceNum-a.priceNum; });
+    else if(_sort==='rate') filtered.sort(function(a,b){ return b.rating-a.rating || b.bookings-a.bookings; });
+    else filtered.sort(function(a,b){ return b.bookings-a.bookings; });
+    countEl.textContent = filtered.length+' dịch vụ';
+    var t = _filterCat || 'Tất cả dịch vụ';
+    if(_filterCity) t += ' · ' + _filterCity;
+    title.textContent = t;
+    var qb = document.getElementById('dv-query-badge');
+    if(qb) qb.innerHTML = _query ? 'Kết quả cho “<b>'+esc(_query)+'</b>” <button type="button" onclick="clearSearch()" aria-label="Xóa tìm kiếm">&times;</button>' : '';
+    if(!filtered.length){
+        grid.innerHTML='<div class="col-12 py-5 text-center"><div style="font-size:42px">🔧</div><div class="font-weight-bold" style="color:#0A2B54">Chưa có dịch vụ phù hợp.</div><p class="text-muted small mb-3">Thử từ khóa khác hoặc gọi cứu hộ để được tư vấn trực tiếp.</p><button class="gk-btn-orange" data-sos-open><i class="fas fa-life-ring"></i> Gọi cứu hộ ngay</button></div>';
+        return;
+    }
+    grid.innerHTML = filtered.map(function(p, i){
+        var price = p.priceNum===0 ? 'Miễn phí' : fVND(p.priceNum);
+        return '<div class="col-12 col-sm-6 col-lg-3 mb-4"><div class="dv-card" style="animation-delay:'+Math.min(i,12)*0.04+'s" onclick="showDetail(\''+p.id+'\')" tabindex="0" onkeydown="if(event.key===\'Enter\')showDetail(\''+p.id+'\')">'+
+            '<div class="dv-card-img"><img src="'+p.img+'" alt="'+esc(p.title)+'" loading="lazy">'+
+            (p.badge?'<span class="dv-card-badge">'+esc(p.badge)+'</span>':'')+
+            '<span class="dv-card-eta"><i class="fas fa-stopwatch"></i> '+esc(p.time)+'</span></div>'+
+            '<div class="dv-card-body">'+
+            '<div class="dv-card-meta">'+esc(p.loc)+' · '+esc(p.cat)+'</div>'+
+            '<div class="dv-card-title">'+esc(p.title)+'</div>'+
+            '<div class="dv-card-rate"><span><i class="fas fa-star"></i> '+String(p.rating).replace('.',',')+'</span><small>'+p.bookings.toLocaleString('vi-VN')+' lượt đặt</small></div>'+
+            '<div class="dv-card-foot">'+
+            '<div><span style="font-size:10px;color:#6c757d;font-weight:700;display:block;">'+(p.priceNum===0?'Phí năm':'Giá trần từ')+'</span>'+
+            '<span class="dv-card-price">'+price+'</span><span class="dv-card-unit">'+(p.priceNum===0?'':esc(p.unit))+'</span></div>'+
+            '<span class="dv-card-go"><i class="fas fa-arrow-right"></i></span>'+
+            '</div></div></div></div>';
+    }).join('');
+}
+
+/* ── CHI TIẾT DỊCH VỤ ── */
+function addonsOf(p){
+    var out=[];
+    (p.excluded||[]).forEach(function(x, i){
+        var m = x.match(/^(.*?)\s*\(\+([\d.]+)đ(?:\/[^)]*)?\)\s*$/);
+        if(m && !/km|điểm|thứ/.test(m[1])) out.push({id:'a'+i, label:m[1], price:parseInt(m[2].replace(/\./g,''),10)});
+    });
+    return out;
+}
+function showDetail(id){
+    var p = MASTER_DATA.find(function(x){ return x.id===id; });
+    if(!p) return;
+    _currentProduct = p;
+    _adultCount = 1; _childCount = 0;
+    dvRemoveVoucher(true);
+    var tags = '<span class="dv-tag dv-tag-cat">'+esc(p.cat)+'</span><span class="dv-tag dv-tag-veh"><i class="fas '+(p.loc==='Ô tô'?'fa-car-side':p.loc==='Xe điện'?'fa-charging-station':'fa-motorcycle')+'"></i> '+esc(p.loc)+'</span>';
+    if(p.badge) tags += '<span class="dv-tag dv-tag-hot">'+esc(p.badge)+'</span>';
+    if(p.warranty && p.warranty!=='—') tags += '<span class="dv-tag dv-tag-war"><i class="fas fa-shield-alt"></i> Bảo hành '+esc(p.warranty)+'</span>';
+    document.getElementById('dv-detail-tags').innerHTML = tags;
+    document.getElementById('dv-detail-title').textContent = p.title;
+    document.getElementById('dv-detail-desc').textContent = p.desc;
+    var imgs = p.images||[p.img,p.img,p.img];
+    document.getElementById('dv-gallery').innerHTML =
+        '<div class="dv-gallery-main"><img src="'+imgs[0]+'" alt="'+esc(p.title)+'"></div>'+
+        '<div class="dv-gallery-side">'+
+        '<div class="dv-gallery-thumb"><img src="'+(imgs[1]||p.img)+'" alt="'+esc(p.title)+' – trên đường"></div>'+
+        '<div class="dv-gallery-thumb"><img src="'+(imgs[2]||p.img)+'" alt="'+esc(p.title)+' – quy trình"></div>'+
+        '</div>';
+    document.getElementById('dv-highlights').innerHTML = (p.highlights||[]).map(function(h){
+        return '<div class="col-6 col-md-3 mb-3"><div class="dv-highlight">'+
+            '<div style="font-size:26px;margin-bottom:7px;">'+h.icon+'</div>'+
+            '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#6c757d;margin-bottom:4px;">'+esc(h.label)+'</div>'+
+            '<div style="font-size:12.5px;font-weight:900;color:#0A2B54;">'+esc(h.value)+'</div>'+
+            '</div></div>';
+    }).join('');
+    document.getElementById('dv-itinerary').innerHTML = (p.itinerary||[]).map(function(it,i){
+        return '<div class="dv-acc">'+
+            '<div class="dv-acc-hd" onclick="toggleAcc(this)">'+
+            '<span class="dv-acc-time">'+esc(it.t)+'</span>'+
+            '<span class="dv-acc-title">'+esc(it.h)+'</span>'+
+            '<i class="fas fa-chevron-down dv-acc-icon"'+(i===0?' style="transform:rotate(180deg)"':'')+'></i>'+
+            '</div>'+
+            '<div class="dv-acc-body'+(i===0?' open':'')+'">'+
+            '<div class="dv-acc-inner">'+
+            '<p style="color:#4b5563;font-size:13.5px;font-weight:600;line-height:1.75;margin-bottom:0;">'+esc(it.d)+'</p>'+
+            (it.tip?'<div class="dv-tip"><span style="font-size:10px;font-weight:900;color:#E06400;text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:4px;">💡 Lưu ý hữu ích</span>'+
+            '<p style="font-size:12.5px;color:#5a6780;font-weight:600;margin:0;font-style:italic;">'+esc(it.tip)+'</p></div>':'')+
+            '</div></div></div>';
+    }).join('');
+    var incHtml='', excHtml='';
+    if(p.included&&p.excluded){
+        incHtml = '<div class="col-md-6 mb-3"><div class="dv-inc"><h6 style="font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;color:#16a34a;margin-bottom:14px;">✅ Đã bao gồm trong giá</h6>'+
+            p.included.map(function(i){ return '<div class="dv-check-item"><span style="color:#22c55e;font-size:16px;">•</span><span>'+esc(i)+'</span></div>'; }).join('')+'</div></div>';
+        excHtml = '<div class="col-md-6 mb-3"><div class="dv-exc"><h6 style="font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;color:#dc2626;margin-bottom:14px;">➕ Chưa bao gồm / tính riêng</h6>'+
+            p.excluded.map(function(i){ return '<div class="dv-check-item"><span style="color:#f87171;font-size:16px;">•</span><span>'+esc(i)+'</span></div>'; }).join('')+'</div></div>';
+    }
+    document.getElementById('dv-include-section').innerHTML = incHtml+excHtml;
+    var revs = p.reviews||[];
+    var avg = revs.length ? (revs.reduce(function(s,r){ return s+r.rate; },0)/revs.length).toFixed(1) : '5.0';
+    document.getElementById('dv-rating-summary').innerHTML =
+        '<div style="text-align:right;"><div style="font-size:36px;font-weight:900;color:#0A2B54;line-height:1;">'+avg.replace('.',',')+'</div>'+
+        '<div style="color:#f59e0b;font-size:13px;letter-spacing:1px;">'+'★'.repeat(Math.round(avg))+'</div>'+
+        '<div style="font-size:11px;color:#6c757d;font-weight:700;">'+revs.length+' đánh giá đã xác minh chuyến</div></div>';
+    var bars = [5,4,3,2,1].map(function(star){
+        var cnt = revs.filter(function(r){ return r.rate===star; }).length;
+        var pct = revs.length ? Math.round(cnt/revs.length*100) : 0;
+        return '<div class="dv-rbar-row"><span class="dv-rbar-lbl">'+star+'</span>'+
+            '<div class="dv-rbar-track"><div class="dv-rbar-fill" style="width:'+pct+'%"></div></div>'+
+            '<span class="dv-rbar-cnt">'+cnt+'</span></div>';
+    });
+    document.getElementById('dv-rating-bars').innerHTML = bars.join('');
+    document.getElementById('dv-reviews').innerHTML = revs.map(function(r){
+        var stars = '★'.repeat(r.rate)+'☆'.repeat(5-r.rate);
+        var verBadge = r.verified ? '<span class="dv-verified ml-1"><i class="fas fa-check-circle" style="font-size:9px;"></i> Đã dùng dịch vụ</span>' : '';
+        var ini = r.name.split(' ').slice(-2).map(function(w){ return w[0]; }).join('').toUpperCase();
+        return '<div class="dv-review">'+
+            '<div class="d-flex align-items-start gap-3 mb-3" style="gap:12px;">'+
+            '<div class="dv-avatar">'+esc(ini)+'</div>'+
+            '<div><div style="font-weight:800;color:#0A2B54;font-size:14px;">'+esc(r.name)+verBadge+'</div>'+
+            '<div style="font-size:11px;color:#6c757d;font-weight:600;">'+esc(r.loc)+' · '+esc(r.date)+'</div>'+
+            '<div class="dv-stars">'+stars+'</div></div></div>'+
+            '<p style="color:#4b5563;font-size:13.5px;font-weight:600;line-height:1.75;margin:0;">'+esc(r.text)+'</p></div>';
+    }).join('');
+    renderBookingBox(p);
+    renderRelated(p);
+    document.getElementById('home-view').classList.add('d-none');
+    document.getElementById('detail-view').classList.remove('d-none');
+    try { history.replaceState(null,'','html_dichvu.html?id='+p.id); } catch(e){}
+    saveHistory(p);
+    window.scrollTo({top:0,behavior:'instant'});
+}
+function saveHistory(p){
+    try{
+        var h = JSON.parse(localStorage.getItem('gkbp_history')||'[]');
+        var link = 'html_dichvu.html?id='+p.id;
+        h = h.filter(function(x){ return x.link!==link; });
+        h.unshift({ten:p.title, anh:p.img, link:link, gia:p.priceNum===0?'Miễn phí':'Từ '+fVND(p.priceNum), meta:p.cat+' • '+p.loc, t:Date.now()});
+        localStorage.setItem('gkbp_history', JSON.stringify(h.slice(0,12)));
+    }catch(e){}
+}
+function renderRelated(p){
+    var box = document.getElementById('dv-related'); if(!box) return;
+    var rel = MASTER_DATA.filter(function(x){ return x.id!==p.id && (x.cat===p.cat || x.loc===p.loc); }).slice(0,4);
+    box.innerHTML = rel.map(function(x){
+        return '<div class="col-6 col-lg-3 mb-3"><div class="dv-rel" onclick="showDetail(\''+x.id+'\')"><img src="'+x.img+'" alt="" loading="lazy"><div><b>'+esc(x.title)+'</b><span>'+(x.priceNum===0?'Miễn phí':fVND(x.priceNum))+'</span></div></div></div>';
+    }).join('');
+}
+
+/* ── KHUNG ĐẶT DỊCH VỤ THEO TỪNG NHÓM ── */
+function isRescue(p){ return p.cat==='Cứu hộ khẩn cấp' || (p.cat==='Xe điện' && /phút/.test(p.time)); }
+function counter(label, hint){
+    return '<div class="dv-form-group"><label class="dv-label">'+label+(hint?' <span style="font-weight:600;color:#6c757d;text-transform:none;">('+hint+')</span>':'')+'</label>'+
+        '<div class="dv-counter"><button class="dv-ctr-btn" type="button" onclick="changeCount(\'adult\',-1)" aria-label="Giảm">−</button>'+
+        '<span class="dv-ctr-val" id="bk-adult">'+_adultCount+'</span>'+
+        '<button class="dv-ctr-btn" type="button" onclick="changeCount(\'adult\',1)" aria-label="Tăng">+</button></div></div>';
+}
+function renderBookingBox(p){
+    var d = new Date(); d.setDate(d.getDate()+1);
+    var dateVal = d.toISOString().split('T')[0];
+    var areas = (GK_DATA.AREAS||[]).filter(function(a){ return a.phase!=='Sắp ra mắt'; });
+    var opts = (p.options||[]).map(function(o){ return '<option value="'+o.add+'" data-label="'+esc(o.label)+'">'+esc(o.label)+(o.add>0?' (+'+fVND(o.add)+')':o.add<0?' (−'+fVND(-o.add)+')':'')+'</option>'; }).join('');
+    var areaSel = '<div class="dv-form-group"><label class="dv-label">Khu vực</label><select class="dv-select" id="bk-area">'+areas.map(function(a){ return '<option>'+esc(a.name)+'</option>'; }).join('')+'</select></div>';
+    var vehSel = opts ? '<div class="dv-form-group"><label class="dv-label">'+(p.cat==='Gói thành viên'?'Phương tiện được bảo vệ':'Loại xe')+'</label><select class="dv-select" id="bk-cabin" onchange="updatePrice()">'+opts+'</select></div>' : '';
+    var extra = '';
+    var unitLbl = p.unit || '';
+    if(isRescue(p)){
+        extra = vehSel +
+            '<div class="dv-form-group"><label class="dv-label">Thời điểm cần hỗ trợ</label><div class="dv-seg" id="bk-when">'+
+            '<button type="button" class="on" data-w="now" onclick="setWhen(this)"><i class="fas fa-bolt"></i> Ngay bây giờ</button>'+
+            '<button type="button" data-w="later" onclick="setWhen(this)"><i class="far fa-clock"></i> Hẹn giờ</button></div>'+
+            '<input type="datetime-local" class="dv-input mt-2" id="bk-date" style="display:none" onchange="updatePrice()"></div>'+
+            (KM_ITEMS[p.id] ? '<div class="dv-form-group"><label class="dv-label">Quãng đường kéo dự kiến: <b id="bk-km-val">'+KM_ITEMS[p.id].inc+'</b> km</label><input type="range" id="bk-km" min="1" max="40" value="'+KM_ITEMS[p.id].inc+'" oninput="updatePrice()" class="dv-range"><small class="text-muted">Đã gồm '+KM_ITEMS[p.id].inc+' km đầu · thêm '+fVND(KM_ITEMS[p.id].per)+'/km</small></div>' : '')+
+            areaSel + counter('Số xe cần hỗ trợ');
+    } else if(p.cat==='Gói thành viên'){
+        extra = vehSel + '<div class="dv-form-group"><label class="dv-label">Ngày kích hoạt</label><input type="date" class="dv-input" id="bk-date" value="'+new Date().toISOString().split('T')[0]+'" onchange="updatePrice()"></div>' + counter('Số năm', 'tối đa 3 năm');
+    } else if(p.cat==='Phụ tùng & Phụ kiện'){
+        extra = '<div class="dv-form-group"><label class="dv-label">Hình thức nhận</label><select class="dv-select" id="bk-recv"><option>Giao tận nơi</option><option>Thợ mang đến lắp đặt</option></select></div>'+
+            '<div class="dv-form-group"><label class="dv-label">Ngày nhận</label><input type="date" class="dv-input" id="bk-date" value="'+dateVal+'" onchange="updatePrice()"></div>' + areaSel + counter('Số lượng');
+    } else {
+        extra = vehSel +
+            '<div class="dv-form-group"><label class="dv-label">Ngày hẹn</label><input type="date" class="dv-input" id="bk-date" value="'+dateVal+'" min="'+new Date().toISOString().split('T')[0]+'" onchange="updatePrice()"></div>'+
+            '<div class="dv-form-group"><label class="dv-label">Khung giờ</label><div class="dv-slots" id="bk-slot">'+SLOTS.map(function(s,i){ return '<button type="button" class="'+(i===1?'on':'')+'" onclick="pickSlot(this)">'+s+'</button>'; }).join('')+'</div></div>'+
+            '<div class="dv-form-group"><label class="dv-label">Địa điểm làm</label><select class="dv-select" id="bk-place"><option>Nhà riêng</option><option>Công ty / văn phòng</option><option>Ký túc xá / phòng trọ</option><option>Tầng hầm chung cư</option></select></div>'+
+            areaSel + counter('Số xe');
+    }
+    var adds = addonsOf(p);
+    var addHtml = adds.length ? '<div class="dv-form-group"><label class="dv-label">Tùy chọn thêm</label>'+adds.map(function(a){ return '<label class="dv-addon"><input type="checkbox" class="bk-addon" value="'+a.price+'" data-label="'+esc(a.label)+'" onchange="updatePrice()"><span>'+esc(a.label)+'</span><b>+'+fVND(a.price)+'</b></label>'; }).join('')+'</div>' : '';
+    var sosBtn = (INC_BY_SVC[p.id] ? '<button class="dv-btn-book dv-btn-sos" type="button" data-sos-open="'+INC_BY_SVC[p.id]+'"><i class="fas fa-life-ring mr-1"></i>Gọi cứu hộ ngay – không cần đăng nhập</button>' : '');
+    document.getElementById('dv-booking-box').innerHTML =
+        '<div class="d-flex align-items-center justify-content-between mb-2">'+
+        '<span style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;color:#6c757d;">'+(p.priceNum===0?'Phí thành viên':'Giá trần từ')+'</span>'+
+        '<span class="dv-pill-eta"><i class="fas fa-stopwatch"></i> '+esc(p.time)+'</span></div>'+
+        '<div class="dv-booking-price mb-1">'+p.price+'</div>'+
+        '<p style="font-size:11px;color:#6c757d;font-weight:700;margin-bottom:16px;">'+(p.priceNum===0?'Kích hoạt miễn phí, dùng ngay':(unitLbl?unitLbl+' · ':'')+(KM_ITEMS[p.id]?'đã gồm '+KM_ITEMS[p.id].inc+' km đầu':(p.cat==='Phụ tùng & Phụ kiện'?'giao/lắp tận nơi trong khu vực phục vụ':'đã gồm phí di chuyển trong 5 km'))+' · báo giá trước khi làm')+'</p>'+
+        sosBtn + extra + addHtml +
+        '<div class="dv-breakdown" id="dv-breakdown">'+
+        '<div class="dv-bdr"><span>Đơn giá × <span id="bk-adult-lbl">'+_adultCount+'</span></span><span id="bk-adult-total">—</span></div>'+
+        '<div class="dv-bdr" id="bk-equip-row" style="display:none;"><span>Tùy chọn thêm</span><span id="bk-equip-total">—</span></div>'+
+        '<div class="dv-bdr" id="bk-km-row" style="display:none;"><span>Quãng đường vượt mức</span><span id="bk-km-total">—</span></div>'+
+        '<div class="dv-bdr" id="bk-night-row" style="display:none;"><span>Phụ phí ca đêm 22h–5h</span><span id="bk-night-total">—</span></div>'+
+        '<div class="dv-bdr"><span>Phí nền tảng</span><span>0đ</span></div>'+
+        '<div class="dv-bdr" id="bk-voucher-row" style="display:none;color:#10b981;"><span>🎟️ Voucher (<span id="bk-voucher-code"></span>)</span><span id="bk-voucher-saving">—</span></div>'+
+        '<div class="dv-bdr total"><span>Tổng tạm tính</span><span class="v" id="bk-total">—</span></div></div>'+
+        '<div class="dv-voucher-wrap mt-2"><div class="dv-voucher-row"><input type="text" id="bk-voucher-input" class="dv-voucher-input" placeholder="Nhập mã voucher..." oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key===\'Enter\')dvApplyVoucher()"><button class="dv-voucher-btn" type="button" onclick="dvApplyVoucher()"><i class=\'fas fa-tag\'></i> Áp dụng</button></div><div id="bk-voucher-msg" class="dv-voucher-msg"></div><div id="bk-voucher-quick"></div></div>'+
+        '<div class="mb-3">'+
+        '<div class="dv-info-item"><div class="dv-info-icon"><i class="fas fa-receipt"></i></div><span>Giá trần: thu vượt không lý do <strong style="color:#0A2B54;">hoàn 100% chênh lệch</strong></span></div>'+
+        '<div class="dv-info-item"><div class="dv-info-icon"><i class="fas fa-user-shield"></i></div><span>Thợ đã xác minh · mã gặp mặt 4 số · bảo hành '+esc(p.warranty&&p.warranty!=='—'?p.warranty:'theo hạng mục')+'</span></div>'+
+        '<div class="dv-info-item"><div class="dv-info-icon"><i class="fas fa-wallet"></i></div><span>Thanh toán: tiền mặt, ví điện tử, thẻ, chuyển khoản / QR</span></div></div>'+
+        '<button class="dv-btn-book" type="button" onclick="openBookNow()"><i class="fas fa-calendar-check mr-1"></i>'+(p.cat==='Gói thành viên'?'Kích hoạt gói – Thanh toán':'Đặt lịch – Thanh toán online')+'</button>'+
+        '<button class="dv-btn-cart" type="button" onclick="openAddToCart()"><i class="fas fa-shopping-cart mr-1"></i>Thêm vào giỏ dịch vụ</button>'+
+        '<button class="dv-btn-consult" type="button" onclick="dvConsult()">📞 Yêu cầu tư vấn miễn phí</button>'+
+        '<p style="margin-top:12px;text-align:center;font-size:10px;color:#6c757d;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Hotline cứu hộ 24/7: 0345 264 103</p>';
+    var vq = document.getElementById('bk-voucher-quick');
+    if(vq && window.GK_VOUCHER){
+        var pub = GK_VOUCHER.LIST.filter(function(v){ return (v.public || GK_VOUCHER.isSaved(v.code)) && ((v.ids&&v.ids.indexOf(p.id)>-1) || (v.cats&&v.cats.indexOf(p.cat)>-1) || v.all); }).slice(0,3);
+        vq.innerHTML = pub.length ? '<div class="kmv-quick-title">Mã dùng được cho dịch vụ này</div>'+pub.map(function(v){ return '<button type="button" class="kmv-chip" onclick="document.getElementById(\'bk-voucher-input\').value=\''+v.code+'\';dvApplyVoucher()"><span class="kmv-chip-ico">'+v.icon+'</span><span class="kmv-chip-code">'+v.code+'</span><span class="kmv-chip-val">'+esc(v.discount)+'</span></button>'; }).join('') : '';
+    }
+    updatePrice();
+}
+function setWhen(btn){
+    document.querySelectorAll('#bk-when button').forEach(function(b){ b.classList.toggle('on', b===btn); });
+    var di = document.getElementById('bk-date');
+    if(di){ di.style.display = btn.getAttribute('data-w')==='later' ? '' : 'none';
+        if(!di.value){ var t=new Date(Date.now()+3600000); t.setMinutes(0); di.value = new Date(t.getTime()-t.getTimezoneOffset()*60000).toISOString().slice(0,16); } }
+    updatePrice();
+}
+function pickSlot(btn){ document.querySelectorAll('#bk-slot button').forEach(function(b){ b.classList.toggle('on', b===btn); }); updatePrice(); }
+function dvConsult(){
+    var u = window.GKBP && GKBP.getUser();
+    if(window.GKBP) GKBP.showToast('success', 'Đã ghi nhận yêu cầu tư vấn'+(_currentProduct?' cho “'+esc(_currentProduct.title)+'”':'')+'. Tổng đài viên sẽ gọi lại'+(u&&u.phone?' số '+esc(u.phone):'')+' trong 15 phút.');
+}
+
+/* ── SỐ LƯỢNG & GIÁ ── */
+function changeCount(type, delta){
+    var max = _currentProduct && _currentProduct.cat==='Gói thành viên' ? 3 : 10;
+    if(type==='adult') _adultCount = Math.max(1, Math.min(max, _adultCount+delta));
+    var ae = document.getElementById('bk-adult');
+    if(ae) ae.textContent = _adultCount;
+    updatePrice();
+}
+function nightFeeNow(){
+    var p = _currentProduct; if(!p || !isRescue(p)) return 0;
+    var when = document.querySelector('#bk-when button.on'); var h;
+    if(when && when.getAttribute('data-w')==='later'){ var v=(document.getElementById('bk-date')||{}).value; if(!v) return 0; h = new Date(v).getHours(); }
+    else h = new Date().getHours();
+    return (h>=22 || h<5) ? 30000 : 0;
+}
+function calcOrder(){
+    var p = _currentProduct; if(!p) return null;
+    var cabinEl = document.getElementById('bk-cabin');
+    var cabinFee = cabinEl ? parseInt(cabinEl.value||0,10) : 0;
+    var cabinLabel = cabinEl ? cabinEl.options[cabinEl.selectedIndex].getAttribute('data-label') : p.loc;
+    var addFee = 0, addLabels = [];
+    document.querySelectorAll('.bk-addon:checked').forEach(function(a){ addFee += parseInt(a.value,10); addLabels.push(a.getAttribute('data-label')); });
+    var km = 0, kmFee = 0, kmEl = document.getElementById('bk-km');
+    if(kmEl && KM_ITEMS[p.id]){ km = +kmEl.value; kmFee = Math.max(0, km-KM_ITEMS[p.id].inc)*KM_ITEMS[p.id].per; var kv=document.getElementById('bk-km-val'); if(kv) kv.textContent=km; }
+    var night = nightFeeNow();
+    var unit = Math.max(0, p.priceNum + cabinFee);
+    var sub = unit*_adultCount + addFee*_adultCount + kmFee + night*_adultCount;
+    return { unit:unit, cabinFee:cabinFee, cabinLabel:cabinLabel, addFee:addFee, addLabels:addLabels, km:km, kmFee:kmFee, night:night, sub:sub };
+}
+function updatePrice(){
+    var c = calcOrder(); if(!c) return;
+    _voucherSaving = 0;
+    if(_appliedVoucher && window.GK_VOUCHER){
+        var r = GK_VOUCHER.validate(_appliedVoucher.code, c.sub, [{id:_currentProduct.id, cat:_currentProduct.cat, totalPrice:c.sub}]);
+        if(r.success) _voucherSaving = r.discountAmount; else { _appliedVoucher=null; var m=document.getElementById('bk-voucher-msg'); if(m){ m.className='dv-voucher-msg err'; m.innerHTML='<i class="fas fa-times-circle mr-1"></i>'+r.msg; } }
+    }
+    var total = Math.max(0, c.sub - _voucherSaving);
+    function set(id,val){ var el=document.getElementById(id); if(el) el.textContent=val; }
+    function show(id,on){ var el=document.getElementById(id); if(el) el.style.display=on?'':'none'; }
+    set('bk-adult-lbl',_adultCount);
+    set('bk-adult-total',fVND(c.unit*_adultCount));
+    set('bk-equip-total',fVND(c.addFee*_adultCount)); show('bk-equip-row', c.addFee>0);
+    set('bk-km-total',fVND(c.kmFee)); show('bk-km-row', c.kmFee>0);
+    set('bk-night-total',fVND(c.night*_adultCount)); show('bk-night-row', c.night>0);
+    set('bk-voucher-code', _appliedVoucher?_appliedVoucher.code:''); set('bk-voucher-saving','-'+fVND(_voucherSaving)); show('bk-voucher-row', _voucherSaving>0);
+    set('bk-total',fVND(total));
+}
+
+/* ── TÀI KHOẢN, GIỎ & ĐẶT LỊCH ── */
+function isUserLoggedIn(){ return !!(window.GKBP && GKBP.isLoggedIn()); }
+function getLoggedUser(){ return window.GKBP ? GKBP.getUser() : null; }
+function buildOrderData(){
+    if(!_currentProduct) return null;
+    var p = _currentProduct, c = calcOrder();
+    var dateEl = document.getElementById('bk-date'), slot = document.querySelector('#bk-slot button.on'), when = document.querySelector('#bk-when button.on');
+    var dateTxt = '';
+    if(when && when.getAttribute('data-w')==='now') dateTxt = 'Ngay khi đặt (cứu hộ khẩn cấp)';
+    else if(dateEl && dateEl.value){ dateTxt = dateEl.type==='datetime-local' ? new Date(dateEl.value).toLocaleString('vi-VN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit',year:'numeric'}) : dateEl.value.split('-').reverse().join('/'); }
+    if(slot) dateTxt += ' · ' + slot.textContent;
+    var area = (document.getElementById('bk-area')||{}).value || '';
+    var place = (document.getElementById('bk-place')||document.getElementById('bk-recv')||{}).value || '';
+    return {
+        id:p.id, title:p.title, cat:p.cat, loc:c.cabinLabel || p.loc, img:p.img,
+        price:c.unit, priceLabel:p.price, unit:p.unit,
+        adult:_adultCount, child:0, qty:_adultCount,
+        date:dateTxt, area:area, place:place, addons:c.addLabels, km:c.km,
+        equipFee:c.addFee, cabinFee:c.cabinFee, kmFee:c.kmFee, nightFee:c.night,
+        totalPrice:c.sub, addedAt:Date.now(),
+        voucherCode: _appliedVoucher ? _appliedVoucher.code : null,
+        voucherDesc: _appliedVoucher ? _appliedVoucher.title : null,
+        voucherSaving: _voucherSaving
+    };
+}
+function showLoginModal(actionType){
+    if(!_currentProduct) return;
+    var p = _currentProduct, totalEl = document.getElementById('bk-total');
+    try { sessionStorage.setItem('gkbp_pending_action', actionType); localStorage.setItem('gkbp_redirect_after_login', 'html_dichvu.html?id='+p.id); } catch(e){}
+    document.getElementById('modal-service-summary').innerHTML =
+        '<div style="font-size:13.5px;font-weight:800;color:#0A2B54;margin-bottom:6px;">'+esc(p.title)+'</div>'+
+        '<div style="display:flex;justify-content:space-between;font-size:12px;color:#6c757d;font-weight:600;">'+
+        '<span>'+esc(p.cat)+' · '+esc(p.loc)+'</span><span>'+_adultCount+' × '+(p.cat==='Gói thành viên'?'năm':'xe')+'</span></div>'+
+        (totalEl ? '<div style="margin-top:8px;font-size:14px;font-weight:900;color:#E06400;">Tạm tính: '+totalEl.textContent+'</div>' : '');
+    document.getElementById('loginModal').classList.add('open');
+    document.body.style.overflow='hidden';
+}
+function closeLoginModal(){ document.getElementById('loginModal').classList.remove('open'); document.body.style.overflow=''; }
+function openBookNow(){
+    if(!isUserLoggedIn()){ showLoginModal('book'); return; }
+    var order = buildOrderData(); if(!order) return;
+    try { sessionStorage.setItem('gkbp_checkout', JSON.stringify(order)); } catch(e){}
+    window.location.href = 'html_thanhtoan.html';
+}
+function openAddToCart(){
+    if(!isUserLoggedIn()){ showLoginModal('cart'); return; }
+    addToCart();
+}
+function addToCart(){
+    var item = buildOrderData(); if(!item) return;
+    if(window.GKBP) GKBP.addToCart(item);
+    showCartToast('Đã thêm “'+item.title+'” vào giỏ dịch vụ!');
+}
+function updateCartBadge(){ if(window.GKBP) GKBP.syncCartBadge(); }
+function showCartToast(msg){
+    if(window.GKBP) GKBP.showToast('success', esc(msg)+' <a href="html_giohang.html" style="font-weight:800;color:#E06400">Xem giỏ →</a>');
+}
+function openLoginModal(){ showLoginModal('book'); }
+function toggleAcc(hd){
+    var body = hd.nextElementSibling, icon = hd.querySelector('.dv-acc-icon');
+    var isOpen = body.classList.toggle('open');
+    if(icon) icon.style.transform = isOpen ? 'rotate(180deg)' : '';
+}
+function showHome(){
+    document.getElementById('home-view').classList.remove('d-none');
+    document.getElementById('detail-view').classList.add('d-none');
+    try { history.replaceState(null,'','html_dichvu.html'); } catch(e){}
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── VOUCHER (dùng hệ voucher chung GK_VOUCHER) ── */
+function dvApplyVoucher(){
+    var inp = document.getElementById('bk-voucher-input'), msg = document.getElementById('bk-voucher-msg');
+    if(!inp||!msg||!_currentProduct) return;
+    var code = (inp.value||'').trim().toUpperCase();
+    if(!code){ msg.className='dv-voucher-msg err'; msg.textContent='Vui lòng nhập mã voucher.'; return; }
+    var c = calcOrder();
+    var r = window.GK_VOUCHER ? GK_VOUCHER.validate(code, c.sub, [{id:_currentProduct.id, cat:_currentProduct.cat, totalPrice:c.sub}]) : {success:false,msg:'Hệ thống voucher chưa sẵn sàng.'};
+    if(!r.success){ msg.className='dv-voucher-msg err'; msg.innerHTML='<i class="fas fa-times-circle mr-1"></i>'+r.msg; _appliedVoucher=null; updatePrice(); return; }
+    _appliedVoucher = r.voucher;
+    msg.className='dv-voucher-msg ok'; msg.innerHTML=r.msg;
+    updatePrice();
+}
+function dvHideVoucherRow(){ var r=document.getElementById('bk-voucher-row'); if(r) r.style.display='none'; }
+function dvRemoveVoucher(silent){
+    _appliedVoucher = null; _voucherSaving = 0;
+    var inp=document.getElementById('bk-voucher-input'), msg=document.getElementById('bk-voucher-msg');
+    if(inp) inp.value=''; if(msg){ msg.className='dv-voucher-msg'; msg.textContent=''; }
+    dvHideVoucherRow(); if(!silent) updatePrice();
+}
+
+/* ── KHỞI TẠO + LIÊN KẾT SÂU (?cate= ?veh= ?q= ?id=) ── */
+document.addEventListener('DOMContentLoaded', function(){
+    var params = new URLSearchParams(window.location.search);
+    var CMAP = { cuuho:'Cứu hộ khẩn cấp', suachua:'Sửa chữa tại chỗ', baoduong:'Bảo dưỡng tại nhà', xedien:'Xe điện', goi:'Gói thành viên', phutung:'Phụ tùng & Phụ kiện', all:'' };
+    var slug = (params.get('cate')||'').toLowerCase();
+    if(slug && CMAP[slug]!==undefined){
+        var items = document.querySelectorAll('#dv-cate-wrap .dv-cate-item');
+        for(var i=0;i<items.length;i++){ if(items[i].getAttribute('data-cat')===CMAP[slug]){ _filterCat=CMAP[slug]; document.querySelectorAll('.dv-cate-item').forEach(function(x){ x.classList.remove('active'); }); items[i].classList.add('active'); break; } }
+    }
+    var veh = params.get('veh');
+    if(veh){ document.querySelectorAll('.dv-chip').forEach(function(c){ if(c.getAttribute('data-veh')===veh){ _filterCity=veh; document.querySelectorAll('.dv-chip').forEach(function(x){ x.classList.remove('active'); }); c.classList.add('active'); } }); }
+    var q = params.get('q') || params.get('search');
+    if(!q){ try{ q = sessionStorage.getItem('gkbp_search_query'); sessionStorage.removeItem('gkbp_search_query'); }catch(e){} }
+    if(q){ _query = q; var si=document.getElementById('dv-search-inp'); if(si) si.value=q; }
+    renderGrid();
+    var id = params.get('id');
+    if(id) showDetail(id);
+    updateCartBadge();
+    var pendingAction = null; try { pendingAction = sessionStorage.getItem('gkbp_pending_action'); } catch(e){}
+    if(pendingAction && isUserLoggedIn() && _currentProduct){
+        try { sessionStorage.removeItem('gkbp_pending_action'); } catch(e){}
+        if(pendingAction==='cart') addToCart(); else if(pendingAction==='book') openBookNow();
+    }
+});
+</script>
+
+<!-- Toast thông báo thêm vào giỏ hàng thành công -->
+<div id="cart-toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="cart-toast-msg">Đã thêm vào giỏ hàng!</span>
+</div>
+</body>
+</html>

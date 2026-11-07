@@ -1,0 +1,2457 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản &amp; Garage số | Gắn Kết Bốn Phương</title>
+    <meta name="description" content="Tài khoản Gắn Kết Bốn Phương: Garage số lưu xe và nhắc bảo dưỡng, lịch sử cứu hộ – sửa chữa, điểm thành viên, kho voucher và cài đặt hồ sơ.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 4 — grid, utilities -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css_trangchu.css">
+    <!-- Font Awesome 5 — icon toàn trang -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Swiper.js — slider gợi ý dịch vụ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.css">
+    <!-- GSAP — animation stagger, count-up -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        /* ============================================================
+           BIẾN MÀU — đồng bộ với css_trangchu.css
+           ============================================================ */
+        :root {
+            --primary-blue:   #0D4076;
+            --dark-blue:      #0A2B54;
+            --accent-red:     #ff4d4d;
+            --teal-light:     #FA7806;
+            --gradient-brand: linear-gradient(135deg, #0A2B54 0%, #0D4076 55%, #1E5C9E 100%);
+            --bg-light:       #f0f4f8;
+            --text-dark:      #0A2B54;
+            --text-muted:     #6c757d;
+            --white:          #ffffff;
+            --glass-bg:       rgba(255,255,255,0.72);
+            --glass-border:   rgba(255,255,255,0.45);
+            --sidebar-w:      260px;
+        }
+
+
+        /* ============================================================
+           LAYOUT CHÍNH — Dashboard 2 cột (Sidebar | Content)
+           ============================================================ */
+        body { background: var(--bg-light); font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+
+        /* Wrapper bao toàn bộ dashboard */
+        .dashboard-wrapper {
+            display: flex;
+            min-height: calc(100vh - 130px); /* trừ header + footer */
+            max-width: 1280px;
+            margin: 28px auto;
+            gap: 24px;
+            padding: 0 16px;
+        }
+
+        /* ============================================================
+           SIDEBAR — điều hướng trái
+           ============================================================ */
+        .dashboard-sidebar {
+            width: var(--sidebar-w);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Card hồ sơ trong sidebar */
+        .sidebar-profile-card {
+            background: var(--gradient-brand);
+            border-radius: 20px;
+            padding: 28px 20px 22px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 35px rgba(10,43,84,0.25);
+        }
+        /* Vòng trang trí nền sidebar */
+        .sidebar-profile-card::before {
+            content: '';
+            position: absolute; top: -60px; right: -60px;
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+        }
+        .sidebar-profile-card::after {
+            content: '';
+            position: absolute; bottom: -40px; left: -40px;
+            width: 130px; height: 130px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* Vùng avatar trong sidebar */
+        .sidebar-avatar-wrap {
+            position: relative;
+            width: 84px; height: 84px;
+            margin: 0 auto 12px;
+        }
+        .sidebar-avatar {
+            width: 84px; height: 84px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.6);
+            object-fit: cover;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+        /* Badge trạng thái online */
+        .sidebar-avatar-badge {
+            position: absolute; bottom: 3px; right: 3px;
+            width: 16px; height: 16px;
+            background: #22c55e;
+            border: 2px solid #fff;
+            border-radius: 50%;
+        }
+
+        /* Tên và email trong sidebar */
+        .sidebar-name {
+            font-size: 16px; font-weight: 800;
+            color: #fff; margin: 0 0 4px; line-height: 1.2;
+        }
+        .sidebar-email {
+            font-size: 12px; color: rgba(255,255,255,0.75);
+            margin: 0 0 14px;
+        }
+        /* Huy hiệu thành viên */
+        .sidebar-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff; font-size: 11px; font-weight: 700;
+            padding: 4px 12px; border-radius: 20px;
+        }
+
+        /* Card menu điều hướng sidebar */
+        .sidebar-nav-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        /* Mỗi mục menu sidebar */
+        .sidebar-nav-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 14px;
+            border-radius: 12px;
+            font-size: 14px; font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.25s ease;
+            margin-bottom: 3px;
+            text-decoration: none !important;
+        }
+        .sidebar-nav-item:last-child { margin-bottom: 0; }
+        .sidebar-nav-item i {
+            width: 20px; text-align: center;
+            font-size: 15px;
+            transition: color 0.25s;
+        }
+        /* Trạng thái active của menu item */
+        .sidebar-nav-item.active,
+        .sidebar-nav-item:hover {
+            background: rgba(13,64,118,0.08);
+            color: var(--primary-blue);
+        }
+        .sidebar-nav-item.active {
+            background: var(--gradient-brand);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(13,64,118,0.3);
+        }
+        .sidebar-nav-item.active i { color: #fff; }
+        /* Nút đăng xuất — màu đỏ */
+        .sidebar-nav-item.logout {
+            color: var(--accent-red);
+        }
+        .sidebar-nav-item.logout:hover {
+            background: rgba(255,77,77,0.08);
+            color: var(--accent-red);
+        }
+
+        /* ============================================================
+           KHU VỰC NỘI DUNG CHÍNH (bên phải sidebar)
+           ============================================================ */
+        .dashboard-content {
+            flex: 1;
+            min-width: 0; /* tránh overflow */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ── Tab panel — các vùng nội dung ── */
+        .tab-panel {
+            display: none;
+            animation: tabFadeIn 0.35s ease;
+        }
+        .tab-panel.active { display: block; }
+
+        /* Animation fade-in khi chuyển tab */
+        @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ============================================================
+           CARD THỐNG KÊ — glassmorphism (Tab Tổng quan)
+           ============================================================ */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        .stat-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 22px 18px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(13,64,118,0.08);
+            transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1),
+                        box-shadow 0.3s ease;
+            /* ban đầu ẩn cho GSAP animate */
+            opacity: 0; transform: translateY(50px);
+        }
+        .stat-item:hover {
+            transform: translateY(-6px) !important;
+            box-shadow: 0 20px 48px rgba(13,64,118,0.18);
+        }
+        /* Accent line trên đỉnh card */
+        .stat-item::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-brand);
+            border-radius: 20px 20px 0 0;
+        }
+        /* Màu accent riêng mỗi card */
+        .stat-item.stat-red::before  { background: linear-gradient(90deg, #ff4d4d, #ff8c69); }
+        .stat-item.stat-teal::before { background: linear-gradient(90deg, #F26B00, #FF9F43); }
+        .stat-item.stat-green::before{ background: linear-gradient(90deg, #22c55e, #4ade80); }
+
+        .stat-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; margin-bottom: 12px;
+        }
+        .stat-icon.si-blue  { background: rgba(13,64,118,0.12);  color: var(--primary-blue); }
+        .stat-icon.si-red   { background: rgba(255,77,77,0.1);   color: var(--accent-red); }
+        .stat-icon.si-teal  { background: rgba(250,120,6,0.1);   color: var(--teal-light); }
+        .stat-icon.si-green { background: rgba(34,197,94,0.1);   color: #22c55e; }
+
+        .stat-number {
+            font-size: 30px; font-weight: 900;
+            color: var(--dark-blue); line-height: 1;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 12px; color: var(--text-muted);
+            font-weight: 600;
+        }
+        /* Huy hiệu tăng trưởng nhỏ */
+        .stat-badge {
+            position: absolute; top: 16px; right: 14px;
+            font-size: 10px; font-weight: 700;
+            padding: 2px 8px; border-radius: 20px;
+        }
+        .stat-badge.up   { background: rgba(34,197,94,0.12); color: #22c55e; }
+        .stat-badge.info { background: rgba(13,64,118,0.10); color: var(--primary-blue); }
+
+        /* ============================================================
+           CARD CHUYẾN ĐI GẦN NHẤT (Tab Tổng quan)
+           ============================================================ */
+        .upcoming-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: flex; align-items: center; gap: 20px;
+            position: relative; overflow: hidden;
+        }
+        .upcoming-card::after {
+            content: '🔧';
+            position: absolute; right: 24px; bottom: 10px;
+            font-size: 64px; opacity: 0.07;
+            animation: gk-float 3s ease-in-out infinite;
+        }
+        @keyframes gk-float {
+            0%,100% { transform: translateY(0) rotate(-15deg); }
+            50%      { transform: translateY(-12px) rotate(-10deg); }
+        }
+        .upcoming-img {
+            width: 90px; height: 90px;
+            border-radius: 16px; object-fit: cover;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        }
+        .upcoming-info { flex: 1; }
+        .upcoming-tag {
+            display: inline-block;
+            background: rgba(13,64,118,0.1);
+            color: var(--primary-blue);
+            font-size: 10px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            padding: 3px 10px; border-radius: 20px;
+            margin-bottom: 6px;
+        }
+        .upcoming-title {
+            font-size: 16px; font-weight: 800;
+            color: var(--dark-blue); margin: 0 0 6px;
+        }
+        .upcoming-meta {
+            font-size: 13px; color: var(--text-muted);
+            display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+        }
+        .upcoming-meta span { display: flex; align-items: center; gap: 5px; }
+        .upcoming-meta i { color: var(--primary-blue); }
+
+        /* Nút countdown */
+        .upcoming-countdown {
+            display: flex; flex-direction: column; align-items: center;
+            background: var(--gradient-brand);
+            border-radius: 16px; padding: 12px 20px;
+            color: #fff; text-align: center;
+            flex-shrink: 0;
+        }
+        .countdown-number { font-size: 32px; font-weight: 900; line-height: 1; }
+        .countdown-label  { font-size: 11px; font-weight: 600; opacity: 0.8; }
+
+        /* ============================================================
+           SECTION GỢI Ý (Swiper slider — Tab Tổng quan)
+           ============================================================ */
+        .section-title-row {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .section-title {
+            font-size: 18px; font-weight: 800;
+            color: var(--dark-blue); margin: 0;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .section-see-all {
+            font-size: 13px; font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none !important;
+            transition: gap 0.2s;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .section-see-all:hover { gap: 8px; }
+
+        /* Card dịch vụ trong slider gợi ý */
+        .suggest-card {
+            border-radius: 18px; overflow: hidden;
+            background: var(--white);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            transition: all 0.4s cubic-bezier(0.34,1.1,0.64,1);
+            cursor: pointer;
+        }
+        .suggest-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 50px rgba(13,64,118,0.16);
+        }
+        /* Vùng ảnh card gợi ý */
+        .suggest-img-wrap {
+            position: relative; height: 160px; overflow: hidden;
+        }
+        .suggest-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .suggest-card:hover .suggest-img { transform: scale(1.07); }
+        /* Overlay thông tin xuất hiện khi hover */
+        .suggest-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(10,43,84,0.85) 0%, transparent 55%);
+            display: flex; flex-direction: column;
+            justify-content: flex-end;
+            padding: 12px;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+        .suggest-card:hover .suggest-overlay { opacity: 1; }
+        .suggest-overlay-title {
+            color: #fff; font-size: 13px; font-weight: 800;
+            margin: 0 0 4px; line-height: 1.3;
+        }
+        .suggest-overlay-detail {
+            color: rgba(255,255,255,0.85);
+            font-size: 11px;
+        }
+        /* Badge thể loại dịch vụ */
+        .suggest-cat-badge {
+            position: absolute; top: 10px; left: 10px;
+            background: var(--gradient-brand);
+            color: #fff; font-size: 9.5px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 3px 9px; border-radius: 20px; z-index: 2;
+        }
+        /* Nút wishlist (tim) trên ảnh */
+        .suggest-wish-btn {
+            position: absolute; top: 10px; right: 10px;
+            width: 30px; height: 30px; border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: none; display: flex; align-items: center; justify-content: center;
+            color: #ccc; font-size: 13px;
+            transition: all 0.25s; z-index: 2;
+        }
+        .suggest-wish-btn.active, .suggest-wish-btn:hover { color: var(--accent-red); }
+
+        .suggest-body { padding: 14px; }
+        .suggest-name { font-size: 14px; font-weight: 800; color: var(--dark-blue); margin: 0 0 6px; line-height: 1.3; }
+        .suggest-meta { display: flex; align-items: center; justify-content: space-between; }
+        .suggest-price { font-size: 15px; font-weight: 900; color: var(--accent-red); }
+        .suggest-rating { font-size: 12px; color: #f59e0b; font-weight: 700; }
+
+        /* ============================================================
+           BOOKING TIMELINE (Tab Đơn hàng)
+           ============================================================ */
+        /* Bộ lọc trạng thái đơn hàng */
+        .booking-filter {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+        .bfilter-btn {
+            padding: 7px 16px; border-radius: 100px;
+            border: 1.5px solid #dde4ef;
+            font-size: 12px; font-weight: 700;
+            color: var(--text-muted);
+            background: var(--white);
+            transition: all 0.22s;
+        }
+        .bfilter-btn.active {
+            background: var(--dark-blue);
+            border-color: var(--dark-blue);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(10,43,84,0.2);
+        }
+        .bfilter-btn:hover:not(.active) {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        /* Timeline container */
+        .booking-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+        /* Đường dọc timeline */
+        .booking-timeline::before {
+            content: '';
+            position: absolute;
+            left: 40px; top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-blue), transparent);
+            opacity: 0.2;
+        }
+
+        /* Mỗi card đặt dịch vụ trong timeline */
+        .booking-card {
+            display: flex; gap: 16px;
+            background: var(--white);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 3px 16px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.04);
+            transition: all 0.35s cubic-bezier(0.34,1.1,0.64,1);
+            position: relative;
+        }
+        .booking-card:hover {
+            transform: translateX(6px);
+            box-shadow: 0 12px 36px rgba(13,64,118,0.14);
+        }
+        /* Dot timeline bên trái */
+        .booking-dot {
+            width: 80px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 8px;
+            background: #f8faff;
+            border-right: 1px solid #eef2f8;
+        }
+        .booking-dot-circle {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-blue);
+            background: var(--white);
+            margin-bottom: 6px;
+        }
+        /* Màu trạng thái dot */
+        .booking-card.confirmed .booking-dot-circle { background: #22c55e; border-color: #22c55e; }
+        .booking-card.pending   .booking-dot-circle { background: #f59e0b; border-color: #f59e0b; }
+        .booking-card.cancelled .booking-dot-circle { background: var(--accent-red); border-color: var(--accent-red); }
+
+        .booking-dot-date { font-size: 10px; font-weight: 700; color: var(--text-muted); text-align: center; line-height: 1.3; }
+
+        /* Ảnh dịch vụ trong booking card */
+        .booking-img {
+            width: 110px; flex-shrink: 0;
+            position: relative; overflow: hidden;
+        }
+        .booking-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .booking-card:hover .booking-img img { transform: scale(1.08); }
+
+        /* Thông tin chính của booking */
+        .booking-info {
+            flex: 1; padding: 16px 14px;
+            display: flex; flex-direction: column;
+            justify-content: center;
+        }
+        .booking-info-top {
+            display: flex; align-items: flex-start;
+            justify-content: space-between; gap: 10px;
+            margin-bottom: 8px;
+        }
+        .booking-name {
+            font-size: 15px; font-weight: 800;
+            color: var(--dark-blue); margin: 0;
+            line-height: 1.3; flex: 1;
+        }
+        /* Badge trạng thái */
+        .booking-status {
+            font-size: 10px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 4px 10px; border-radius: 20px;
+            white-space: nowrap; flex-shrink: 0;
+        }
+        .booking-status.confirmed { background: rgba(34,197,94,0.12); color: #16a34a; }
+        .booking-status.pending   { background: rgba(245,158,11,0.12); color: #d97706; }
+        .booking-status.cancelled { background: rgba(255,77,77,0.12);  color: var(--accent-red); }
+
+        .booking-meta-row {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            font-size: 12px; color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        .booking-meta-row span { display: flex; align-items: center; gap: 4px; }
+        .booking-meta-row i { color: var(--primary-blue); font-size: 11px; }
+
+        .booking-price-row {
+            display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap; gap: 8px;
+        }
+        .booking-price { font-size: 17px; font-weight: 900; color: var(--accent-red); }
+        /* Nhóm nút thao tác nhanh */
+        .booking-actions { display: flex; gap: 8px; }
+        .booking-btn {
+            font-size: 12px; font-weight: 700;
+            padding: 7px 14px; border-radius: 20px;
+            border: none; transition: all 0.22s;
+        }
+        .booking-btn.primary {
+            background: var(--gradient-brand);
+            color: #fff;
+            box-shadow: 0 3px 12px rgba(13,64,118,0.25);
+        }
+        .booking-btn.primary:hover { opacity: 0.88; transform: scale(1.04); }
+        .booking-btn.outline {
+            background: #fff;
+            color: var(--primary-blue);
+            border: 1.5px solid rgba(13,64,118,0.3);
+        }
+        .booking-btn.outline:hover {
+            background: rgba(13,64,118,0.06);
+        }
+        .booking-btn.danger {
+            background: rgba(255,77,77,0.08);
+            color: var(--accent-red);
+            border: 1.5px solid rgba(255,77,77,0.2);
+        }
+        .booking-btn.danger:hover { background: rgba(255,77,77,0.15); }
+
+        /* ============================================================
+           WISHLIST (Tab Wishlist)
+           ============================================================ */
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .wish-card {
+            border-radius: 18px; overflow: hidden;
+            background: var(--white);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+            transition: all 0.35s cubic-bezier(0.34,1.1,0.64,1);
+            cursor: pointer;
+        }
+        .wish-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 22px 48px rgba(13,64,118,0.16);
+        }
+        .wish-img-wrap { position: relative; height: 150px; overflow: hidden; }
+        .wish-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .wish-card:hover .wish-img { transform: scale(1.08); }
+        /* Nút xoá khỏi wishlist */
+        .wish-remove-btn {
+            position: absolute; top: 8px; right: 8px;
+            width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(255,255,255,0.92);
+            border: none; color: var(--accent-red);
+            font-size: 12px; display: flex; align-items: center; justify-content: center;
+            z-index: 2;
+            transition: all 0.22s;
+        }
+        .wish-remove-btn:hover { background: var(--accent-red); color: #fff; }
+        .wish-body { padding: 13px; }
+        .wish-name { font-size: 13.5px; font-weight: 800; color: var(--dark-blue); margin: 0 0 5px; line-height: 1.3; }
+        .wish-footer { display: flex; align-items: center; justify-content: space-between; }
+        .wish-price { font-size: 14px; font-weight: 900; color: var(--accent-red); }
+        .wish-book-btn {
+            font-size: 11px; font-weight: 700;
+            padding: 5px 12px; border-radius: 20px;
+            background: var(--gradient-brand); color: #fff; border: none;
+            transition: opacity 0.2s;
+        }
+        .wish-book-btn:hover { opacity: 0.85; }
+
+        /* ============================================================
+           VOUCHER (Tab Voucher)
+           ============================================================ */
+        .voucher-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+        /* Card voucher kiểu coupon */
+        .voucher-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+            border: 1px solid rgba(0,0,0,0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .voucher-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 36px rgba(13,64,118,0.15);
+        }
+        /* Phần màu bên trái voucher */
+        .voucher-left {
+            width: 80px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px;
+            background: var(--gradient-brand);
+            position: relative;
+        }
+        /* Hiệu ứng răng cưa voucher */
+        .voucher-left::after {
+            content: '';
+            position: absolute; right: -6px;
+            top: 0; bottom: 0;
+            width: 12px;
+            background: radial-gradient(circle at 0 50%, transparent 6px, var(--white) 6px) 0 0 / 12px 16px;
+        }
+        .voucher-right { flex: 1; padding: 14px 16px 14px 20px; }
+        .voucher-code {
+            font-size: 13px; font-weight: 900; letter-spacing: 1.5px;
+            color: var(--dark-blue); margin: 0 0 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .voucher-desc { font-size: 12px; color: var(--text-muted); margin: 0 0 8px; }
+        .voucher-meta-row { display: flex; align-items: center; justify-content: space-between; }
+        .voucher-discount {
+            font-size: 20px; font-weight: 900;
+            color: var(--accent-red); line-height: 1;
+        }
+        .voucher-expire { font-size: 10px; color: var(--text-muted); font-weight: 600; }
+        /* Nút sao chép mã */
+        .voucher-copy-btn {
+            font-size: 11px; font-weight: 700;
+            padding: 5px 12px; border-radius: 20px;
+            background: rgba(13,64,118,0.1);
+            color: var(--primary-blue); border: none;
+            margin-top: 8px;
+            transition: all 0.22s;
+        }
+        .voucher-copy-btn:hover { background: var(--primary-blue); color: #fff; }
+
+        /* Voucher đã hết hạn — mờ đi */
+        .voucher-card.expired { opacity: 0.5; }
+        .voucher-card.expired .voucher-left { background: #b0b8c1; }
+
+        /* ============================================================
+           CÀI ĐẶT (Tab Cài đặt)
+           ============================================================ */
+        .settings-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+        }
+        .settings-title {
+            font-size: 16px; font-weight: 800;
+            color: var(--dark-blue);
+            margin: 0 0 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eef2f8;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .settings-title i { color: var(--primary-blue); }
+
+        /* Vùng avatar upload drag-and-drop */
+        .avatar-upload-zone {
+            display: flex; align-items: center; gap: 20px;
+            padding: 18px;
+            border: 2px dashed rgba(13,64,118,0.25);
+            border-radius: 16px;
+            background: rgba(13,64,118,0.03);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        /* Hiệu ứng khi kéo file vào */
+        .avatar-upload-zone.drag-over {
+            border-color: var(--primary-blue);
+            background: rgba(13,64,118,0.08);
+            transform: scale(1.01);
+        }
+        /* Preview avatar lớn */
+        .avatar-preview-large {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--glass-border);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        .avatar-upload-info h6 { font-size: 14px; font-weight: 700; color: var(--dark-blue); margin: 0 0 4px; }
+        .avatar-upload-info p { font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+        /* Nút chọn file */
+        .avatar-upload-btn {
+            font-size: 12px; font-weight: 700;
+            padding: 7px 16px; border-radius: 20px;
+            background: rgba(13,64,118,0.1);
+            color: var(--primary-blue); border: none;
+            transition: all 0.22s;
+        }
+        .avatar-upload-btn:hover { background: var(--primary-blue); color: #fff; }
+
+        /* Input floating label */
+        .float-group {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .float-input {
+            width: 100%;
+            padding: 18px 44px 8px 14px;
+            border: 1.5px solid #dde4ef;
+            border-radius: 12px;
+            font-size: 14px; font-weight: 500;
+            color: var(--dark-blue);
+            background: #fff;
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .float-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(13,64,118,0.1);
+        }
+        /* Label nổi lên khi có giá trị hoặc focus */
+        .float-label {
+            position: absolute; top: 14px; left: 14px;
+            font-size: 14px; color: var(--text-muted); font-weight: 500;
+            pointer-events: none;
+            transition: all 0.22s ease;
+        }
+        .float-input:focus ~ .float-label,
+        .float-input:not(:placeholder-shown) ~ .float-label {
+            top: 5px; left: 12px;
+            font-size: 10px; font-weight: 700;
+            color: var(--primary-blue);
+            letter-spacing: 0.5px;
+        }
+        /* Icon validation bên phải input */
+        .float-validation-icon {
+            position: absolute; right: 14px; top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px; opacity: 0;
+            transition: opacity 0.25s;
+        }
+        .float-group.valid   .float-validation-icon { opacity: 1; color: #22c55e; }
+        .float-group.invalid .float-validation-icon { opacity: 1; color: var(--accent-red); }
+        .float-group.valid   .float-input { border-color: #22c55e; }
+        .float-group.invalid .float-input { border-color: var(--accent-red); }
+        /* Thông báo lỗi nhỏ dưới input */
+        .float-error-msg {
+            font-size: 11px; color: var(--accent-red);
+            font-weight: 600; margin-top: 4px;
+            display: none;
+        }
+        .float-group.invalid .float-error-msg { display: block; }
+
+        /* Nút Lưu thay đổi */
+        .save-btn {
+            background: var(--gradient-brand);
+            color: #fff; border: none;
+            padding: 12px 32px; border-radius: 100px;
+            font-size: 14px; font-weight: 800;
+            box-shadow: 0 6px 20px rgba(13,64,118,0.3);
+            transition: all 0.25s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .save-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+        /* Loading spinner trong nút */
+        .save-btn .spin {
+            display: none;
+            animation: spinner 0.7s linear infinite;
+        }
+        @keyframes spinner { to { transform: rotate(360deg); } }
+        .save-btn.loading .spin { display: inline-block; }
+        .save-btn.loading .btn-text { opacity: 0.7; }
+
+        /* Toggle switch */
+        .toggle-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f4f8;
+        }
+        .toggle-row:last-child { border-bottom: none; }
+        .toggle-info h6 { font-size: 13.5px; font-weight: 700; color: var(--dark-blue); margin: 0; }
+        .toggle-info p  { font-size: 12px; color: var(--text-muted); margin: 0; }
+        /* Toggle switch kiểu iOS */
+        .toggle-switch {
+            width: 44px; height: 24px; border-radius: 100px;
+            background: #dde4ef; position: relative;
+            transition: background 0.25s;
+            flex-shrink: 0;
+        }
+        .toggle-switch.on { background: var(--primary-blue); }
+        .toggle-switch::after {
+            content: '';
+            position: absolute; top: 3px; left: 3px;
+            width: 18px; height: 18px;
+            border-radius: 50%; background: #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            transition: left 0.25s cubic-bezier(0.34,1.2,0.64,1);
+        }
+        .toggle-switch.on::after { left: calc(100% - 21px); }
+
+        /* ============================================================
+           TOAST NOTIFICATION — thay thế alert()
+           ============================================================ */
+        #toast-container {
+            position: fixed; top: 24px; right: 24px;
+            z-index: 9999990;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .toast-item {
+            display: flex; align-items: center; gap: 12px;
+            background: #fff;
+            border-radius: 14px;
+            padding: 14px 18px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+            border-left: 4px solid var(--primary-blue);
+            min-width: 280px; max-width: 360px;
+            animation: toastIn 0.4s cubic-bezier(0.34,1.2,0.64,1);
+        }
+        .toast-item.success { border-color: #22c55e; }
+        .toast-item.error   { border-color: var(--accent-red); }
+        .toast-item.info    { border-color: var(--primary-blue); }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(60px) scale(0.9); }
+            to   { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes toastOut {
+            to { opacity: 0; transform: translateX(60px) scale(0.9); }
+        }
+        .toast-icon { font-size: 20px; flex-shrink: 0; }
+        .toast-text { flex: 1; }
+        .toast-text strong { font-size: 13.5px; font-weight: 800; color: var(--dark-blue); display: block; }
+        .toast-text span   { font-size: 12px; color: var(--text-muted); }
+        .toast-close { font-size: 14px; color: var(--text-muted); background: none; border: none; padding: 0; transition: color 0.2s; }
+        .toast-close:hover { color: var(--dark-blue); }
+
+        /* ============================================================
+           MOBILE — Sticky Bottom Navigation (< 768px)
+           ============================================================ */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--white);
+            border-top: 1px solid #eef2f8;
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
+            z-index: 10000;
+            padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
+        }
+        .mobile-nav-inner {
+            display: flex; justify-content: space-around;
+            align-items: center;
+        }
+        .mobile-nav-item {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 3px;
+            padding: 6px 12px;
+            color: var(--text-muted);
+            font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.3px;
+            transition: color 0.22s;
+            border: none; background: none;
+            flex: 1;
+        }
+        .mobile-nav-item i { font-size: 18px; transition: transform 0.25s cubic-bezier(0.34,1.2,0.64,1); }
+        .mobile-nav-item.active { color: var(--primary-blue); }
+        .mobile-nav-item.active i { transform: scale(1.2); }
+
+        /* ============================================================
+           GENERAL CARD — card trắng thường dùng lại
+           ============================================================ */
+        .white-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        /* Hero thông tin nhỏ trên đầu trang dashboard */
+        .dashboard-header-bar {
+            background: var(--gradient-brand);
+            border-radius: 20px;
+            padding: 20px 24px;
+            display: flex; align-items: center; gap: 16px;
+            box-shadow: 0 6px 24px rgba(10,43,84,0.2);
+            position: relative; overflow: hidden;
+            /* ban đầu ẩn cho GSAP */
+            opacity: 0; transform: translateY(30px);
+        }
+        .dashboard-header-bar::before {
+            content: '';
+            position: absolute; top: -50%; right: -80px;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+        .db-header-avatar {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            border: 2.5px solid rgba(255,255,255,0.5);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .db-header-info { flex: 1; }
+        .db-header-greeting { font-size: 13px; color: rgba(255,255,255,0.75); margin: 0; }
+        .db-header-name { font-size: 20px; font-weight: 800; color: #fff; margin: 0; }
+        .db-header-right { text-align: right; }
+        .db-header-points { font-size: 22px; font-weight: 900; color: #fff; line-height: 1; }
+        .db-header-points-label { font-size: 11px; color: rgba(255,255,255,0.75); }
+
+        /* ── Responsive ── */
+        @media (max-width: 992px) {
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .wishlist-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            /* Ẩn sidebar, hiện bottom nav */
+            .dashboard-sidebar   { display: none; }
+            .mobile-bottom-nav   { display: block; }
+            /* Thêm padding để tránh bị che bởi bottom nav */
+            body { padding-bottom: 80px; }
+            .dashboard-wrapper { margin: 16px auto; padding: 0 10px; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .booking-card { flex-wrap: wrap; }
+            .booking-img { width: 100%; height: 160px; }
+            .booking-dot { width: 100%; flex-direction: row; border-right: none; border-bottom: 1px solid #eef2f8; justify-content: flex-start; padding: 10px 16px; }
+            .wishlist-grid { grid-template-columns: 1fr; }
+            .voucher-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 576px) {
+            .stat-grid { grid-template-columns: 1fr 1fr; }
+            .db-header-right { display: none; }
+            .upcoming-countdown { display: none; }
+        }
+    
+
+
+        /* Nút đăng nhập/đăng ký */
+        .btn-login {
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            color:#fff !important; border:none; border-radius:10px;
+            padding:7px 16px; font-size:13px; transition:all .2s;
+        }
+        .btn-login:hover { opacity:.88; transform:translateY(-1px); }
+        /* Avatar user */
+        .user-avatar-btn {
+            width:38px; height:38px; border-radius:50%;
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-weight:800; font-size:15px;
+            cursor:pointer; border:none; transition:all .2s;
+        }
+        .user-avatar-btn:hover { box-shadow:0 4px 14px rgba(13,64,118,.35); }
+        .user-profile-dropdown .dropdown-menu {
+            border-radius:14px; padding:8px 0;
+            box-shadow:0 8px 30px rgba(0,0,0,.12);
+        }
+
+        
+        /* ══════════════════════════════════════════════════════════
+           BỔ SUNG — Tài khoản & Garage số (Gắn Kết Bốn Phương)
+           ══════════════════════════════════════════════════════════ */
+        .sidebar-badge { background: rgba(250,120,6,.92) !important; color: #fff !important; }
+        .sidebar-nav-item.active { background: linear-gradient(135deg, #F26B00, #FF9F43) !important; color: #fff !important; }
+        .sidebar-nav-item.active i { color: #fff !important; }
+        .gk-nav-count { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: #FA7806; color: #fff; font-size: 10.5px; font-weight: 900; display: inline-flex; align-items: center; justify-content: center; }
+        .sidebar-nav-item.active .gk-nav-count { background: #fff; color: #E06400; }
+        .gk-side-sos { background: linear-gradient(140deg, #061D38, #0D4076); color: #fff; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 6px; position: relative; overflow: hidden; }
+        .gk-side-sos::after { content: '\f0ad'; font-family: 'Font Awesome 5 Free'; font-weight: 900; position: absolute; right: -10px; bottom: -14px; font-size: 80px; color: rgba(255,255,255,.06); transform: rotate(-20deg); }
+        .gk-side-sos-ico { width: 40px; height: 40px; border-radius: 12px; background: #FA7806; display: flex; align-items: center; justify-content: center; font-size: 18px; animation: gkSosPulse 2s infinite; }
+        @keyframes gkSosPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(250,120,6,.5); } 50% { box-shadow: 0 0 0 10px rgba(250,120,6,0); } }
+        .gk-side-sos b { font-size: 14px; } .gk-side-sos span { font-size: 12px; color: rgba(255,255,255,.75); line-height: 1.5; }
+        .gk-side-sos button { margin-top: 6px; border: 0; border-radius: 12px; background: linear-gradient(135deg, #F26B00, #FF9F43); color: #fff; font-weight: 800; font-size: 13px; padding: 9px; position: relative; z-index: 1; }
+
+        .dashboard-header-bar { background: linear-gradient(135deg, #061D38 0%, #0D4076 60%, #1E5C9E 100%); }
+        .gk-hb-gear { position: absolute; right: 22%; top: -26px; font-size: 110px; color: rgba(255,255,255,.05); animation: gkSpin 26s linear infinite; pointer-events: none; }
+        @keyframes gkSpin { to { transform: rotate(360deg); } }
+        .db-header-points { color: #FFB066 !important; }
+
+        .gk-tier-card { margin-bottom: 0; }
+        .gk-tier-row { display: flex; align-items: center; gap: 14px; }
+        .gk-tier-ic { font-size: 30px; width: 54px; height: 54px; border-radius: 16px; background: #FFF1E6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .gk-tier-txt { flex: 1; min-width: 0; } .gk-tier-txt b { display: block; color: #0A2B54; font-size: 15px; } .gk-tier-txt span { font-size: 12.5px; color: #64748b; }
+        .gk-tier-link { font-size: 12.5px; font-weight: 800; color: #E06400; white-space: nowrap; text-decoration: none; }
+        .gk-tier-bar { position: relative; height: 8px; border-radius: 8px; background: #eef2f8; margin: 22px 0 6px; }
+        .gk-tier-bar span { display: block; height: 100%; border-radius: 8px; background: linear-gradient(90deg, #F26B00, #FF9F43); }
+        .gk-tier-bar i { position: absolute; top: -20px; font-size: 18px; color: #0D4076; }
+        .gk-tier-scale { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #64748b; }
+        .gk-tier-scale span { display: flex; flex-direction: column; align-items: center; } .gk-tier-scale small { color: #94a3b8; font-weight: 600; }
+        .gk-tier-scale span:first-child { align-items: flex-start; } .gk-tier-scale span:last-child { align-items: flex-end; }
+        .gk-tier-note { margin: 10px 0 0; font-size: 11.5px; color: #64748b; } .gk-tier-note i { color: #FA7806; }
+
+        .upcoming-tag { background: #FFF1E6 !important; color: #C2410C !important; }
+        .upcoming-card::after { content: '\f0ad' !important; font-family: 'Font Awesome 5 Free'; font-weight: 900; color: #0D4076; animation: gkWrench 3s ease-in-out infinite !important; }
+        @keyframes gkWrench { 0%, 100% { transform: rotate(-20deg); } 50% { transform: rotate(10deg) translateY(-6px); } }
+        .upcoming-countdown { background: linear-gradient(135deg, #F26B00, #FF9F43) !important; }
+        .gk-up-ico { width: 84px; height: 84px; border-radius: 18px; background: linear-gradient(135deg, #0A2B54, #1E5C9E); color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .gk-up-cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12.5px; font-weight: 800; color: #E06400; text-decoration: none; }
+        .gk-up-add:hover { filter: brightness(1.05); }
+
+        .suggest-cat-badge { background: rgba(250,120,6,.92) !important; color: #fff !important; }
+        .suggest-name { display: block; color: inherit; text-decoration: none; }
+        .suggest-price { color: #E06400 !important; }
+        .suggest-swiper { --swiper-theme-color: #FA7806; --swiper-pagination-bullet-inactive-color: #94a3b8; }
+        .suggest-name:hover { color: #E06400; text-decoration: none; }
+        .suggest-price small { font-size: 10.5px; color: #94a3b8; font-weight: 700; margin-left: 2px; }
+        .suggest-wish-btn.active { color: #ef4444 !important; }
+        .gk-no-swiper { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+
+        .gk-btn-add { display: inline-flex; align-items: center; gap: 6px; border: 0; border-radius: 12px; background: linear-gradient(135deg, #F26B00, #FF9F43); color: #fff !important; font-weight: 800; font-size: 12.5px; padding: 9px 16px; box-shadow: 0 6px 16px rgba(250,120,6,.3); cursor: pointer; }
+        .gk-btn-ghost { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid #cbd5e1; border-radius: 12px; background: #fff; color: #0A2B54; font-weight: 800; font-size: 12.5px; padding: 8px 16px; cursor: pointer; }
+        .gk-btn-ghost:hover { border-color: #FA7806; color: #E06400; }
+        .gk-garage-sub { font-size: 13px; color: #64748b; margin: 0 0 16px; }
+        .gk-veh-form { border: 1.5px dashed #FDBA74; background: #FFF7F0; border-radius: 16px; padding: 16px; margin-bottom: 18px; }
+        .gk-veh-form-title { font-weight: 900; color: #0A2B54; margin-bottom: 12px; } .gk-veh-form-title i { color: #FA7806; }
+        .gk-vf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .gk-vf-grid label { display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: .5px; margin: 0; }
+        .gk-vf-grid input, .gk-vf-grid select { border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 9px 12px; font-size: 13.5px; color: #0A2B54; background: #fff; text-transform: none; letter-spacing: 0; font-weight: 600; outline: none; }
+        .gk-vf-grid input:focus, .gk-vf-grid select:focus { border-color: #FA7806; box-shadow: 0 0 0 3px rgba(250,120,6,.12); }
+        .gk-vf-err { color: #dc2626; font-size: 12.5px; font-weight: 700; min-height: 18px; margin-top: 8px; }
+        .gk-vf-actions { display: flex; gap: 10px; align-items: center; margin-top: 6px; }
+        .gk-vf-actions .save-btn { margin: 0; }
+
+        .gk-veh-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .gk-veh-card { border: 1px solid #eef2f8; border-radius: 18px; padding: 16px; background: #fff; box-shadow: 0 4px 16px rgba(10,43,84,.05); display: flex; flex-direction: column; gap: 12px; transition: transform .2s, box-shadow .2s; }
+        .gk-veh-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(10,43,84,.1); }
+        .gk-veh-top { display: flex; align-items: center; gap: 12px; }
+        .gk-veh-ico { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; background: linear-gradient(135deg, #0A2B54, #1E5C9E); flex-shrink: 0; }
+        .gk-veh-ico.car { background: linear-gradient(135deg, #E06400, #FF9F43); } .gk-veh-ico.ev { background: linear-gradient(135deg, #047857, #10b981); }
+        .gk-veh-name { flex: 1; min-width: 0; } .gk-veh-name b { display: block; color: #0A2B54; font-size: 15px; } .gk-veh-name span { font-size: 12px; color: #64748b; }
+        .gk-veh-menu { display: flex; gap: 4px; }
+        .gk-veh-menu button { width: 32px; height: 32px; border-radius: 10px; border: 1px solid #e2e8f0; background: #fff; color: #64748b; font-size: 12px; }
+        .gk-veh-menu button:hover { color: #E06400; border-color: #FDBA74; }
+        .gk-plate { align-self: flex-start; display: inline-flex; flex-direction: column; align-items: center; background: #fff; border: 2.5px solid #1f2937; border-radius: 8px; padding: 3px 12px; font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 800; color: #111827; letter-spacing: 1.5px; line-height: 1.25; box-shadow: inset 0 0 0 2px #fff, 0 3px 8px rgba(0,0,0,.08); }
+        .gk-plate span:first-child { font-size: 14px; } .gk-plate span:last-child { font-size: 16px; }
+        .gk-plate.one { flex-direction: row; font-size: 16px; padding: 5px 14px; }
+        .gk-rem-list { display: flex; flex-direction: column; gap: 10px; }
+        .gk-rem-top { display: flex; justify-content: space-between; font-size: 12.5px; color: #334155; font-weight: 700; }
+        .gk-rem-bar { height: 7px; border-radius: 7px; background: #eef2f8; overflow: hidden; margin: 5px 0 3px; }
+        .gk-rem-bar span { display: block; height: 100%; border-radius: 7px; background: #10b981; }
+        .gk-rem.warn .gk-rem-bar span { background: #f59e0b; } .gk-rem.bad .gk-rem-bar span { background: #ef4444; }
+        .gk-rem.warn .gk-rem-top b { color: #d97706; } .gk-rem.bad .gk-rem-top b { color: #dc2626; } .gk-rem.ok .gk-rem-top b { color: #047857; }
+        .gk-rem small { font-size: 11px; color: #94a3b8; }
+        .gk-rem-empty { font-size: 12px; color: #64748b; background: #f8fafc; border-radius: 10px; padding: 8px 10px; }
+        .gk-veh-actions { display: flex; gap: 8px; margin-top: auto; }
+        .gk-veh-actions a, .gk-veh-actions button { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; padding: 9px; font-size: 12.5px; font-weight: 800; text-decoration: none; border: 0; }
+        .gk-veh-actions a { background: #0A2B54; color: #fff; } .gk-veh-actions a:hover { background: #E06400; color: #fff; }
+        .gk-veh-actions button { background: #FFF1E6; color: #C2410C; flex: 0 0 auto; padding: 9px 14px; } .gk-veh-actions button:hover { background: #FA7806; color: #fff; }
+
+        .gk-empty-box { text-align: center; padding: 34px 16px; border: 1.5px dashed #e2e8f0; border-radius: 18px; background: #fbfcfe; }
+        .gk-empty-ico { font-size: 44px; margin-bottom: 8px; }
+        .gk-empty-box b { display: block; color: #0A2B54; font-size: 16px; margin-bottom: 4px; }
+        .gk-empty-box p { font-size: 13px; color: #64748b; max-width: 420px; margin: 0 auto 14px; }
+        .gk-empty-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+        .booking-btn { text-decoration: none !important; display: inline-flex; align-items: center; }
+        .booking-btn.primary { background: linear-gradient(135deg, #0A2B54, #1E5C9E) !important; }
+        .booking-btn.outline:hover { border-color: #FA7806 !important; color: #E06400 !important; }
+        .booking-price { color: #E06400 !important; }
+        .gk-ord-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0; }
+        .booking-card.open .gk-ord-detail { display: block; }
+        .gk-ord-detail dl { display: grid; grid-template-columns: 130px 1fr; gap: 6px 12px; margin: 0; font-size: 12.5px; }
+        .gk-ord-detail dt { color: #94a3b8; font-weight: 700; } .gk-ord-detail dd { margin: 0; color: #334155; font-weight: 600; }
+        .gk-ord-tl { list-style: none; margin: 10px 0 0; padding: 0 0 0 14px; border-left: 2px solid #FDBA74; font-size: 12.5px; color: #334155; }
+        .gk-ord-tl li { position: relative; padding: 3px 0; } .gk-ord-tl li::before { content: ''; position: absolute; left: -20px; top: 9px; width: 10px; height: 10px; border-radius: 50%; background: #FA7806; border: 2px solid #fff; }
+        .gk-ord-tl b { color: #0A2B54; margin-right: 6px; font-variant-numeric: tabular-nums; }
+        .bfilter-btn.active { background: linear-gradient(135deg, #F26B00, #FF9F43) !important; border-color: transparent !important; color: #fff !important; }
+
+        .wish-book-btn { text-decoration: none; display: inline-flex; align-items: center; background: linear-gradient(135deg, #F26B00, #FF9F43) !important; color: #fff !important; }
+        .wish-price { color: #E06400 !important; }
+        .gk-mech-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+        .gk-mech { display: flex; gap: 12px; align-items: center; border: 1px solid #eef2f8; border-radius: 16px; padding: 12px; }
+        .gk-mech img { width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; }
+        .gk-mech b { display: block; color: #0A2B54; font-size: 14px; } .gk-mech span { display: block; font-size: 12px; color: #E06400; font-weight: 700; } .gk-mech small { font-size: 11.5px; color: #64748b; }
+        .gk-mech-note { grid-column: 1 / -1; font-size: 12.5px; color: #64748b; margin: 0; } .gk-mech-note i { color: #FA7806; }
+
+        .gk-pf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+        .gk-pass-btn { background: linear-gradient(135deg, #0A2B54, #1E5C9E) !important; }
+        .save-btn { background: linear-gradient(135deg, #F26B00, #FF9F43); }
+        .toggle-switch.on { background: #FA7806 !important; }
+        .avatar-upload-btn { background: linear-gradient(135deg, #0A2B54, #1E5C9E) !important; }
+        .avatar-upload-zone.drag-over { border-color: #FA7806 !important; background: #FFF7F0 !important; }
+
+        .gk-acc-gate { max-width: 560px; margin: 48px auto; padding: 0 16px; }
+        .gk-gate-card { background: #fff; border-radius: 24px; padding: 36px 28px; text-align: center; box-shadow: 0 16px 40px rgba(10,43,84,.1); }
+        .gk-gate-ico { width: 76px; height: 76px; margin: 0 auto 16px; border-radius: 22px; background: linear-gradient(135deg, #0A2B54, #1E5C9E); color: #fff; font-size: 32px; display: flex; align-items: center; justify-content: center; }
+        .gk-gate-card h2 { font-size: 22px; font-weight: 900; color: #0A2B54; }
+        .gk-gate-card p { font-size: 14px; color: #64748b; line-height: 1.7; }
+        .gk-gate-btn { display: inline-flex; align-items: center; background: linear-gradient(135deg, #F26B00, #FF9F43); color: #fff !important; font-weight: 800; border-radius: 14px; padding: 12px 26px; text-decoration: none !important; box-shadow: 0 8px 22px rgba(250,120,6,.35); }
+        .gk-gate-sos { display: block; margin: 14px auto 0; border: 0; background: none; color: #0D4076; font-weight: 700; font-size: 13px; }
+
+        .gk-acc-tabs { display: none; }
+        @media (max-width: 992px) {
+            .gk-veh-grid { grid-template-columns: 1fr; }
+            .gk-vf-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            body { padding-bottom: 0 !important; }
+            .gk-acc-tabs { display: flex; gap: 8px; position: sticky; top: var(--gk-hdr-h, 55px); z-index: 30; margin: -4px -10px 0; padding: 10px; background: rgba(240,244,248,.96); backdrop-filter: blur(8px); overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+            .gk-acc-tabs::-webkit-scrollbar { display: none; }
+            .gk-acc-tabs .mobile-nav-item { flex: 0 0 auto; flex-direction: row; gap: 6px; padding: 8px 14px; border-radius: 999px; background: #fff; border: 1px solid #e2e8f0; font-size: 12px; text-transform: none; letter-spacing: 0; color: #475569; box-shadow: 0 2px 6px rgba(10,43,84,.05); }
+            .gk-acc-tabs .mobile-nav-item i { font-size: 13px; }
+            .gk-acc-tabs .mobile-nav-item.active { background: linear-gradient(135deg, #F26B00, #FF9F43); border-color: transparent; color: #fff; }
+            .gk-acc-tabs .mobile-nav-item.active i { transform: none; }
+            .gk-pf-grid { grid-template-columns: 1fr; }
+            .gk-ord-detail dl { grid-template-columns: 110px 1fr; }
+            .gk-tier-link { display: none; }
+            .gk-hb-gear { right: -20px; }
+        }
+        @media (max-width: 576px) {
+            .gk-vf-grid { grid-template-columns: 1fr; }
+            .gk-tier-scale small { display: none; }
+            .gk-vf-actions { flex-wrap: wrap; }
+        }
+
+        </style>
+</head>
+<body>
+
+    <!-- ================================================================
+         HEADER — đồng bộ 100% với trang chủ (copy từ html_trangchu.html)
+         ================================================================ -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================================================================
+         SUB-NAV — Thanh danh mục phụ (chỉ hiện trên desktop)
+         ================================================================ -->
+    <nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================================================================
+         NỘI DUNG CHÍNH — Dashboard 2 cột
+         ================================================================ -->
+    <div class="gk-acc-gate" id="accGate" style="display:none;">
+        <div class="gk-gate-card">
+            <div class="gk-gate-ico"><i class="fas fa-warehouse"></i></div>
+            <h2>Đăng nhập để mở Garage số</h2>
+            <p>Lưu xe của bạn, theo dõi lịch sử cứu hộ – sửa chữa, nhận nhắc lịch thay nhớt và dùng kho voucher trên mọi thiết bị.</p>
+            <a href="html_dangnhap_dangky.html?mode=login" class="gk-gate-btn" onclick="return goLogin()"><i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập / Đăng ký</a>
+            <button type="button" class="gk-gate-sos" data-sos-open="lop"><i class="fas fa-life-ring mr-1"></i>Cần cứu hộ ngay? Không cần đăng nhập</button>
+        </div>
+    </div>
+
+    <div class="dashboard-wrapper" id="dashWrapper">
+
+        <!-- ============================================================
+             SIDEBAR TRÁI — hồ sơ tóm tắt + điều hướng
+             ============================================================ -->
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-profile-card">
+                <div class="sidebar-avatar-wrap">
+                    <img id="sidebar-avatar-img" src="img/logo-mark.png" alt="Ảnh đại diện" class="sidebar-avatar">
+                    <span class="sidebar-avatar-badge" title="Đang hoạt động"></span>
+                </div>
+                <p class="sidebar-name" id="sidebar-name">Thành viên Bốn Phương</p>
+                <p class="sidebar-email" id="sidebar-email">—</p>
+                <span class="sidebar-badge" id="sidebar-badge">🛡️ Lá Chắn Số – Cơ bản</span>
+            </div>
+
+            <div class="sidebar-nav-card">
+                <a href="#tab-overview" class="sidebar-nav-item active" data-tab="tab-overview">
+                    <i class="fas fa-th-large"></i> Tổng quan
+                </a>
+                <a href="#tab-garage" class="sidebar-nav-item" data-tab="tab-garage">
+                    <i class="fas fa-warehouse"></i> Garage số
+                </a>
+                <a href="#tab-orders" class="sidebar-nav-item" data-tab="tab-orders">
+                    <i class="fas fa-clipboard-list"></i> Lịch sử dịch vụ <span class="gk-nav-count" id="nav-count-orders"></span>
+                </a>
+                <a href="#tab-wishlist" class="sidebar-nav-item" data-tab="tab-wishlist">
+                    <i class="fas fa-heart"></i> Yêu thích &amp; thợ quen
+                </a>
+                <a href="#tab-voucher" class="sidebar-nav-item" data-tab="tab-voucher">
+                    <i class="fas fa-ticket-alt"></i> Kho voucher
+                </a>
+                <a href="#tab-profile" class="sidebar-nav-item" data-tab="tab-profile">
+                    <i class="fas fa-user-cog"></i> Hồ sơ &amp; cài đặt
+                </a>
+                <hr style="margin: 8px 0; border-color: #eef2f8;">
+                <a href="html_dangnhap_dangky.html" class="sidebar-nav-item logout" onclick="return doLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </div>
+
+            <div class="gk-side-sos">
+                <div class="gk-side-sos-ico"><i class="fas fa-life-ring"></i></div>
+                <b>Xe gặp sự cố?</b>
+                <span>Thợ gần nhất có mặt trong khoảng 15 phút, báo giá trần trước khi làm.</span>
+                <button type="button" data-sos-open="lop"><i class="fas fa-bolt mr-1"></i>Gọi cứu hộ</button>
+            </div>
+        </aside>
+
+        <!-- ============================================================
+             KHU VỰC NỘI DUNG CHÍNH — thay đổi theo tab
+             ============================================================ -->
+        <div class="dashboard-content">
+
+            <!-- Thanh tab dính trên điện thoại -->
+            <nav class="gk-acc-tabs" aria-label="Các mục tài khoản">
+            <button type="button" class="mobile-nav-item active" data-tab="tab-overview">
+                <i class="fas fa-th-large"></i>
+                <span>Tổng quan</span>
+            </button>
+            <button type="button" class="mobile-nav-item" data-tab="tab-garage">
+                <i class="fas fa-warehouse"></i>
+                <span>Garage</span>
+            </button>
+            <button type="button" class="mobile-nav-item" data-tab="tab-orders">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Lịch sử</span>
+            </button>
+            <button type="button" class="mobile-nav-item" data-tab="tab-wishlist">
+                <i class="fas fa-heart"></i>
+                <span>Yêu thích</span>
+            </button>
+            <button type="button" class="mobile-nav-item" data-tab="tab-voucher">
+                <i class="fas fa-ticket-alt"></i>
+                <span>Voucher</span>
+            </button>
+            <button type="button" class="mobile-nav-item" data-tab="tab-profile">
+                <i class="fas fa-user-cog"></i>
+                <span>Hồ sơ</span>
+            </button>
+            </nav>
+
+            <!-- Thanh chào (hiện ở mọi tab) -->
+            <div class="dashboard-header-bar" id="dashHeaderBar">
+                <img id="db-header-avatar" src="img/logo-mark.png" alt="Ảnh đại diện" class="db-header-avatar">
+                <div class="db-header-info">
+                    <p class="db-header-greeting" id="db-header-greeting">Chào mừng trở lại 👋</p>
+                    <p class="db-header-name" id="db-header-name">Thành viên Bốn Phương</p>
+                </div>
+                <div class="db-header-right">
+                    <div class="db-header-points" id="db-header-points">0</div>
+                    <div class="db-header-points-label">Điểm Bốn Phương</div>
+                </div>
+                <i class="fas fa-cog gk-hb-gear" aria-hidden="true"></i>
+            </div>
+
+            <!-- ========================================================
+                 TAB 1: TỔNG QUAN
+                 ======================================================== -->
+            <div id="tab-overview" class="tab-panel active">
+
+                <div class="stat-grid">
+                    <div class="stat-item" id="stat-1">
+                        <div class="stat-icon si-blue"><i class="fas fa-tools"></i></div>
+                        <div class="stat-number" data-target="0" id="st-orders">0</div>
+                        <div class="stat-label">Lượt dịch vụ đã đặt</div>
+                        <span class="stat-badge up" id="st-orders-badge">—</span>
+                    </div>
+                    <div class="stat-item stat-teal" id="stat-2">
+                        <div class="stat-icon si-teal"><i class="fas fa-star"></i></div>
+                        <div class="stat-number" data-target="0" id="st-points">0</div>
+                        <div class="stat-label">Điểm Bốn Phương</div>
+                        <span class="stat-badge info" id="st-tier">Hạng Đồng</span>
+                    </div>
+                    <div class="stat-item stat-red" id="stat-3">
+                        <div class="stat-icon si-red"><i class="fas fa-ticket-alt"></i></div>
+                        <div class="stat-number" data-target="0" id="st-vouchers">0</div>
+                        <div class="stat-label">Voucher còn dùng được</div>
+                        <span class="stat-badge up" id="st-vouchers-badge">—</span>
+                    </div>
+                    <div class="stat-item stat-green" id="stat-4">
+                        <div class="stat-icon si-green"><i class="fas fa-motorcycle"></i></div>
+                        <div class="stat-number" data-target="0" id="st-garage">0</div>
+                        <div class="stat-label">Xe trong Garage số</div>
+                        <span class="stat-badge up" id="st-garage-badge">—</span>
+                    </div>
+                </div>
+
+                <!-- Hạng thành viên theo điểm -->
+                <div class="white-card gk-tier-card" id="tierCard"></div>
+
+                <!-- Lịch hẹn / nhắc bảo dưỡng sắp tới -->
+                <div class="upcoming-card white-card" style="padding:0; overflow:hidden; opacity:0; transform:translateY(40px);" id="upcomingCard"></div>
+
+                <!-- Gợi ý dịch vụ (Swiper.js) -->
+                <div class="white-card" style="opacity:0;transform:translateY(40px);" id="suggestSection">
+                    <div class="section-title-row">
+                        <h5 class="section-title">🔧 Gợi ý cho xe của bạn</h5>
+                        <a href="html_dichvu.html" class="section-see-all">
+                            Xem tất cả <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="swiper suggest-swiper">
+                        <div class="swiper-wrapper" id="suggestWrapper"></div>
+                        <div class="swiper-pagination" style="margin-top:12px;position:static;"></div>
+                    </div>
+                </div>
+            </div><!-- /tab-overview -->
+
+            <!-- ========================================================
+                 TAB 2: GARAGE SỐ — xe của tôi + nhắc bảo dưỡng
+                 ======================================================== -->
+            <div id="tab-garage" class="tab-panel">
+                <div class="white-card">
+                    <div class="section-title-row" style="margin-bottom:6px;">
+                        <h5 class="section-title">
+                            <i class="fas fa-warehouse" style="color:var(--primary-blue);"></i>
+                            Garage số – xe của tôi
+                        </h5>
+                        <button type="button" class="gk-btn-add" onclick="openVehicleForm(-1)"><i class="fas fa-plus"></i> Thêm xe</button>
+                    </div>
+                    <p class="gk-garage-sub">Lưu thông tin xe để đặt dịch vụ nhanh hơn, nhận nhắc lịch thay nhớt – kiểm tra pin – bảo hiểm, và gửi đúng thông tin xe cho thợ khi cần cứu hộ.</p>
+
+                    <div class="gk-veh-form" id="vehForm" style="display:none;">
+                        <div class="gk-veh-form-title" id="vehFormTitle"><i class="fas fa-car-side"></i> Thêm xe mới</div>
+                        <input type="hidden" id="veh-idx" value="-1">
+                        <div class="gk-vf-grid">
+                            <label>Loại xe
+                                <select id="veh-type" onchange="vehTypeChanged()">
+                                    <option value="moto">Xe máy</option>
+                                    <option value="car">Ô tô</option>
+                                    <option value="ev">Xe điện</option>
+                                </select>
+                            </label>
+                            <label>Dòng xe *
+                                <input type="text" id="veh-model" maxlength="40" placeholder="VD: Honda Vision">
+                            </label>
+                            <label>Biển số *
+                                <input type="text" id="veh-plate" maxlength="14" placeholder="VD: 59-X1 234.56">
+                            </label>
+                            <label>Năm sản xuất
+                                <input type="number" id="veh-year" min="1990" max="2027" placeholder="VD: 2022">
+                            </label>
+                            <label>Số km đã đi (ODO)
+                                <input type="number" id="veh-odo" min="0" step="10" placeholder="VD: 12450">
+                            </label>
+                            <label id="veh-oil-lbl">Lần thay nhớt gần nhất
+                                <input type="date" id="veh-oil">
+                            </label>
+                            <label>Hạn bảo hiểm TNDS
+                                <input type="date" id="veh-ins">
+                            </label>
+                        </div>
+                        <div class="gk-vf-err" id="vehErr"></div>
+                        <div class="gk-vf-actions">
+                            <button type="button" class="save-btn" onclick="saveVehicle()"><span class="btn-text"><i class="fas fa-save" style="margin-right:6px;"></i>Lưu xe</span></button>
+                            <button type="button" class="gk-btn-ghost" onclick="closeVehicleForm()">Hủy</button>
+                        </div>
+                    </div>
+
+                    <div class="gk-veh-grid" id="vehGrid"></div>
+                </div>
+            </div><!-- /tab-garage -->
+
+            <!-- ========================================================
+                 TAB 3: LỊCH SỬ DỊCH VỤ — timeline
+                 ======================================================== -->
+            <div id="tab-orders" class="tab-panel">
+                <div class="white-card">
+                    <h5 class="section-title" style="margin-bottom:16px;">
+                        <i class="fas fa-clipboard-list" style="color:var(--primary-blue);"></i>
+                        Lịch sử cứu hộ &amp; dịch vụ
+                    </h5>
+                    <div class="booking-filter">
+                        <button class="bfilter-btn active" data-filter="all">Tất cả</button>
+                        <button class="bfilter-btn" data-filter="pending">🟡 Đang xử lý</button>
+                        <button class="bfilter-btn" data-filter="confirmed">✅ Hoàn tất</button>
+                        <button class="bfilter-btn" data-filter="cancelled">❌ Đã hủy</button>
+                    </div>
+                    <div class="booking-timeline" id="bookingTimeline"></div>
+                </div>
+            </div><!-- /tab-orders -->
+
+            <!-- ========================================================
+                 TAB 4: YÊU THÍCH & THỢ QUEN
+                 ======================================================== -->
+            <div id="tab-wishlist" class="tab-panel">
+                <div class="white-card">
+                    <div class="section-title-row" style="margin-bottom:16px;">
+                        <h5 class="section-title">
+                            <i class="fas fa-heart" style="color:var(--accent-red);"></i>
+                            Dịch vụ đã lưu
+                        </h5>
+                        <span id="wishCount" style="font-size:12px;color:var(--text-muted);font-weight:600;"></span>
+                    </div>
+                    <div class="wishlist-grid" id="wishlistGrid"></div>
+                </div>
+                <div class="white-card" style="margin-top:18px;">
+                    <div class="section-title-row" style="margin-bottom:14px;">
+                        <h5 class="section-title"><i class="fas fa-user-check" style="color:var(--primary-blue);"></i> Thợ quen của bạn</h5>
+                    </div>
+                    <div class="gk-mech-list" id="mechList"></div>
+                </div>
+            </div><!-- /tab-wishlist -->
+
+            <!-- ========================================================
+                 TAB 5: KHO VOUCHER
+                 ======================================================== -->
+            <div id="tab-voucher" class="tab-panel">
+                <div class="white-card">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+                        <h5 class="section-title" style="margin:0;">
+                            <i class="fas fa-ticket-alt" style="color:var(--primary-blue);"></i>
+                            Kho voucher của tôi
+                        </h5>
+                        <a href="html_khuyenmaivatiepthi.html" class="gk-btn-add" style="text-decoration:none;">
+                            <i class="fas fa-plus-circle"></i> Săn thêm mã
+                        </a>
+                    </div>
+                    <div id="kmv-inventory-container">
+                        <div style="text-align:center;padding:32px;color:#9baab8;">
+                            <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                            <p style="margin-top:10px;font-size:13px;">Đang tải kho voucher...</p>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /tab-voucher -->
+
+            <!-- ========================================================
+                 TAB 6: HỒ SƠ & CÀI ĐẶT
+                 ======================================================== -->
+            <div id="tab-profile" class="tab-panel">
+
+                <div class="settings-card">
+                    <h5 class="settings-title">
+                        <i class="fas fa-user-edit"></i> Chỉnh sửa hồ sơ
+                    </h5>
+                    <div class="avatar-upload-zone" id="avatarDropZone">
+                        <img id="avatar-preview" src="img/logo-mark.png" alt="Xem trước ảnh đại diện" class="avatar-preview-large">
+                        <div class="avatar-upload-info">
+                            <h6>Ảnh đại diện</h6>
+                            <p>Kéo thả ảnh vào đây hoặc nhấn nút chọn file<br>
+                               <small style="color:#aaa;">JPG, PNG · Tối đa 5MB · tự thu nhỏ để lưu</small>
+                            </p>
+                            <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarFile(this.files[0])">
+                            <button class="avatar-upload-btn" onclick="document.getElementById('avatarFileInput').click()">
+                                <i class="fas fa-upload" style="margin-right:6px;"></i> Chọn ảnh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gk-pf-grid">
+                        <div class="float-group">
+                            <input type="text" class="float-input" id="edit-name" placeholder=" " autocomplete="off">
+                            <label class="float-label" for="edit-name">Họ và tên</label>
+                            <i class="fas fa-check float-validation-icon"></i>
+                        </div>
+                        <div class="float-group">
+                            <input type="date" class="float-input" id="edit-dob" placeholder=" ">
+                            <label class="float-label" for="edit-dob">Ngày sinh</label>
+                            <i class="fas fa-check float-validation-icon"></i>
+                        </div>
+                        <div class="float-group" id="email-group">
+                            <input type="email" class="float-input" id="edit-email" placeholder=" " autocomplete="off" oninput="validateEmail(this)">
+                            <label class="float-label" for="edit-email">Địa chỉ email</label>
+                            <i class="fas fa-check float-validation-icon" id="email-icon"></i>
+                            <p class="float-error-msg" id="email-err">Định dạng email không hợp lệ!</p>
+                        </div>
+                        <div class="float-group" id="phone-group">
+                            <input type="tel" class="float-input" id="edit-phone" placeholder=" " autocomplete="off" inputmode="numeric" maxlength="10" oninput="validatePhone(this)">
+                            <label class="float-label" for="edit-phone">Số điện thoại</label>
+                            <i class="fas fa-check float-validation-icon" id="phone-icon"></i>
+                            <p class="float-error-msg" id="phone-err">Số di động 10 số, bắt đầu 03/05/07/08/09</p>
+                        </div>
+                        <div class="float-group" style="grid-column:1/-1;">
+                            <input type="text" class="float-input" id="edit-address" placeholder=" ">
+                            <label class="float-label" for="edit-address">Địa chỉ thường gọi thợ (nhà / công ty)</label>
+                            <i class="fas fa-check float-validation-icon"></i>
+                        </div>
+                        <div class="float-group" style="grid-column:1/-1;">
+                            <textarea class="float-input" id="edit-bio" placeholder=" " rows="3" style="resize:none;padding-top:22px;"></textarea>
+                            <label class="float-label" for="edit-bio">Ghi chú cố định cho thợ (hẻm, chỗ gửi xe, giờ tiện liên hệ…)</label>
+                        </div>
+                    </div>
+                    <div style="margin-top:8px;">
+                        <button class="save-btn" id="saveProfileBtn" onclick="saveProfile()">
+                            <i class="fas fa-circle-notch spin"></i>
+                            <span class="btn-text"><i class="fas fa-save" style="margin-right:6px;"></i>Lưu thay đổi</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h5 class="settings-title">
+                        <i class="fas fa-lock"></i> Đổi mật khẩu
+                    </h5>
+                    <div style="max-width:480px;">
+                        <div class="float-group">
+                            <input type="password" class="float-input" id="old-pass" placeholder=" ">
+                            <label class="float-label" for="old-pass">Mật khẩu hiện tại</label>
+                            <i class="fas fa-eye float-validation-icon" style="cursor:pointer;opacity:1;" onclick="togglePass('old-pass')"></i>
+                        </div>
+                        <div class="float-group">
+                            <input type="password" class="float-input" id="new-pass" placeholder=" ">
+                            <label class="float-label" for="new-pass">Mật khẩu mới (tối thiểu 6 ký tự)</label>
+                            <i class="fas fa-eye float-validation-icon" style="cursor:pointer;opacity:1;" onclick="togglePass('new-pass')"></i>
+                        </div>
+                        <div class="float-group">
+                            <input type="password" class="float-input" id="confirm-pass" placeholder=" ">
+                            <label class="float-label" for="confirm-pass">Xác nhận mật khẩu mới</label>
+                            <i class="fas fa-eye float-validation-icon" style="cursor:pointer;opacity:1;" onclick="togglePass('confirm-pass')"></i>
+                        </div>
+                        <button class="save-btn gk-pass-btn" onclick="changePassword()">
+                            <i class="fas fa-key" style="margin-right:6px;"></i> Đổi mật khẩu
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h5 class="settings-title">
+                        <i class="fas fa-bell"></i> Cài đặt thông báo
+                    </h5>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <h6>Trạng thái đơn &amp; vị trí thợ</h6>
+                            <p>SMS + thông báo khi thợ nhận đơn, đang đến, báo giá và hoàn tất</p>
+                        </div>
+                        <div class="toggle-switch on" data-pref="status" role="switch" tabindex="0" onclick="togglePref(this)"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <h6>Ưu đãi &amp; voucher</h6>
+                            <p>Deal chớp nhoáng, mã mùa mưa và quà sinh nhật cho thành viên</p>
+                        </div>
+                        <div class="toggle-switch on" data-pref="promo" role="switch" tabindex="0" onclick="togglePref(this)"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <h6>Nhắc lịch bảo dưỡng</h6>
+                            <p>Nhắc thay nhớt, kiểm tra pin và hạn bảo hiểm theo xe trong Garage số</p>
+                        </div>
+                        <div class="toggle-switch on" data-pref="maint" role="switch" tabindex="0" onclick="togglePref(this)"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <h6>Cảnh báo mưa ngập</h6>
+                            <p>Báo trước tuyến đường hay ngập trong khu vực bạn thường đi</p>
+                        </div>
+                        <div class="toggle-switch" data-pref="weather" role="switch" tabindex="0" onclick="togglePref(this)"></div>
+                    </div>
+                </div>
+            </div><!-- /tab-profile -->
+
+        </div><!-- /dashboard-content -->
+    </div><!-- /dashboard-wrapper -->
+
+    <!-- ================================================================
+         FOOTER — 3 cột: Giới thiệu | Liên hệ + Bản đồ | Mạng xã hội
+         Đồng bộ 100% với html_trangchu.html
+         ================================================================ -->
+    <div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <!-- jQuery + Bootstrap Bundle --><script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+<!-- Swiper.js — slider gợi ý dịch vụ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.js"></script>
+
+    <script>
+    /* ================================================================
+       JAVASCRIPT CHÍNH — html_thongtin.html (Tài khoản & Garage số)
+         1. Tiện ích + toast
+         2. Hồ sơ người dùng (gkbp_user / gkbp_accounts)
+         3. Chuyển tab không tải lại trang (hỗ trợ #tab-… trên URL)
+         4. Count-up
+         5. Tổng quan: thống kê, hạng thành viên, lịch hẹn, gợi ý
+         6. Garage số
+         7. Lịch sử dịch vụ
+         8. Yêu thích & thợ quen
+         9. Ảnh đại diện + kiểm tra hợp lệ + lưu hồ sơ + mật khẩu + thông báo
+        10. GSAP intro + khởi động
+       ================================================================ */
+
+    /* ── 1. TIỆN ÍCH ── */
+    var GKB = window.GKBP;
+    var GD  = window.GK_DATA || { SERVICES: [], MECHANICS: [], findService: function () { return null; } };
+    function esc(s) { return GKB ? GKB.esc(s) : String(s == null ? '' : s); }
+    function fVND(n) { return Math.round(n || 0).toLocaleString('vi-VN') + 'đ'; }
+    function pad2(n) { return (n < 10 ? '0' : '') + n; }
+    function dmy(d) { d = new Date(d); return pad2(d.getDate()) + '/' + pad2(d.getMonth() + 1) + '/' + d.getFullYear(); }
+    function daysBetween(a, b) { return Math.round((new Date(b).setHours(0, 0, 0, 0) - new Date(a).setHours(0, 0, 0, 0)) / 86400000); }
+    function lsGet(k, f) { return GKB ? GKB._ls(k, f) : f; }
+    function lsSet(k, v) { if (GKB) GKB._lsSet(k, v); }
+
+    /* Giữ chữ ký cũ showToast(type, title, message) — hiển thị bằng toast chung của site */
+    function showToast(type, title, message) {
+        if (GKB) GKB.showToast(type, '<b>' + title + '</b>' + (message ? '<br>' + message : ''));
+    }
+
+    /* Ảnh đại diện mặc định: chữ cái đầu trên nền navy (SVG nội tuyến, không gọi dịch vụ ngoài) */
+    function avatarFor(name) {
+        var p = String(name || '?').trim().split(/\s+/);
+        var ini = ((p.length > 1 ? p[0].charAt(0) : '') + p[p.length - 1].charAt(0)).toUpperCase();
+        var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+            '<stop offset="0" stop-color="#0A2B54"/><stop offset="1" stop-color="#1E5C9E"/></linearGradient></defs>' +
+            '<rect width="120" height="120" fill="url(#g)"/><circle cx="98" cy="22" r="16" fill="#FA7806"/>' +
+            '<text x="60" y="77" font-family="Segoe UI,Arial,sans-serif" font-size="44" font-weight="800" fill="#ffffff" text-anchor="middle">' + ini + '</text></svg>';
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    /* ── 2. HỒ SƠ NGƯỜI DÙNG ── */
+    function loadUser() { return GKB ? GKB.getUser() : null; }
+
+    function syncAccount(user, prevEmail) {
+        var acc = lsGet('gkbp_accounts', []);
+        if (!Array.isArray(acc)) return;
+        var i = acc.findIndex(function (a) { return a.email && (a.email === prevEmail || a.email === user.email); });
+        if (i > -1) {
+            ['name', 'email', 'phone', 'dob', 'address', 'bio', 'avatar', 'prefs'].forEach(function (k) { if (user[k] !== undefined) acc[i][k] = user[k]; });
+            lsSet('gkbp_accounts', acc);
+        }
+    }
+
+    /* Đổi email → chuyển kho voucher + giỏ đã lưu sang khóa mới */
+    function migrateKeys(oldK, newK) {
+        if (!oldK || !newK || oldK === newK) return;
+        ['gkbp_saved_vouchers', 'gkbp_carts'].forEach(function (key) {
+            var s = lsGet(key, {}) || {};
+            if (s[oldK] && !s[newK]) { s[newK] = s[oldK]; delete s[oldK]; lsSet(key, s); }
+        });
+    }
+
+    function saveUser(user, prevEmail) {
+        lsSet('gkbp_user', user);
+        syncAccount(user, prevEmail);
+        if (GKB) GKB.renderAuthZone();
+    }
+
+    function activePackage() {
+        var o = (GKB ? GKB.getOrders() : []).filter(function (x) { return x.svcId && /^gt0/.test(x.svcId) && x.status === 'Đã kích hoạt'; })[0];
+        return o ? o.title.replace('Thành viên ', '') : 'Lá Chắn Số – Cơ bản';
+    }
+
+    var TIERS = [
+        { n: 'Đồng', min: 0, ic: '🥉' }, { n: 'Bạc', min: 500, ic: '🥈' },
+        { n: 'Vàng', min: 1500, ic: '🥇' }, { n: 'Kim cương', min: 3000, ic: '💎' }
+    ];
+    function tierOf(p) {
+        var t = TIERS[0], next = null;
+        for (var i = 0; i < TIERS.length; i++) { if (p >= TIERS[i].min) { t = TIERS[i]; next = TIERS[i + 1] || null; } }
+        return { cur: t, next: next };
+    }
+
+    function applyUserToUI(user) {
+        ['sidebar-name', 'db-header-name'].forEach(function (id) { var el = document.getElementById(id); if (el) el.textContent = user.name || 'Thành viên Bốn Phương'; });
+        var em = document.getElementById('sidebar-email'); if (em) em.textContent = user.email || user.phone || '';
+        var pts = GKB ? GKB.getPoints() : 0;
+        var ptEl = document.getElementById('db-header-points'); if (ptEl) ptEl.textContent = pts.toLocaleString('vi-VN');
+        var badge = document.getElementById('sidebar-badge'); if (badge) badge.textContent = '🛡️ ' + activePackage();
+        var h = new Date().getHours();
+        var gr = document.getElementById('db-header-greeting');
+        if (gr) gr.textContent = (h < 11 ? 'Chào buổi sáng' : h < 14 ? 'Chào buổi trưa' : h < 18 ? 'Chào buổi chiều' : 'Chào buổi tối') + ', chúc xe bạn luôn bon bon 👋';
+        var src = user.avatar || avatarFor(user.name || user.email);
+        ['sidebar-avatar-img', 'db-header-avatar', 'avatar-preview'].forEach(function (id) { var el = document.getElementById(id); if (el) el.src = src; });
+        var fields = { 'edit-name': user.name, 'edit-email': user.email, 'edit-phone': user.phone, 'edit-dob': user.dob, 'edit-address': user.address, 'edit-bio': user.bio };
+        Object.keys(fields).forEach(function (id) { var el = document.getElementById(id); if (el) el.value = fields[id] || ''; });
+        var prefs = user.prefs || {};
+        document.querySelectorAll('.toggle-switch[data-pref]').forEach(function (t) {
+            var k = t.getAttribute('data-pref');
+            if (prefs[k] !== undefined) t.classList.toggle('on', !!prefs[k]);
+            t.setAttribute('aria-checked', t.classList.contains('on') ? 'true' : 'false');
+        });
+    }
+
+    /* ── 3. CHUYỂN TAB ── */
+    var TAB_IDS = ['tab-overview', 'tab-garage', 'tab-orders', 'tab-wishlist', 'tab-voucher', 'tab-profile'];
+    function switchTab(targetTabId, noScroll) {
+        if (TAB_IDS.indexOf(targetTabId) < 0) targetTabId = 'tab-overview';
+        if (targetTabId === 'tab-voucher' && typeof GK_VOUCHER !== 'undefined') {
+            setTimeout(function () { GK_VOUCHER.renderInventory('kmv-inventory-container'); }, 60);
+        }
+        if (targetTabId === 'tab-garage') renderGarage();
+        if (targetTabId === 'tab-orders') renderOrders();
+        if (targetTabId === 'tab-wishlist') { renderWishlist(); renderMechanics(); }
+        document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+        document.querySelectorAll('.sidebar-nav-item, .mobile-nav-item').forEach(function (i) { i.classList.remove('active'); });
+        var target = document.getElementById(targetTabId);
+        if (target) target.classList.add('active');
+        document.querySelectorAll('[data-tab="' + targetTabId + '"]').forEach(function (el) { el.classList.add('active'); });
+        var mt = document.querySelector('.gk-acc-tabs .mobile-nav-item.active');
+        if (mt && mt.scrollIntoView) mt.scrollIntoView({ inline: 'center', block: 'nearest' });
+        if (targetTabId === 'tab-overview') setTimeout(runCountUp, 100);
+        try { history.replaceState(null, '', '#' + targetTabId); } catch (e) {}
+        if (!noScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('.sidebar-nav-item[data-tab]').forEach(function (item) {
+        item.addEventListener('click', function (e) { e.preventDefault(); switchTab(this.getAttribute('data-tab')); });
+    });
+    document.querySelectorAll('.mobile-nav-item[data-tab]').forEach(function (item) {
+        item.addEventListener('click', function () { switchTab(this.getAttribute('data-tab')); });
+    });
+    window.addEventListener('hashchange', function () { switchTab(location.hash.replace('#', ''), true); });
+
+    /* ── 4. COUNT-UP ── */
+    function runCountUp() {
+        document.querySelectorAll('.stat-number[data-target]').forEach(function (el) {
+            var target = parseInt(el.getAttribute('data-target'), 10) || 0, duration = 1400, start = null;
+            function step(ts) {
+                if (!start) start = ts;
+                var progress = Math.min((ts - start) / duration, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.floor(eased * target).toLocaleString('vi-VN');
+                if (progress < 1) requestAnimationFrame(step); else el.textContent = target.toLocaleString('vi-VN');
+            }
+            requestAnimationFrame(step);
+        });
+    }
+
+    /* ── 5. TỔNG QUAN ── */
+    function renderStats() {
+        var orders = GKB ? GKB.getOrders() : [];
+        var pts = GKB ? GKB.getPoints() : 0;
+        var mine = typeof GK_VOUCHER !== 'undefined' ? GK_VOUCHER.mine() : [];
+        var usable = mine.filter(function (x) { return !x.used; });
+        var garage = getGarage();
+        var set = function (id, v) { var el = document.getElementById(id); if (el) el.setAttribute('data-target', v); };
+        set('st-orders', orders.length); set('st-points', pts); set('st-vouchers', usable.length); set('st-garage', garage.length);
+        var month = orders.filter(function (o) { var d = new Date(o.createdAt); var n = new Date(); return d.getMonth() === n.getMonth() && d.getFullYear() === n.getFullYear(); }).length;
+        var t = tierOf(pts);
+        var soon = usable.filter(function (x) { var v = GK_VOUCHER.get(x.code); if (!v) return false; var p = v.expires.split('/'); return daysBetween(new Date(), new Date(+p[2], +p[1] - 1, +p[0])) <= 30; }).length;
+        var dueCount = 0; garage.forEach(function (v) { remindersFor(v).forEach(function (r) { if (r.left <= 14) dueCount++; }); });
+        var txt = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+        txt('st-orders-badge', month ? '↑ ' + month + ' trong tháng này' : 'Chưa có đơn tháng này');
+        txt('st-tier', t.cur.ic + ' Hạng ' + t.cur.n);
+        txt('st-vouchers-badge', soon ? soon + ' mã sắp hết hạn' : (usable.length ? 'Đang có hiệu lực' : 'Săn mã ngay'));
+        txt('st-garage-badge', dueCount ? dueCount + ' lịch cần chú ý' : (garage.length ? 'Lịch bảo dưỡng ổn' : 'Thêm xe đầu tiên'));
+        var nc = document.getElementById('nav-count-orders');
+        var pending = orders.filter(function (o) { return statusClass(o.status) === 'pending'; }).length;
+        if (nc) { nc.textContent = pending || ''; nc.style.display = pending ? '' : 'none'; }
+    }
+
+    function renderTier() {
+        var box = document.getElementById('tierCard'); if (!box) return;
+        var pts = GKB ? GKB.getPoints() : 0, t = tierOf(pts);
+        var pct = t.next ? Math.round((pts - t.cur.min) / (t.next.min - t.cur.min) * 100) : 100;
+        box.innerHTML = '<div class="gk-tier-row"><div class="gk-tier-ic">' + t.cur.ic + '</div><div class="gk-tier-txt"><b>Hạng ' + t.cur.n + ' · ' + pts.toLocaleString('vi-VN') + ' điểm</b>' +
+            '<span>' + (t.next ? 'Còn ' + (t.next.min - pts).toLocaleString('vi-VN') + ' điểm để lên hạng ' + t.next.n + ' ' + t.next.ic : 'Bạn đang ở hạng cao nhất — cảm ơn đã đồng hành!') + '</span></div>' +
+            '<a class="gk-tier-link" href="html_khuyenmaivatiepthi.html">Đổi ưu đãi <i class="fas fa-arrow-right"></i></a></div>' +
+            '<div class="gk-tier-bar"><span style="width:' + pct + '%"></span><i class="fas fa-motorcycle" style="left:calc(' + pct + '% - ' + (pct / 100 * 22) + 'px)"></i></div>' +
+            '<div class="gk-tier-scale">' + TIERS.map(function (x) { return '<span>' + x.ic + ' ' + x.n + '<small>' + x.min.toLocaleString('vi-VN') + '</small></span>'; }).join('') + '</div>' +
+            '<p class="gk-tier-note"><i class="fas fa-info-circle"></i> Mỗi 1.000đ thanh toán = 1 điểm Bốn Phương.</p>';
+    }
+
+    function parseAppt(s) {
+        var m = /(\d{2})\/(\d{2})\/(\d{4})/.exec(s || ''); if (!m) return null;
+        return new Date(+m[3], +m[2] - 1, +m[1]);
+    }
+
+    function renderUpcoming() {
+        var box = document.getElementById('upcomingCard'); if (!box) return;
+        var orders = (GKB ? GKB.getOrders() : []).filter(function (o) { return o.status === 'Chờ thợ nhận'; });
+        var best = null;
+        orders.forEach(function (o) { var d = parseAppt(o.appt); if (d && daysBetween(new Date(), d) >= 0 && (!best || d < best.d)) best = { o: o, d: d }; });
+        var html;
+        if (best) {
+            var left = daysBetween(new Date(), best.d);
+            html = '<div style="display:flex;align-items:center;gap:20px;padding:20px 24px;flex:1;flex-wrap:wrap;">' +
+                '<img src="' + esc(best.o.img || 'img/logo-mark.png') + '" alt="' + esc(best.o.title) + '" class="upcoming-img">' +
+                '<div class="upcoming-info"><span class="upcoming-tag">🛠️ Lịch hẹn sắp tới</span><h5 class="upcoming-title">' + esc(best.o.title) + '</h5>' +
+                '<div class="upcoming-meta"><span><i class="fas fa-calendar-alt"></i> ' + esc(best.o.appt) + '</span>' +
+                (best.o.area ? '<span><i class="fas fa-map-marker-alt"></i> ' + esc(best.o.area) + '</span>' : '') +
+                (best.o.plate ? '<span><i class="fas fa-id-card"></i> ' + esc(best.o.plate) + '</span>' : '') + '</div></div></div>' +
+                '<div class="upcoming-countdown" style="margin:16px;border-radius:14px;"><div class="countdown-number" id="countdown-num">' + left + '</div><div class="countdown-label">' + (left ? 'ngày nữa' : 'hôm nay') + '</div></div>';
+        } else {
+            var rem = null;
+            getGarage().forEach(function (v) { remindersFor(v).forEach(function (r) { if (!rem || r.left < rem.r.left) rem = { v: v, r: r }; }); });
+            if (rem) {
+                var l = rem.r.left;
+                html = '<div style="display:flex;align-items:center;gap:20px;padding:20px 24px;flex:1;flex-wrap:wrap;">' +
+                    '<div class="gk-up-ico"><i class="fas ' + vehIcon(rem.v.type) + '"></i></div>' +
+                    '<div class="upcoming-info"><span class="upcoming-tag">🔔 Nhắc bảo dưỡng</span><h5 class="upcoming-title">' + esc(rem.r.label) + ' – ' + esc(rem.v.model) + '</h5>' +
+                    '<div class="upcoming-meta"><span><i class="fas fa-id-card"></i> ' + esc(rem.v.plate) + '</span><span><i class="fas fa-info-circle"></i> ' + esc(rem.r.hint) + '</span></div>' +
+                    (rem.r.svc ? '<a class="gk-up-cta" href="html_dichvu.html?id=' + rem.r.svc + '">Đặt lịch ngay <i class="fas fa-arrow-right"></i></a>' : '') + '</div></div>' +
+                    '<div class="upcoming-countdown" style="margin:16px;border-radius:14px;"><div class="countdown-number" id="countdown-num">' + Math.abs(l) + '</div><div class="countdown-label">' + (l >= 0 ? 'ngày nữa' : 'ngày quá hạn') + '</div></div>';
+            } else {
+                html = '<div style="display:flex;align-items:center;gap:20px;padding:20px 24px;flex:1;flex-wrap:wrap;">' +
+                    '<div class="gk-up-ico"><i class="fas fa-calendar-plus"></i></div>' +
+                    '<div class="upcoming-info"><span class="upcoming-tag">🗓️ Chưa có lịch hẹn</span><h5 class="upcoming-title">Đặt bảo dưỡng tại nhà – thợ đến tận nơi</h5>' +
+                    '<div class="upcoming-meta"><span><i class="fas fa-shield-alt"></i> Giá trần, có checklist ảnh từng hạng mục</span></div>' +
+                    '<a class="gk-up-cta" href="html_dichvu.html?cate=baoduong">Xem gói bảo dưỡng <i class="fas fa-arrow-right"></i></a></div></div>' +
+                    '<div class="upcoming-countdown gk-up-add" style="margin:16px;border-radius:14px;cursor:pointer;" onclick="switchTab(\'tab-garage\');openVehicleForm(-1)"><div class="countdown-number"><i class="fas fa-plus"></i></div><div class="countdown-label">Thêm xe</div></div>';
+            }
+        }
+        box.innerHTML = html;
+    }
+
+    function suggestIds() {
+        var g = getGarage(), types = g.map(function (v) { return v.type; });
+        var ids = [];
+        if (types.indexOf('car') > -1) ids.push('bd04', 'ch04', 'pt06');
+        if (types.indexOf('ev') > -1) ids.push('xd02', 'xd01');
+        ids.push('bd01', 'ch01', 'sc02', 'bd05', 'gt02', 'pt05', 'bd02', 'pt01');
+        return ids.filter(function (x, i) { return ids.indexOf(x) === i; }).slice(0, 8);
+    }
+
+    var suggestSwiper = null;
+    function renderSuggest() {
+        var w = document.getElementById('suggestWrapper'); if (!w) return;
+        var wish = getWish();
+        w.innerHTML = suggestIds().map(function (id) {
+            var s = GD.findService(id); if (!s) return '';
+            var on = wish.indexOf(id) > -1;
+            return '<div class="swiper-slide"><div class="suggest-card">' +
+                '<div class="suggest-img-wrap"><a href="html_dichvu.html?id=' + s.id + '"><img src="' + s.img + '" alt="' + esc(s.title) + '" class="suggest-img"></a>' +
+                '<span class="suggest-cat-badge">' + esc(s.cat) + '</span>' +
+                '<div class="suggest-overlay"><p class="suggest-overlay-title">' + esc(s.title) + '</p><p class="suggest-overlay-detail">⏱️ ' + esc(s.time) + ' · 🛡️ Bảo hành ' + esc(s.warranty || '—') + '</p></div>' +
+                '<button class="suggest-wish-btn' + (on ? ' active' : '') + '" onclick="toggleWish(this,\'' + s.id + '\')" aria-label="Lưu dịch vụ"><i class="fas fa-heart"></i></button></div>' +
+                '<div class="suggest-body"><a class="suggest-name" href="html_dichvu.html?id=' + s.id + '">' + esc(s.title) + '</a>' +
+                '<div class="suggest-meta"><span class="suggest-price">' + s.price + '<small>' + esc(s.unit || '') + '</small></span><span class="suggest-rating">★ ' + (s.rating || 5) + '</span></div></div>' +
+                '</div></div>';
+        }).join('');
+        if (typeof Swiper !== 'undefined') {
+            if (suggestSwiper) suggestSwiper.destroy(true, true);
+            suggestSwiper = new Swiper('.suggest-swiper', {
+                slidesPerView: 1.2, spaceBetween: 14, grabCursor: true,
+                pagination: { el: '.swiper-pagination', clickable: true },
+                breakpoints: { 576: { slidesPerView: 2.1, spaceBetween: 14 }, 992: { slidesPerView: 3, spaceBetween: 16 }, 1200: { slidesPerView: 3.5, spaceBetween: 16 } }
+            });
+        } else {
+            w.classList.add('gk-no-swiper');
+        }
+    }
+
+    /* ── 6. GARAGE SỐ ── */
+    function getGarage() { var g = lsGet('gkbp_garage', []); return Array.isArray(g) ? g : []; }
+    function setGarage(g) { lsSet('gkbp_garage', g); }
+    function vehIcon(t) { return t === 'car' ? 'fa-car' : t === 'ev' ? 'fa-charging-station' : 'fa-motorcycle'; }
+    function vehLabel(t) { return t === 'car' ? 'Ô tô' : t === 'ev' ? 'Xe điện' : 'Xe máy'; }
+    var PLATE_RE = /^\d{2}[-\s]?[A-Z]{1,2}\d?[-\s]?\d{3}\.?\d{2}$/;
+
+    function remindersFor(v) {
+        var out = [], now = new Date();
+        if (v.lastOil) {
+            var cyc = v.type === 'car' ? 180 : v.type === 'ev' ? 90 : 60;
+            var used = daysBetween(new Date(v.lastOil), now), left = cyc - used;
+            out.push({ k: 'oil', label: v.type === 'ev' ? 'Kiểm tra pin & bộ điều khiển' : 'Thay nhớt', left: left, pct: Math.max(0, Math.min(100, used / cyc * 100)),
+                svc: v.type === 'car' ? 'bd04' : v.type === 'ev' ? 'xd02' : 'bd01',
+                hint: (v.type === 'ev' ? 'Chu kỳ khuyến nghị 3 tháng' : v.type === 'car' ? 'Chu kỳ 6 tháng hoặc 5.000 km' : 'Chu kỳ 2 tháng hoặc 1.500 km') });
+        }
+        if (v.insExp) {
+            var l2 = daysBetween(now, new Date(v.insExp));
+            out.push({ k: 'ins', label: 'Bảo hiểm TNDS bắt buộc', left: l2, pct: Math.max(0, Math.min(100, 100 - l2 / 365 * 100)), svc: null, hint: 'Hết hạn ' + dmy(v.insExp) });
+        }
+        return out;
+    }
+
+    function plateHtml(p, type) {
+        p = String(p || '').toUpperCase();
+        var m = /^(\d{2}[-\s]?[A-Z]{1,2}\d?)[-\s]?(\d{3}\.?\d{2})$/.exec(p);
+        if (!m) return '<div class="gk-plate one">' + esc(p) + '</div>';
+        return type === 'car' ? '<div class="gk-plate one">' + esc(m[1].replace(/\s/, '-')) + ' ' + esc(m[2]) + '</div>'
+            : '<div class="gk-plate"><span>' + esc(m[1].replace(/\s/, '-')) + '</span><span>' + esc(m[2]) + '</span></div>';
+    }
+
+    function renderGarage() {
+        var grid = document.getElementById('vehGrid'); if (!grid) return;
+        var g = getGarage();
+        if (!g.length) {
+            grid.innerHTML = '<div class="gk-empty-box"><div class="gk-empty-ico">🏍️</div><b>Garage số đang trống</b>' +
+                '<p>Thêm xe để đặt dịch vụ nhanh hơn và nhận nhắc lịch bảo dưỡng đúng hạn.</p>' +
+                '<div class="gk-empty-actions"><button type="button" class="gk-btn-add" onclick="openVehicleForm(-1)"><i class="fas fa-plus"></i> Thêm xe</button>' +
+                '<button type="button" class="gk-btn-ghost" onclick="useSampleVehicle()"><i class="fas fa-magic"></i> Dùng xe mẫu</button></div></div>';
+            return;
+        }
+        grid.innerHTML = g.map(function (v, i) {
+            var rem = remindersFor(v).map(function (r) {
+                var cls = r.left < 0 ? 'bad' : r.left <= 14 ? 'warn' : 'ok';
+                return '<div class="gk-rem ' + cls + '"><div class="gk-rem-top"><span>' + esc(r.label) + '</span><b>' + (r.left < 0 ? 'Quá hạn ' + (-r.left) + ' ngày' : 'Còn ' + r.left + ' ngày') + '</b></div>' +
+                    '<div class="gk-rem-bar"><span style="width:' + Math.round(r.pct) + '%"></span></div><small>' + esc(r.hint) + '</small></div>';
+            }).join('') || '<div class="gk-rem-empty"><i class="fas fa-info-circle"></i> Thêm ngày thay nhớt và hạn bảo hiểm để nhận nhắc lịch.</div>';
+            var main = remindersFor(v)[0];
+            return '<div class="gk-veh-card">' +
+                '<div class="gk-veh-top"><div class="gk-veh-ico ' + (v.type || 'moto') + '"><i class="fas ' + vehIcon(v.type) + '"></i></div>' +
+                '<div class="gk-veh-name"><b>' + esc(v.model) + '</b><span>' + vehLabel(v.type) + (v.year ? ' · ' + esc(v.year) : '') + (v.odo ? ' · ' + Number(v.odo).toLocaleString('vi-VN') + ' km' : '') + '</span></div>' +
+                '<div class="gk-veh-menu"><button type="button" onclick="openVehicleForm(' + i + ')" title="Sửa" aria-label="Sửa xe"><i class="fas fa-pen"></i></button>' +
+                '<button type="button" onclick="deleteVehicle(' + i + ')" title="Xóa" aria-label="Xóa xe"><i class="fas fa-trash-alt"></i></button></div></div>' +
+                plateHtml(v.plate, v.type) + '<div class="gk-rem-list">' + rem + '</div>' +
+                '<div class="gk-veh-actions">' + (main && main.svc ? '<a href="html_dichvu.html?id=' + main.svc + '"><i class="fas fa-calendar-check"></i> Đặt ' + (v.type === 'ev' ? 'kiểm tra pin' : 'bảo dưỡng') + '</a>' : '<a href="html_dichvu.html?cate=baoduong"><i class="fas fa-calendar-check"></i> Đặt bảo dưỡng</a>') +
+                '<button type="button" data-sos-open="' + (v.type === 'ev' ? 'binh' : 'lop') + '"><i class="fas fa-life-ring"></i> SOS</button></div>' +
+                '</div>';
+        }).join('');
+    }
+
+    function vehTypeChanged() {
+        var t = document.getElementById('veh-type').value;
+        var lb = document.getElementById('veh-oil-lbl');
+        if (lb && lb.firstChild) lb.firstChild.nodeValue = t === 'ev' ? 'Lần kiểm tra pin gần nhất' : 'Lần thay nhớt gần nhất';
+    }
+
+    function openVehicleForm(idx) {
+        var f = document.getElementById('vehForm'); if (!f) return;
+        var v = idx > -1 ? getGarage()[idx] : null;
+        document.getElementById('veh-idx').value = idx;
+        document.getElementById('vehFormTitle').innerHTML = '<i class="fas fa-car-side"></i> ' + (v ? 'Sửa thông tin xe' : 'Thêm xe mới');
+        document.getElementById('veh-type').value = v ? v.type : 'moto';
+        document.getElementById('veh-model').value = v ? v.model : '';
+        document.getElementById('veh-plate').value = v ? v.plate : '';
+        document.getElementById('veh-year').value = v && v.year ? v.year : '';
+        document.getElementById('veh-odo').value = v && v.odo ? v.odo : '';
+        document.getElementById('veh-oil').value = v && v.lastOil ? v.lastOil : '';
+        document.getElementById('veh-ins').value = v && v.insExp ? v.insExp : '';
+        document.getElementById('vehErr').textContent = '';
+        vehTypeChanged();
+        f.style.display = '';
+        f.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(function () { document.getElementById('veh-model').focus({ preventScroll: true }); }, 300);
+    }
+    function closeVehicleForm() { var f = document.getElementById('vehForm'); if (f) f.style.display = 'none'; }
+
+    function saveVehicle() {
+        var idx = +document.getElementById('veh-idx').value;
+        var v = {
+            id: 'v' + Date.now().toString(36),
+            type: document.getElementById('veh-type').value,
+            model: document.getElementById('veh-model').value.trim(),
+            plate: document.getElementById('veh-plate').value.trim().toUpperCase(),
+            year: document.getElementById('veh-year').value.trim(),
+            odo: document.getElementById('veh-odo').value.trim(),
+            lastOil: document.getElementById('veh-oil').value,
+            insExp: document.getElementById('veh-ins').value
+        };
+        var err = document.getElementById('vehErr');
+        if (v.model.length < 2) { err.textContent = 'Vui lòng nhập dòng xe (VD: Honda Vision).'; return; }
+        if (!PLATE_RE.test(v.plate)) { err.textContent = 'Biển số chưa đúng định dạng (VD: 59-X1 234.56 hoặc 51K-123.45).'; return; }
+        if (v.year && (+v.year < 1990 || +v.year > new Date().getFullYear() + 1)) { err.textContent = 'Năm sản xuất chưa hợp lệ.'; return; }
+        if (v.lastOil && new Date(v.lastOil) > new Date()) { err.textContent = 'Ngày bảo dưỡng gần nhất không thể ở tương lai.'; return; }
+        var g = getGarage();
+        var dup = g.findIndex(function (x, i) { return i !== idx && String(x.plate).replace(/[\s.-]/g, '') === v.plate.replace(/[\s.-]/g, ''); });
+        if (dup > -1) { err.textContent = 'Biển số này đã có trong Garage số.'; return; }
+        if (idx > -1 && g[idx]) { v.id = g[idx].id; g[idx] = v; } else g.push(v);
+        setGarage(g);
+        closeVehicleForm();
+        renderGarage(); renderStats(); renderUpcoming(); renderSuggest();
+        showToast('success', idx > -1 ? 'Đã cập nhật xe!' : 'Đã thêm xe vào Garage số!', esc(v.model) + ' · ' + esc(v.plate));
+    }
+
+    function deleteVehicle(idx) {
+        var g = getGarage(), v = g[idx]; if (!v) return;
+        g.splice(idx, 1); setGarage(g);
+        renderGarage(); renderStats(); renderUpcoming(); renderSuggest();
+        showToast('info', 'Đã xóa xe', esc(v.model) + ' · ' + esc(v.plate));
+    }
+
+    function useSampleVehicle() {
+        var d = new Date(); d.setDate(d.getDate() - 50);
+        var ins = new Date(); ins.setDate(ins.getDate() + 120);
+        var iso = function (x) { return x.getFullYear() + '-' + pad2(x.getMonth() + 1) + '-' + pad2(x.getDate()); };
+        setGarage([{ id: 'v' + Date.now().toString(36), type: 'moto', model: 'Honda Vision (xe mẫu)', plate: '59-X1 234.56', year: '2022', odo: '12450', lastOil: iso(d), insExp: iso(ins) }]);
+        renderGarage(); renderStats(); renderUpcoming(); renderSuggest();
+        showToast('success', 'Đã thêm xe mẫu', 'Bạn có thể sửa hoặc xóa bất kỳ lúc nào.');
+    }
+
+    /* ── 7. LỊCH SỬ DỊCH VỤ ── */
+    var orderFilter = 'all';
+    function statusClass(s) {
+        if (s === 'Đã hủy') return 'cancelled';
+        if (s === 'Hoàn tất' || s === 'Đã kích hoạt') return 'confirmed';
+        return 'pending';
+    }
+    function statusIcon(c) { return c === 'confirmed' ? '✅ ' : c === 'cancelled' ? '❌ ' : '🟡 '; }
+
+    function renderOrders() {
+        var box = document.getElementById('bookingTimeline'); if (!box) return;
+        var orders = GKB ? GKB.getOrders() : [];
+        if (!orders.length) {
+            box.innerHTML = '<div class="gk-empty-box"><div class="gk-empty-ico">🧾</div><b>Chưa có lịch sử dịch vụ</b>' +
+                '<p>Đơn cứu hộ SOS và đơn đặt lịch sửa chữa, bảo dưỡng sẽ hiện ở đây kèm hóa đơn và hộp đen chuyến cứu hộ.</p>' +
+                '<div class="gk-empty-actions"><a class="gk-btn-add" href="html_dichvu.html"><i class="fas fa-tools"></i> Đặt dịch vụ</a>' +
+                '<button type="button" class="gk-btn-ghost" data-sos-open="lop"><i class="fas fa-life-ring"></i> Cứu hộ ngay</button></div></div>';
+            return;
+        }
+        box.innerHTML = orders.map(function (o) {
+            var c = statusClass(o.status);
+            var d = new Date(o.createdAt || Date.now());
+            var img = o.img || (o.svcId ? 'img/dv/' + o.svcId + '-1.jpg' : 'img/logo-mark.png');
+            var meta = [];
+            if (o.type === 'sos') meta.push('<span><i class="fas fa-life-ring"></i> Cứu hộ SOS</span>');
+            if (o.appt) meta.push('<span><i class="fas fa-calendar"></i> ' + esc(o.appt) + '</span>');
+            if (o.veh) meta.push('<span><i class="fas fa-car-side"></i> ' + esc(o.veh) + (o.qty > 1 ? ' × ' + o.qty : '') + '</span>');
+            if (o.area) meta.push('<span><i class="fas fa-map-marker-alt"></i> ' + esc(o.area) + '</span>');
+            if (o.mech) meta.push('<span><i class="fas fa-user-cog"></i> Thợ ' + esc(o.mech) + '</span>');
+            meta.push('<span><i class="fas fa-hashtag"></i> ' + esc(o.id) + '</span>');
+            var det = [];
+            if (o.plate) det.push(['Biển số', esc(o.plate) + (o.model ? ' · ' + esc(o.model) : '')]);
+            if (o.addr) det.push(['Địa chỉ', esc(o.addr)]);
+            if (o.addons && o.addons.length) det.push(['Gói thêm', o.addons.map(esc).join(', ')]);
+            if (o.km) det.push(['Quãng đường kéo', o.km + ' km']);
+            if (o.priority) det.push(['Điều phối', esc(o.priority)]);
+            if (o.pay) det.push(['Thanh toán', esc(o.pay)]);
+            if (o.voucher) det.push(['Voucher', esc(o.voucher)]);
+            if (o.code) det.push(['Mã gặp mặt', esc(o.code)]);
+            if (o.rating) det.push(['Bạn đánh giá', '★ ' + o.rating + (o.review ? ' – “' + esc(o.review) + '”' : '')]);
+            if (o.note) det.push(['Ghi chú', esc(o.note)]);
+            var tl = '';
+            if (o.timeline) {
+                var steps = [['create', 'Gửi yêu cầu'], ['accept', 'Thợ nhận cuốc'], ['arrive', 'Thợ đến nơi'], ['quote', 'Báo giá & đồng ý'], ['done', 'Hoàn tất']];
+                tl = '<ol class="gk-ord-tl">' + steps.filter(function (s) { return o.timeline[s[0]]; }).map(function (s) {
+                    var t = new Date(o.timeline[s[0]]); return '<li><b>' + pad2(t.getHours()) + ':' + pad2(t.getMinutes()) + '</b> ' + s[1] + '</li>';
+                }).join('') + '</ol>';
+            }
+            var actions = '<button class="booking-btn primary" onclick="toggleOrderDetail(this)">Chi tiết</button>';
+            if (o.svcId) actions += '<a class="booking-btn outline" href="html_dichvu.html?id=' + esc(o.svcId) + '">Đặt lại</a>';
+            if (o.status === 'Chờ thợ nhận') actions += '<button class="booking-btn danger" onclick="cancelOrder(\'' + esc(o.id) + '\')">Hủy đơn</button>';
+            return '<div class="booking-card ' + c + '" data-status="' + c + '"' + (orderFilter !== 'all' && orderFilter !== c ? ' style="display:none"' : '') + '>' +
+                '<div class="booking-dot"><div class="booking-dot-circle"></div><div class="booking-dot-date">' + pad2(d.getDate()) + '/' + pad2(d.getMonth() + 1) + '<br>' + d.getFullYear() + '</div></div>' +
+                '<div class="booking-img"><img src="' + esc(img) + '" alt="' + esc(o.title) + '" onerror="this.onerror=null;this.src=\'img/logo-mark.png\'"></div>' +
+                '<div class="booking-info"><div class="booking-info-top"><h6 class="booking-name">' + esc(o.title) + '</h6><span class="booking-status ' + c + '">' + statusIcon(c) + esc(o.status) + '</span></div>' +
+                '<div class="booking-meta-row">' + meta.join('') + '</div>' +
+                '<div class="booking-price-row"><span class="booking-price"' + (c === 'cancelled' ? ' style="color:var(--text-muted);text-decoration:line-through;"' : '') + '>' + fVND(o.total) + '</span>' +
+                '<div class="booking-actions">' + actions + '</div></div>' +
+                '<div class="gk-ord-detail">' + (det.length ? '<dl>' + det.map(function (x) { return '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>'; }).join('') + '</dl>' : '') + tl + '</div>' +
+                '</div></div>';
+        }).join('');
+    }
+
+    function toggleOrderDetail(btn) {
+        var card = btn.closest('.booking-card'); if (!card) return;
+        card.classList.toggle('open');
+        btn.textContent = card.classList.contains('open') ? 'Thu gọn' : 'Chi tiết';
+    }
+
+    function cancelOrder(id) {
+        var arr = GKB.getOrders(), o = arr.find(function (x) { return x.id === id; });
+        if (!o || o.status !== 'Chờ thợ nhận') return;
+        o.status = 'Đã hủy'; o.cancelledAt = Date.now();
+        lsSet('gkbp_orders', arr);
+        renderOrders(); renderStats(); renderUpcoming();
+        showToast('info', 'Đã hủy đơn ' + esc(id), 'Hủy miễn phí vì thợ chưa nhận đơn. Tiền (nếu đã trả) được hoàn trong 1–3 ngày làm việc.');
+    }
+
+    document.querySelector('.booking-filter').addEventListener('click', function (e) {
+        var btn = e.target.closest('.bfilter-btn'); if (!btn) return;
+        document.querySelectorAll('.bfilter-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        orderFilter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.booking-card').forEach(function (card) {
+            card.style.display = (orderFilter === 'all' || card.getAttribute('data-status') === orderFilter) ? 'flex' : 'none';
+        });
+    });
+
+    /* ── 8. YÊU THÍCH & THỢ QUEN ── */
+    function getWish() { var w = lsGet('gkbp_wishlist', []); return Array.isArray(w) ? w : []; }
+    function setWish(w) { lsSet('gkbp_wishlist', w); }
+
+    function toggleWish(btn, id) {
+        var w = getWish(), i = w.indexOf(id);
+        var s = GD.findService(id);
+        if (i > -1) { w.splice(i, 1); btn.classList.remove('active'); showToast('info', 'Đã bỏ lưu', s ? esc(s.title) : ''); }
+        else { w.push(id); btn.classList.add('active'); showToast('success', 'Đã lưu vào Yêu thích!', s ? esc(s.title) : ''); }
+        setWish(w);
+    }
+
+    function removeWish(id, btn) {
+        var card = btn && btn.closest('.wish-card');
+        var done = function () { setWish(getWish().filter(function (x) { return x !== id; })); renderWishlist(); renderSuggest(); };
+        if (card) { card.style.transition = 'opacity 0.35s, transform 0.35s'; card.style.opacity = '0'; card.style.transform = 'scale(0.9)'; setTimeout(done, 350); }
+        else done();
+        showToast('info', 'Đã xóa khỏi Yêu thích', '');
+    }
+
+    function renderWishlist() {
+        var grid = document.getElementById('wishlistGrid'); if (!grid) return;
+        var list = getWish().map(function (id) { return GD.findService(id); }).filter(Boolean);
+        var cnt = document.getElementById('wishCount'); if (cnt) cnt.textContent = list.length + ' dịch vụ';
+        if (!list.length) {
+            grid.innerHTML = '<div class="gk-empty-box" style="grid-column:1/-1;"><div class="gk-empty-ico">💛</div><b>Chưa lưu dịch vụ nào</b>' +
+                '<p>Bấm ♥ ở mục “Gợi ý cho xe của bạn” trong tab Tổng quan để lưu dịch vụ hay dùng.</p>' +
+                '<div class="gk-empty-actions"><button type="button" class="gk-btn-add" onclick="switchTab(\'tab-overview\')"><i class="fas fa-th-large"></i> Xem gợi ý</button></div></div>';
+            return;
+        }
+        grid.innerHTML = list.map(function (s) {
+            return '<div class="wish-card"><div class="wish-img-wrap"><img src="' + s.img + '" alt="' + esc(s.title) + '" class="wish-img">' +
+                '<button class="wish-remove-btn" onclick="removeWish(\'' + s.id + '\', this)" title="Bỏ lưu" aria-label="Bỏ lưu"><i class="fas fa-heart-broken"></i></button></div>' +
+                '<div class="wish-body"><p class="wish-name">' + esc(s.title) + '</p><div class="wish-footer"><span class="wish-price">' + s.price + '</span>' +
+                '<a class="wish-book-btn" href="html_dichvu.html?id=' + s.id + '">Đặt ngay</a></div></div></div>';
+        }).join('');
+    }
+
+    function renderMechanics() {
+        var box = document.getElementById('mechList'); if (!box) return;
+        var seen = {}, mine = [];
+        (GKB ? GKB.getOrders() : []).forEach(function (o) { if (o.mech && !seen[o.mech]) { seen[o.mech] = 1; mine.push({ name: o.mech, rating: o.rating, last: o.createdAt, svc: o.title }); } });
+        var html = '';
+        if (mine.length) {
+            html = mine.map(function (m) {
+                var info = (GD.MECHANICS || []).find(function (x) { return x.name === m.name; }) || {};
+                return '<div class="gk-mech"><img src="' + avatarFor(m.name) + '" alt=""><div><b>' + esc(m.name) + '</b><span>' + esc(info.tier || 'Thợ đối tác') + (info.area ? ' · ' + esc(info.area) : '') + '</span>' +
+                    '<small>Lần gần nhất: ' + esc(m.svc) + ' · ' + dmy(m.last) + (m.rating ? ' · bạn chấm ★ ' + m.rating : '') + '</small></div></div>';
+            }).join('');
+        } else {
+            html = '<p class="gk-mech-note"><i class="fas fa-info-circle"></i> Sau mỗi cuốc cứu hộ, thợ phục vụ bạn sẽ được lưu ở đây để ưu tiên ghép lại lần sau. Một số thợ tiêu biểu (minh họa):</p>' +
+                (GD.MECHANICS || []).slice(0, 3).map(function (x) {
+                    return '<div class="gk-mech"><img src="' + avatarFor(x.name) + '" alt=""><div><b>' + esc(x.name) + '</b><span>' + esc(x.tier) + ' · ' + esc(x.area) + '</span>' +
+                        '<small>★ ' + x.rating + ' · ' + Number(x.jobs).toLocaleString('vi-VN') + ' cuốc · ' + x.years + ' năm kinh nghiệm</small></div></div>';
+                }).join('');
+        }
+        box.innerHTML = html;
+    }
+
+    /* ── 9. ẢNH ĐẠI DIỆN · KIỂM TRA · LƯU HỒ SƠ ── */
+    (function () {
+        var zone = document.getElementById('avatarDropZone');
+        if (!zone) return;
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function (ev) {
+            zone.addEventListener(ev, function (e) { e.preventDefault(); e.stopPropagation(); });
+        });
+        zone.addEventListener('dragenter', function () { zone.classList.add('drag-over'); });
+        zone.addEventListener('dragover', function () { zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', function () { zone.classList.remove('drag-over'); });
+        zone.addEventListener('drop', function (e) {
+            zone.classList.remove('drag-over');
+            var file = e.dataTransfer.files[0];
+            if (file) handleAvatarFile(file);
+        });
+    })();
+
+    /* Thu nhỏ ảnh về 160×160 trước khi lưu để không vượt dung lượng localStorage */
+    function handleAvatarFile(file) {
+        if (!file || !file.type || file.type.indexOf('image/') !== 0) { showToast('error', 'File không hợp lệ!', 'Chỉ chấp nhận file ảnh JPG, PNG.'); return; }
+        if (file.size > 5 * 1024 * 1024) { showToast('error', 'File quá lớn!', 'Kích thước tối đa là 5MB.'); return; }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var img = new Image();
+            img.onload = function () {
+                var S = 160, c = document.createElement('canvas'); c.width = c.height = S;
+                var k = Math.max(S / img.width, S / img.height), w = img.width * k, h = img.height * k;
+                c.getContext('2d').drawImage(img, (S - w) / 2, (S - h) / 2, w, h);
+                var src = c.toDataURL('image/jpeg', 0.85);
+                ['avatar-preview', 'sidebar-avatar-img', 'db-header-avatar'].forEach(function (id) { var el = document.getElementById(id); if (el) el.src = src; });
+                var user = loadUser(); if (!user) return;
+                user.avatar = src; saveUser(user, user.email);
+                showToast('success', 'Cập nhật thành công!', 'Ảnh đại diện đã được thay đổi.');
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function setGroupState(groupId, iconId, ok) {
+        var group = document.getElementById(groupId), icon = document.getElementById(iconId);
+        group.classList.toggle('valid', ok === true); group.classList.toggle('invalid', ok === false);
+        if (icon) icon.className = 'fas ' + (ok === false ? 'fa-times' : 'fa-check') + ' float-validation-icon';
+    }
+    function validateEmail(input) {
+        var v = input.value.trim();
+        setGroupState('email-group', 'email-icon', !v ? null : (GKB ? GKB.isValidEmail(v) : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)));
+    }
+    function validatePhone(input) {
+        input.value = input.value.replace(/\D/g, '').slice(0, 10);
+        var v = input.value;
+        setGroupState('phone-group', 'phone-icon', !v ? null : (GKB ? GKB.isValidPhone(v) : /^0\d{9}$/.test(v)));
+    }
+    (function () { var el = document.getElementById('edit-name'); if (el && GKB && GKB.attachNameInput) GKB.attachNameInput(el); })();
+
+    function saveProfile() {
+        var user = loadUser(); if (!user) return;
+        var nameVal = (document.getElementById('edit-name').value || '').trim();
+        var emailVal = (document.getElementById('edit-email').value || '').trim();
+        var phoneVal = (document.getElementById('edit-phone').value || '').trim();
+        if (!nameVal || !/^[\p{L}][\p{L}\s]*$/u.test(nameVal)) { showToast('error', 'Họ tên không hợp lệ!', 'Họ tên chỉ gồm chữ, không chứa số.'); return; }
+        if (emailVal && !(GKB ? GKB.isValidEmail(emailVal) : true)) { setGroupState('email-group', 'email-icon', false); showToast('error', 'Email không hợp lệ!', 'Vui lòng nhập đúng định dạng email.'); return; }
+        if (phoneVal && !(GKB ? GKB.isValidPhone(phoneVal) : true)) { setGroupState('phone-group', 'phone-icon', false); showToast('error', 'Số điện thoại không hợp lệ!', 'Số di động 10 số, bắt đầu 03/05/07/08/09.'); return; }
+        if (!emailVal && !phoneVal) { showToast('error', 'Thiếu thông tin liên hệ', 'Cần ít nhất email hoặc số điện thoại.'); return; }
+        var btn = document.getElementById('saveProfileBtn');
+        btn.classList.add('loading'); btn.disabled = true;
+        setTimeout(function () {
+            var prevEmail = user.email, prevKey = user.email || user.phone || user.name;
+            user.name = GKB && GKB.titleCase ? GKB.titleCase(nameVal) : nameVal;
+            user.email = emailVal; user.phone = phoneVal;
+            user.dob = document.getElementById('edit-dob').value || '';
+            user.address = document.getElementById('edit-address').value.trim();
+            user.bio = document.getElementById('edit-bio').value.trim();
+            migrateKeys(prevKey, user.email || user.phone || user.name);
+            saveUser(user, prevEmail);
+            applyUserToUI(user);
+            btn.classList.remove('loading'); btn.disabled = false;
+            showToast('success', 'Lưu thành công!', 'Thông tin tài khoản đã được cập nhật.');
+        }, 900);
+    }
+
+    function changePassword() {
+        var oldP = document.getElementById('old-pass').value, newP = document.getElementById('new-pass').value, confP = document.getElementById('confirm-pass').value;
+        if (!oldP || !newP || !confP) { showToast('error', 'Điền đầy đủ thông tin!', 'Vui lòng nhập đầy đủ mật khẩu.'); return; }
+        if (newP.length < 6) { showToast('error', 'Mật khẩu quá ngắn!', 'Mật khẩu mới phải ít nhất 6 ký tự.'); return; }
+        if (newP !== confP) { showToast('error', 'Mật khẩu không khớp!', 'Xác nhận mật khẩu mới không trùng nhau.'); return; }
+        if (newP === oldP) { showToast('error', 'Mật khẩu mới trùng mật khẩu cũ', 'Hãy chọn mật khẩu khác.'); return; }
+        var user = loadUser(), acc = lsGet('gkbp_accounts', []);
+        var i = Array.isArray(acc) ? acc.findIndex(function (a) { return a.email && user && a.email === user.email; }) : -1;
+        if (i > -1 && acc[i].password && acc[i].password !== oldP) { showToast('error', 'Mật khẩu hiện tại chưa đúng', 'Vui lòng kiểm tra lại.'); return; }
+        if (i > -1) { acc[i].password = newP; lsSet('gkbp_accounts', acc); }
+        ['old-pass', 'new-pass', 'confirm-pass'].forEach(function (id) { document.getElementById(id).value = ''; });
+        showToast('success', 'Đổi mật khẩu thành công!', 'Lần đăng nhập sau hãy dùng mật khẩu mới.');
+    }
+
+    function togglePass(id) { var inp = document.getElementById(id); inp.type = inp.type === 'password' ? 'text' : 'password'; }
+
+    function togglePref(el) {
+        el.classList.toggle('on');
+        el.setAttribute('aria-checked', el.classList.contains('on') ? 'true' : 'false');
+        var user = loadUser(); if (!user) return;
+        user.prefs = user.prefs || {};
+        user.prefs[el.getAttribute('data-pref')] = el.classList.contains('on');
+        saveUser(user, user.email);
+    }
+    document.querySelectorAll('.toggle-switch[data-pref]').forEach(function (t) {
+        t.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePref(this); } });
+    });
+
+    function doLogout() { if (GKB) { GKB.logout(); return false; } return true; }
+    function goLogin() { if (GKB) { GKB.requireLogin('html_thongtin.html' + location.hash, 'Đăng nhập để mở Garage số.'); return false; } return true; }
+
+    /* ── 10. GSAP INTRO + KHỞI ĐỘNG ── */
+    function runIntroAnimation() {
+        var targets = ['#dashHeaderBar', '.stat-item', '#upcomingCard', '#suggestSection'];
+        if (typeof gsap === 'undefined') {
+            targets.forEach(function (s) { document.querySelectorAll(s).forEach(function (el) { el.style.opacity = 1; el.style.transform = 'none'; }); });
+            setTimeout(runCountUp, 200);
+            return;
+        }
+        gsap.to('#dashHeaderBar', { opacity: 1, y: 0, duration: 0.7, ease: 'back.out(1.4)', delay: 0.1 });
+        gsap.to('.stat-item', { opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.6)', stagger: 0.12, delay: 0.35 });
+        gsap.to('#upcomingCard', { opacity: 1, y: 0, duration: 0.65, ease: 'back.out(1.4)', delay: 0.85 });
+        gsap.to('#suggestSection', { opacity: 1, y: 0, duration: 0.65, ease: 'back.out(1.4)', delay: 1.0 });
+        setTimeout(runCountUp, 600);
+    }
+
+    /* Chiều cao header để thanh tab dính ngay bên dưới */
+    function setHdrVar() { var h = document.querySelector('header.navbar'); if (h) document.documentElement.style.setProperty('--gk-hdr-h', h.offsetHeight + 'px'); }
+    window.addEventListener('resize', setHdrVar);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setHdrVar();
+        var user = loadUser();
+        if (!user) {
+            document.getElementById('dashWrapper').style.display = 'none';
+            document.getElementById('accGate').style.display = '';
+            return;
+        }
+        applyUserToUI(user);
+        renderStats(); renderTier(); renderUpcoming(); renderSuggest();
+        var h = location.hash.replace('#', '');
+        if (h && h !== 'tab-overview') switchTab(h, true);
+        runIntroAnimation();
+    });
+</script>
+
+</body>
+</html>

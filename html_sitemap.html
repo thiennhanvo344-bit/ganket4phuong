@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap | Gắn Kết Bốn Phương</title>
+    <meta name="description" content="Sơ đồ website Gắn Kết Bốn Phương — 12 trang, luồng cứu hộ SOS, đặt lịch, voucher, Garage số, khiếu nại và cấu trúc kỹ thuật.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css_trangchu.css">
+    <!-- Font Awesome 5 — icon toàn trang -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+    /* ══════════════════════════════════════════════════════════════
+       SITEMAP — Gắn Kết Bốn Phương
+       Toàn bộ CSS riêng của trang được prefix bằng "sm-" để không
+       đụng tới style chung của các trang khác (css_trangchu.css).
+       Header & footer vẫn dùng class gốc của site → đồng bộ 100%.
+    ══════════════════════════════════════════════════════════════ */
+    :root{
+        --sm-b1:#0A2B54;   /* dark blue   */
+        --sm-b2:#0D4076;   /* primary     */
+        --sm-b3:#FA7806;   /* teal        */
+        --sm-green:#00b894;
+        --sm-red:#ff4d4d;
+        --sm-amber:#f59e0b;
+        --sm-bg:#eef3fa;
+        --sm-card:#ffffff;
+        --sm-line:#dde7f3;
+        --sm-ink:#0A2B54;
+        --sm-muted:#6c7a92;
+        --sm-mono:"SFMono-Regular",ui-monospace,"Cascadia Code","Consolas",monospace;
+    }
+
+    .sm-page{
+        background:
+            radial-gradient(900px 420px at 85% -8%, rgba(250,120,6,.10), transparent 60%),
+            radial-gradient(700px 380px at 5% 4%, rgba(10,43,84,.07), transparent 55%),
+            var(--sm-bg);
+        font-family:"Segoe UI",Roboto,system-ui,sans-serif;
+        color:var(--sm-ink);
+        overflow-x:hidden;
+    }
+
+    /* ── Container chuẩn ── */
+    .sm-wrap{ max-width:1140px; margin:0 auto; padding:0 16px; }
+
+    /* ── HERO ──────────────────────────────────────────────── */
+    .sm-hero{
+        position:relative; overflow:hidden; color:#fff; text-align:center;
+        padding:56px 16px 64px;
+        background:linear-gradient(135deg,var(--sm-b1) 0%,var(--sm-b2) 55%,var(--sm-b3) 100%);
+    }
+    .sm-hero::before{
+        content:''; position:absolute; inset:0; opacity:.07;
+        background-image:linear-gradient(#fff 1px,transparent 1px),
+                         linear-gradient(90deg,#fff 1px,transparent 1px);
+        background-size:34px 34px;
+    }
+    .sm-hero > *{ position:relative; z-index:1; }
+    .sm-hero-pill{
+        display:inline-flex; align-items:center; gap:8px;
+        background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28);
+        border-radius:30px; padding:6px 18px; margin-bottom:16px;
+        font-size:11.5px; font-weight:800; letter-spacing:1px; text-transform:uppercase;
+    }
+    .sm-hero h1{ font-size:clamp(24px,4.4vw,38px); font-weight:900; margin:0 0 10px; letter-spacing:-.5px; }
+    .sm-hero p{ font-size:14px; opacity:.86; max-width:560px; margin:0 auto 28px; line-height:1.6; }
+
+    .sm-stats{
+        display:flex; flex-wrap:wrap; justify-content:center; gap:12px; max-width:680px; margin:0 auto;
+    }
+    .sm-stat{
+        flex:1 1 130px; min-width:130px;
+        background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.22);
+        border-radius:14px; padding:16px 10px; backdrop-filter:blur(4px);
+    }
+    .sm-stat b{ display:block; font-size:26px; font-weight:900; line-height:1; }
+    .sm-stat span{ font-size:11.5px; opacity:.8; font-weight:600; }
+
+    /* ── SECTION chung ─────────────────────────────────────── */
+    .sm-section{ padding:46px 0 8px; }
+    .sm-shead{ text-align:center; margin-bottom:30px; }
+    .sm-shead .sm-eyebrow{
+        font-size:11px; font-weight:900; letter-spacing:2.5px; text-transform:uppercase;
+        color:var(--sm-b2);
+    }
+    .sm-shead h2{ font-size:clamp(19px,3vw,26px); font-weight:900; margin:6px 0 6px; }
+    .sm-shead p{ font-size:13px; color:var(--sm-muted); margin:0; }
+
+    /* ── CỤM TRANG (page clusters) ─────────────────────────── */
+    .sm-cluster{ margin-bottom:30px; }
+    .sm-cluster-title{
+        display:flex; align-items:center; gap:10px; margin:0 0 14px;
+        font-size:13px; font-weight:800; color:var(--sm-b1); text-transform:uppercase; letter-spacing:.8px;
+    }
+    .sm-cluster-title::before{
+        content:''; width:26px; height:26px; border-radius:8px; flex:0 0 auto;
+        background:linear-gradient(135deg,var(--sm-b1),var(--sm-b3));
+    }
+    .sm-cluster-title::after{ content:''; flex:1; height:1px; background:var(--sm-line); }
+
+    .sm-grid{
+        display:grid; gap:14px;
+        grid-template-columns:repeat(auto-fill, minmax(248px,1fr));
+    }
+
+    .sm-node{
+        display:flex; flex-direction:column; gap:8px;
+        background:var(--sm-card); border:1px solid var(--sm-line); border-radius:16px;
+        padding:16px 16px 15px; text-decoration:none; color:inherit;
+        transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+        position:relative;
+    }
+    .sm-node:hover{
+        transform:translateY(-4px); border-color:rgba(13,64,118,.45);
+        box-shadow:0 14px 30px rgba(13,64,118,.16); color:inherit; text-decoration:none;
+    }
+    .sm-node-top{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .sm-node-ico{
+        width:38px; height:38px; border-radius:11px; flex:0 0 auto;
+        display:flex; align-items:center; justify-content:center; font-size:17px; color:#fff;
+        background:linear-gradient(135deg,var(--sm-b2),var(--sm-b3));
+    }
+    .sm-badge{
+        font-size:10px; font-weight:800; letter-spacing:.4px; text-transform:uppercase;
+        padding:4px 10px; border-radius:30px; white-space:nowrap;
+        background:#eaf4fb; color:var(--sm-b2);
+    }
+    .sm-node h3{ font-size:15px; font-weight:800; margin:2px 0 0; }
+    .sm-node .sm-file{ font-family:var(--sm-mono); font-size:11px; color:var(--sm-b2); word-break:break-all; }
+    .sm-node .sm-feat{ font-size:12px; color:var(--sm-muted); line-height:1.55; margin:0; }
+
+    /* trang hiện tại */
+    .sm-node.is-current{
+        background:linear-gradient(135deg,var(--sm-b1),var(--sm-b2));
+        border-color:transparent; color:#fff; cursor:default;
+    }
+    .sm-node.is-current:hover{ transform:none; box-shadow:0 14px 30px rgba(10,43,84,.30); }
+    .sm-node.is-current .sm-node-ico{ background:rgba(255,255,255,.2); }
+    .sm-node.is-current .sm-badge{ background:rgba(255,255,255,.22); color:#fff; }
+    .sm-node.is-current .sm-file,
+    .sm-node.is-current .sm-feat{ color:rgba(255,255,255,.85); }
+
+    /* ── LUỒNG ĐIỀU HƯỚNG (journey chains) ─────────────────── */
+    .sm-journey{
+        background:var(--sm-card); border:1px solid var(--sm-line); border-radius:18px;
+        padding:18px 18px 20px; margin-bottom:16px;
+    }
+    .sm-journey h3{
+        display:flex; align-items:center; gap:9px;
+        font-size:14px; font-weight:800; margin:0 0 14px;
+    }
+    .sm-journey h3 .sm-jdot{
+        width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+        font-size:15px;color:#fff;flex:0 0 auto;
+    }
+    .sm-flow{ display:flex; flex-wrap:wrap; align-items:stretch; gap:8px; }
+    .sm-step{
+        display:flex; align-items:center; gap:7px;
+        background:#f5f9fe; border:1px solid var(--sm-line); border-radius:11px;
+        padding:9px 13px; font-size:12.5px; font-weight:700; color:var(--sm-b1);
+    }
+    .sm-step .sm-step-i{ font-size:14px; }
+    .sm-arrow{ display:flex; align-items:center; color:var(--sm-b3); font-size:14px; }
+    .sm-step.is-guard{ background:#fff4f4; border-color:#ffd5d5; color:var(--sm-red); }
+    .sm-step.is-end{ background:linear-gradient(135deg,var(--sm-b2),var(--sm-b3)); border-color:transparent; color:#fff; }
+
+    /* ── 8 LUỒNG NGHIỆP VỤ (flow cards) ────────────────────── */
+    .sm-flowgrid{ display:grid; gap:14px; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); }
+    .sm-flowcard{
+        background:var(--sm-card); border:1px solid var(--sm-line); border-radius:16px;
+        padding:18px; border-top:3px solid var(--sm-b2);
+    }
+    .sm-flowcard-h{ display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+    .sm-flowcard-h .sm-fc-ico{ font-size:24px; line-height:1; }
+    .sm-flowcard-h b{ display:block; font-size:14px; font-weight:800; }
+    .sm-flowcard-h small{ font-size:11px; color:var(--sm-muted); font-weight:600; letter-spacing:.3px; }
+    .sm-steplist{ list-style:none; margin:0; padding:0; counter-reset:s; }
+    .sm-steplist li{
+        position:relative; padding:6px 0 6px 30px; font-size:12.5px; color:#37445c; line-height:1.5;
+        border-top:1px dashed #eef2f8;
+    }
+    .sm-steplist li:first-child{ border-top:none; }
+    .sm-steplist li::before{
+        counter-increment:s; content:counter(s);
+        position:absolute; left:0; top:6px;
+        width:20px; height:20px; border-radius:50%;
+        background:#eaf4fb; color:var(--sm-b2);
+        font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center;
+    }
+    .sm-steplist code{
+        font-family:var(--sm-mono); font-size:11px; background:#f0f4f9;
+        padding:1px 5px; border-radius:5px; color:var(--sm-b1);
+    }
+
+    /* ── DANH SÁCH KỸ THUẬT (JS files / storage) ───────────── */
+    .sm-techgrid{ display:grid; gap:11px; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); }
+    .sm-tech{
+        display:flex; gap:13px; align-items:flex-start;
+        background:var(--sm-card); border:1px solid var(--sm-line); border-radius:13px; padding:13px 15px;
+    }
+    .sm-tech-key{ flex:0 0 auto; }
+    .sm-tech-key code{
+        font-family:var(--sm-mono); font-size:12px; font-weight:700; color:var(--sm-b1);
+        background:#eef3fa; padding:4px 9px; border-radius:7px; display:inline-block; word-break:break-all;
+    }
+    .sm-tech-body{ flex:1; min-width:0; }
+    .sm-tech-body .sm-scope{
+        font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.4px;
+        padding:2px 9px; border-radius:30px; display:inline-block; margin-bottom:5px;
+    }
+    .sm-scope.all{ background:#e7f8f1; color:var(--sm-green); }
+    .sm-scope.few{ background:#fff3e0; color:var(--sm-amber); }
+    .sm-scope.one{ background:#eef3fa; color:var(--sm-b2); }
+    .sm-scope.local{ background:#e7f8f1; color:var(--sm-green); }
+    .sm-scope.session{ background:#fdeef0; color:var(--sm-red); }
+    .sm-tech-body p{ font-size:12px; color:var(--sm-muted); margin:0; line-height:1.5; }
+
+    /* ── Ghi chú thứ tự load ── */
+    .sm-loadnote{
+        margin-top:18px; background:#fbfdff; border:1px dashed var(--sm-line); border-radius:13px;
+        padding:14px 16px; font-size:12px; color:var(--sm-muted); line-height:1.7;
+    }
+    .sm-loadnote b{ color:var(--sm-b1); }
+    .sm-loadnote code{ font-family:var(--sm-mono); font-size:11px; color:var(--sm-b2); }
+
+    .sm-foot-space{ height:46px; }
+
+    /* ── SƠ ĐỒ CÂY TỔNG THỂ (sitemap tree) ────────────────── */
+    .smap{ }
+    .smap-root{ display:flex; justify-content:center; }
+    .smap-rootchip{
+        display:inline-flex; align-items:center; gap:11px;
+        background:linear-gradient(135deg,var(--sm-b1),var(--sm-b2));
+        color:#fff; border-radius:15px; padding:14px 26px;
+        font-weight:800; font-size:16px; box-shadow:0 12px 26px rgba(13,64,118,.28);
+    }
+    .smap-rootchip i{ font-size:19px; }
+
+    .smap-branches{
+        display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+        position:relative; padding-top:32px; margin-top:16px;
+    }
+    /* thanh ngang nối 3 nhánh + trục dọc từ gốc */
+    .smap-branches::before{
+        content:''; position:absolute; top:0; left:16.667%; right:16.667%;
+        height:2px; background:var(--sm-line);
+    }
+    .smap-branches::after{
+        content:''; position:absolute; top:-16px; left:50%; width:2px; height:16px;
+        background:var(--sm-line); transform:translateX(-1px);
+    }
+    .smap-col{ position:relative; padding-top:32px; }
+    .smap-col::before{
+        content:''; position:absolute; top:0; left:50%; width:2px; height:32px;
+        background:var(--sm-line); transform:translateX(-1px);
+    }
+    .smap-group{
+        background:var(--sm-card); border:1px solid var(--sm-line); border-radius:15px;
+        padding:14px 14px 8px;
+    }
+    .smap-ghead{
+        display:flex; align-items:center; gap:9px; margin-bottom:6px;
+        font-size:12.5px; font-weight:800; color:var(--sm-b1);
+    }
+    .smap-ghead .smap-gico{
+        width:30px; height:30px; border-radius:9px; flex:0 0 auto; color:#fff;
+        display:flex; align-items:center; justify-content:center; font-size:14px;
+        background:linear-gradient(135deg,var(--sm-b2),var(--sm-b3));
+    }
+    .smap-list{ list-style:none; margin:0; padding:0; position:relative; }
+    .smap-list::before{
+        content:''; position:absolute; left:9px; top:2px; bottom:20px; width:2px; background:var(--sm-line);
+    }
+    .smap-leaf{ position:relative; padding-left:26px; margin:7px 0 0; }
+    .smap-leaf::before{
+        content:''; position:absolute; left:9px; top:18px; width:15px; height:2px; background:var(--sm-line);
+    }
+    .smap-leaf > a{
+        display:flex; align-items:center; gap:9px; text-decoration:none; color:inherit;
+        background:#f5f9fe; border:1px solid var(--sm-line); border-radius:10px;
+        padding:7px 11px; transition:background .16s, border-color .16s, transform .16s;
+    }
+    .smap-leaf > a:hover{ background:#fff; border-color:rgba(13,64,118,.45); transform:translateX(3px); color:inherit; text-decoration:none; }
+    .smap-leaf .lf-i{ color:var(--sm-b2); font-size:13px; width:16px; text-align:center; flex:0 0 auto; }
+    .smap-leaf .lf-t{ font-size:12.5px; font-weight:700; line-height:1.2; }
+    .smap-leaf .lf-f{ display:block; font-family:var(--sm-mono); font-size:9.5px; color:var(--sm-muted); margin-top:1px; word-break:break-all; }
+    /* nút lá là trang hiện tại */
+    .smap-leaf.is-here > a{ background:linear-gradient(135deg,var(--sm-b1),var(--sm-b2)); border-color:transparent; cursor:default; }
+    .smap-leaf.is-here > a:hover{ transform:none; }
+    .smap-leaf.is-here .lf-i,
+    .smap-leaf.is-here .lf-t{ color:#fff; }
+    .smap-leaf.is-here .lf-f{ color:rgba(255,255,255,.8); }
+
+    /* gom 3 nhánh về 1 cột trên màn hẹp (tablet & mobile) */
+    @media (max-width:767.98px){
+        .smap-branches{ grid-template-columns:1fr; padding-top:0; gap:12px; margin-top:10px; }
+        .smap-branches::before, .smap-branches::after{ display:none; }
+        .smap-col{ padding-top:0; }
+        .smap-col::before{ display:none; }
+    }
+
+    /* ── Reveal khi tải trang (CSS-only, staggered) ── */
+    @media (prefers-reduced-motion:no-preference){
+        .sm-rise{ opacity:0; transform:translateY(16px); animation:smRise .6s cubic-bezier(.22,1,.36,1) forwards; }
+        @keyframes smRise{ to{ opacity:1; transform:none; } }
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width:575.98px){
+        .sm-section{ padding:34px 0 4px; }
+        .sm-grid{ grid-template-columns:1fr; }
+        .sm-techgrid{ grid-template-columns:1fr; }
+        .sm-flowgrid{ grid-template-columns:1fr; }
+        .sm-stat b{ font-size:22px; }
+        /* Trên màn nhỏ: luồng xếp dọc, mũi tên xoay xuống */
+        .sm-flow{ flex-direction:column; align-items:stretch; }
+        .sm-step{ justify-content:center; }
+        .sm-arrow{ justify-content:center; transform:rotate(90deg); }
+    }
+    
+        /* ══ Bổ sung — Gắn Kết Bốn Phương ══ */
+        .sm-hero { background: radial-gradient(circle at 88% 92%, rgba(250,120,6,.38) 0%, rgba(250,120,6,0) 38%), linear-gradient(135deg, #061D38 0%, #0A2B54 50%, #0D4076 100%); }
+        .gk-sm-road { position: relative; height: 34px; max-width: 520px; margin: 26px auto 0; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; }
+        .gk-sm-road span { position: absolute; left: 0; top: 50%; width: 200%; height: 3px; margin-top: -1px; background: repeating-linear-gradient(90deg, rgba(255,176,102,.9) 0 22px, transparent 22px 40px); animation: gkSmLane 1.2s linear infinite; }
+        .gk-sm-road i { position: absolute; top: 7px; font-size: 18px; color: #FF9F43; animation: gkSmDrive 8s linear infinite; }
+        .gk-sm-road i + i { color: #fff; font-size: 15px; top: 9px; animation-delay: 4s; }
+        @keyframes gkSmLane { to { transform: translateX(-40px); } }
+        @keyframes gkSmDrive { from { left: -8%; } to { left: 104%; } }
+        .sm-cluster-title::before { background: linear-gradient(135deg, #F26B00, #FF9F43); }
+        .sm-node-ico, .smap-ghead .smap-gico { background: linear-gradient(135deg, #0A2B54, #1E5C9E); }
+        .sm-node:hover .sm-node-ico { background: linear-gradient(135deg, #F26B00, #FF9F43); }
+        .sm-step.is-end { background: linear-gradient(135deg, #F26B00, #FF9F43); }
+        .sm-step.is-guard { background: #FFF7F0; border-color: #FDBA74 !important; color: #C2410C; }
+        .smap-root { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .gk-sm-sos { border: 0; border-radius: 999px; padding: 7px 16px; font-size: 12.5px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #F26B00, #FF9F43); box-shadow: 0 6px 16px rgba(250,120,6,.35); animation: gkSmPulse 2s infinite; }
+        @keyframes gkSmPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(250,120,6,.45); } 50% { box-shadow: 0 0 0 10px rgba(250,120,6,0); } }
+
+    </style>
+</head>
+
+<body class="sm-page">
+
+    
+    <header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAV — Thanh danh mục phụ (desktop) -->
+    <nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- ================================================================
+         HERO
+         ================================================================ -->
+    <section class="sm-hero">
+        <span class="sm-hero-pill sm-rise"><i class="fas fa-sitemap"></i> Sơ đồ Website</span>
+        <h1 class="sm-rise" style="animation-delay:.05s">Bản đồ Gắn Kết Bốn Phương</h1>
+        <p class="sm-rise" style="animation-delay:.1s">
+            Toàn cảnh nền tảng cứu hộ – sửa xe tận nơi: 12 trang, nút SOS có mặt ở mọi trang, các luồng
+            đặt thợ – voucher – Garage số – khiếu nại và cách dữ liệu đi qua từng bước.
+        </p>
+        <div class="sm-stats sm-rise" style="animation-delay:.15s">
+            <div class="sm-stat"><b>12</b><span>Trang</span></div>
+            <div class="sm-stat"><b>39</b><span>Dịch vụ</span></div>
+            <div class="sm-stat"><b>8</b><span>Luồng nghiệp vụ</span></div>
+            <div class="sm-stat"><b>6</b><span>Module gkbp-*.js</span></div>
+        </div>
+        <div class="gk-sm-road sm-rise" aria-hidden="true" style="animation-delay:.2s"><span></span><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle"></i></div>
+    </section>
+
+    <!-- ================================================================
+         SƠ ĐỒ CÂY
+         ================================================================ -->
+    <section class="sm-section">
+        <div class="sm-wrap">
+            <div class="sm-shead">
+                <div class="sm-eyebrow">Toàn cảnh</div>
+                <h2>Sơ đồ cây website</h2>
+                <p>Từ trang chủ tỏa ra 3 nhánh chức năng và 11 trang con — nút cứu hộ SOS đi kèm mọi trang.</p>
+            </div>
+            <div class="smap">
+                <div class="smap-root">
+                    <a class="smap-rootchip" href="html_trangchu.html" style="text-decoration:none;">
+                        <i class="fas fa-house-user"></i> Trang chủ
+                    </a>
+                    <button type="button" class="gk-sm-sos" data-sos-open="lop"><i class="fas fa-life-ring"></i> Cứu hộ SOS · có trên mọi trang</button>
+                </div>
+                <div class="smap-branches">
+                <div class="smap-col">
+                    <div class="smap-group">
+                        <div class="smap-ghead">
+                            <span class="smap-gico"><i class="fas fa-tools"></i></span>
+                            Dịch vụ &amp; Đặt thợ
+                        </div>
+                        <ul class="smap-list">
+                            <li class="smap-leaf"><a href="html_dichvu.html">
+                                <span class="lf-i"><i class="fas fa-wrench"></i></span>
+                                <span><span class="lf-t">Cứu hộ &amp; Sửa xe</span><span class="lf-f">html_dichvu.html</span></span></a></li>
+                            <li class="smap-leaf"><a href="html_diadiem.html">
+                                <span class="lf-i"><i class="fas fa-map-marked-alt"></i></span>
+                                <span><span class="lf-t">Khu vực phục vụ</span><span class="lf-f">html_diadiem.html</span></span></a></li>
+                            <li class="smap-leaf"><a href="html_khuyenmaivatiepthi.html">
+                                <span class="lf-i"><i class="fas fa-ticket-alt"></i></span>
+                                <span><span class="lf-t">Voucher &amp; ưu đãi</span><span class="lf-f">html_khuyenmaivatiepthi.html</span></span></a></li>
+                            <li class="smap-leaf"><a href="html_giohang.html">
+                                <span class="lf-i"><i class="fas fa-shopping-basket"></i></span>
+                                <span><span class="lf-t">Giỏ dịch vụ</span><span class="lf-f">html_giohang.html</span></span></a></li>
+                            <li class="smap-leaf"><a href="html_thanhtoan.html">
+                                <span class="lf-i"><i class="fas fa-credit-card"></i></span>
+                                <span><span class="lf-t">Thanh toán &amp; đặt thợ</span><span class="lf-f">html_thanhtoan.html</span></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="smap-col">
+                    <div class="smap-group">
+                        <div class="smap-ghead">
+                            <span class="smap-gico"><i class="fas fa-user-shield"></i></span>
+                            Tài khoản &amp; Garage số
+                        </div>
+                        <ul class="smap-list">
+                            <li class="smap-leaf"><a href="html_dangnhap_dangky.html">
+                                <span class="lf-i"><i class="fas fa-fingerprint"></i></span>
+                                <span><span class="lf-t">Đăng nhập / Đăng ký</span><span class="lf-f">html_dangnhap_dangky.html</span></span></a></li>
+                            <li class="smap-leaf"><a href="html_thongtin.html">
+                                <span class="lf-i"><i class="fas fa-warehouse"></i></span>
+                                <span><span class="lf-t">Tài khoản &amp; Garage số</span><span class="lf-f">html_thongtin.html</span></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="smap-col">
+                    <div class="smap-group">
+                        <div class="smap-ghead">
+                            <span class="smap-gico"><i class="fas fa-life-ring"></i></span>
+                            Thương hiệu, nội dung &amp; hỗ trợ
+                        </div>
+                        <ul class="smap-list">
+                            <li class="smap-leaf"><a href="html_gioithieu.html">
+                                <span class="lf-i"><i class="fas fa-users"></i></span>
+                                <span><span class="lf-t">Giới thiệu &amp; đội ngũ</span><span class="lf-f">html_gioithieu.html</span></span></a></li>
+                            <li class="smap-leaf"><a href="html_blog.html">
+                                <span class="lf-i"><i class="fas fa-book-open"></i></span>
+                                <span><span class="lf-t">Blog cẩm nang</span><span class="lf-f">html_blog.html</span></span></a></li>
+                            <li class="smap-leaf"><a href="html_lienhe_chinhsach.html">
+                                <span class="lf-i"><i class="fas fa-headset"></i></span>
+                                <span><span class="lf-t">Liên hệ &amp; Chính sách</span><span class="lf-f">html_lienhe_chinhsach.html</span></span></a></li>
+                            <li class="smap-leaf is-here"><a href="html_sitemap.html" onclick="return false;">
+                                <span class="lf-i"><i class="fas fa-sitemap"></i></span>
+                                <span><span class="lf-t">Sitemap</span><span class="lf-f">html_sitemap.html · bạn đang ở đây</span></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         12 TRANG THEO NHÓM
+         ================================================================ -->
+    <section class="sm-section">
+        <div class="sm-wrap">
+            <div class="sm-shead">
+                <div class="sm-eyebrow">Cấu trúc trang</div>
+                <h2>12 trang theo 3 nhóm chức năng</h2>
+                <p>Nhấn vào bất kỳ thẻ nào để mở trang tương ứng.</p>
+            </div>
+            <div class="sm-cluster">
+                <p class="sm-cluster-title">Dịch vụ &amp; Đặt thợ</p>
+                <div class="sm-grid">
+                    <a class="sm-node" href="html_trangchu.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-house-user"></i></div>
+                            <span class="sm-badge">Cửa ngõ</span>
+                        </div>
+                        <h3>Trang chủ</h3>
+                        <span class="sm-file">html_trangchu.html</span>
+                        <p class="sm-feat">Hero 3 slide + chip sự cố · 6 nhóm dịch vụ · Ước tính giá · Đồng hồ cam kết · Lộ trình 2026–2030 · Máy tính thu nhập thợ</p>
+                    </a>
+                    <a class="sm-node" href="html_dichvu.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-wrench"></i></div>
+                            <span class="sm-badge">Giao dịch</span>
+                        </div>
+                        <h3>Cứu hộ &amp; Sửa xe</h3>
+                        <span class="sm-file">html_dichvu.html</span>
+                        <p class="sm-feat">39 dịch vụ · Lọc nhóm &amp; loại xe · Chi tiết + lịch hẹn · Gói thêm · Phí km &amp; ca đêm · Thêm vào giỏ</p>
+                    </a>
+                    <a class="sm-node" href="html_diadiem.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-map-marked-alt"></i></div>
+                            <span class="sm-badge">Phủ sóng</span>
+                        </div>
+                        <h3>Khu vực phục vụ</h3>
+                        <span class="sm-file">html_diadiem.html</span>
+                        <p class="sm-feat">10 khu vực · 3 giai đoạn mở rộng · Trạm thợ &amp; chỉ số · Báo khi mở khu vực · <code style="font-family:var(--sm-mono)">?loc=</code></p>
+                    </a>
+                    <a class="sm-node" href="html_khuyenmaivatiepthi.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-ticket-alt"></i></div>
+                            <span class="sm-badge">Marketing</span>
+                        </div>
+                        <h3>Voucher &amp; ưu đãi</h3>
+                        <span class="sm-file">html_khuyenmaivatiepthi.html</span>
+                        <p class="sm-feat">26 mã · Đếm ngược mùa mưa · Deal chớp nhoáng · Lưu mã vào kho · 4 bước dùng mã</p>
+                    </a>
+                    <a class="sm-node" href="html_giohang.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-shopping-basket"></i></div>
+                            <span class="sm-badge">Giỏ dịch vụ</span>
+                        </div>
+                        <h3>Giỏ dịch vụ</h3>
+                        <span class="sm-file">html_giohang.html</span>
+                        <p class="sm-feat">Khóa <code style="font-family:var(--sm-mono)">gkbp_cart</code> · Hoàn tác 5 giây · Quà Tem QR mốc 500.000đ · Gợi ý mã tốt nhất · Đặt kèm</p>
+                    </a>
+                    <a class="sm-node" href="html_thanhtoan.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-credit-card"></i></div>
+                            <span class="sm-badge">Thanh toán</span>
+                        </div>
+                        <h3>Thanh toán &amp; đặt thợ</h3>
+                        <span class="sm-file">html_thanhtoan.html</span>
+                        <p class="sm-feat">Xe &amp; điểm hẹn · Ưu tiên điều phối · Thẻ 3D · QR · Chuyển khoản · Tiền mặt · Điểm Bốn Phương · Confetti</p>
+                    </a>
+                </div>
+            </div>
+            <div class="sm-cluster">
+                <p class="sm-cluster-title">Tài khoản &amp; Garage số</p>
+                <div class="sm-grid">
+                    <a class="sm-node" href="html_dangnhap_dangky.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-fingerprint"></i></div>
+                            <span class="sm-badge">Định danh</span>
+                        </div>
+                        <h3>Đăng nhập / Đăng ký</h3>
+                        <span class="sm-file">html_dangnhap_dangky.html</span>
+                        <p class="sm-feat">Tài khoản trải nghiệm · Kiểm tra tức thời · Độ mạnh mật khẩu · Quà CHAOBAN30 · <code style="font-family:var(--sm-mono)">?mode=</code></p>
+                    </a>
+                    <a class="sm-node" href="html_thongtin.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-warehouse"></i></div>
+                            <span class="sm-badge">Dashboard</span>
+                        </div>
+                        <h3>Tài khoản &amp; Garage số</h3>
+                        <span class="sm-file">html_thongtin.html</span>
+                        <p class="sm-feat">6 tab · Garage số + nhắc bảo dưỡng · Lịch sử SOS &amp; đặt lịch · Hạng thành viên · Kho voucher</p>
+                    </a>
+                </div>
+            </div>
+            <div class="sm-cluster">
+                <p class="sm-cluster-title">Thương hiệu, nội dung &amp; hỗ trợ</p>
+                <div class="sm-grid">
+                    <a class="sm-node" href="html_gioithieu.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-users"></i></div>
+                            <span class="sm-badge">Thương hiệu</span>
+                        </div>
+                        <h3>Giới thiệu &amp; đội ngũ</h3>
+                        <span class="sm-file">html_gioithieu.html</span>
+                        <p class="sm-feat">Câu chuyện khởi nguồn · Quy trình 8 bước · Lý do chọn · Bộ nhận diện navy – cam · 10 thành viên</p>
+                    </a>
+                    <a class="sm-node" href="html_blog.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-book-open"></i></div>
+                            <span class="sm-badge">Nội dung</span>
+                        </div>
+                        <h3>Blog cẩm nang</h3>
+                        <span class="sm-file">html_blog.html</span>
+                        <p class="sm-feat">30 bài · 7 chuyên mục · Mục lục tự sinh · Tác giả là thành viên nhóm · <code style="font-family:var(--sm-mono)">?id=</code> <code style="font-family:var(--sm-mono)">?cat=</code></p>
+                    </a>
+                    <a class="sm-node" href="html_lienhe_chinhsach.html">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-headset"></i></div>
+                            <span class="sm-badge">Hỗ trợ</span>
+                        </div>
+                        <h3>Liên hệ &amp; Chính sách</h3>
+                        <span class="sm-file">html_lienhe_chinhsach.html</span>
+                        <p class="sm-feat">Dải SOS · Mã KN + tra cứu SLA · Đăng ký thợ đối tác · 7 mục chính sách · Mục lục dính</p>
+                    </a>
+                    <div class="sm-node is-current">
+                        <div class="sm-node-top">
+                            <div class="sm-node-ico"><i class="fas fa-sitemap"></i></div>
+                            <span class="sm-badge">Bạn đang ở đây</span>
+                        </div>
+                        <h3>Sitemap</h3>
+                        <span class="sm-file">html_sitemap.html</span>
+                        <p class="sm-feat">Sơ đồ tổng thể trang, luồng nghiệp vụ và cấu trúc kỹ thuật.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         LUỒNG NGƯỜI DÙNG
+         ================================================================ -->
+    <section class="sm-section">
+        <div class="sm-wrap">
+            <div class="sm-shead">
+                <div class="sm-eyebrow">Hành trình người dùng</div>
+                <h2>Luồng điều hướng chính</h2>
+                <p>Bốn kịch bản phổ biến nhất trên nền tảng.</p>
+            </div>
+            <div class="sm-journey">
+                <h3><span class="sm-jdot" style="background:linear-gradient(135deg,#E06400,#FF9F43)">🆘</span> Cứu hộ khẩn cấp — không cần đăng nhập</h3>
+                <div class="sm-flow">
+                    <span class="sm-step"><span class="sm-step-i">🚨</span> Bấm SOS</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">🧭</span> Chọn sự cố</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">🩺</span> Trợ lý triệu chứng</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">📍</span> Xe &amp; vị trí</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">💰</span> Giá trần</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step is-guard"><span class="sm-step-i">🧑‍🔧</span> Ghép thợ 3–5 km</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">🗺️</span> Theo dõi + mã gặp mặt</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step is-end"><span class="sm-step-i">✅</span> Hoàn tất &amp; đánh giá</span>
+                </div>
+            </div>
+            <div class="sm-journey">
+                <h3><span class="sm-jdot" style="background:linear-gradient(135deg,#0A2B54,#1E5C9E)">🛠️</span> Đặt lịch sửa chữa / bảo dưỡng</h3>
+                <div class="sm-flow">
+                    <span class="sm-step"><span class="sm-step-i">🏠</span> Trang chủ</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">🔍</span> Tìm kiếm</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">🔧</span> Dịch vụ</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step is-guard"><span class="sm-step-i">🔐</span> Đăng nhập</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">🧺</span> Giỏ dịch vụ</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">💳</span> Thanh toán</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step is-end"><span class="sm-step-i">🏍️</span> Đơn trong Garage số</span>
+                </div>
+            </div>
+            <div class="sm-journey">
+                <h3><span class="sm-jdot" style="background:linear-gradient(135deg,#0D4076,#FA7806)">🎫</span> Voucher</h3>
+                <div class="sm-flow">
+                    <span class="sm-step"><span class="sm-step-i">🎟️</span> Trang voucher</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step is-guard"><span class="sm-step-i">🔐</span> Kiểm tra đăng nhập</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">💾</span> Lưu vào kho</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">🤖</span> Gợi ý mã tốt nhất</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">✔️</span> Kiểm tra điều kiện</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step is-end"><span class="sm-step-i">💰</span> Giảm giá</span>
+                </div>
+            </div>
+            <div class="sm-journey">
+                <h3><span class="sm-jdot" style="background:linear-gradient(135deg,#061D38,#0D4076)">📣</span> Khiếu nại 4 bước</h3>
+                <div class="sm-flow">
+                    <span class="sm-step"><span class="sm-step-i">📞</span> Liên hệ</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">📝</span> Form khiếu nại</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step"><span class="sm-step-i">🔖</span> Mã KN-xxxxxx</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step is-guard"><span class="sm-step-i">⏱️</span> 2h · 24h · 72h</span>
+                    <span class="sm-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <span class="sm-step is-end"><span class="sm-step-i">🤝</span> Giải quyết</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         8 LUỒNG NGHIỆP VỤ
+         ================================================================ -->
+    <section class="sm-section">
+        <div class="sm-wrap">
+            <div class="sm-shead">
+                <div class="sm-eyebrow">Logic hệ thống</div>
+                <h2>8 luồng nghiệp vụ</h2>
+                <p>Các quy trình chính được xử lý phía trình duyệt qua <code style="font-family:var(--sm-mono)">localStorage</code> và <code style="font-family:var(--sm-mono)">sessionStorage</code>.</p>
+            </div>
+            <div class="sm-flowgrid">
+                <div class="sm-flowcard">
+                    <div class="sm-flowcard-h"><span class="sm-fc-ico">🔐</span><div><b>Định danh</b><small>Identity Flow</small></div></div>
+                    <ul class="sm-steplist"><li>Đăng ký → <code style="font-family:var(--sm-mono)">gkbp_accounts</code></li><li>Đăng nhập → <code style="font-family:var(--sm-mono)">gkbp_user</code></li><li>Quay lại trang cũ ← <code style="font-family:var(--sm-mono)">gkbp_redirect_after_login</code></li><li>Header đồng bộ avatar &amp; menu trên mọi trang</li></ul>
+                </div>
+                <div class="sm-flowcard">
+                    <div class="sm-flowcard-h"><span class="sm-fc-ico">🆘</span><div><b>Cứu hộ SOS</b><small>Rescue Flow</small></div></div>
+                    <ul class="sm-steplist"><li><code style="font-family:var(--sm-mono)">GKSOS.open(sự cố)</code> trên mọi trang</li><li>Giá trần + phụ phí đêm 22h–5h</li><li>Theo dõi thợ ← <code style="font-family:var(--sm-mono)">gkbp_active_rescue</code></li><li>Hộp đen chuyến cứu hộ → <code style="font-family:var(--sm-mono)">gkbp_orders</code></li></ul>
+                </div>
+                <div class="sm-flowcard">
+                    <div class="sm-flowcard-h"><span class="sm-fc-ico">🔍</span><div><b>Khám phá</b><small>Discovery Flow</small></div></div>
+                    <ul class="sm-steplist"><li>Tìm kiếm: dịch vụ, sự cố, khu vực, bài viết</li><li>Liên kết sâu <code style="font-family:var(--sm-mono)">?id= ?cate= ?veh= ?q=</code></li><li>Lịch sử xem ← <code style="font-family:var(--sm-mono)">gkbp_history</code></li><li>Gợi ý theo loại xe trong Garage số</li></ul>
+                </div>
+                <div class="sm-flowcard">
+                    <div class="sm-flowcard-h"><span class="sm-fc-ico">🎫</span><div><b>Voucher</b><small>Voucher Lifecycle</small></div></div>
+                    <ul class="sm-steplist"><li>Lưu mã → <code style="font-family:var(--sm-mono)">gkbp_saved_vouchers</code></li><li>Kiểm tra nhóm dịch vụ, đơn tối thiểu, hạn dùng</li><li>Gợi ý mã giảm nhiều nhất</li><li><code style="font-family:var(--sm-mono)">markUsed()</code> sau thanh toán</li></ul>
+                </div>
+                <div class="sm-flowcard">
+                    <div class="sm-flowcard-h"><span class="sm-fc-ico">🧺</span><div><b>Giỏ dịch vụ</b><small>Cart Flow</small></div></div>
+                    <ul class="sm-steplist"><li><code style="font-family:var(--sm-mono)">addToCart()</code> — mỗi dòng có cartId riêng</li><li>Badge header đồng bộ tức thời</li><li>Xóa → hoàn tác trong 5 giây</li><li>Từ 500.000đ → tặng Tem QR cứu hộ</li></ul>
+                </div>
+                <div class="sm-flowcard">
+                    <div class="sm-flowcard-h"><span class="sm-fc-ico">💳</span><div><b>Thanh toán</b><small>Payment Flow</small></div></div>
+                    <ul class="sm-steplist"><li>Đọc <code style="font-family:var(--sm-mono)">gkbp_checkout</code> hoặc <code style="font-family:var(--sm-mono)">gkbp_cart</code></li><li>Kiểm tra lại voucher theo tổng thực</li><li>Lưu <code style="font-family:var(--sm-mono)">gkbp_orders</code> + 1 điểm / 1.000đ</li><li>Modal thành công + confetti 🎉</li></ul>
+                </div>
+                <div class="sm-flowcard">
+                    <div class="sm-flowcard-h"><span class="sm-fc-ico">🏍️</span><div><b>Garage số</b><small>Personalization</small></div></div>
+                    <ul class="sm-steplist"><li>Xe, biển số, ODO → <code style="font-family:var(--sm-mono)">gkbp_garage</code></li><li>Nhắc thay nhớt, kiểm tra pin, bảo hiểm</li><li>Yêu thích → <code style="font-family:var(--sm-mono)">gkbp_wishlist</code></li><li>Hạng Đồng · Bạc · Vàng · Kim cương</li></ul>
+                </div>
+                <div class="sm-flowcard">
+                    <div class="sm-flowcard-h"><span class="sm-fc-ico">📞</span><div><b>Hỗ trợ</b><small>Support Flow</small></div></div>
+                    <ul class="sm-steplist"><li>Yêu cầu → <code style="font-family:var(--sm-mono)">gkbp_tickets</code> + SLA</li><li>Hồ sơ thợ → <code style="font-family:var(--sm-mono)">gkbp_partner_apps</code></li><li>Chính sách 7 mục, tìm kiếm &amp; mục lục</li><li>Liên kết sâu <code style="font-family:var(--sm-mono)">#pol-… #doi-tac</code></li></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         MÃ NGUỒN JAVASCRIPT
+         ================================================================ -->
+    <section class="sm-section">
+        <div class="sm-wrap">
+            <div class="sm-shead">
+                <div class="sm-eyebrow">Mã nguồn</div>
+                <h2>6 module dùng chung + mã riêng từng trang</h2>
+                <p>Phân theo phạm vi nạp: <span style="color:var(--sm-green);font-weight:700">mọi trang</span> ·
+                   <span style="color:var(--sm-amber);font-weight:700">nhiều trang</span> ·
+                   <span style="color:var(--sm-b2);font-weight:700">một trang</span>.</p>
+            </div>
+            <div class="sm-techgrid">
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp-core.js</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope all">Mọi trang</span>
+                    <p>Tài khoản · Giỏ dịch vụ · Toast · Header &amp; thanh điều hướng điện thoại · Nút về đầu trang · Kiểm tra hợp lệ</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp-data.js</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope all">Mọi trang</span>
+                    <p><code style="font-family:var(--sm-mono)">GK_DATA</code>: 39 dịch vụ, 6 sự cố, 10 khu vực, hạng thợ, 30 bài viết</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp-voucher.js</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope all">Mọi trang</span>
+                    <p><code style="font-family:var(--sm-mono)">GK_VOUCHER</code>: 26 mã · saveVoucher · validate · getBestVoucher · renderInventory</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp-search.js</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope all">Mọi trang</span>
+                    <p>Tìm kiếm thông minh không dấu · <code style="font-family:var(--sm-mono)">goSearch()</code> → trang dịch vụ</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp-sos.js</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope all">Mọi trang</span>
+                    <p>Modal cứu hộ 8 bước · Ghép thợ · Mã gặp mặt · Hộp đen · Đánh giá 4 tiêu chí</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp-home.js</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope one">1 trang</span>
+                    <p>Hero · Ước tính giá · Đồng hồ cam kết · Lộ trình · Máy tính thu nhập thợ — trangchu</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>Mã riêng: dịch vụ</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope one">1 trang</span>
+                    <p><code style="font-family:var(--sm-mono)">MASTER_DATA = GK_DATA.SERVICES</code> · Lọc · Chi tiết · Đặt lịch · Giỏ — dichvu</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>Mã riêng: giỏ &amp; thanh toán</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope few">2 trang</span>
+                    <p>GKCart · CartCalc · Hoàn tác · Thẻ 3D · QR · Lưu đơn — giohang, thanhtoan</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>Mã riêng: tài khoản</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope few">2 trang</span>
+                    <p>Đăng nhập / đăng ký · Garage số · Lịch sử · Hồ sơ — dangnhap_dangky, thongtin</p></div></div>
+            </div>
+            <div class="sm-loadnote">
+                <b><i class="fas fa-layer-group mr-1"></i> Thứ tự nạp bắt buộc:</b>
+                <code>jquery</code> → <code>bootstrap</code> → <code>gkbp-core.js</code> → <code>gkbp-data.js</code>
+                → <code>gkbp-voucher.js</code> → <code>gkbp-search.js</code> → <code>gkbp-sos.js</code> → mã riêng từng trang.
+                Tên tệp, biến toàn cục (<code>GKBP</code>, <code>GK_DATA</code>, <code>GK_VOUCHER</code>, <code>GKSOS</code>, <code>gkSearch</code>) và khóa lưu trữ đều có tiền tố riêng để tránh xung đột mã.
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         KHÓA LƯU TRỮ
+         ================================================================ -->
+    <section class="sm-section">
+        <div class="sm-wrap">
+            <div class="sm-shead">
+                <div class="sm-eyebrow">Lưu trữ phía trình duyệt</div>
+                <h2>14 khóa lưu trữ chính</h2>
+                <p><span style="color:var(--sm-green);font-weight:700">localStorage</span> lưu lâu dài ·
+                   <span style="color:var(--sm-red);font-weight:700">sessionStorage</span> chỉ trong phiên.</p>
+            </div>
+            <div class="sm-techgrid">
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_user</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Người dùng đang đăng nhập · Đọc qua <code style="font-family:var(--sm-mono)">GKBP.getUser()</code></p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_accounts</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Danh sách tài khoản đã đăng ký (có tài khoản trải nghiệm)</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_cart</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Giỏ dịch vụ · Ghi bởi trang dịch vụ · Đọc bởi giỏ hàng, thanh toán</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_orders</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Lịch sử đơn SOS và đơn đặt lịch · Hiển thị ở Tài khoản</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_garage</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Garage số: xe, biển số, ODO, ngày bảo dưỡng, hạn bảo hiểm</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_saved_vouchers</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Kho voucher theo từng tài khoản · trạng thái đã dùng</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_points</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Điểm Bốn Phương · cộng 1 điểm cho mỗi 1.000đ thanh toán</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_active_rescue</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Cuốc cứu hộ đang diễn ra · viên theo dõi ETA ở mọi trang</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_tickets</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Yêu cầu hỗ trợ / khiếu nại KN-xxxxxx để tra cứu tiến độ</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_redirect_after_login</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope local">localStorage</span>
+                    <p>Trang cần quay lại sau đăng nhập · Ghi bởi <code style="font-family:var(--sm-mono)">requireLogin()</code></p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_checkout</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope session">sessionStorage</span>
+                    <p>Đơn “Đặt ngay” 1 dịch vụ · Ghi bởi trang dịch vụ · Đọc bởi thanh toán</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_applied_voucher</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope session">sessionStorage</span>
+                    <p>Voucher đã áp ở giỏ dịch vụ · Đọc lại và kiểm tra ở thanh toán</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_search_query</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope session">sessionStorage</span>
+                    <p>Từ khóa từ tìm kiếm · Ghi bởi <code style="font-family:var(--sm-mono)">goSearch()</code> · Đọc bởi trang dịch vụ</p></div></div>
+                <div class="sm-tech"><div class="sm-tech-key"><code>gkbp_pending_action</code></div>
+                    <div class="sm-tech-body"><span class="sm-scope session">sessionStorage</span>
+                    <p>Thao tác “đặt ngay / thêm giỏ” chờ sau khi đăng nhập</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="sm-foot-space"></div>
+
+
+    <!-- ================================================================
+         FOOTER — Đồng bộ 100% với các trang khác
+         ================================================================ -->
+    <div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+</body>
+</html>

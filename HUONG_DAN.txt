@@ -1,0 +1,37 @@
+GẮN KẾT BỐN PHƯƠNG – Đồng hành mọi nẻo đường
+Website thương mại điện tử dịch vụ cứu hộ & sửa chữa xe (bản mẫu hoàn chỉnh)
+
+1. CÁCH MỞ
+   Giải nén thư mục, mở html_trangchu.html bằng Chrome hoặc Edge.
+   Máy cần có Internet để tải font chữ, biểu tượng Font Awesome, GSAP và Swiper từ CDN.
+
+2. TÀI KHOẢN DÙNG THỬ
+   Email: demo@bonphuong.vn   Mật khẩu: Demo@123
+   Hoặc tự đăng ký tài khoản mới (được tặng voucher CHAOBAN30).
+   Nút SOS / "Cứu hộ ngay" dùng được ngay, không cần đăng nhập.
+
+3. ẢNH THẬT CỦA 10 THÀNH VIÊN
+   Chép ảnh .jpg vào thư mục img/, đặt tên đúng bằng họ tên thành viên (có dấu, có khoảng trắng):
+   img/Võ Thiên Ân.jpg              img/Phan Thị Yến Oanh.jpg
+   img/Cao Thị Bảo Châu.jpg         img/Phan Anh Tài.jpg
+   img/Hồ Thị Hằng.jpg              img/Trần Phương Tùng.jpg
+   img/Nguyễn Bùi Thúy Kiều.jpg     img/Phạm Thị Mai Thi.jpg
+   img/Trần Thị Diễm My.jpg         img/Trần Thống Vương.jpg
+   Ảnh hiện ở Trang chủ, trang Giới thiệu và phần tác giả bài Blog. Nên dùng ảnh vuông,
+   khuôn mặt ở giữa (ảnh được cắt tròn). Khi chưa có ảnh, web tự hiện ảnh minh họa đồng phục.
+
+   TOÀN BỘ ẢNH KHÁC ĐÃ LƯU SẴN TRONG img/ (dv, blog, kv, hero, promo, pattern) nên mở web
+   không cần mạng ảnh vẫn hiện đầy đủ.
+
+4. DỮ LIỆU
+   Giỏ dịch vụ, đơn hàng, Garage số, điểm thưởng, voucher đã lưu, phiếu khiếu nại, hồ sơ
+   thợ đối tác... được lưu ngay trong trình duyệt (localStorage) để chạy demo, chưa cần máy chủ.
+   Muốn làm lại từ đầu: xóa dữ liệu trang web (Site data) trong cài đặt trình duyệt.
+
+5. CẤU TRÚC
+   html_*.html (12 trang)  – Trang chủ, Giới thiệu, Dịch vụ, Khu vực, Blog, Voucher, Giỏ,
+                             Thanh toán, Tài khoản & Garage số, Đăng nhập/Đăng ký,
+                             Liên hệ – Chính sách – Thợ đối tác, Sơ đồ website
+   css_trangchu.css        – giao diện chung, bảng màu xanh navy #0D4076 và cam #FA7806
+   js/gkbp-*.js            – dữ liệu 39 dịch vụ, luồng SOS, voucher, tìm kiếm, giỏ hàng, tài khoản
+   img/                    – ảnh chụp JPG offline (dịch vụ, blog, khu vực, banner), ảnh thành viên

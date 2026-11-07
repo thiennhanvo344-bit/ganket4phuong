@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | Gắn Kết Bốn Phương</title>
+    <meta name="description" content="Đăng nhập hoặc tạo tài khoản Gắn Kết Bốn Phương để đặt thợ sửa xe tận nơi, theo dõi cứu hộ, lưu xe vào Garage số và nhận mã CHAOBAN30.">
+    <meta name="theme-color" content="#0A2B54">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 4.6 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css_trangchu.css">
+    <!-- Font Awesome 5 — bộ icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts — Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ═══════════════════════════════════════════════════════════
+           BIẾN MÀU — đồng bộ css_trangchu.css
+           ═══════════════════════════════════════════════════════════ */
+        :root {
+            --primary:   #0D4076;
+            --dark:      #0A2B54;
+            --teal:      #FA7806;
+            --red:       #ff4d4d;
+            --success:   #10b981;
+            --warning:   #f59e0b;
+            --gradient:  linear-gradient(135deg, #0A2B54 0%, #0D4076 55%, #1E5C9E 100%);
+            --bg:        #eef2f7;
+            --white:     #ffffff;
+            --border:    #dde3ee;
+            --text:      #0A2B54;
+            --muted:     #6b7280;
+            --radius:    12px;
+            --radius-lg: 22px;
+            --shadow:    0 24px 64px rgba(10,43,84,0.13), 0 4px 18px rgba(0,0,0,0.07);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           VÙNG NỘI DUNG CHÍNH (giữa header và footer)
+           ═══════════════════════════════════════════════════════════ */
+        .auth-page {
+            min-height: calc(100vh - 120px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 52px 16px;
+            /* Nền gradient nhẹ trang trí */
+            background:
+                radial-gradient(ellipse 75% 55% at 5% 10%,  rgba(13,64,118,0.09) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 95% 90%, rgba(10,43,84,0.08) 0%, transparent 60%),
+                var(--bg);
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           MÀN HÌNH AUTH — Mỗi màn là 1 khối độc lập
+           display: none mặc định — JS thêm class .active để hiện
+           ═══════════════════════════════════════════════════════════ */
+        .auth-screen {
+            display: none;
+            width: 100%;
+            max-width: 960px;
+            animation: screenReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        .auth-screen.active { display: flex; }
+
+        /* Animation xuất hiện màn hình */
+        @keyframes screenReveal {
+            from { opacity: 0; transform: translateY(30px) scale(0.97); filter: blur(4px); }
+            to   { opacity: 1; transform: translateY(0) scale(1);      filter: blur(0);   }
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           CARD LAYOUT: 2 cột — Visual trái, Form phải
+           ═══════════════════════════════════════════════════════════ */
+        .auth-card {
+            display: grid;
+            grid-template-columns: 1fr 460px; /* hình minh họa | form */
+            width: 100%;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            min-height: 610px;
+        }
+
+        /* ─────────────────────────────────────────────────────────
+           CỘT TRÁI — Visual / Branding
+           ───────────────────────────────────────────────────────── */
+        .auth-visual {
+            background: var(--gradient);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 52px 44px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hình tròn trang trí góc */
+        .auth-visual::before {
+            content: '';
+            position: absolute;
+            top: -70px; right: -70px;
+            width: 260px; height: 260px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.055);
+        }
+        .auth-visual::after {
+            content: '';
+            position: absolute;
+            bottom: -55px; left: -55px;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* Logo thương hiệu */
+        .visual-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            position: relative; z-index: 1;
+        }
+        .visual-brand img   { height: 42px; border-radius: 9px; }
+        .visual-brand-name  {
+            font-size: 1.65rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #fff;
+        }
+
+        /* Biểu tượng lớn — animation nổi nhẹ */
+        .visual-emoji {
+            font-size: 5.5rem;
+            margin-bottom: 26px;
+            animation: floatEmoji 3.5s ease-in-out infinite;
+            position: relative; z-index: 1;
+        }
+        @keyframes floatEmoji {
+            0%,100% { transform: translateY(0) rotate(-4deg); }
+            50%      { transform: translateY(-14px) rotate(4deg); }
+        }
+
+        .visual-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.35;
+            margin-bottom: 14px;
+            position: relative; z-index: 1;
+        }
+        .visual-desc {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.78);
+            line-height: 1.8;
+            margin-bottom: 38px;
+            position: relative; z-index: 1;
+        }
+
+        /* Nút chuyển sang màn hình kia — viền trắng, bo tròn */
+        .btn-goto {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 12px 30px;
+            border: 2px solid rgba(255,255,255,0.82);
+            border-radius: 99px;
+            background: transparent;
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 800;
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+            position: relative; z-index: 1;
+        }
+        .btn-goto:hover {
+            background: rgba(255,255,255,0.18);
+            border-color: #fff;
+            transform: scale(1.04);
+            color: #fff;
+            text-decoration: none !important;
+        }
+
+        /* Chấm chỉ màn hình hiện tại */
+        .visual-dots {
+            display: flex;
+            gap: 8px;
+            margin-top: 30px;
+            position: relative; z-index: 1;
+        }
+        .vdot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.35);
+            transition: all 0.3s;
+        }
+        .vdot.on { background: #fff; width: 22px; border-radius: 4px; }
+
+        /* ─────────────────────────────────────────────────────────
+           CỘT PHẢI — Form
+           ───────────────────────────────────────────────────────── */
+        .auth-form-col {
+            padding: 52px 46px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+            overflow-y: auto;
+        }
+
+        /* Tiêu đề form */
+        .f-title {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--dark);
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+        .f-sub {
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           FLOATING LABEL INPUT GROUP
+           ═══════════════════════════════════════════════════════════ */
+        .fld {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        /* Input */
+        .fld-input {
+            width: 100%;
+            height: 56px;
+            padding: 20px 48px 8px 16px; /* top cao để label nổi lên */
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.925rem;
+            font-weight: 600;
+            color: var(--dark);
+            background: #f8fafd;
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+        }
+        /* Placeholder ẩn — cần để :not(:placeholder-shown) hoạt động */
+        .fld-input::placeholder { color: transparent; }
+
+        .fld-input:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(13,64,118,0.1);
+        }
+
+        /* Floating label */
+        .fld-label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #9ca3af;
+            pointer-events: none;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        /* Label nổi lên khi focus hoặc có nội dung */
+        .fld-input:focus     ~ .fld-label,
+        .fld-input:not(:placeholder-shown) ~ .fld-label {
+            top: 10px;
+            transform: translateY(0) scale(0.78);
+            transform-origin: left;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        /* Trạng thái viền sau validate */
+        .fld-input.is-ok  { border-color: var(--success); background: #f0fdf6; }
+        .fld-input.is-err { border-color: var(--red);     background: #fff5f5; }
+        .fld-input.is-ok:focus  { box-shadow: 0 0 0 4px rgba(16,185,129,0.1); }
+        .fld-input.is-err:focus { box-shadow: 0 0 0 4px rgba(255,77,77,0.1);  }
+
+        /* Label màu theo trạng thái */
+        .fld-input.is-ok:focus  ~ .fld-label,
+        .fld-input.is-ok:not(:placeholder-shown)  ~ .fld-label { color: var(--success); }
+        .fld-input.is-err:focus ~ .fld-label,
+        .fld-input.is-err:not(:placeholder-shown) ~ .fld-label { color: var(--red); }
+
+        /* Icon validation bên phải (nhường chỗ cho nút eye) */
+        .fld-ico {
+            position: absolute;
+            right: 44px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.95rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .fld-ico.show    { opacity: 1; }
+        .fld-ico.is-ok   { color: var(--success); }
+        .fld-ico.is-err  { color: var(--red); }
+
+        /* Input không có nút eye — icon status sát phải */
+        .fld.no-eye .fld-ico { right: 14px; }
+
+        /* Nút toggle mật khẩu */
+        .btn-eye {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            padding: 5px 6px;
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .btn-eye:hover { color: var(--primary); }
+
+        /* Text phản hồi lỗi / thành công dưới input */
+        .fld-msg {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 4px;
+            padding-left: 4px;
+            min-height: 14px;
+        }
+        .fld-msg.ok  { color: var(--success); }
+        .fld-msg.err { color: var(--red); }
+        .fld-msg:empty { min-height: 0; margin-top: 2px; }
+
+        /* ═══════════════════════════════════════════════════════════
+           PASSWORD STRENGTH METER
+           ═══════════════════════════════════════════════════════════ */
+        .pw-strength {
+            display: none; /* JS show khi bắt đầu nhập */
+            margin: 6px 0 8px;
+        }
+        .pw-strength.show { display: block; }
+
+        /* Thanh progress */
+        .pw-track {
+            height: 5px;
+            background: #e5e7eb;
+            border-radius: 99px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .pw-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 99px;
+            transition: width 0.4s ease, background 0.4s ease;
+        }
+
+        /* Checklist 5 tiêu chí — 2 cột */
+        .pw-list {
+            list-style: none;
+            padding: 0; margin: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px 16px;
+        }
+        .pw-list li {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.755rem;
+            font-weight: 700;
+            color: #9ca3af;
+            transition: color 0.2s;
+        }
+        .pw-list li.met  { color: var(--success); }
+        .pw-list .ci     { font-size: 0.8rem; flex-shrink: 0; }
+
+        /* ═══════════════════════════════════════════════════════════
+           HÀNG TÙY CHỌN (ghi nhớ / quên mk / điều khoản)
+           ═══════════════════════════════════════════════════════════ */
+        .opt-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        /* Checkbox tùy chỉnh */
+        .chk-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            font-size: 0.825rem;
+            font-weight: 600;
+            color: var(--muted);
+            user-select: none;
+            line-height: 1.5;
+        }
+        .chk-label input[type="checkbox"] { display: none; }
+        .chk-box {
+            width: 18px; height: 18px;
+            min-width: 18px;
+            border: 1.5px solid #c8d0dc;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            margin-top: 1px;
+            transition: all 0.2s;
+        }
+        .chk-label input:checked ~ .chk-box {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .chk-label input:checked ~ .chk-box::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 10px;
+            color: #fff;
+        }
+        /* Highlight lỗi khi chưa tick */
+        .chk-box.shake-err { border-color: var(--red) !important; background: #fff5f5; }
+
+        /* Link hành động (quên mk, điều khoản...) */
+        .lnk {
+            color: var(--primary) !important;
+            font-weight: 800;
+            font-size: 0.825rem;
+            text-decoration: none !important;
+            transition: color 0.2s;
+        }
+        .lnk:hover { color: var(--dark) !important; }
+
+        /* ═══════════════════════════════════════════════════════════
+           NÚT SUBMIT
+           ═══════════════════════════════════════════════════════════ */
+        .btn-submit {
+            width: 100%;
+            height: 52px;
+            background: var(--gradient);
+            border: none;
+            border-radius: var(--radius);
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            transition: transform 0.25s, box-shadow 0.25s;
+            margin-bottom: 16px;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(13,64,118,0.38);
+        }
+        .btn-submit:active { transform: translateY(0); }
+
+        /* Loading spinner trong nút */
+        .spin {
+            display: none;
+            width: 20px; height: 20px;
+            border: 2.5px solid rgba(255,255,255,0.35);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spinning 0.7s linear infinite;
+        }
+        @keyframes spinning { to { transform: rotate(360deg); } }
+        .btn-submit.loading .btn-text { display: none; }
+        .btn-submit.loading .spin     { display: block; }
+
+        /* ── SHAKE — rung form khi submit sai ── */
+        @keyframes shakeX {
+            0%,100% { transform: translateX(0); }
+            15%,45%,75% { transform: translateX(-9px); }
+            30%,60%,90% { transform: translateX(9px); }
+        }
+        .do-shake { animation: shakeX 0.5s ease; }
+
+        /* Gợi ý chuyển màn hình (dưới nút submit) */
+        .switch-hint {
+            text-align: center;
+            font-size: 0.84rem;
+            color: var(--muted);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .switch-hint a {
+            color: var(--primary) !important;
+            font-weight: 800;
+            text-decoration: none !important;
+        }
+        .switch-hint a:hover { color: var(--dark) !important; }
+
+        /* ═══════════════════════════════════════════════════════════
+           TOAST THÔNG BÁO THÀNH CÔNG
+           ═══════════════════════════════════════════════════════════ */
+        #auth-toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            min-width: 310px;
+            max-width: 380px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px 20px 20px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.14), 0 0 0 1px rgba(16,185,129,0.15);
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            z-index: 99999;
+            /* Ẩn — trượt từ phải vào */
+            transform: translateX(calc(100% + 50px));
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
+        }
+        #auth-toast.show { transform: translateX(0); opacity: 1; }
+
+        .t-ico {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem; flex-shrink: 0;
+        }
+        .t-title { font-weight: 800; font-size: 0.9rem; color: var(--dark); margin: 0 0 3px; }
+        .t-msg   { font-size: 0.79rem; color: var(--muted); margin: 0; }
+        .t-close {
+            margin-left: auto; background: none; border: none;
+            font-size: 0.85rem; color: #9ca3af; padding: 2px 4px;
+            align-self: flex-start; line-height: 1;
+        }
+        .t-close:hover { color: var(--dark); }
+
+        /* Thanh progress tự đóng toast */
+        .t-bar {
+            position: absolute;
+            bottom: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--success), var(--teal));
+            border-radius: 0 0 16px 16px;
+            transform-origin: left;
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           RESPONSIVE — Mobile < 768px
+           ═══════════════════════════════════════════════════════════ */
+        @media (max-width: 767px) {
+            .auth-page  { padding: 20px 12px; align-items: flex-start; }
+            .auth-card  { grid-template-columns: 1fr; min-height: auto; }
+            .auth-visual { display: none; } /* Ẩn cột branding trên mobile */
+            .auth-form-col { padding: 32px 22px; }
+            .f-title   { font-size: 1.5rem; }
+            .pw-list   { grid-template-columns: 1fr; }
+            #auth-toast { right: 10px; bottom: 10px; min-width: calc(100vw - 20px); max-width: none; }
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .auth-card { grid-template-columns: 1fr 400px; }
+            .auth-form-col { padding: 40px 34px; }
+        }
+    
+
+
+        /* Nút đăng nhập/đăng ký */
+        .btn-login {
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            color:#fff !important; border:none; border-radius:10px;
+            padding:7px 16px; font-size:13px; transition:all .2s;
+        }
+        .btn-login:hover { opacity:.88; transform:translateY(-1px); }
+        /* Avatar user */
+        .user-avatar-btn {
+            width:38px; height:38px; border-radius:50%;
+            background:linear-gradient(135deg,#0A2B54,#0D4076);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-weight:800; font-size:15px;
+            cursor:pointer; border:none; transition:all .2s;
+        }
+        .user-avatar-btn:hover { box-shadow:0 4px 14px rgba(13,64,118,.35); }
+        .user-profile-dropdown .dropdown-menu {
+            border-radius:14px; padding:8px 0;
+            box-shadow:0 8px 30px rgba(0,0,0,.12);
+        }
+
+        
+        /* ═══════════════════════════════════════════════════════════
+           BỔ SUNG — Đăng nhập / Đăng ký Gắn Kết Bốn Phương
+           ═══════════════════════════════════════════════════════════ */
+        .auth-visual { background: linear-gradient(150deg, #061D38 0%, #0A2B54 45%, #0D4076 75%, #1E5C9E 100%) !important; padding-bottom: 90px; }
+        .visual-brand img { background: #fff; padding: 4px; }
+        .visual-emoji { animation: gkBob 3s ease-in-out infinite; }
+        @keyframes gkBob { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-10px) rotate(4deg); } }
+        .visual-desc b { color: #FFB066; }
+        .btn-goto:hover { background: #FA7806 !important; border-color: #FA7806 !important; }
+        .gk-auth-perks { list-style: none; padding: 0; margin: 0 0 22px; text-align: left; display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 1; }
+        .gk-auth-perks li { font-size: 13px; color: rgba(255,255,255,.88); display: flex; align-items: center; gap: 10px; }
+        .gk-auth-perks i { width: 28px; height: 28px; border-radius: 9px; background: rgba(250,120,6,.9); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+        .gk-auth-road { position: absolute; left: 0; right: 0; bottom: 0; height: 52px; background: #111827; border-top: 3px solid #FA7806; overflow: hidden; z-index: 1; }
+        .gk-ar-lane { position: absolute; left: 0; top: 50%; width: 200%; height: 3px; margin-top: -1px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.8) 0 26px, transparent 26px 52px); animation: gkLane 1s linear infinite; }
+        @keyframes gkLane { to { transform: translateX(-52px); } }
+        .gk-ar-truck, .gk-ar-moto { position: absolute; bottom: 10px; font-size: 22px; color: #FF9F43; filter: drop-shadow(0 2px 4px rgba(0,0,0,.4)); }
+        .gk-ar-truck { animation: gkDrive 7s linear infinite; }
+        .gk-ar-moto { color: #fff; font-size: 18px; animation: gkDrive 7s linear infinite 3.5s; }
+        .gk-ar-pin { position: absolute; right: 18px; bottom: 14px; color: #FA7806; font-size: 20px; animation: gkPin 1.4s ease-in-out infinite; }
+        @keyframes gkDrive { from { left: -10%; } to { left: 104%; } }
+        @keyframes gkPin { 50% { transform: translateY(-5px); } }
+        .btn-submit { background: linear-gradient(135deg, #F26B00, #FF9F43) !important; box-shadow: 0 8px 22px rgba(250,120,6,.35) !important; }
+        .lnk, .switch-hint a { color: #E06400 !important; }
+        .chk-label input:checked + .chk-box { background: #FA7806 !important; border-color: #FA7806 !important; }
+        .fld-input:focus { border-color: #FA7806 !important; box-shadow: 0 0 0 4px rgba(250,120,6,.12) !important; }
+        .gk-demo-btn { width: 100%; margin-top: 12px; border: 1.5px dashed #94a3b8; background: #f8fafc; color: #0A2B54; border-radius: 14px; padding: 10px 14px; font-weight: 800; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: .2s; }
+        .gk-demo-btn i { color: #FA7806; margin-right: 6px; }
+        .gk-demo-btn small { font-weight: 600; color: #64748b; font-size: 11.5px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+        .gk-demo-btn:hover { border-color: #FA7806; background: #FFF7F0; }
+        .gk-partner-hint { margin: 16px 0 0; text-align: center; font-size: 12.5px; color: #64748b; }
+        .gk-partner-hint i { color: #FA7806; margin-right: 4px; }
+        .gk-partner-hint a { color: #0D4076; font-weight: 800; }
+        .gk-auth-mhead { display: none; }
+        .gk-auth-logged { margin: 0 auto 14px; z-index: 5; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; border-radius: 14px; padding: 10px 16px; font-size: 13px; box-shadow: 0 6px 18px rgba(10,43,84,.08); max-width: calc(100% - 24px); }
+        .gk-auth-logged a, .gk-auth-logged button { font-weight: 800; font-size: 12.5px; border-radius: 10px; padding: 5px 12px; border: 0; text-decoration: none; }
+        .gk-auth-logged a { background: #0A2B54; color: #fff; } .gk-auth-logged button { background: #fff; color: #b91c1c; border: 1px solid #fecaca; }
+        .auth-page { position: relative; flex-direction: column; }
+        #auth-toast .t-ico { background: linear-gradient(135deg, #F26B00, #FF9F43) !important; }
+        #auth-toast.warn .t-ico { background: linear-gradient(135deg, #f59e0b, #d97706) !important; }
+        .t-bar { background: linear-gradient(90deg, #F26B00, #FF9F43) !important; }
+        @media (max-width: 767px) {
+            .gk-auth-mhead { display: flex; align-items: center; gap: 12px; margin: -6px 0 18px; padding: 12px 14px; border-radius: 16px; background: linear-gradient(135deg, #061D38, #0D4076); color: #fff; position: relative; overflow: hidden; }
+            .gk-auth-mhead::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: repeating-linear-gradient(90deg, #FA7806 0 18px, transparent 18px 30px); animation: gkLane 1s linear infinite; }
+            .gk-auth-mhead img { width: 42px; height: 42px; border-radius: 12px; background: #fff; padding: 3px; }
+            .gk-auth-mhead b { display: block; font-size: 15px; } .gk-auth-mhead b span { color: #FF9F43; }
+            .gk-auth-mhead small { font-size: 11.5px; color: rgba(255,255,255,.8); }
+            .auth-page { padding-top: 20px; padding-bottom: 96px; }
+            .gk-auth-logged { margin: 0 auto 12px; }
+        }
+        @media (max-width: 991.98px) {
+            #auth-toast { bottom: calc(80px + env(safe-area-inset-bottom)) !important; }
+        }
+
+        </style>
+</head>
+<body>
+
+<!-- ================================================================
+     HEADER — Đồng bộ html_trangchu.html
+     ================================================================ -->
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2 border-bottom gk-header">
+        <div class="container">
+
+            <!-- Logo Gắn Kết Bốn Phương — nhấn về trang chủ -->
+            <a class="navbar-brand gk-brand" href="html_trangchu.html" aria-label="Gắn Kết Bốn Phương – Trang chủ">
+                <img src="img/logo-mark.png" alt="Logo Gắn Kết Bốn Phương" class="gk-brand-mark" width="56" height="42">
+                <span class="gk-brand-text"><b>Gắn Kết <em>Bốn Phương</em></b><small>Đồng hành mọi nẻo đường</small></span>
+            </a>
+
+            <!-- Tìm kiếm thông minh: dịch vụ, sự cố, khu vực, bài viết -->
+            <div class="header-search-wrap mx-lg-3 d-none d-md-flex">
+                <div class="input-group header-search">
+                    <div class="input-group-prepend border-0">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" id="header-search-inp" class="form-control border-0 bg-transparent" placeholder="Tìm dịch vụ, sự cố, khu vực..." autocomplete="off" aria-label="Tìm kiếm"
+                        onkeydown="if(event.key==='Enter')gkSearch.goSearch(this.value)"
+                        oninput="gkSearch.onInput(this)"
+                        onfocus="gkSearch.onFocus(this)"
+                        onblur="gkSearch.onBlur(this)">
+                    <span class="hs-shortcut d-none d-lg-inline-flex align-items-center">⌘K</span>
+                </div>
+                <div id="header-dropdown" class="search-dropdown" role="listbox"></div>
+            </div>
+
+            <!-- Menu điều hướng bên phải -->
+            <div class="navbar-nav ml-auto align-items-center flex-row">
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_gioithieu.html">Giới thiệu</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_lienhe_chinhsach.html">Liên hệ</a>
+                <a class="nav-item nav-link mr-3 d-none d-lg-block small-text" href="html_blog.html">Blog</a>
+                <button type="button" class="gk-hdr-sos d-none d-lg-inline-flex" data-sos-open aria-label="Cứu hộ ngay"><i class="fas fa-exclamation-triangle"></i> <span class="d-none d-xl-inline">Cứu hộ ngay</span><span class="d-xl-none">SOS</span></button>
+                <button type="button" class="gk-m-search-btn" aria-label="Mở tìm kiếm"><i class="fas fa-search"></i></button>
+
+                <!-- Giỏ dịch vụ -->
+                <a class="nav-item nav-link mr-3 text-dark" href="html_giohang.html" style="position:relative;" aria-label="Giỏ dịch vụ">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span id="cart-badge" style="position:absolute;top:-4px;right:-8px;background:#ff4d4d;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <!-- Khu vực tài khoản: gkbp-core.js tự hiển thị avatar + menu khi đã đăng nhập -->
+                <div class="auth-buttons" id="auth-zone">
+                    <a class="nav-item nav-link mr-3 font-weight-bold d-none d-sm-block" href="html_dangnhap_dangky.html?mode=register">Đăng ký</a>
+                    <a class="btn btn-login font-weight-bold" href="html_dangnhap_dangky.html?mode=login" aria-label="Đăng nhập"><i class="fas fa-user-circle"></i><span class="gk-login-txt"> Đăng nhập</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+<!-- Sub-nav danh mục -->
+<nav class="sub-nav bg-white border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="nav">
+                <a class="nav-link" href="html_dichvu.html"><i class="fas fa-tools mr-2"></i>Cứu hộ &amp; Sửa xe</a>
+                <a class="nav-link" href="html_dichvu.html?cate=goi"><i class="fas fa-shield-alt mr-2"></i>Gói thành viên Lá Chắn Số</a>
+                <a class="nav-link" href="html_diadiem.html"><i class="fas fa-map-marked-alt mr-2"></i>Khu vực phục vụ</a>
+                <a class="nav-link" href="html_lienhe_chinhsach.html#doi-tac"><i class="fas fa-hard-hat mr-2"></i>Trở thành thợ đối tác</a>
+                <!-- Voucher — đẩy sang phải, nổi bật -->
+                <a class="nav-link ml-auto sub-voucher-link" href="html_khuyenmaivatiepthi.html">
+                    <i class="fas fa-ticket-alt mr-1"></i> Voucher
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+<!-- ================================================================
+     VÙNG AUTH CHÍNH
+     ================================================================ -->
+<main class="auth-page" id="auth-page">
+
+    <!-- Đã đăng nhập: thông báo + lối tắt -->
+    <div class="gk-auth-logged" id="authLogged" style="display:none;"></div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         MÀN HÌNH 1: ĐĂNG NHẬP
+         ════════════════════════════════════════════════════════════ -->
+    <div class="auth-screen" id="screen-login">
+        <div class="auth-card">
+
+            <!-- Cột trái: branding màn đăng nhập -->
+            <div class="auth-visual">
+                <div class="visual-brand">
+                    <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương">
+                    <span class="visual-brand-name">Gắn Kết Bốn Phương</span>
+                </div>
+                <div class="visual-emoji">🛵</div>
+                <h2 class="visual-title">Chào mừng<br>quay trở lại!</h2>
+                <p class="visual-desc">
+                    Đăng nhập để theo dõi thợ đang đến,<br>
+                    xem lịch sử cứu hộ – sửa chữa và dùng<br>
+                    kho voucher của bạn trên mọi thiết bị.
+                </p>
+                <a href="?mode=register" class="btn-goto"
+                   onclick="showScreen('register'); return false;">
+                    <i class="fas fa-user-plus"></i>
+                    Chưa có tài khoản? Đăng ký ngay
+                </a>
+                <div class="visual-dots">
+                    <div class="vdot on"></div>
+                    <div class="vdot"></div>
+                </div>
+                <div class="gk-auth-road" aria-hidden="true"><span class="gk-ar-lane"></span><i class="fas fa-truck-pickup gk-ar-truck"></i><i class="fas fa-motorcycle gk-ar-moto"></i><i class="fas fa-map-marker-alt gk-ar-pin"></i></div>
+            </div>
+
+            <!-- Cột phải: form đăng nhập -->
+            <div class="auth-form-col" id="login-col">
+                <div class="gk-auth-mhead">
+                    <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương">
+                    <div><b>Gắn Kết <span>Bốn Phương</span></b><small>Một chạm – thợ đến trong khoảng 15 phút</small></div>
+                </div>
+                <h2 class="f-title">Đăng nhập</h2>
+                <p class="f-sub">Nhập email hoặc số điện thoại đã đăng ký để tiếp tục</p>
+
+                <div class="fld no-eye">
+                    <input type="text" id="li-identity" class="fld-input"
+                           placeholder=" " autocomplete="username"
+                           oninput="valIdentity(this)">
+                    <label class="fld-label" for="li-identity">
+                        <i class="fas fa-user fa-sm mr-1"></i> Email hoặc số điện thoại
+                    </label>
+                    <span class="fld-ico" id="li-identity-ico"></span>
+                    <span class="fld-msg" id="li-identity-msg"></span>
+                </div>
+
+                <div class="fld">
+                    <input type="password" id="li-pass" class="fld-input"
+                           placeholder=" " autocomplete="current-password"
+                           onkeydown="if(event.key==='Enter')submitLogin()">
+                    <label class="fld-label" for="li-pass">
+                        <i class="fas fa-lock fa-sm mr-1"></i> Mật khẩu
+                    </label>
+                    <span class="fld-ico" id="li-pass-ico"></span>
+                    <button type="button" class="btn-eye" onclick="toggleEye('li-pass', this)"
+                            title="Hiện / ẩn mật khẩu" aria-label="Hiện / ẩn mật khẩu">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <span class="fld-msg" id="li-pass-msg"></span>
+                </div>
+
+                <div class="opt-row">
+                    <label class="chk-label">
+                        <input type="checkbox" id="li-remember" checked>
+                        <span class="chk-box"></span>
+                        <span>Ghi nhớ đăng nhập</span>
+                    </label>
+                    <a href="#" class="lnk" onclick="handleForgotPass(event)">Quên mật khẩu?</a>
+                </div>
+
+                <button type="button" class="btn-submit" id="btn-login"
+                        onclick="submitLogin()">
+                    <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Đăng nhập</span>
+                    <div class="spin"></div>
+                </button>
+
+                <button type="button" class="gk-demo-btn" onclick="fillDemo()">
+                    <span><i class="fas fa-flask"></i> Dùng tài khoản trải nghiệm</span>
+                    <small>demo@bonphuong.vn · Demo@123</small>
+                </button>
+
+                <p class="switch-hint d-md-none">
+                    Chưa có tài khoản?
+                    <a href="?mode=register" onclick="showScreen('register'); return false;">Đăng ký ngay →</a>
+                </p>
+                <p class="gk-partner-hint"><i class="fas fa-hard-hat"></i> Bạn là thợ sửa xe? <a href="html_lienhe_chinhsach.html#doi-tac">Đăng ký làm thợ đối tác</a></p>
+            </div>
+
+        </div>
+    </div>
+    <!-- /#screen-login -->
+
+    <!-- ════════════════════════════════════════════════════════════
+         MÀN HÌNH 2: ĐĂNG KÝ
+         ════════════════════════════════════════════════════════════ -->
+    <div class="auth-screen" id="screen-register">
+        <div class="auth-card">
+
+            <!-- Cột trái: branding màn đăng ký -->
+            <div class="auth-visual">
+                <div class="visual-brand">
+                    <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương">
+                    <span class="visual-brand-name">Gắn Kết Bốn Phương</span>
+                </div>
+                <div class="visual-emoji">🧰</div>
+                <h2 class="visual-title">Gia nhập<br>Bốn Phương ngay!</h2>
+                <p class="visual-desc">
+                    Tạo tài khoản miễn phí để đặt thợ trong vài chạm,<br>
+                    nhận ngay mã <b>CHAOBAN30</b> giảm 30.000đ<br>
+                    và tích điểm Bốn Phương mỗi lần sửa xe.
+                </p>
+                <ul class="gk-auth-perks">
+                    <li><i class="fas fa-warehouse"></i> Garage số lưu xe &amp; nhắc bảo dưỡng</li>
+                    <li><i class="fas fa-map-marked-alt"></i> Theo dõi vị trí thợ theo thời gian thực</li>
+                    <li><i class="fas fa-file-invoice-dollar"></i> Giá trần minh bạch, hóa đơn điện tử</li>
+                </ul>
+                <a href="?mode=login" class="btn-goto"
+                   onclick="showScreen('login'); return false;">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Đã có tài khoản? Đăng nhập
+                </a>
+                <div class="visual-dots">
+                    <div class="vdot"></div>
+                    <div class="vdot on"></div>
+                </div>
+                <div class="gk-auth-road" aria-hidden="true"><span class="gk-ar-lane"></span><i class="fas fa-truck-pickup gk-ar-truck"></i><i class="fas fa-motorcycle gk-ar-moto"></i><i class="fas fa-map-marker-alt gk-ar-pin"></i></div>
+            </div>
+
+            <!-- Cột phải: form đăng ký -->
+            <div class="auth-form-col" id="register-col">
+                <div class="gk-auth-mhead">
+                    <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương">
+                    <div><b>Gắn Kết <span>Bốn Phương</span></b><small>Tặng mã CHAOBAN30 cho tài khoản mới</small></div>
+                </div>
+                <h2 class="f-title">Tạo tài khoản</h2>
+                <p class="f-sub">Điền thông tin bên dưới — chỉ mất chưa tới 1 phút</p>
+
+                <div class="fld no-eye">
+                    <input type="text" id="rg-name" class="fld-input"
+                           placeholder=" " autocomplete="name"
+                           oninput="valName(this)">
+                    <label class="fld-label" for="rg-name">
+                        <i class="fas fa-user fa-sm mr-1"></i> Họ và tên đầy đủ
+                    </label>
+                    <span class="fld-ico" id="rg-name-ico"></span>
+                    <span class="fld-msg" id="rg-name-msg"></span>
+                </div>
+
+                <div class="fld no-eye">
+                    <input type="email" id="rg-email" class="fld-input"
+                           placeholder=" " autocomplete="email"
+                           oninput="valEmail(this)">
+                    <label class="fld-label" for="rg-email">
+                        <i class="fas fa-envelope fa-sm mr-1"></i> Địa chỉ email
+                    </label>
+                    <span class="fld-ico" id="rg-email-ico"></span>
+                    <span class="fld-msg" id="rg-email-msg"></span>
+                </div>
+
+                <div class="fld no-eye">
+                    <input type="tel" id="rg-phone" class="fld-input"
+                           placeholder=" " maxlength="10" autocomplete="tel" inputmode="numeric"
+                           oninput="valPhone(this)">
+                    <label class="fld-label" for="rg-phone">
+                        <i class="fas fa-phone fa-sm mr-1"></i> Số điện thoại để thợ liên hệ
+                    </label>
+                    <span class="fld-ico" id="rg-phone-ico"></span>
+                    <span class="fld-msg" id="rg-phone-msg"></span>
+                </div>
+
+                <div class="fld">
+                    <input type="password" id="rg-pass" class="fld-input"
+                           placeholder=" " autocomplete="new-password"
+                           oninput="valPassword(this)">
+                    <label class="fld-label" for="rg-pass">
+                        <i class="fas fa-lock fa-sm mr-1"></i> Mật khẩu
+                    </label>
+                    <span class="fld-ico" id="rg-pass-ico"></span>
+                    <button type="button" class="btn-eye" onclick="toggleEye('rg-pass', this)" aria-label="Hiện / ẩn mật khẩu">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <div class="pw-strength" id="pw-strength">
+                    <div class="pw-track">
+                        <div class="pw-fill" id="pw-fill"></div>
+                    </div>
+                    <ul class="pw-list">
+                        <li id="c-len"> <span class="ci">⭕</span> Ít nhất 8 ký tự</li>
+                        <li id="c-up">  <span class="ci">⭕</span> Có chữ hoa (A–Z)</li>
+                        <li id="c-low"> <span class="ci">⭕</span> Có chữ thường (a–z)</li>
+                        <li id="c-num"> <span class="ci">⭕</span> Có chữ số (0–9)</li>
+                        <li id="c-spc"> <span class="ci">⭕</span> Có ký tự đặc biệt (@$!%*?&amp;...)</li>
+                    </ul>
+                </div>
+
+                <div class="fld" style="margin-top: 10px;">
+                    <input type="password" id="rg-confirm" class="fld-input"
+                           placeholder=" " autocomplete="new-password"
+                           oninput="valConfirm(this)">
+                    <label class="fld-label" for="rg-confirm">
+                        <i class="fas fa-lock fa-sm mr-1"></i> Xác nhận mật khẩu
+                    </label>
+                    <span class="fld-ico" id="rg-confirm-ico"></span>
+                    <button type="button" class="btn-eye" onclick="toggleEye('rg-confirm', this)" aria-label="Hiện / ẩn mật khẩu">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <span class="fld-msg" id="rg-confirm-msg"></span>
+                </div>
+
+                <div class="opt-row" style="margin-top: 8px; justify-content: flex-start;">
+                    <label class="chk-label">
+                        <input type="checkbox" id="rg-agree">
+                        <span class="chk-box" id="rg-agree-box"></span>
+                        <span>
+                            Tôi đã đọc và đồng ý với
+                            <a href="html_lienhe_chinhsach.html#pol-dieukhoan" class="lnk">Điều khoản dịch vụ</a>
+                            và <a href="html_lienhe_chinhsach.html#pol-baomat" class="lnk">Chính sách bảo mật</a> của Gắn Kết Bốn Phương
+                        </span>
+                    </label>
+                </div>
+
+                <button type="button" class="btn-submit" id="btn-register"
+                        onclick="submitRegister()">
+                    <span class="btn-text"><i class="fas fa-user-plus"></i> Tạo tài khoản</span>
+                    <div class="spin"></div>
+                </button>
+
+                <p class="switch-hint d-md-none">
+                    Đã có tài khoản?
+                    <a href="?mode=login" onclick="showScreen('login'); return false;">← Đăng nhập</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <!-- /#screen-register -->
+
+</main>
+
+
+<!-- ================================================================
+     TOAST THÔNG BÁO
+     ================================================================ -->
+<div id="auth-toast" role="status" aria-live="polite">
+    <div class="t-ico" id="t-ico">✅</div>
+    <div>
+        <p class="t-title" id="t-title">Thành công!</p>
+        <p class="t-msg" id="t-msg">Đang chuyển hướng...</p>
+    </div>
+    <button class="t-close" onclick="closeToast()" aria-label="Đóng">✕</button>
+    <div class="t-bar" id="t-bar"></div>
+</div>
+</div>
+
+
+
+
+<!-- ================================================================
+     FOOTER — Đồng bộ html_trangchu.html
+     ================================================================ -->
+<div class="gk-footer-road" aria-hidden="true"><i class="fas fa-truck-pickup"></i><i class="fas fa-motorcycle t2"></i></div>
+    <footer class="gk-footer">
+        <div class="footer-bg-layer"></div>
+
+        <div class="container position-relative" style="z-index:2;">
+
+            <!-- Hàng 1: 3 cột chính -->
+            <div class="row footer-main-row pt-5 pb-4">
+
+                <!-- Cột 1: Giới thiệu Gắn Kết Bốn Phương -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="footer-brand mb-3">
+                        <img src="img/logo-mark.png" alt="Gắn Kết Bốn Phương" height="46" class="footer-logo">
+                        <span class="footer-brand-name">Gắn Kết Bốn Phương</span>
+                    </div>
+                    <p class="footer-desc">Nền tảng kết nối cứu hộ và sửa chữa xe minh bạch tại TP.HCM: thợ đã xác minh đến trong khoảng 15 phút, báo giá trước khi làm, giá trần rõ ràng và bảo hành sau sửa chữa. Đồng hành mọi nẻo đường.</p>
+                    <a class="footer-hotline" href="tel:0345264103"><i class="fas fa-phone-alt"></i><span><small>Hotline cứu hộ 24/7</small><b>0345 264 103</b></span></a>
+                    <a href="html_sitemap.html" class="footer-sitemap-btn mt-3" title="Xem sơ đồ website Gắn Kết Bốn Phương">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Sơ đồ Website</span>
+                    </a>
+                </div>
+
+                <!-- Cột 2: Liên hệ + Bản đồ -->
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h6 class="footer-heading">📍 Liên hệ</h6>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt footer-contact-icon"></i><span>12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP. Hồ Chí Minh</span></li>
+                        <li><i class="fas fa-university footer-contact-icon"></i><span>Trường Đại học Công nghiệp TP. HCM (IUH)</span></li>
+                        <li><i class="fas fa-phone-alt footer-contact-icon"></i><span>0345 264 103 (cứu hộ &amp; hỗ trợ 24/7)</span></li>
+                        <li><i class="fas fa-envelope footer-contact-icon"></i><span><a href="mailto:vonam583@gmail.com" style="color:inherit;">vonam583@gmail.com</a></span></li>
+                    </ul>
+
+                    <!-- Bản đồ nhúng — click mở Google Maps -->
+                    <div class="footer-map-wrap" style="position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+                        <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221641,106.6819745,814m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank" rel="noopener" title="Mở trong Google Maps"
+                           style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.858237982888!2d106.6842705!3d10.8221589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQYWkgaOG7jWMgQ8O0bmcgbmdoaeG7h3AgVFAuSENN!5e0!3m2!1svi!2svn!4v1714461453257!5m2!1svi!2svn"
+                            width="100%" height="200" style="border:0; pointer-events:none;" title="Bản đồ trụ sở"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội + Đăng ký email -->
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <h6 class="footer-heading">🔗 Kết nối với chúng tôi</h6>
+                    <p class="footer-connect-desc">Theo dõi Gắn Kết Bốn Phương để nhận mẹo giữ xe bền, cảnh báo ngập theo mùa mưa và ưu đãi cứu hộ độc quyền!</p>
+
+                    <div class="footer-socials">
+                        <a href="https://zalo.me/0345264103" target="_blank" rel="noopener" class="footer-social-btn footer-social-zalo" title="Zalo Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico">
+                                <svg viewBox="0 0 48 48" width="22" height="22" fill="currentColor"><text y="36" font-size="36" font-weight="900">Z</text></svg>
+                            </span>
+                            <span>Zalo</span>
+                        </a>
+                        <a href="https://www.facebook.com/thienan.vo.35912672" target="_blank" rel="noopener" class="footer-social-btn footer-social-facebook" title="Facebook Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-facebook-f"></i></span>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/thienan_2226/" target="_blank" rel="noopener" class="footer-social-btn footer-social-instagram" title="Instagram Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-instagram"></i></span>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@bchau04206?lang=vi-VN" target="_blank" rel="noopener" class="footer-social-btn footer-social-tiktok" title="TikTok Gắn Kết Bốn Phương">
+                            <span class="footer-social-ico"><i class="fab fa-tiktok"></i></span>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+
+                    <!-- Đăng ký nhận email ưu đãi -->
+                    <div class="footer-newsletter mt-4">
+                        <p class="footer-nl-label">📬 Nhận mẹo giữ xe &amp; ưu đãi qua email</p>
+                        <div class="footer-nl-row">
+                            <input type="email" class="footer-nl-input" placeholder="Nhập email của bạn..." aria-label="Email nhận tin">
+                            <button class="footer-nl-btn" type="button">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Hàng 2: Copyright -->
+            <div class="footer-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <p class="footer-copy mb-0">© 2026 Gắn Kết Bốn Phương · Cứu hộ &amp; sửa chữa xe</p>
+                <p class="footer-copy mb-0">Dự án khởi nghiệp của Nhóm 8 · Lớp ĐHTMĐT20A · Môn Quản trị khởi nghiệp – IUH</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+<!-- jQuery + Bootstrap Bundle -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   A. TÀI KHOẢN (localStorage gkbp_accounts) — bản thử nghiệm phía trình duyệt
+   ══════════════════════════════════════════════════════════════════ */
+var DEMO = { name: 'Nguyễn Minh Anh', email: 'demo@bonphuong.vn', phone: '0901234567', password: 'Demo@123' };
+
+function getAccounts() {
+    try { var a = JSON.parse(localStorage.getItem('gkbp_accounts') || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; }
+}
+function setAccounts(a) { try { localStorage.setItem('gkbp_accounts', JSON.stringify(a)); } catch (e) {} }
+function findAccount(identity) {
+    var id = String(identity || '').trim().toLowerCase(), ph = id.replace(/\D/g, '');
+    return getAccounts().find(function (a) { return (a.email && a.email.toLowerCase() === id) || (ph.length === 10 && a.phone === ph); }) || null;
+}
+/* Tạo sẵn tài khoản trải nghiệm (một lần) */
+(function seedDemo() {
+    if (findAccount(DEMO.email)) return;
+    var a = getAccounts(); a.push(Object.assign({ createdAt: Date.now(), demo: true }, DEMO)); setAccounts(a);
+})();
+
+function publicUser(acc) {
+    var u = {};
+    ['name', 'email', 'phone', 'dob', 'address', 'bio', 'avatar', 'prefs', 'createdAt'].forEach(function (k) { if (acc[k] !== undefined) u[k] = acc[k]; });
+    return u;
+}
+
+function afterLoginTarget() {
+    var t = null;
+    try { t = localStorage.getItem('gkbp_redirect_after_login') || sessionStorage.getItem('gkbp_redirect_after_login'); } catch (e) {}
+    try { localStorage.removeItem('gkbp_redirect_after_login'); sessionStorage.removeItem('gkbp_redirect_after_login'); } catch (e) {}
+    if (!t || /dangnhap_dangky/.test(t) || /^(https?:)?\/\//i.test(t)) t = 'html_trangchu.html';
+    return t;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   B. ĐIỀU KHIỂN 2 MÀN HÌNH ĐỘC LẬP — showScreen('login' | 'register')
+   ══════════════════════════════════════════════════════════════════ */
+function showScreen(mode) {
+    var sLogin = document.getElementById('screen-login');
+    var sRegister = document.getElementById('screen-register');
+    sLogin.classList.remove('active');
+    sRegister.classList.remove('active');
+    if (mode === 'register') {
+        sRegister.classList.add('active');
+        history.replaceState(null, '', '?mode=register');
+        document.title = 'Đăng ký tài khoản | Gắn Kết Bốn Phương';
+    } else {
+        sLogin.classList.add('active');
+        history.replaceState(null, '', '?mode=login');
+        document.title = 'Đăng nhập | Gắn Kết Bốn Phương';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+(function () {
+    var params = new URLSearchParams(window.location.search);
+    showScreen(params.get('mode') === 'register' ? 'register' : 'login');
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   C. ẨN / HIỆN MẬT KHẨU
+   ══════════════════════════════════════════════════════════════════ */
+function toggleEye(inputId, btn) {
+    var inp = document.getElementById(inputId);
+    var icon = btn.querySelector('i');
+    if (inp.type === 'password') { inp.type = 'text'; icon.className = 'fas fa-eye-slash'; }
+    else { inp.type = 'password'; icon.className = 'fas fa-eye'; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   D. TRẠNG THÁI Ô NHẬP — setS(input, icoId, msgId, 'ok'|'err'|'', msg)
+   ══════════════════════════════════════════════════════════════════ */
+function setS(input, icoId, msgId, state, msg) {
+    var ico = icoId ? document.getElementById(icoId) : null;
+    var mel = msgId ? document.getElementById(msgId) : null;
+    input.classList.remove('is-ok', 'is-err');
+    if (state === 'ok') {
+        input.classList.add('is-ok');
+        if (ico) { ico.innerHTML = '<i class="fas fa-check-circle"></i>'; ico.className = 'fld-ico show is-ok'; }
+        if (mel) { mel.textContent = msg || ''; mel.className = 'fld-msg ok'; }
+    } else if (state === 'err') {
+        input.classList.add('is-err');
+        if (ico) { ico.innerHTML = '<i class="fas fa-exclamation-circle"></i>'; ico.className = 'fld-ico show is-err'; }
+        if (mel) { mel.textContent = msg || ''; mel.className = 'fld-msg err'; }
+    } else {
+        if (ico) { ico.className = 'fld-ico'; ico.innerHTML = ''; }
+        if (mel) { mel.textContent = ''; mel.className = 'fld-msg'; }
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   E. KIỂM TRA HỢP LỆ TỨC THỜI
+   ══════════════════════════════════════════════════════════════════ */
+var RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+var RE_PHONE = /^(03|05|07|08|09)\d{8}$/;
+
+function valIdentity(input) {
+    var v = input.value.trim();
+    if (!v) { setS(input, 'li-identity-ico', 'li-identity-msg', ''); return false; }
+    if (RE_EMAIL.test(v) || RE_PHONE.test(v.replace(/\D/g, ''))) { setS(input, 'li-identity-ico', 'li-identity-msg', 'ok', ''); return true; }
+    setS(input, 'li-identity-ico', 'li-identity-msg', 'err', 'Nhập email hợp lệ hoặc số di động Việt Nam (10 chữ số)');
+    return false;
+}
+
+function valEmail(input) {
+    var v = input.value.trim();
+    if (!v) { setS(input, 'rg-email-ico', 'rg-email-msg', ''); return false; }
+    if (!RE_EMAIL.test(v)) { setS(input, 'rg-email-ico', 'rg-email-msg', 'err', 'Email không đúng định dạng!'); return false; }
+    if (findAccount(v)) { setS(input, 'rg-email-ico', 'rg-email-msg', 'err', 'Email đã được đăng ký — hãy đăng nhập.'); return false; }
+    setS(input, 'rg-email-ico', 'rg-email-msg', 'ok', '');
+    return true;
+}
+
+function valName(input) {
+    var caret = input.selectionStart || input.value.length;
+    var before = input.value;
+    var cleaned = before.replace(/[^\p{L}\s]/gu, '');
+    if (cleaned !== before) {
+        var removedBefore = before.slice(0, caret).replace(/[\p{L}\s]/gu, '').length;
+        input.value = cleaned;
+        try { input.setSelectionRange(Math.max(0, caret - removedBefore), Math.max(0, caret - removedBefore)); } catch (e) {}
+    }
+    var v = input.value.trim();
+    if (!v) { setS(input, 'rg-name-ico', 'rg-name-msg', ''); return false; }
+    if (v.length >= 2 && /^[\p{L}][\p{L}\s]*$/u.test(v)) { setS(input, 'rg-name-ico', 'rg-name-msg', 'ok', ''); return true; }
+    setS(input, 'rg-name-ico', 'rg-name-msg', 'err', 'Họ tên chỉ gồm chữ, tối thiểu 2 ký tự');
+    return false;
+}
+
+function valPhone(input) {
+    input.value = input.value.replace(/\D/g, '');
+    var v = input.value;
+    if (!v) { setS(input, 'rg-phone-ico', 'rg-phone-msg', ''); return false; }
+    if (!RE_PHONE.test(v)) { setS(input, 'rg-phone-ico', 'rg-phone-msg', 'err', 'Số phải bắt đầu bằng 03/05/07/08/09 và đủ 10 chữ số'); return false; }
+    if (findAccount(v)) { setS(input, 'rg-phone-ico', 'rg-phone-msg', 'err', 'Số điện thoại đã được đăng ký.'); return false; }
+    setS(input, 'rg-phone-ico', 'rg-phone-msg', 'ok', '');
+    return true;
+}
+
+var PW_RULES = [
+    { id: 'c-len', fn: function (v) { return v.length >= 8; } },
+    { id: 'c-up',  fn: function (v) { return /[A-Z]/.test(v); } },
+    { id: 'c-low', fn: function (v) { return /[a-z]/.test(v); } },
+    { id: 'c-num', fn: function (v) { return /[0-9]/.test(v); } },
+    { id: 'c-spc', fn: function (v) { return /[@$!%*?&^#~_\-+=]/.test(v); } }
+];
+
+function valPassword(input) {
+    var v = input.value, wrap = document.getElementById('pw-strength'), fill = document.getElementById('pw-fill'), score = 0;
+    if (!v) { wrap.classList.remove('show'); setS(input, 'rg-pass-ico', null, ''); return false; }
+    wrap.classList.add('show');
+    PW_RULES.forEach(function (r) {
+        var li = document.getElementById(r.id), ico = li.querySelector('.ci');
+        if (r.fn(v)) { score++; li.classList.add('met'); ico.textContent = '✅'; }
+        else { li.classList.remove('met'); ico.textContent = '⭕'; }
+    });
+    fill.style.width = (score / 5 * 100) + '%';
+    if (score <= 2) { fill.style.background = '#f87171'; setS(input, 'rg-pass-ico', null, 'err'); }
+    else if (score <= 4) {
+        fill.style.background = '#fb923c';
+        input.classList.remove('is-ok', 'is-err');
+        var ico = document.getElementById('rg-pass-ico'); if (ico) { ico.className = 'fld-ico'; ico.innerHTML = ''; }
+    } else { fill.style.background = '#34d399'; setS(input, 'rg-pass-ico', null, 'ok'); }
+    var cfm = document.getElementById('rg-confirm');
+    if (cfm && cfm.value) valConfirm(cfm);
+    return score === 5;
+}
+
+function valConfirm(input) {
+    var original = document.getElementById('rg-pass').value, v = input.value;
+    if (!v) { setS(input, 'rg-confirm-ico', 'rg-confirm-msg', ''); return false; }
+    if (v === original) { setS(input, 'rg-confirm-ico', 'rg-confirm-msg', 'ok', '✅ Mật khẩu trùng khớp!'); return true; }
+    setS(input, 'rg-confirm-ico', 'rg-confirm-msg', 'err', '❌ Mật khẩu xác nhận không khớp!');
+    return false;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   F. RUNG FORM KHI SAI
+   ══════════════════════════════════════════════════════════════════ */
+function shakeCol(colId) {
+    var col = document.getElementById(colId);
+    col.classList.remove('do-shake');
+    void col.offsetWidth;
+    col.classList.add('do-shake');
+    setTimeout(function () { col.classList.remove('do-shake'); }, 600);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   G. TOAST TRƯỢT GÓC PHẢI — showToast(title, msg, duration, icon)
+   ══════════════════════════════════════════════════════════════════ */
+var _toastT = null;
+function showToast(title, msg, duration, icon) {
+    duration = duration || 4000;
+    var toast = document.getElementById('auth-toast'), bar = document.getElementById('t-bar');
+    document.getElementById('t-title').textContent = title;
+    document.getElementById('t-msg').textContent = msg;
+    document.getElementById('t-ico').textContent = icon || '✅';
+    toast.classList.toggle('warn', icon === '⚠️');
+    toast.classList.add('show');
+    bar.style.transition = 'none';
+    bar.style.transform = 'scaleX(1)';
+    setTimeout(function () { bar.style.transition = 'transform ' + duration + 'ms linear'; bar.style.transform = 'scaleX(0)'; }, 60);
+    clearTimeout(_toastT);
+    _toastT = setTimeout(closeToast, duration);
+}
+function closeToast() {
+    document.getElementById('auth-toast').classList.remove('show');
+    clearTimeout(_toastT);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   H. ĐĂNG NHẬP
+   ══════════════════════════════════════════════════════════════════ */
+function fillDemo() {
+    var a = document.getElementById('li-identity'), p = document.getElementById('li-pass');
+    a.value = DEMO.email; p.value = DEMO.password;
+    valIdentity(a); setS(p, 'li-pass-ico', 'li-pass-msg', 'ok', '');
+    showToast('Đã điền tài khoản trải nghiệm', 'Bấm “Đăng nhập” để vào thử Garage số.', 3000, '🧪');
+}
+
+function submitLogin() {
+    var idInp = document.getElementById('li-identity'), passInp = document.getElementById('li-pass'), btn = document.getElementById('btn-login');
+    var idOk = valIdentity(idInp), passOk = passInp.value.length >= 1;
+    if (!passOk) setS(passInp, 'li-pass-ico', 'li-pass-msg', 'err', 'Vui lòng nhập mật khẩu');
+    else setS(passInp, 'li-pass-ico', 'li-pass-msg', '', '');
+    if (!idOk || !passOk) { shakeCol('login-col'); return; }
+
+    btn.classList.add('loading'); btn.disabled = true;
+    setTimeout(function () {
+        btn.classList.remove('loading'); btn.disabled = false;
+        var acc = findAccount(idInp.value);
+        if (!acc) {
+            setS(idInp, 'li-identity-ico', 'li-identity-msg', 'err', 'Tài khoản chưa được đăng ký.');
+            shakeCol('login-col');
+            showToast('Chưa có tài khoản', 'Hãy đăng ký miễn phí hoặc dùng tài khoản trải nghiệm.', 4000, '⚠️');
+            return;
+        }
+        if (acc.password !== passInp.value) {
+            setS(passInp, 'li-pass-ico', 'li-pass-msg', 'err', 'Mật khẩu chưa đúng.');
+            shakeCol('login-col');
+            return;
+        }
+        if (window.GKBP) GKBP.setUser(publicUser(acc)); else localStorage.setItem('gkbp_user', JSON.stringify(publicUser(acc)));
+        try { localStorage.setItem('gkbp_remember', document.getElementById('li-remember').checked ? '1' : '0'); } catch (e) {}
+        var first = String(acc.name || '').trim().split(/\s+/).pop();
+        showToast('Đăng nhập thành công!', 'Chào ' + first + ', chúc xe bạn luôn bon bon trên mọi nẻo đường!', 2400, '🛵');
+        var target = afterLoginTarget();
+        setTimeout(function () { window.location.href = target; }, 1600);
+    }, 1100);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   I. ĐĂNG KÝ — tạo tài khoản, đăng nhập luôn, tặng mã CHAOBAN30
+   ══════════════════════════════════════════════════════════════════ */
+function submitRegister() {
+    var nameInp = document.getElementById('rg-name'), emailInp = document.getElementById('rg-email'), phoneInp = document.getElementById('rg-phone');
+    var passInp = document.getElementById('rg-pass'), cfmInp = document.getElementById('rg-confirm');
+    var agreeChk = document.getElementById('rg-agree'), agreeBox = document.getElementById('rg-agree-box'), btn = document.getElementById('btn-register');
+    var fieldsOk = [valName(nameInp), valEmail(emailInp), valPhone(phoneInp), valPassword(passInp), valConfirm(cfmInp)].every(Boolean);
+    var agreeOk = agreeChk.checked;
+    if (!agreeOk) { agreeBox.classList.add('shake-err'); setTimeout(function () { agreeBox.classList.remove('shake-err'); }, 2000); }
+    if (!fieldsOk || !agreeOk) { shakeCol('register-col'); return; }
+
+    btn.classList.add('loading'); btn.disabled = true;
+    setTimeout(function () {
+        btn.classList.remove('loading'); btn.disabled = false;
+        var name = window.GKBP && GKBP.titleCase ? GKBP.titleCase(nameInp.value.trim().replace(/\s+/g, ' ')) : nameInp.value.trim();
+        var acc = { name: name, email: emailInp.value.trim().toLowerCase(), phone: phoneInp.value.trim(), password: passInp.value, createdAt: Date.now() };
+        var all = getAccounts(); all.push(acc); setAccounts(all);
+        if (window.GKBP) GKBP.setUser(publicUser(acc)); else localStorage.setItem('gkbp_user', JSON.stringify(publicUser(acc)));
+        if (window.GK_VOUCHER && GK_VOUCHER.grantWelcome) GK_VOUCHER.grantWelcome();
+        showToast('Đăng ký thành công!', 'Mã CHAOBAN30 (giảm 30.000đ) đã nằm trong kho voucher của bạn.', 2600, '🎉');
+        var target = afterLoginTarget();
+        setTimeout(function () { window.location.href = target; }, 1900);
+    }, 1300);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   J. QUÊN MẬT KHẨU
+   ══════════════════════════════════════════════════════════════════ */
+function handleForgotPass(e) {
+    e.preventDefault();
+    var idVal = document.getElementById('li-identity').value.trim();
+    if (!idVal) {
+        showToast('Cần nhập thông tin trước', 'Nhập email hoặc số điện thoại vào ô phía trên rồi thử lại nhé.', 4000, '⚠️');
+        document.getElementById('li-identity').focus();
+        return;
+    }
+    showToast('Đã gửi liên kết đặt lại!', 'Nếu ' + idVal + ' đã đăng ký, bạn sẽ nhận email / SMS hướng dẫn trong ít phút.', 4500, '📬');
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   K. ĐÃ ĐĂNG NHẬP → hiện thông báo + lối tắt
+   ══════════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function () {
+    var u = window.GKBP ? GKBP.getUser() : null;
+    var box = document.getElementById('authLogged');
+    if (u && box) {
+        box.innerHTML = '<i class="fas fa-user-check"></i><span>Bạn đang đăng nhập với <b>' + (window.GKBP ? GKBP.esc(u.email || u.phone || u.name) : '') + '</b></span>' +
+            '<a href="html_thongtin.html">Vào tài khoản</a><button type="button" onclick="GKBP.logout();setTimeout(function(){location.reload();},900)">Đăng xuất</button>';
+        box.style.display = '';
+    }
+});
+</script>
+    <!-- ================================================================
+         JAVASCRIPT — Thứ tự load bắt buộc (KHÔNG đảo thứ tự)
+         1. jquery + bootstrap   : thư viện nền
+         2. gkbp-core            : tài khoản, giỏ dịch vụ, toast, điều hướng điện thoại
+         3. gkbp-data            : dữ liệu dịch vụ, sự cố, khu vực, thợ, blog
+         4. gkbp-voucher         : kho voucher, kiểm tra mã giảm giá
+         5. gkbp-search          : tìm kiếm thông minh (cần gkbp-data)
+         6. gkbp-sos             : nút SOS – đặt cứu hộ không cần cài app
+         ================================================================ -->
+    <script src="js/gkbp-core.js"></script>
+    <script src="js/gkbp-data.js"></script>
+    <script src="js/gkbp-voucher.js"></script>
+    <script src="js/gkbp-search.js"></script>
+    <script src="js/gkbp-sos.js"></script>
+
+<span id="cart-badge" style="display:none;">0</span>
+</body>
+</html>
